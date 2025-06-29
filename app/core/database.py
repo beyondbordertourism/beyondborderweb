@@ -2,6 +2,7 @@ import os
 import json
 import uuid
 import logging
+import asyncio
 from typing import Optional, List, Dict, Any
 from datetime import datetime
 from motor.motor_asyncio import AsyncIOMotorClient
@@ -40,10 +41,21 @@ async def connect_to_mongo():
                 MONGODB_URL = MONGODB_URL.replace("your_password_here", db_password)
         
         print(f"🔄 Attempting to connect to MongoDB...")
-        client = AsyncIOMotorClient(MONGODB_URL)
         
-        # Test the connection
-        await client.admin.command('ping')
+        # Add SSL/TLS configuration for better compatibility
+        client = AsyncIOMotorClient(
+            MONGODB_URL,
+            serverSelectionTimeoutMS=30000,
+            connectTimeoutMS=30000,
+            socketTimeoutMS=30000,
+            maxPoolSize=10,
+            retryWrites=True,
+            ssl=True,
+            ssl_cert_reqs=None  # Don't require SSL certificates
+        )
+        
+        # Test the connection with shorter timeout
+        await asyncio.wait_for(client.admin.command('ping'), timeout=10)
         print(f"✅ Successfully connected to MongoDB!")
         
         database = client[DATABASE_NAME]
@@ -224,38 +236,37 @@ class FileStorageAdapter:
         return [item for item, score in results[:limit]]
 
 class FileCollection:
-    """File collection that mimics MongoDB collection interface"""
+    """File collection adapter that mimics MongoDB collection operations"""
     
     def __init__(self, storage_dir, collection_name):
         self.storage_dir = storage_dir
         self.collection_name = collection_name
         self.adapter = FileStorageAdapter(storage_dir)
-    
+
     async def find_one(self, filter_dict):
         return await self.adapter.find_one(self.collection_name, filter_dict)
-    
+
     def find(self, filter_dict=None, skip=0, limit=100, sort=None):
         return FileStorageCursor(self.collection_name, filter_dict, skip, limit, sort, self.adapter)
-    
+
     async def insert_one(self, document):
         return await self.adapter.insert_one(self.collection_name, document)
-    
+
     async def update_one(self, filter_dict, update_dict):
         return await self.adapter.update_one(self.collection_name, filter_dict, update_dict)
-    
+
     async def delete_one(self, filter_dict):
         return await self.adapter.delete_one(self.collection_name, filter_dict)
-    
+
     async def delete_many(self, filter_dict):
-        """Delete multiple documents matching filter"""
         return await self.adapter.delete_many(self.collection_name, filter_dict)
-    
+
     def aggregate(self, pipeline):
-        return self.adapter.aggregate(self.collection_name, pipeline)
-    
+        return FileStorageAggregationCursor(self.collection_name, pipeline, self.adapter)
+
     async def count_documents(self, filter_dict=None):
-        """Count documents matching filter"""
         data = self.adapter.load_collection(self.collection_name)
+        
         if not filter_dict:
             return len(data)
         
@@ -268,10 +279,10 @@ class FileCollection:
                     break
             if matches:
                 count += 1
+        
         return count
-    
+
     async def distinct(self, field, filter_dict=None):
-        """Get distinct values for a field"""
         data = self.adapter.load_collection(self.collection_name)
         
         if filter_dict:
@@ -314,26 +325,26 @@ class FileStorageCursor:
     def __init__(self, collection_name, filter_dict, skip, limit, sort, adapter):
         self.collection_name = collection_name
         self.filter_dict = filter_dict
-        self.skip = skip
-        self.limit = limit
-        self.sort = sort
+        self._skip = skip
+        self._limit = limit
+        self._sort = sort
         self.adapter = adapter
     
     def skip(self, count):
         """Skip documents"""
-        self.skip = count
+        self._skip = count
         return self
     
     def limit(self, count):
         """Limit documents"""
-        self.limit = count
+        self._limit = count
         return self
     
     def sort(self, field, direction=1):
         """Sort documents"""
-        self.sort = {field: direction}
+        self._sort = {field: direction}
         return self
-    
+
     async def to_list(self, length=None):
         data = self.adapter.load_collection(self.collection_name)
         
@@ -360,14 +371,14 @@ class FileStorageCursor:
                     filtered_data.append(item)
             data = filtered_data
         
-        if self.sort:
-            sort_field = list(self.sort.keys())[0] if isinstance(self.sort, dict) else self.sort
+        if self._sort:
+            sort_field = list(self._sort.keys())[0] if isinstance(self._sort, dict) else self._sort
             reverse = False
-            if isinstance(self.sort, dict):
-                reverse = list(self.sort.values())[0] == -1
+            if isinstance(self._sort, dict):
+                reverse = list(self._sort.values())[0] == -1
             data.sort(key=lambda x: x.get(sort_field, ''), reverse=reverse)
         
-        result = data[self.skip:self.skip+self.limit] if self.limit else data[self.skip:]
+        result = data[self._skip:self._skip+self._limit] if self._limit else data[self._skip:]
         return result[:length] if length else result
 
 class FileStorageAggregationCursor:
