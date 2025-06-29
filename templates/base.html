@@ -3,29 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Visa Guide - Get Your Visa Information{% endblock %}</title>
+    <title>{% block title %}Here. - Your Travel Agency{% endblock %}</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="/static/css/styles.css" rel="stylesheet">
     <style>
-        .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
-        .card-hover { transition: transform 0.3s ease, box-shadow 0.3s ease; }
-        .card-hover:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+        body {
+            background-color: #0B3D34;
+            font-family: 'Poppins', sans-serif;
+        }
     </style>
 </head>
-<body class="bg-gray-50">
+<body class="text-white">
     <!-- Navigation -->
-    <nav class="bg-white shadow-lg sticky top-0 z-50">
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 py-4 transition-all duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16">
-                <div class="flex items-center">
-                    <a href="/" class="text-2xl font-bold text-indigo-600">
-                        <i class="fas fa-globe-americas mr-2"></i>VisaGuide
-                    </a>
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <a href="/" class="text-2xl font-bold">Here.</a>
                 </div>
-                <div class="flex items-center space-x-8">
-                    <a href="/" class="text-gray-700 hover:text-indigo-600 transition-colors">Home</a>
-                    <a href="/countries" class="text-gray-700 hover:text-indigo-600 transition-colors">Countries</a>
-                    <a href="/admin" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors">Admin</a>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="/" class="nav-link">Home</a>
+                    <a href="/countries" class="nav-link">All Countries</a>
+                    <a href="/admin" class="nav-link">Admin</a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="/contact" class="nav-contact-button">Contact Us</a>
                 </div>
             </div>
         </div>
@@ -37,51 +46,21 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-gray-800 text-white py-12 mt-20">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-                <div class="col-span-2">
-                    <h3 class="text-2xl font-bold mb-4">
-                        <i class="fas fa-globe-americas mr-2"></i>VisaGuide
-                    </h3>
-                    <p class="text-gray-300 mb-4">
-                        Your comprehensive guide to visa requirements and application processes for Indian citizens traveling worldwide.
-                    </p>
-                </div>
-                <div>
-                    <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
-                    <ul class="space-y-2 text-gray-300">
-                        <li><a href="/" class="hover:text-white transition-colors">Home</a></li>
-                        <li><a href="/countries" class="hover:text-white transition-colors">All Countries</a></li>
-                        <li><a href="/visa-free" class="hover:text-white transition-colors">Visa-Free Travel</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="text-lg font-semibold mb-4">Contact</h4>
-                    <p class="text-gray-300">
-                        <i class="fas fa-envelope mr-2"></i>info@visaguide.com<br>
-                        <i class="fas fa-phone mr-2"></i>+91 12345 67890
-                    </p>
-                </div>
-            </div>
-            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
-                <p>&copy; 2024 VisaGuide. All rights reserved.</p>
-            </div>
+    <footer class="py-12 mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-400">
+            <p>&copy; 2024 Here. Travel Agency. All rights reserved.</p>
         </div>
     </footer>
 
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
     <script>
-        // Basic JavaScript for interactivity
-        document.addEventListener('DOMContentLoaded', function() {
-            // Add smooth scrolling
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    document.querySelector(this.getAttribute('href')).scrollIntoView({
-                        behavior: 'smooth'
-                    });
-                });
-            });
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
         });
     </script>
     {% block scripts %}{% endblock %}

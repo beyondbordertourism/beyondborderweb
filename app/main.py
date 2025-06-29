@@ -79,6 +79,10 @@ async def countries_page(request: Request):
 async def country_detail(request: Request, slug: str):
     return templates.TemplateResponse("country_detail.html", {"request": request, "slug": slug})
 
+@app.get("/search", response_class=HTMLResponse)
+async def search_results(request: Request):
+    return templates.TemplateResponse("search_results.html", {"request": request})
+
 # Admin routes with authentication
 @app.get("/admin/login", response_class=HTMLResponse)
 async def admin_login_page(request: Request, admin_token: Optional[str] = Cookie(None)):

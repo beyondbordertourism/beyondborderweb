@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Video Test</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #000;
+        }
+        video {
+            width: 100%;
+            max-width: 800px;
+            height: auto;
+        }
+        .info {
+            color: white;
+            font-family: Arial, sans-serif;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="info">
+        <h1>Video Test</h1>
+        <p>Testing if the video file loads correctly:</p>
+    </div>
+    
+    <video id="testVideo" controls autoplay muted>
+        <source src="/static/videos/travel-bg.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    
+    <script>
+        const video = document.getElementById('testVideo');
+        
+        video.addEventListener('loadstart', () => console.log('Video loading started'));
+        video.addEventListener('loadedmetadata', () => console.log('Video metadata loaded'));
+        video.addEventListener('loadeddata', () => console.log('Video data loaded'));
+        video.addEventListener('canplay', () => console.log('Video can play'));
+        video.addEventListener('canplaythrough', () => console.log('Video can play through'));
+        video.addEventListener('error', (e) => {
+            console.error('Video error:', e);
+            console.error('Video error details:', video.error);
+        });
+        
+        // Log video info after 2 seconds
+        setTimeout(() => {
+            console.log('Video info:');
+            console.log('- Source:', video.src);
+            console.log('- Ready state:', video.readyState);
+            console.log('- Network state:', video.networkState);
+            console.log('- Duration:', video.duration);
+            console.log('- Video width:', video.videoWidth);
+            console.log('- Video height:', video.videoHeight);
+        }, 2000);
+    </script>
+</body>
+</html> 

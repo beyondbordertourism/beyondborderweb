@@ -3,7 +3,7 @@ from typing import Optional
 from fastapi import Depends, HTTPException, status, Request, Cookie
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from passlib.context import CryptContext
-from jose import JWTError, jwt
+import jwt
 import config
 from app.crud.admin import admin_crud
 
@@ -34,7 +34,7 @@ def verify_token(token: str):
     try:
         payload = jwt.decode(token, config.SECRET_KEY, algorithms=[ALGORITHM])
         return payload
-    except JWTError:
+    except jwt.exceptions.InvalidTokenError:
         return None
 
 async def authenticate_admin(username: str, password: str):

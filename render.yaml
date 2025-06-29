@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: visa-website
+    env: python
+    plan: free
+    pythonVersion: "3.11"
+    buildCommand: chmod +x build.sh && ./build.sh
+    startCommand: python run.py
+    envVars:
+      - key: PORT
+        value: 10000
+      - key: ENVIRONMENT
+        value: production
+      - key: DEBUG
+        value: false
+    healthCheckPath: /health 
