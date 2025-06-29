@@ -2,6 +2,7 @@ from fastapi import APIRouter, HTTPException, Query, Depends
 from typing import List, Optional
 from app.models.country import Country
 from app.crud.country import country_crud
+from app.core.database import get_database
 
 router = APIRouter()
 
@@ -62,4 +63,46 @@ async def get_country_by_slug(slug: str):
     if not country.published:
         raise HTTPException(status_code=404, detail="Country not found")
     
-    return country 
+    return country
+
+@router.get("/debug-db")
+async def debug_database_connection():
+    """Debug endpoint to check database connection and data"""
+    try:
+        db = get_database()
+        
+        # Check if MongoDB or file storage
+        if hasattr(db, 'database'):
+            # MongoDB connection
+            collection = db.database.countries
+            total = await collection.count_documents({})
+            
+            # Get first few countries
+            countries = []
+            async for country in collection.find({}, {"name": 1, "slug": 1, "_id": 0}).limit(5):
+                countries.append({"name": country.get("name"), "slug": country.get("slug")})
+            
+            return {
+                "status": "MongoDB connected",
+                "total_countries": total,
+                "sample_countries": countries,
+                "database_type": "MongoDB Atlas"
+            }
+        else:
+            # File storage
+            data = db.load_collection('countries')
+            sample_countries = [{"name": c.get("name"), "slug": c.get("slug")} for c in data[:5]]
+            
+            return {
+                "status": "File storage active", 
+                "total_countries": len(data),
+                "sample_countries": sample_countries,
+                "database_type": "File Storage"
+            }
+            
+    except Exception as e:
+        return {
+            "status": "Error",
+            "error": str(e),
+            "database_type": "Unknown"
+        } 
