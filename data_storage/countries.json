@@ -2,7 +2,7 @@
   {
     "slug": "singapore",
     "name": "Singapore",
-    "flag": "\ud83c\uddf8\ud83c\uddec",
+    "flag": "🇸🇬",
     "region": "Southeast Asia",
     "visa_required": true,
     "last_updated": "2025-06-28T11:51:51.331284",
@@ -79,7 +79,7 @@
         "name": "Bank Statement",
         "required": true,
         "category": "mandatory",
-        "details": "3-6 months with \u20b950,000+ balance",
+        "details": "3-6 months with ₹50,000+ balance",
         "format": null
       },
       {
@@ -181,7 +181,7 @@
   {
     "slug": "japan",
     "name": "Japan",
-    "flag": "\ud83c\uddef\ud83c\uddf5",
+    "flag": "🇯🇵",
     "region": "East Asia",
     "visa_required": true,
     "last_updated": "2025-06-28T11:51:51.331473",
@@ -392,7 +392,7 @@
   {
     "slug": "thailand",
     "name": "Thailand",
-    "flag": "\ud83c\uddf9\ud83c\udded",
+    "flag": "🇹🇭",
     "region": "Southeast Asia",
     "visa_required": true,
     "last_updated": "2025-06-28T11:51:51.331573",
@@ -486,7 +486,7 @@
         "name": "Bank Statement",
         "required": true,
         "category": "mandatory",
-        "details": "Minimum \u20b940,000 balance",
+        "details": "Minimum ₹40,000 balance",
         "format": null
       }
     ],
@@ -519,7 +519,7 @@
     "important_notes": [
       {
         "type": "warning",
-        "content": "Overstay fine: \u20b91,800 per day (500 THB/day)",
+        "content": "Overstay fine: ₹1,800 per day (500 THB/day)",
         "priority": "high"
       },
       {
@@ -546,7 +546,7 @@
   {
     "slug": "united-arab-emirates",
     "name": "United Arab Emirates",
-    "flag": "\ud83c\udde6\ud83c\uddea",
+    "flag": "🇦🇪",
     "region": "Middle East",
     "visa_required": true,
     "last_updated": "2025-06-28T11:51:51.331641",
@@ -570,7 +570,7 @@
           }
         ],
         "conditions": [
-          "Minimum salary \u20b92 lakh per month",
+          "Minimum salary ₹2 lakh per month",
           "Valid for certain professions only"
         ],
         "notes": null
@@ -735,7 +735,7 @@
   {
     "slug": "malaysia",
     "name": "Malaysia",
-    "flag": "\ud83c\uddf2\ud83c\uddfe",
+    "flag": "🇲🇾",
     "region": "Southeast Asia",
     "visa_required": true,
     "last_updated": "2025-06-28T11:51:51.331721",
@@ -898,7 +898,7 @@
   {
     "slug": "south-korea",
     "name": "South Korea",
-    "flag": "\ud83c\uddf0\ud83c\uddf7",
+    "flag": "🇰🇷",
     "region": "East Asia",
     "visa_required": true,
     "last_updated": "2025-06-28T11:51:51.331788",
@@ -1057,7 +1057,7 @@
   {
     "slug": "maldives",
     "name": "Maldives",
-    "flag": "\ud83c\uddf2\ud83c\uddfb",
+    "flag": "🇲🇻",
     "region": "South Asia",
     "visa_required": false,
     "last_updated": "2025-06-28T11:51:51.331849",
@@ -1166,7 +1166,7 @@
   {
     "slug": "mauritius",
     "name": "Mauritius",
-    "flag": "\ud83c\uddf2\ud83c\uddfa",
+    "flag": "🇲🇺",
     "region": "Africa",
     "visa_required": false,
     "last_updated": "2025-06-28T11:51:51.331894",
@@ -1271,5 +1271,767 @@
     "created_at": "2025-06-28T06:21:51.348038",
     "_id": "d37b2c72-6592-477d-8bcc-9db29befab77",
     "updated_at": "2025-06-28T06:21:51.348041"
+  },
+  {
+    "slug": "china",
+    "name": "China",
+    "flag": "🇨🇳",
+    "region": "Asia",
+    "visa_required": true,
+    "last_updated": "2025-06-29T15:26:23.875659",
+    "summary": "All Indian passport holders require a visa to enter China. The type of visa depends on the purpose of visit.",
+    "visa_types": [
+      {
+        "name": "Tourist (L)",
+        "purpose": "Tourism",
+        "entry_type": "Single",
+        "validity": "Up to 6 months",
+        "stay_duration": "30",
+        "extendable": false,
+        "fees": [],
+        "conditions": [],
+        "notes": "",
+        "processing_time": null
+      },
+      {
+        "name": "Business (M)",
+        "purpose": "Business meetings, trade",
+        "entry_type": "Single",
+        "validity": "Up to 6 months",
+        "stay_duration": "30",
+        "extendable": false,
+        "fees": [],
+        "conditions": [],
+        "notes": "",
+        "processing_time": null
+      },
+      {
+        "name": "Family Visit (Q1)",
+        "purpose": "Visiting family members",
+        "entry_type": "Single",
+        "validity": "Over 180 days",
+        "stay_duration": "As per invitation",
+        "extendable": false,
+        "fees": [],
+        "conditions": [],
+        "notes": "",
+        "processing_time": null
+      },
+      {
+        "name": "Family Visit (Q2)",
+        "purpose": "Visiting family members",
+        "entry_type": "Single",
+        "validity": "Up to 180 days",
+        "stay_duration": "As per invitation",
+        "extendable": false,
+        "fees": [],
+        "conditions": [],
+        "notes": "",
+        "processing_time": null
+      },
+      {
+        "name": "Work (Z)",
+        "purpose": "Employment",
+        "entry_type": "Single",
+        "validity": "Up to 6 months",
+        "stay_duration": "As per employment contract",
+        "extendable": false,
+        "fees": [],
+        "conditions": [],
+        "notes": "",
+        "processing_time": null
+      },
+      {
+        "name": "Student (X1)",
+        "purpose": "Study (long-term)",
+        "entry_type": "Single",
+        "validity": "Over 180 days",
+        "stay_duration": "As per academic program",
+        "extendable": false,
+        "fees": [],
+        "conditions": [],
+        "notes": "",
+        "processing_time": null
+      },
+      {
+        "name": "Student (X2)",
+        "purpose": "Study (short-term)",
+        "entry_type": "Single",
+        "validity": "Up to 180 days",
+        "stay_duration": "As per academic program",
+        "extendable": false,
+        "fees": [],
+        "conditions": [],
+        "notes": "",
+        "processing_time": null
+      },
+      {
+        "name": "Transit (G)",
+        "purpose": "Transit through China",
+        "entry_type": "Single",
+        "validity": "Up to 7 days",
+        "stay_duration": "Short-term",
+        "extendable": false,
+        "fees": [],
+        "conditions": [],
+        "notes": "",
+        "processing_time": null
+      },
+      {
+        "name": "Journalist (J1)",
+        "purpose": "Media-related activities (long-term)",
+        "entry_type": "Single",
+        "validity": "Long-term",
+        "stay_duration": "As per assignment",
+        "extendable": false,
+        "fees": [],
+        "conditions": [],
+        "notes": "",
+        "processing_time": null
+      },
+      {
+        "name": "Journalist (J2)",
+        "purpose": "Media-related activities (short-term)",
+        "entry_type": "Single",
+        "validity": "Short-term",
+        "stay_duration": "As per assignment",
+        "extendable": false,
+        "fees": [],
+        "conditions": [],
+        "notes": "",
+        "processing_time": null
+      }
+    ],
+    "documents": [
+      {
+        "name": "Valid passport (at least 6 months validity)",
+        "required": true,
+        "category": "mandatory",
+        "details": "",
+        "format": null
+      },
+      {
+        "name": "Recent passport-sized photo (48mm x 33mm)",
+        "required": true,
+        "category": "mandatory",
+        "details": "",
+        "format": null
+      },
+      {
+        "name": "Confirmation page of online application",
+        "required": true,
+        "category": "mandatory",
+        "details": "",
+        "format": null
+      },
+      {
+        "name": "Additional documents as per visa type (e.g., invitation letter)",
+        "required": true,
+        "category": "mandatory",
+        "details": "",
+        "format": null
+      }
+    ],
+    "photo_requirements": {
+      "size": "35mm x 45mm",
+      "background": "white",
+      "format": null,
+      "specifications": [
+        "Recent photo",
+        "Clear face visibility"
+      ]
+    },
+    "processing_times": [
+      {
+        "type": "regular",
+        "duration": "4 working days",
+        "notes": ""
+      },
+      {
+        "type": "express",
+        "duration": "2 working days",
+        "notes": "Additional fee: ₹1800"
+      }
+    ],
+    "fees": [
+      {
+        "type": "Single Entry",
+        "amount_inr": 2900.0,
+        "amount_usd": null,
+        "amount_local": null,
+        "local_currency": null,
+        "notes": ""
+      },
+      {
+        "type": "Double Entry",
+        "amount_inr": 4400.0,
+        "amount_usd": null,
+        "amount_local": null,
+        "local_currency": null,
+        "notes": ""
+      },
+      {
+        "type": "Multiple Entry (6 months)",
+        "amount_inr": 5900.0,
+        "amount_usd": null,
+        "amount_local": null,
+        "local_currency": null,
+        "notes": ""
+      },
+      {
+        "type": "Multiple Entry (12 months or longer)",
+        "amount_inr": 8800.0,
+        "amount_usd": null,
+        "amount_local": null,
+        "local_currency": null,
+        "notes": ""
+      },
+      {
+        "type": "Group Visa",
+        "amount_inr": 1800.0,
+        "amount_usd": null,
+        "amount_local": null,
+        "local_currency": null,
+        "notes": ""
+      },
+      {
+        "type": "Expedited Service (additional)",
+        "amount_inr": 1800.0,
+        "amount_usd": null,
+        "amount_local": null,
+        "local_currency": null,
+        "notes": ""
+      }
+    ],
+    "application_methods": [
+      {
+        "name": "embassy",
+        "description": "Apply through embassy or visa center",
+        "requirements": [],
+        "processing_time": null,
+        "available": true
+      }
+    ],
+    "embassies": [
+      {
+        "city": "New Delhi",
+        "address": "Concourse Floor, Baba Kharak Singh Marg, Connaught Place, New Delhi - 110001",
+        "phone": "+91-9999036735",
+        "email": "delhicentre@visaforchina.org",
+        "website": null
+      },
+      {
+        "city": "Mumbai",
+        "address": "1st Floor, Express Towers, Nariman Point, Mumbai - 400021",
+        "phone": "+91-22-22855271",
+        "email": "mumbaicentre@visaforchina.org",
+        "website": null
+      },
+      {
+        "city": "Kolkata",
+        "address": "BIPI Building Omega, Ground Floor, Bengal Intelligent Park, Block EP & GP, Sector V, Bidhan Nagar, Kolkata - 700091",
+        "phone": "+91-033-40010210",
+        "email": "kolkatacentre@visaforchina.org",
+        "website": null
+      }
+    ],
+    "entry_points": null,
+    "visa_free_transit": null,
+    "special_conditions": [],
+    "important_notes": [
+      {
+        "type": "tip",
+        "content": "Applicants aged 14–70 must provide fingerprints unless exempt.",
+        "priority": "medium"
+      },
+      {
+        "type": "tip",
+        "content": "No appointment is required for submission since November 2023.",
+        "priority": "medium"
+      },
+      {
+        "type": "tip",
+        "content": "Ensure passport validity of at least 6 months with blank pages.",
+        "priority": "medium"
+      },
+      {
+        "type": "tip",
+        "content": "Apply at least 3 months prior to travel for safe processing.",
+        "priority": "medium"
+      }
+    ],
+    "sections": [],
+    "meta_title": null,
+    "meta_description": null,
+    "keywords": [],
+    "published": true,
+    "featured": false
+  },
+  {
+    "slug": "philippines",
+    "name": "Philippines",
+    "flag": "🇵🇭",
+    "region": "Asia",
+    "visa_required": true,
+    "last_updated": "2025-06-29T15:26:23.880580",
+    "summary": "Indian passport holders require a visa to enter the Philippines unless they meet conditions for visa-free entry under certain international visas.",
+    "visa_types": [
+      {
+        "name": "Tourist Visa (9A)",
+        "purpose": "Tourism, leisure travel",
+        "entry_type": "Single",
+        "validity": "3–6 months",
+        "stay_duration": "",
+        "extendable": false,
+        "fees": [],
+        "conditions": [],
+        "notes": "",
+        "processing_time": null
+      },
+      {
+        "name": "Business Visa (9A)",
+        "purpose": "Business meetings, conferences",
+        "entry_type": "Single",
+        "validity": "3–6 months",
+        "stay_duration": "",
+        "extendable": false,
+        "fees": [],
+        "conditions": [],
+        "notes": "",
+        "processing_time": null
+      },
+      {
+        "name": "Transit Visa (9B)",
+        "purpose": "Airport transit with city exit",
+        "entry_type": "Single",
+        "validity": "For layovers",
+        "stay_duration": "",
+        "extendable": false,
+        "fees": [],
+        "conditions": [],
+        "notes": "",
+        "processing_time": null
+      },
+      {
+        "name": "Long Stay (9G, 13A)",
+        "purpose": "Employment, family reunification",
+        "entry_type": "Single",
+        "validity": "6 months–1 year",
+        "stay_duration": "",
+        "extendable": false,
+        "fees": [],
+        "conditions": [],
+        "notes": "",
+        "processing_time": null
+      },
+      {
+        "name": "Visa-Free Entry (14-day rule)",
+        "purpose": "Tourism only",
+        "entry_type": "Single",
+        "validity": "14 days",
+        "stay_duration": "",
+        "extendable": false,
+        "fees": [],
+        "conditions": [],
+        "notes": "",
+        "processing_time": null
+      }
+    ],
+    "documents": [],
+    "photo_requirements": {
+      "size": "35mm x 45mm",
+      "background": "white",
+      "format": null,
+      "specifications": [
+        "Recent photo",
+        "Clear face visibility"
+      ]
+    },
+    "processing_times": [],
+    "fees": [],
+    "application_methods": [
+      {
+        "name": "embassy",
+        "description": "Apply through embassy or visa center",
+        "requirements": [],
+        "processing_time": null,
+        "available": true
+      }
+    ],
+    "embassies": [],
+    "entry_points": null,
+    "visa_free_transit": null,
+    "special_conditions": [],
+    "important_notes": [
+      {
+        "type": "tip",
+        "content": "Always check the latest travel advisory before booking",
+        "priority": "medium"
+      },
+      {
+        "type": "tip",
+        "content": "Do not overstay your visa—fines and blacklisting apply",
+        "priority": "medium"
+      },
+      {
+        "type": "tip",
+        "content": "Travel insurance is recommended, though not mandatory",
+        "priority": "medium"
+      },
+      {
+        "type": "tip",
+        "content": "If eligible for 14-day visa-free entry, do not overstay—it cannot be converted or extended inside the Philippines",
+        "priority": "medium"
+      },
+      {
+        "type": "tip",
+        "content": "Tourist visas can usually be extended at the Bureau of Immigration in the Philippines",
+        "priority": "medium"
+      },
+      {
+        "type": "tip",
+        "content": "Processing time may vary based on consulate and application volume",
+        "priority": "medium"
+      }
+    ],
+    "sections": [],
+    "meta_title": null,
+    "meta_description": null,
+    "keywords": [],
+    "published": true,
+    "featured": false
+  },
+  {
+    "slug": "cambodia",
+    "name": "Cambodia",
+    "flag": "🇰🇭",
+    "region": "Asia",
+    "visa_required": true,
+    "last_updated": "2025-06-29T15:26:23.881903",
+    "summary": "Indian passport holders require a visa to enter Cambodia. Options include eVisa, Visa on Arrival, or Embassy Visa.",
+    "visa_types": [
+      {
+        "name": "eVisa Tourist (T)",
+        "purpose": "",
+        "entry_type": "Single",
+        "validity": "",
+        "stay_duration": "30",
+        "extendable": false,
+        "fees": [],
+        "conditions": [],
+        "notes": "",
+        "processing_time": null
+      },
+      {
+        "name": "eVisa Business (E)",
+        "purpose": "",
+        "entry_type": "Single",
+        "validity": "",
+        "stay_duration": "30",
+        "extendable": false,
+        "fees": [],
+        "conditions": [],
+        "notes": "",
+        "processing_time": null
+      },
+      {
+        "name": "Visa on Arrival",
+        "purpose": "",
+        "entry_type": "Single",
+        "validity": "",
+        "stay_duration": "30",
+        "extendable": false,
+        "fees": [],
+        "conditions": [],
+        "notes": "",
+        "processing_time": null
+      },
+      {
+        "name": "Visa Extension",
+        "purpose": "",
+        "entry_type": "Single",
+        "validity": "",
+        "stay_duration": "",
+        "extendable": false,
+        "fees": [],
+        "conditions": [],
+        "notes": "",
+        "processing_time": null
+      },
+      {
+        "name": "Embassy Visa",
+        "purpose": "Stays exceeding 30 days or non-tourism/business",
+        "entry_type": "Single",
+        "validity": "",
+        "stay_duration": "",
+        "extendable": false,
+        "fees": [],
+        "conditions": [],
+        "notes": "",
+        "processing_time": null
+      }
+    ],
+    "documents": [],
+    "photo_requirements": {
+      "size": "35mm x 45mm",
+      "background": "white",
+      "format": null,
+      "specifications": [
+        "Recent photo",
+        "Clear face visibility"
+      ]
+    },
+    "processing_times": [],
+    "fees": [],
+    "application_methods": [
+      {
+        "name": "embassy",
+        "description": "Apply through embassy or visa center",
+        "requirements": [],
+        "processing_time": null,
+        "available": true
+      }
+    ],
+    "embassies": [],
+    "entry_points": null,
+    "visa_free_transit": null,
+    "special_conditions": [],
+    "important_notes": [],
+    "sections": [],
+    "meta_title": null,
+    "meta_description": null,
+    "keywords": [],
+    "published": true,
+    "featured": false
+  },
+  {
+    "slug": "indonesia",
+    "name": "Indonesia",
+    "flag": "🇮🇩",
+    "region": "Asia",
+    "visa_required": false,
+    "last_updated": "2025-06-29T15:26:23.882909",
+    "summary": "Visa required for Indonesia",
+    "visa_types": [
+      {
+        "name": "Visa-Free Entry",
+        "purpose": "Tourism only",
+        "entry_type": "Single",
+        "validity": "30 days",
+        "stay_duration": "",
+        "extendable": false,
+        "fees": [],
+        "conditions": [],
+        "notes": "",
+        "processing_time": null
+      },
+      {
+        "name": "Visa on Arrival (VoA)",
+        "purpose": "Tourism, social visit",
+        "entry_type": "Single",
+        "validity": "30 days",
+        "stay_duration": "",
+        "extendable": false,
+        "fees": [],
+        "conditions": [],
+        "notes": "",
+        "processing_time": null
+      },
+      {
+        "name": "e-Visa B211A (Tourist/Business)",
+        "purpose": "Tourism, business meetings",
+        "entry_type": "Single",
+        "validity": "60 days",
+        "stay_duration": "",
+        "extendable": false,
+        "fees": [],
+        "conditions": [],
+        "notes": "",
+        "processing_time": null
+      },
+      {
+        "name": "Business Visa (Multiple Entry)",
+        "purpose": "Frequent business trips",
+        "entry_type": "Single",
+        "validity": "1 year",
+        "stay_duration": "",
+        "extendable": false,
+        "fees": [],
+        "conditions": [],
+        "notes": "",
+        "processing_time": null
+      },
+      {
+        "name": "Work Visa (KITAS)",
+        "purpose": "Employment",
+        "entry_type": "Single",
+        "validity": "6–12 months",
+        "stay_duration": "",
+        "extendable": false,
+        "fees": [],
+        "conditions": [],
+        "notes": "",
+        "processing_time": null
+      },
+      {
+        "name": "Student Visa",
+        "purpose": "Education",
+        "entry_type": "Single",
+        "validity": "As per course",
+        "stay_duration": "",
+        "extendable": false,
+        "fees": [],
+        "conditions": [],
+        "notes": "",
+        "processing_time": null
+      }
+    ],
+    "documents": [],
+    "photo_requirements": {
+      "size": "35mm x 45mm",
+      "background": "white",
+      "format": null,
+      "specifications": [
+        "Recent photo",
+        "Clear face visibility"
+      ]
+    },
+    "processing_times": [],
+    "fees": [],
+    "application_methods": [
+      {
+        "name": "embassy",
+        "description": "Apply through embassy or visa center",
+        "requirements": [],
+        "processing_time": null,
+        "available": true
+      }
+    ],
+    "embassies": [],
+    "entry_points": null,
+    "visa_free_transit": null,
+    "special_conditions": [],
+    "important_notes": [],
+    "sections": [],
+    "meta_title": null,
+    "meta_description": null,
+    "keywords": [],
+    "published": true,
+    "featured": false
+  },
+  {
+    "slug": "vietnam",
+    "name": "Vietnam",
+    "flag": "🇻🇳",
+    "region": "Asia",
+    "visa_required": true,
+    "last_updated": "2025-06-29T15:26:23.883535",
+    "summary": "Indian nationals require a visa to enter Vietnam, unless they hold a valid visa exemption or enter under specific e-visa rules.",
+    "visa_types": [
+      {
+        "name": "E-Visa (Tourist)",
+        "purpose": "Tourism, family visits",
+        "entry_type": "Single",
+        "validity": "30 days",
+        "stay_duration": "",
+        "extendable": false,
+        "fees": [],
+        "conditions": [],
+        "notes": "",
+        "processing_time": null
+      },
+      {
+        "name": "E-Visa (Business)",
+        "purpose": "Business meetings, conferences",
+        "entry_type": "Single",
+        "validity": "30 days",
+        "stay_duration": "",
+        "extendable": false,
+        "fees": [],
+        "conditions": [],
+        "notes": "",
+        "processing_time": null
+      },
+      {
+        "name": "E-Visa (Tourist – Multiple)",
+        "purpose": "Multiple visits within validity period",
+        "entry_type": "Single",
+        "validity": "90 days",
+        "stay_duration": "",
+        "extendable": false,
+        "fees": [],
+        "conditions": [],
+        "notes": "",
+        "processing_time": null
+      },
+      {
+        "name": "Visa on Arrival (VOA)",
+        "purpose": "Tourism, business",
+        "entry_type": "Single",
+        "validity": "1–3 months",
+        "stay_duration": "",
+        "extendable": false,
+        "fees": [],
+        "conditions": [],
+        "notes": "",
+        "processing_time": null
+      },
+      {
+        "name": "Embassy Visa (Sticker Visa)",
+        "purpose": "Longer stays, work permits, multi-entry business",
+        "entry_type": "Single",
+        "validity": "Up to 6 months",
+        "stay_duration": "",
+        "extendable": false,
+        "fees": [],
+        "conditions": [],
+        "notes": "",
+        "processing_time": null
+      },
+      {
+        "name": "Transit Visa",
+        "purpose": "Airport transit only",
+        "entry_type": "Single",
+        "validity": "24 hours",
+        "stay_duration": "",
+        "extendable": false,
+        "fees": [],
+        "conditions": [],
+        "notes": "",
+        "processing_time": null
+      }
+    ],
+    "documents": [],
+    "photo_requirements": {
+      "size": "35mm x 45mm",
+      "background": "white",
+      "format": null,
+      "specifications": [
+        "Recent photo",
+        "Clear face visibility"
+      ]
+    },
+    "processing_times": [],
+    "fees": [],
+    "application_methods": [
+      {
+        "name": "embassy",
+        "description": "Apply through embassy or visa center",
+        "requirements": [],
+        "processing_time": null,
+        "available": true
+      }
+    ],
+    "embassies": [],
+    "entry_points": null,
+    "visa_free_transit": null,
+    "special_conditions": [],
+    "important_notes": [],
+    "sections": [],
+    "meta_title": null,
+    "meta_description": null,
+    "keywords": [],
+    "published": true,
+    "featured": false
   }
 ]
