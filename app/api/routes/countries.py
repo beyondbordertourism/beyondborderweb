@@ -62,6 +62,142 @@ async def get_stats():
         "debug": debug_info
     }
 
+@router.get("/fix-missing")
+async def fix_missing_countries():
+    """Fix missing countries by adding them directly to file storage"""
+    try:
+        from app.core.database import FileStorageAdapter
+        from datetime import datetime
+        
+        # Force file storage
+        file_db = FileStorageAdapter()
+        
+        # Load current data
+        current_data = file_db.load_collection('countries')
+        current_slugs = {country.get('slug') for country in current_data}
+        
+        # Define the 5 missing countries with minimal data
+        missing_countries = [
+            {
+                "slug": "china",
+                "name": "China", 
+                "flag": "🇨🇳",
+                "region": "East Asia",
+                "visa_required": True,
+                "published": True,
+                "featured": False,
+                "last_updated": datetime.now().isoformat(),
+                "summary": "All Indian passport holders require a visa to enter China.",
+                "visa_types": [{"name": "Tourist Visa", "purpose": "Tourism", "entry_type": "Single", "validity": "30 days", "stay_duration": "30 days", "extendable": False, "fees": [], "conditions": [], "notes": ""}],
+                "documents": [{"name": "Passport", "required": True, "category": "mandatory", "details": "Valid passport"}],
+                "photo_requirements": {"size": "35mm x 45mm", "background": "white", "specifications": ["Recent photo"]},
+                "processing_times": [{"type": "regular", "duration": "3-5 days", "notes": ""}],
+                "fees": [{"type": "Visa Fee", "amount_inr": 2900, "notes": ""}],
+                "application_methods": [{"name": "embassy", "description": "Apply through embassy", "requirements": [], "available": True}],
+                "embassies": [],
+                "important_notes": []
+            },
+            {
+                "slug": "philippines",
+                "name": "Philippines",
+                "flag": "🇵🇭", 
+                "region": "Southeast Asia",
+                "visa_required": True,
+                "published": True,
+                "featured": False,
+                "last_updated": datetime.now().isoformat(),
+                "summary": "Indian citizens need a visa to enter the Philippines.",
+                "visa_types": [{"name": "Tourist Visa", "purpose": "Tourism", "entry_type": "Single", "validity": "30 days", "stay_duration": "30 days", "extendable": False, "fees": [], "conditions": [], "notes": ""}],
+                "documents": [{"name": "Passport", "required": True, "category": "mandatory", "details": "Valid passport"}],
+                "photo_requirements": {"size": "35mm x 45mm", "background": "white", "specifications": ["Recent photo"]},
+                "processing_times": [{"type": "regular", "duration": "3-5 days", "notes": ""}],
+                "fees": [{"type": "Visa Fee", "amount_inr": 2500, "notes": ""}],
+                "application_methods": [{"name": "embassy", "description": "Apply through embassy", "requirements": [], "available": True}],
+                "embassies": [],
+                "important_notes": []
+            },
+            {
+                "slug": "cambodia",
+                "name": "Cambodia",
+                "flag": "🇰🇭",
+                "region": "Southeast Asia", 
+                "visa_required": True,
+                "published": True,
+                "featured": False,
+                "last_updated": datetime.now().isoformat(),
+                "summary": "Indian passport holders can get a visa on arrival or apply for an e-visa to enter Cambodia.",
+                "visa_types": [{"name": "Tourist Visa", "purpose": "Tourism", "entry_type": "Single", "validity": "30 days", "stay_duration": "30 days", "extendable": False, "fees": [], "conditions": [], "notes": ""}],
+                "documents": [{"name": "Passport", "required": True, "category": "mandatory", "details": "Valid passport"}],
+                "photo_requirements": {"size": "35mm x 45mm", "background": "white", "specifications": ["Recent photo"]},
+                "processing_times": [{"type": "regular", "duration": "3-5 days", "notes": ""}],
+                "fees": [{"type": "Visa Fee", "amount_inr": 2000, "notes": ""}],
+                "application_methods": [{"name": "embassy", "description": "Apply through embassy", "requirements": [], "available": True}],
+                "embassies": [],
+                "important_notes": []
+            },
+            {
+                "slug": "indonesia",
+                "name": "Indonesia",
+                "flag": "🇮🇩",
+                "region": "Southeast Asia",
+                "visa_required": False,
+                "published": True,
+                "featured": False,
+                "last_updated": datetime.now().isoformat(),
+                "summary": "Indian citizens can enter Indonesia visa-free for 30 days for tourism purposes.",
+                "visa_types": [{"name": "Visa Free", "purpose": "Tourism", "entry_type": "Single", "validity": "30 days", "stay_duration": "30 days", "extendable": False, "fees": [], "conditions": [], "notes": ""}],
+                "documents": [{"name": "Passport", "required": True, "category": "mandatory", "details": "Valid passport"}],
+                "photo_requirements": {"size": "35mm x 45mm", "background": "white", "specifications": ["Recent photo"]},
+                "processing_times": [{"type": "visa_free", "duration": "At arrival", "notes": ""}],
+                "fees": [],
+                "application_methods": [{"name": "arrival", "description": "Visa free entry", "requirements": [], "available": True}],
+                "embassies": [],
+                "important_notes": []
+            },
+            {
+                "slug": "vietnam",
+                "name": "Vietnam",
+                "flag": "🇻🇳",
+                "region": "Southeast Asia",
+                "visa_required": True,
+                "published": True,
+                "featured": False,
+                "last_updated": datetime.now().isoformat(),
+                "summary": "Indian passport holders require a visa to enter Vietnam. E-visa and visa on arrival options are available.",
+                "visa_types": [{"name": "Tourist Visa", "purpose": "Tourism", "entry_type": "Single", "validity": "30 days", "stay_duration": "30 days", "extendable": False, "fees": [], "conditions": [], "notes": ""}],
+                "documents": [{"name": "Passport", "required": True, "category": "mandatory", "details": "Valid passport"}],
+                "photo_requirements": {"size": "35mm x 45mm", "background": "white", "specifications": ["Recent photo"]},
+                "processing_times": [{"type": "regular", "duration": "3-5 days", "notes": ""}],
+                "fees": [{"type": "Visa Fee", "amount_inr": 2000, "notes": ""}],
+                "application_methods": [{"name": "embassy", "description": "Apply through embassy", "requirements": [], "available": True}],
+                "embassies": [],
+                "important_notes": []
+            }
+        ]
+        
+        added_count = 0
+        for country in missing_countries:
+            if country["slug"] not in current_slugs:
+                current_data.append(country)
+                added_count += 1
+        
+        # Save the updated data
+        if added_count > 0:
+            file_db.save_collection('countries', current_data)
+        
+        return {
+            "status": "success",
+            "message": f"Added {added_count} missing countries",
+            "total_countries": len(current_data),
+            "added_countries": [c["name"] for c in missing_countries if c["slug"] not in current_slugs]
+        }
+        
+    except Exception as e:
+        return {
+            "status": "error",
+            "error": str(e)
+        }
+
 @router.get("/{slug}", response_model=Country)
 async def get_country_by_slug(slug: str):
     """Get a specific country by slug"""
