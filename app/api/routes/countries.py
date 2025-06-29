@@ -53,18 +53,6 @@ async def get_stats():
         "visa_free": stats["visa_free"]
     }
 
-@router.get("/{slug}", response_model=Country)
-async def get_country_by_slug(slug: str):
-    """Get a specific country by slug"""
-    country = await country_crud.get_by_slug(slug)
-    if not country:
-        raise HTTPException(status_code=404, detail="Country not found")
-    
-    if not country.published:
-        raise HTTPException(status_code=404, detail="Country not found")
-    
-    return country
-
 @router.get("/debug-db")
 async def debug_database_connection():
     """Debug endpoint to check database connection and data"""
@@ -105,4 +93,16 @@ async def debug_database_connection():
             "status": "Error",
             "error": str(e),
             "database_type": "Unknown"
-        } 
+        }
+
+@router.get("/{slug}", response_model=Country)
+async def get_country_by_slug(slug: str):
+    """Get a specific country by slug"""
+    country = await country_crud.get_by_slug(slug)
+    if not country:
+        raise HTTPException(status_code=404, detail="Country not found")
+    
+    if not country.published:
+        raise HTTPException(status_code=404, detail="Country not found")
+    
+    return country 
