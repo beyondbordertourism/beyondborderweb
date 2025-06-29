@@ -1,0 +1,192 @@
+{
+    "country": "Japan",
+    "flag": "🇯🇵",
+    "applicable_nationality": "India",
+    "year": 2024,
+    "visa_required": true,
+    "visa_free": false,
+    "visa_on_arrival_available": false,
+    "entry_requirements": {
+      "visa_required_note": "All Indian passport holders must obtain a pre-approved visa before entering Japan, including for tourism or business visits."
+    },
+    "visa_types": [
+      {
+        "name": "Tourist Visa (Single Entry)",
+        "entry_type": "Single Entry",
+        "validity_months": 3,
+        "max_stay_days": 90,
+        "fee_inr": 2500,
+        "fee_jpy": 3000,
+        "fee_usd": 20,
+        "processing_time": "4–7 working days",
+        "purpose": "Tourism, visiting friends/family"
+      },
+      {
+        "name": "Tourist Visa (Multiple Entry)",
+        "entry_type": "Multiple Entry",
+        "validity_years": "1–5",
+        "max_stay_days_per_visit": "15–90",
+        "fee_inr": 4000,
+        "fee_jpy": 6000,
+        "fee_usd": 40,
+        "processing_time": "4–7 working days",
+        "purpose": "Frequent travelers (conditions apply)"
+      },
+      {
+        "name": "Business Visa",
+        "entry_type": "Single Entry",
+        "validity_months": 3,
+        "max_stay_days": 90,
+        "fee_inr": 2500,
+        "fee_jpy": 3000,
+        "fee_usd": 20,
+        "processing_time": "4–7 working days",
+        "purpose": "Meetings, conferences"
+      },
+      {
+        "name": "Transit Visa",
+        "entry_type": "Single Entry",
+        "validity_days": 15,
+        "max_stay_hours": 72,
+        "fee_inr": 1100,
+        "fee_jpy": 700,
+        "fee_usd": 5,
+        "processing_time": "4–7 working days",
+        "purpose": "For layovers in Japan"
+      }
+    ],
+    "regular_visa_process": {
+      "application_method": [
+        "VFS Global Japan (mandatory for Indian applicants)",
+        "Authorized visa agents"
+      ],
+      "documents_required": {
+        "common": [
+          "Original Passport (valid for at least 6 months, 2 blank pages)",
+          "Visa Application Form (filled and signed)",
+          "Recent Photograph (45mm x 35mm, white background, neutral expression)",
+          "Day-wise Travel Itinerary (mention places, cities, dates)",
+          "Hotel Reservations (for the entire stay)",
+          "Flight Tickets (confirmed round-trip)",
+          "Bank Statement (last 6 months, stamped by bank)",
+          "Income Tax Returns (ITR) - last 2 years"
+        ],
+        "employment_proof": [
+          "NOC from employer",
+          "Student ID/NOC (for students)",
+          "Company registration proof (if self-employed)"
+        ],
+        "visiting_family_friends": [
+          "Invitation letter from Japanese host",
+          "Residence card copy or passport copy of host",
+          "Relationship proof (birth certificate, photos, etc.)"
+        ]
+      }
+    },
+    "processing_time": [
+      {
+        "type": "Regular Processing",
+        "duration_days": "4–7 working days"
+      },
+      {
+        "type": "Express Processing",
+        "duration": "Rarely offered",
+        "note": "Not always available"
+      }
+    ],
+    "visa_validity_and_stay": [
+      {
+        "type": "Single-Entry Tourist",
+        "validity_months": 3,
+        "max_stay_days": 90
+      },
+      {
+        "type": "Multiple-Entry Tourist",
+        "validity_years": "1–5",
+        "max_stay_days_per_visit": "15–90"
+      },
+      {
+        "type": "Transit Visa",
+        "validity_days": 15,
+        "max_stay_hours": 72,
+        "note": "For transit only"
+      }
+    ],
+    "visa_fees": {
+      "single_entry": {
+        "embassy_fee_jpy": 3000,
+        "embassy_fee_inr": 1700,
+        "vfs_charges_inr": "650–1000",
+        "total_inr": "2300–2700"
+      },
+      "multiple_entry": {
+        "embassy_fee_jpy": 6000,
+        "embassy_fee_inr": 3400,
+        "vfs_charges_inr": "650–1000",
+        "total_inr": "4000–4500"
+      },
+      "transit_visa": {
+        "embassy_fee_jpy": 700,
+        "embassy_fee_inr": 400,
+        "vfs_charges_inr": "650–1000",
+        "total_inr": "1000–1500"
+      },
+      "note": "Fees are non-refundable, regardless of visa approval"
+    },
+    "photo_requirements": {
+      "size": "45mm x 35mm",
+      "background": "Plain white",
+      "expression": "Neutral, face forward",
+      "age": "Taken within last 6 months",
+      "headgear": "Not allowed (unless religious)"
+    },
+    "application_steps": [
+      "Prepare all documents",
+      "Fill out the Visa Application Form",
+      "Schedule an appointment with VFS Japan",
+      "Submit application to VFS Japan in person or through authorized agent",
+      "Track application online",
+      "Collect passport with visa or request courier delivery"
+    ],
+    "visa_free_transit": {
+      "available": true,
+      "conditions": [
+        "Indians with US, Canada, UK, Australia, or Schengen visa",
+        "Must be transiting through Japan to/from these countries",
+        "Must have onward confirmed flight ticket"
+      ],
+      "duration": "24–72 hours",
+      "note": "Visa-Free Transit Facility (VFTF) for qualifying travelers"
+    },
+    "penalties_and_tips": {
+      "overstay_penalty": "Strictly penalized in Japan — never exceed visa limits",
+      "tips": [
+        "Submit complete & accurate documentation",
+        "Always book refundable flights/hotels until visa is issued",
+        "Include cover letter if applying as a group or family",
+        "Always check for updated forms or requirements on embassy website",
+        "Japan visa applications must go through VFS Global, not directly to embassy"
+      ]
+    },
+    "application_centers": [
+      "VFS Global Japan - New Delhi",
+      "VFS Global Japan - Mumbai", 
+      "VFS Global Japan - Chennai",
+      "VFS Global Japan - Kolkata",
+      "VFS Global Japan - Bangalore"
+    ],
+    "useful_links": [
+      {
+        "name": "Embassy of Japan in India",
+        "url": "https://www.in.emb-japan.go.jp/"
+      },
+      {
+        "name": "VFS Japan Visa Info",
+        "url": "https://visa.vfsglobal.com/ind/en/jpn/"
+      },
+      {
+        "name": "Japan Visa Form PDF",
+        "url": "https://www.in.emb-japan.go.jp/itpr_en/visa.html"
+      }
+    ]
+  } 

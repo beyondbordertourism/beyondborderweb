@@ -1,0 +1,149 @@
+{
+    "country": "Cambodia",
+    "applicable_nationality": "India",
+    "year": 2024,
+    "visa_required": true,
+    "visa_free": false,
+    "visa_on_arrival_available": true,
+    "entry_requirements": {
+      "visa_required_note": "Indian passport holders require a visa to enter Cambodia. Options include eVisa, Visa on Arrival, or Embassy Visa."
+    },
+    "visa_types": [
+      {
+        "name": "eVisa Tourist (T)",
+        "entry_type": "Single Entry",
+        "validity_months": 3,
+        "max_stay_days": 30,
+        "fee_inr": 2999,
+        "fee_usd": 36,
+        "processing_time": "3–5 working days"
+      },
+      {
+        "name": "eVisa Business (E)",
+        "entry_type": "Single Entry",
+        "validity_months": 3,
+        "max_stay_days": 30,
+        "fee_inr": 3465,
+        "fee_usd": 42,
+        "processing_time": "3–5 working days"
+      },
+      {
+        "name": "Visa on Arrival",
+        "entry_type": "Single Entry",
+        "validity_months": 3,
+        "max_stay_days": 30,
+        "fee_inr": 2498,
+        "fee_usd": 30,
+        "processing_time": "15–30 minutes"
+      },
+      {
+        "name": "Visa Extension",
+        "fee_inr": 2063,
+        "fee_usd": 25
+      },
+      {
+        "name": "Embassy Visa",
+        "entry_type": "Varies",
+        "purpose": "Stays exceeding 30 days or non-tourism/business",
+        "processing_time": "2–3 business days"
+      }
+    ],
+    "regular_visa_process": {
+      "application_method": [
+        "Official eVisa portal (evisa.gov.kh)",
+        "Cambodian Embassy or Consulate (for Embassy Visa)"
+      ],
+      "documents_required": {
+        "common": [
+          "Valid passport (minimum 6 months validity)",
+          "Recent passport-sized photograph (4x6 cm, white background)",
+          "Proof of onward or return travel",
+          "Hotel reservation details",
+          "Sufficient funds for the duration of stay"
+        ],
+        "eVisa": [
+          "Scanned copy of passport",
+          "Photograph (uploaded online)",
+          "Online application form",
+          "Online payment via credit/debit card"
+        ],
+        "voa": [
+          "Original passport",
+          "Photograph",
+          "Proof of onward/return travel",
+          "Hotel reservation",
+          "Cash funds (~₹40,800 or equivalent)"
+        ],
+        "embassy": [
+          "Passport",
+          "Photographs",
+          "Application form",
+          "Visa fee"
+        ]
+      }
+    },
+    "processing_time": [
+      {
+        "type": "eVisa",
+        "duration_days": "3–5 working days"
+      },
+      {
+        "type": "Visa on Arrival",
+        "duration": "15–30 minutes"
+      },
+      {
+        "type": "Embassy Visa",
+        "duration_days": "2–3 business days"
+      }
+    ],
+    "visa_validity_and_stay": [
+      {
+        "type": "eVisa Tourist (T)",
+        "validity_months": 3,
+        "max_stay_days": 30
+      },
+      {
+        "type": "eVisa Business (E)",
+        "validity_months": 3,
+        "max_stay_days": 30
+      },
+      {
+        "type": "Visa on Arrival",
+        "validity_months": 3,
+        "max_stay_days": 30
+      }
+    ],
+    "visa_extensions": {
+      "applicable_for": ["eVisa", "Visa on Arrival"],
+      "note": "Possible within Cambodia by contacting the Immigration Department."
+    },
+    "entry_points": {
+      "airports": [
+        "Phnom Penh International Airport (PNH)",
+        "Siem Reap International Airport (REP)",
+        "Sihanoukville International Airport (KOS)"
+      ],
+      "land_borders": [
+        "Tropang Kreal (Stung Treng)",
+        "Cham Yeam (Koh Kong)",
+        "Poipet (Banteay Meanchey)",
+        "Bavet (Svay Rieng)"
+      ],
+      "voa_availability_note": "Visa on Arrival is not available at all entry points; verify before travel."
+    },
+    "penalties_and_tips": {
+      "tips": [
+        "Ensure passport has at least 6 months’ validity and blank pages",
+        "Double-check all application information to avoid delays",
+        "Carry printed copies of visa approval and supporting documents",
+        "Be aware of visa extension procedures if planning longer stay"
+      ]
+    },
+    "useful_links": [
+      {
+        "name": "Official eVisa Portal",
+        "url": "https://www.evisa.gov.kh/"
+      }
+    ]
+  }
+  

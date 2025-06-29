@@ -1,0 +1,85 @@
+{
+  "country": "Thailand",
+  "flag": "🏳️",
+  "applicable_nationality": "India",
+  "year": 2024,
+  "visa_required": false,
+  "visa_free": true,
+  "visa_on_arrival_available": true,
+  "entry_requirements": {
+    "visa_required_note": "Indian citizens can enter visa-free to enter Thailand."
+  },
+  "visa_types": [
+    {
+      "name": "Tourist Visa",
+      "entry_type": "Single Entry",
+      "max_stay_days": 30,
+      "validity_months": 3,
+      "fee_inr": {
+        "min": 2000,
+        "max": 3000
+      }
+    }
+  ],
+  "regular_visa_process": {
+    "application_method": [
+      "Tourist Visa (Embassy)"
+    ],
+    "documents_required": {
+      "common": [
+        ". Passport",
+        ". Visa Application Form",
+        ". Passport-size Photograph",
+        "Size",
+        "White background",
+        "Recent",
+        ". Cover Letter",
+        ". Confirmed Flight Tickets",
+        ". Hotel Booking or accommodation proof",
+        ". Bank Statement",
+        "Minimum balance",
+        ". Income Tax Returns",
+        "Birth certificate",
+        "Passport copies of parents",
+        "Consent letter from parents",
+        "Invitation letter from a Thai company",
+        "Cover letter from an Indian company",
+        "Business registration proof"
+      ]
+    }
+  },
+  "processing_time": [
+    {
+      "type": "Tourist Visa",
+      "duration_days": "3-5 working days"
+    }
+  ],
+  "visa_fees": {
+    "fee_inr": {
+      "min": 1800,
+      "max": 40000
+    }
+  },
+  "penalties_and_tips": {
+    "tips": [
+      "Ensure passport has at least 6 months validity",
+      "Carry printed copies of visa and supporting documents",
+      "Do not overstay your visa",
+      "Apply well in advance of travel dates"
+    ]
+  },
+  "voa_eligibility": {
+    "conditions": [
+      "Available at designated entry points",
+      "Confirmed return ticket required",
+      "Proof of accommodation and sufficient funds"
+    ],
+    "required_documents": [
+      "Valid passport (minimum 6 months validity)",
+      "Return ticket",
+      "Hotel reservation",
+      "Passport photo",
+      "Visa fee in cash"
+    ]
+  }
+}

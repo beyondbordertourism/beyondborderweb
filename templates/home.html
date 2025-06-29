@@ -1,0 +1,244 @@
+{% extends "base.html" %}
+
+{% block title %}Visa Guide - Your Complete Visa Information Portal{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="gradient-bg text-white py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h1 class="text-5xl font-bold mb-6">
+            Find Visa Information for Any Country
+        </h1>
+        <p class="text-xl mb-8 max-w-3xl mx-auto">
+            Complete visa requirements, application processes, and travel information for Indian citizens traveling worldwide.
+        </p>
+        
+        <!-- Search Bar -->
+        <div class="max-w-2xl mx-auto">
+            <div class="relative">
+                <input 
+                    type="text" 
+                    id="countrySearch"
+                    placeholder="Search for a country (e.g., Singapore, Japan, USA...)"
+                    class="w-full px-6 py-4 text-lg rounded-full text-gray-800 shadow-lg focus:outline-none focus:ring-4 focus:ring-white/30"
+                >
+                <button class="absolute right-2 top-2 bg-indigo-600 text-white px-6 py-2 rounded-full hover:bg-indigo-700 transition-colors">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+            <div id="searchResults" class="mt-4 bg-white rounded-lg shadow-lg hidden max-h-60 overflow-y-auto"></div>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Section -->
+<section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
+            <div class="p-6">
+                <div class="text-4xl font-bold text-indigo-600 mb-2" id="totalCountries">0</div>
+                <div class="text-gray-600">Countries Covered</div>
+            </div>
+            <div class="p-6">
+                <div class="text-4xl font-bold text-green-600 mb-2" id="visaFreeCount">0</div>
+                <div class="text-gray-600">Visa-Free Destinations</div>
+            </div>
+            <div class="p-6">
+                <div class="text-4xl font-bold text-blue-600 mb-2" id="regionsCount">0</div>
+                <div class="text-gray-600">Regions</div>
+            </div>
+            <div class="p-6">
+                <div class="text-4xl font-bold text-purple-600 mb-2">24/7</div>
+                <div class="text-gray-600">Updated Information</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Countries -->
+<section class="py-16 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-4xl font-bold text-gray-800 mb-4">Popular Destinations</h2>
+            <p class="text-xl text-gray-600">Most searched visa information for Indian travelers</p>
+        </div>
+        
+        <div id="featuredCountries" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Countries will be loaded here -->
+        </div>
+        
+        <div class="text-center mt-12">
+            <a href="/countries" class="bg-indigo-600 text-white px-8 py-3 rounded-lg hover:bg-indigo-700 transition-colors inline-flex items-center">
+                View All Countries <i class="fas fa-arrow-right ml-2"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-4xl font-bold text-gray-800 mb-4">Why Choose VisaGuide?</h2>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="text-center p-6">
+                <div class="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-clock text-2xl text-indigo-600"></i>
+                </div>
+                <h3 class="text-xl font-semibold mb-3">Always Updated</h3>
+                <p class="text-gray-600">Latest visa requirements and policy changes updated in real-time.</p>
+            </div>
+            
+            <div class="text-center p-6">
+                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-shield-alt text-2xl text-green-600"></i>
+                </div>
+                <h3 class="text-xl font-semibold mb-3">Reliable Information</h3>
+                <p class="text-gray-600">Verified data from official embassy and government sources.</p>
+            </div>
+            
+            <div class="text-center p-6">
+                <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-mobile-alt text-2xl text-blue-600"></i>
+                </div>
+                <h3 class="text-xl font-semibold mb-3">Easy to Use</h3>
+                <p class="text-gray-600">Simple, intuitive interface designed for quick information access.</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Load stats
+    loadStats();
+    
+    // Load featured countries
+    loadFeaturedCountries();
+    
+    // Setup search
+    setupSearch();
+});
+
+async function loadStats() {
+    try {
+        const response = await fetch('/api/countries/stats');
+        const stats = await response.json();
+        
+        document.getElementById('totalCountries').textContent = stats.total_countries;
+        document.getElementById('visaFreeCount').textContent = stats.visa_free;
+        document.getElementById('regionsCount').textContent = stats.regions;
+        
+        // Animate numbers
+        animateNumbers();
+    } catch (error) {
+        console.error('Error loading stats:', error);
+    }
+}
+
+async function loadFeaturedCountries() {
+    try {
+        const response = await fetch('/api/countries/featured');
+        const countries = await response.json();
+        
+        const container = document.getElementById('featuredCountries');
+        container.innerHTML = countries.map(country => `
+            <div class="bg-white rounded-lg shadow-lg card-hover overflow-hidden">
+                <div class="p-6">
+                    <div class="flex items-center mb-4">
+                        <span class="text-4xl mr-3">${country.flag}</span>
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-800">${country.name}</h3>
+                            <p class="text-gray-600">${country.region}</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 mb-4 line-clamp-3">${country.summary}</p>
+                    <div class="flex justify-between items-center">
+                        <span class="px-3 py-1 rounded-full text-sm ${country.visa_required ? 'bg-yellow-100 text-yellow-800' : 'bg-green-100 text-green-800'}">
+                            ${country.visa_required ? 'Visa Required' : 'Visa Free'}
+                        </span>
+                        <a href="/countries/${country.slug}" class="text-indigo-600 hover:text-indigo-800 font-medium">
+                            Learn More <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+    } catch (error) {
+        console.error('Error loading featured countries:', error);
+    }
+}
+
+function setupSearch() {
+    const searchInput = document.getElementById('countrySearch');
+    const searchResults = document.getElementById('searchResults');
+    let searchTimeout;
+    
+    searchInput.addEventListener('input', function() {
+        clearTimeout(searchTimeout);
+        const query = this.value.trim();
+        
+        if (query.length < 2) {
+            searchResults.classList.add('hidden');
+            return;
+        }
+        
+        searchTimeout = setTimeout(async () => {
+            try {
+                const response = await fetch(`/api/countries/search?q=${encodeURIComponent(query)}&limit=5`);
+                const countries = await response.json();
+                
+                if (countries.length > 0) {
+                    searchResults.innerHTML = countries.map(country => `
+                        <a href="/countries/${country.slug}" class="block p-3 hover:bg-gray-50 border-b last:border-b-0">
+                            <div class="flex items-center">
+                                <span class="text-2xl mr-3">${country.flag}</span>
+                                <div>
+                                    <div class="font-medium text-gray-800">${country.name}</div>
+                                    <div class="text-sm text-gray-600">${country.region}</div>
+                                </div>
+                            </div>
+                        </a>
+                    `).join('');
+                    searchResults.classList.remove('hidden');
+                } else {
+                    searchResults.innerHTML = '<div class="p-3 text-gray-500 text-center">No countries found</div>';
+                    searchResults.classList.remove('hidden');
+                }
+            } catch (error) {
+                console.error('Search error:', error);
+            }
+        }, 300);
+    });
+    
+    // Hide results when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+            searchResults.classList.add('hidden');
+        }
+    });
+}
+
+function animateNumbers() {
+    const counters = document.querySelectorAll('[id$="Count"], #totalCountries, #regionsCount');
+    counters.forEach(counter => {
+        const target = parseInt(counter.textContent);
+        let current = 0;
+        const increment = target / 50;
+        const timer = setInterval(() => {
+            current += increment;
+            if (current >= target) {
+                counter.textContent = target;
+                clearInterval(timer);
+            } else {
+                counter.textContent = Math.floor(current);
+            }
+        }, 30);
+    });
+}
+</script>
+{% endblock %} 

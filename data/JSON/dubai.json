@@ -1,0 +1,176 @@
+{
+    "country": "United Arab Emirates",
+    "applicable_nationality": "India",
+    "year": 2024,
+    "visa_required": true,
+    "visa_free": false,
+    "visa_on_arrival_available": true,
+    "entry_requirements": {
+      "visa_required_note": "Indian citizens require a visa to enter Dubai (UAE), unless they qualify for visa-on-arrival under special exemptions."
+    },
+    "visa_types": [
+      {
+        "name": "Tourist Visa (30 Days)",
+        "validity_days": 60,
+        "max_stay_days": 30,
+        "extendable": true,
+        "purpose": "Leisure, tourism",
+        "fee_inr_range": [6500, 9000],
+        "processing_time": "3–5 working days"
+      },
+      {
+        "name": "Tourist Visa (60 Days)",
+        "validity_days": 60,
+        "max_stay_days": 60,
+        "extendable": true,
+        "purpose": "Longer stays",
+        "fee_inr_range": [10000, 14000],
+        "processing_time": "3–5 working days"
+      },
+      {
+        "name": "Express Tourist Visa",
+        "validity_days": 60,
+        "max_stay_days": 30,
+        "extendable": true,
+        "purpose": "Faster approval for tourism",
+        "additional_fee_inr": [2000, 4000],
+        "processing_time": "24–48 hours"
+      },
+      {
+        "name": "Transit Visa (48 Hours)",
+        "validity_days": 14,
+        "max_stay_days": 2,
+        "purpose": "Short layover",
+        "fee_inr_range": [1000, 1500],
+        "processing_time": "1–2 working days"
+      },
+      {
+        "name": "Transit Visa (96 Hours)",
+        "validity_days": 14,
+        "max_stay_days": 4,
+        "purpose": "Short layover",
+        "fee_inr_range": [2000, 2500],
+        "processing_time": "1–2 working days"
+      },
+      {
+        "name": "Multi-Entry Tourist Visa",
+        "validity_days": 60,
+        "max_stay_days": 60,
+        "purpose": "Frequent travelers",
+        "fee_inr_range": [18000, 25000],
+        "processing_time": "3–5 working days"
+      },
+      {
+        "name": "Visit Visa (Family/Friends)",
+        "validity_days": 60,
+        "max_stay_days": 60,
+        "purpose": "Visit UAE residents",
+        "processing_time": "4–7 working days"
+      },
+      {
+        "name": "Business Visa",
+        "validity_days": 60,
+        "max_stay_days": "Varies",
+        "purpose": "Meetings, investments",
+        "processing_time": "4–7 working days"
+      },
+      {
+        "name": "Visa on Arrival",
+        "eligibility_criteria": [
+          "Valid US visa (B1/B2, H1B, etc.)",
+          "Valid US Green Card",
+          "Valid UK or EU residence visa"
+        ],
+        "validity_days": 14,
+        "extendable": true,
+        "extension_days": 14,
+        "entry_mode": "Air travel only",
+        "fee_inr_range": [2700, 3200],
+        "fee_aed_range": [120, 140],
+        "extension_fee_aed": 250,
+        "note": "Passport and visa/residency must be valid for at least 6 months from entry date"
+      }
+    ],
+    "documents_required": {
+      "common": [
+        "Scanned copy of passport (valid for at least 6 months)",
+        "Recent passport-size photo (white background)",
+        "Confirmed return flight tickets",
+        "Completed visa application form",
+        "Visa fee payment receipt"
+      ],
+      "visit_visa": [
+        "Host's Emirates ID",
+        "Host's UAE residence visa",
+        "Relationship proof (birth/marriage certificate)",
+        "Hotel/accommodation details (optional)"
+      ],
+      "business_visa": [
+        "Invitation letter from UAE company",
+        "Trade licence of host company",
+        "Personal bank statements (3–6 months)"
+      ],
+      "minors": [
+        "Birth certificate",
+        "Passport copies of both parents",
+        "No Objection Certificate from parents"
+      ]
+    },
+    "application_process": {
+      "steps": [
+        "Choose visa type based on travel purpose and duration",
+        "Select visa sponsor or agent (airline, hotel, travel agency, UAE resident, or online portal)",
+        "Prepare required documents",
+        "Submit application via visa center, online portal (e.g., GDRFA or ICA), airline, or travel agency",
+        "Pay visa fee (AED 250–1000+ depending on type)",
+        "Receive e-visa via email upon approval"
+      ]
+    },
+    "processing_time": [
+      {
+        "type": "Tourist Visa",
+        "duration": "3–5 working days"
+      },
+      {
+        "type": "Express Tourist Visa",
+        "duration": "24–48 hours"
+      },
+      {
+        "type": "Transit Visa (48/96h)",
+        "duration": "1–2 working days"
+      },
+      {
+        "type": "Visit/Business Visa",
+        "duration": "4–7 working days"
+      }
+    ],
+    "visa_fees": {
+      "inr": {
+        "Tourist Visa (30 Days)": [6500, 9000],
+        "Tourist Visa (60 Days)": [10000, 14000],
+        "Transit Visa (48h)": [1000, 1500],
+        "Transit Visa (96h)": [2000, 2500],
+        "Multi-Entry Visa": [18000, 25000],
+        "Visa on Arrival": [2700, 3200],
+        "Express Fee (Optional)": [2000, 4000]
+      }
+    },
+    "how_to_apply": [
+      "UAE-based Airlines (e.g., Emirates, Etihad, Fly Dubai, Air Arabia)",
+      "Approved Travel Agencies",
+      "Hotel Sponsorships (if booked directly)",
+      "Online UAE Government Portals (GDRFA, ICA)"
+    ],
+    "penalties_and_tips": {
+      "overstay_fine_aed_per_day": [50, 100],
+      "rules": [
+        "Overstaying leads to daily fines and possible future bans",
+        "Tourist/visit visas do not allow employment",
+        "Visa extensions are available once for tourist visas",
+        "Submit clear, authentic documents",
+        "Always check visa status and validity before travel",
+        "Ensure passport validity of at least 6 months"
+      ]
+    }
+  }
+  

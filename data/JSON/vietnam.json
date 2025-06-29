@@ -1,0 +1,206 @@
+{
+    "country": "Vietnam",
+    "flag": "🇻🇳",
+    "applicable_nationality": "India",
+    "year": 2024,
+    "visa_required": true,
+    "visa_free": false,
+    "visa_on_arrival_available": true,
+    "entry_requirements": {
+      "visa_required_note": "Indian nationals require a visa to enter Vietnam, unless they hold a valid visa exemption or enter under specific e-visa rules."
+    },
+    "visa_types": [
+      {
+        "name": "E-Visa (Tourist)",
+        "entry_type": "Single",
+        "validity": "30 days",
+        "max_stay_days_per_visit": 30,
+        "fee_usd": 25,
+        "fee_inr": "2000–2200",
+        "processing_time": "3–5 working days",
+        "purpose": "Tourism, family visits",
+        "note": "Easiest and most cost-effective method"
+      },
+      {
+        "name": "E-Visa (Business)",
+        "entry_type": "Single",
+        "validity": "30 days",
+        "max_stay_days_per_visit": 30,
+        "fee_usd": 25,
+        "fee_inr": "2000–2200",
+        "processing_time": "3–5 working days",
+        "purpose": "Business meetings, conferences"
+      },
+      {
+        "name": "E-Visa (Tourist – Multiple)",
+        "entry_type": "Multiple",
+        "validity": "90 days",
+        "max_stay_days_per_visit": 90,
+        "fee_usd": 50,
+        "fee_inr": "4000–4200",
+        "processing_time": "3–5 working days",
+        "purpose": "Multiple visits within validity period"
+      },
+      {
+        "name": "Visa on Arrival (VOA)",
+        "entry_type": "Single/Multiple",
+        "validity": "1–3 months",
+        "max_stay_days_per_visit": "30–90",
+        "approval_letter_fee_inr": "1200–2000",
+        "stamping_fee_usd": "25 (single), 50 (multiple)",
+        "processing_time": "2–3 days (approval) + 30–60 mins (airport)",
+        "purpose": "Tourism, business",
+        "note": "Only available by air with pre-approval letter"
+      },
+      {
+        "name": "Embassy Visa (Sticker Visa)",
+        "entry_type": "Single/Multiple",
+        "validity": "Up to 6 months",
+        "max_stay_days_per_visit": "30–90",
+        "fee_inr": "2500–6000",
+        "processing_time": "3–7 working days",
+        "purpose": "Longer stays, work permits, multi-entry business"
+      },
+      {
+        "name": "Transit Visa",
+        "entry_type": "Transit",
+        "validity": "24 hours",
+        "max_stay_hours": 24,
+        "purpose": "Airport transit only"
+      }
+    ],
+    "e_visa_process": {
+      "application_method": "Online at https://evisa.xuatnhapcanh.gov.vn",
+      "documents_required": [
+        "Valid passport (minimum 6-month validity)",
+        "Scanned passport bio page (JPEG/PNG/PDF format)",
+        "Recent passport photo (4 x 6 cm, white background, neutral expression)",
+        "Travel details (entry/exit dates, port of entry)",
+        "Payment of e-visa fee"
+      ],
+      "processing_time": {
+        "standard": "3–5 working days",
+        "expedited": "1–2 working days (via agents)"
+      }
+    },
+    "visa_on_arrival_process": {
+      "conditions": [
+        "Enter Vietnam by air only",
+        "Apply online for Approval Letter from Vietnam immigration agent in advance"
+      ],
+      "steps": [
+        "Apply online for Pre-Approval Letter (via agency)",
+        "Get approval letter via email (PDF)",
+        "Carry printout and board flight",
+        "On arrival at Vietnam international airport, pay stamping fee and collect visa"
+      ],
+      "requirements": [
+        "Approval letter (printed)",
+        "Valid passport (6 months minimum)",
+        "Passport-size photo (4 x 6 cm) – 2 copies",
+        "Stamping fee (USD 25 single, USD 50 multiple)",
+        "Completed entry/exit form"
+      ],
+      "note": "VOA is not available at land or sea borders"
+    },
+    "embassy_visa_process": {
+      "application_locations": [
+        "Vietnam Embassy – New Delhi",
+        "Consulate General – Mumbai"
+      ],
+      "documents_required": [
+        "Passport (6 months validity)",
+        "Duly filled visa form",
+        "2 passport-sized photographs (4 x 6 cm)",
+        "Flight tickets",
+        "Hotel bookings or invitation letter",
+        "Visa fee (varies by duration and type)"
+      ],
+      "processing_time": {
+        "regular": "3–7 working days",
+        "express": "1–2 days (extra charge)"
+      }
+    },
+    "processing_times": [
+      {
+        "type": "E-Visa (online)",
+        "duration": "3–5 business days"
+      },
+      {
+        "type": "VOA Approval Letter",
+        "duration": "2–3 days"
+      },
+      {
+        "type": "VOA at Airport",
+        "duration": "30–60 minutes"
+      },
+      {
+        "type": "Embassy Visa",
+        "duration": "3–7 working days"
+      }
+    ],
+    "visa_validity_and_stay": [
+      {
+        "type": "E-Visa (Tourist)",
+        "validity": "30–90 days",
+        "max_stay": "30–90 days"
+      },
+      {
+        "type": "VOA (Tourist/Business)",
+        "validity": "1–3 months",
+        "max_stay": "30–90 days"
+      },
+      {
+        "type": "Embassy Visa",
+        "validity": "Up to 6 months",
+        "max_stay": "30–90 days"
+      }
+    ],
+    "visa_fees": {
+      "e_visa_single": {
+        "amount_usd": 25,
+        "amount_inr": "2000–2200"
+      },
+      "e_visa_multiple": {
+        "amount_usd": 50,
+        "amount_inr": "4000–4200"
+      },
+      "voa_approval_letter": {
+        "amount_inr": "1200–2000",
+        "note": "Paid to agency"
+      },
+      "voa_stamping_fee": {
+        "amount_inr": "2000–4000",
+        "note": "Paid in USD at airport"
+      },
+      "embassy_visa": {
+        "amount_inr": "2500–6000",
+        "note": "Varies by duration/type"
+      }
+    },
+    "photo_requirements": {
+      "size": "4cm x 6cm",
+      "background": "White",
+      "format": "JPEG or printed (as required)",
+      "face_visibility": "Full face, no glasses, no headwear",
+      "age": "Taken within the last 6 months"
+    },
+    "important_tips": [
+      "Your passport must be valid for 6+ months beyond your stay",
+      "Keep printed copies of your visa, approval letter, and return tickets",
+      "Vietnam does not issue a visa on arrival without pre-approval",
+      "Avoid overstaying – fine of USD 25+ per day and possible blacklisting",
+      "Multiple entry visas are best for travellers visiting other Southeast Asian countries",
+      "Tourist visas cannot be extended inside Vietnam unless approved by immigration authorities"
+    ],
+    "useful_links": [
+      {
+        "name": "Official Vietnam E-Visa Portal",
+        "url": "https://evisa.xuatnhapcanh.gov.vn"
+      },
+      {
+        "name": "Vietnam Embassy in India",
+        "url": "https://vnembassy-newdelhi.mofa.gov.vn"
+      }
+    ]
+  } 

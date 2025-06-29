@@ -1,0 +1,176 @@
+{
+    "country": "Singapore",
+    "flag": "🇸🇬",
+    "applicable_nationality": "India",
+    "year": 2024,
+    "visa_required": true,
+    "visa_free": false,
+    "visa_on_arrival_available": false,
+    "entry_requirements": {
+      "visa_required_note": "Indian passport holders must obtain a Singapore visa before traveling. For regular visits (tourism, business, or family), a pre-approved visa is mandatory."
+    },
+    "visa_types": [
+      {
+        "name": "Tourist Visa (Visit Visa)",
+        "entry_type": "Single/Multiple",
+        "validity": "30 days to 2 years",
+        "max_stay_days_per_visit": 30,
+        "fee_inr": 2000,
+        "fee_sgd": 30,
+        "processing_time": "3–5 working days",
+        "purpose": "Tourism, visiting friends/family",
+        "note": "Validity period decided by ICA Singapore based on travel history"
+      },
+      {
+        "name": "Business Visa",
+        "entry_type": "Single/Multiple",
+        "validity": "30 days to 2 years",
+        "max_stay_days_per_visit": 30,
+        "fee_inr": 2000,
+        "fee_sgd": 30,
+        "processing_time": "3–5 working days",
+        "purpose": "Business meetings, conferences",
+        "note": "Validity period decided by ICA Singapore based on travel history"
+      },
+      {
+        "name": "Student Visa",
+        "entry_type": "Long-term",
+        "validity": "As per course duration",
+        "max_stay": "As per pass validity",
+        "purpose": "Education and study programs"
+      }
+    ],
+    "regular_visa_process": {
+      "application_method": [
+        "Authorized visa agents (mandatory for Indian citizens)",
+        "Local Singapore Contact (LOI) - if sponsored by Singapore resident"
+      ],
+      "documents_required": {
+        "common": [
+          "Passport (valid for at least 6 months, 2 blank pages)",
+          "Visa Application Form 14A (filled and signed)",
+          "Recent Passport-size Photo (35mm x 45mm, white background)",
+          "Cover Letter (explaining purpose and duration of visit)",
+          "Flight Itinerary (confirmed round-trip tickets)",
+          "Hotel Booking OR invitation letter from friend/family in Singapore",
+          "Financial Proof: Latest bank statement (3–6 months) with ₹50,000+ balance",
+          "Income Tax Returns/Form 16"
+        ],
+        "employment_proof": [
+          "No Objection Certificate (NOC) from employer",
+          "Company ID card",
+          "Leave letter",
+          "Business registration (if self-employed)"
+        ],
+        "minors": [
+          "Birth certificate",
+          "Passport copies of parents",
+          "Consent letter (if traveling without parents)"
+        ]
+      }
+    },
+    "processing_time": [
+      {
+        "type": "Regular Processing",
+        "duration_days": "3–5 working days"
+      },
+      {
+        "type": "Express Service",
+        "duration": "Not guaranteed",
+        "note": "Depends on agent availability"
+      }
+    ],
+    "visa_validity_and_stay": [
+      {
+        "type": "Tourist/Business Visa",
+        "validity": "30 days to 2 years",
+        "max_stay_per_visit": "30 days",
+        "note": "Validity period decided by ICA Singapore based on travel history"
+      },
+      {
+        "type": "Student/Employment Visa",
+        "validity": "Depends on course/job",
+        "max_stay": "As per pass validity"
+      }
+    ],
+    "visa_fees": {
+      "singapore_visa_fee": {
+        "amount_inr": "1800–2200",
+        "amount_sgd": 30
+      },
+      "agent_service_fee": {
+        "amount_inr": "500–1200",
+        "note": "Varies by provider"
+      },
+      "total_cost": {
+        "amount_inr": "2300–3500"
+      },
+      "note": "You will receive a PDF e-visa via email which must be printed and carried when traveling"
+    },
+    "photo_requirements": {
+      "size": "35mm x 45mm",
+      "background": "White, plain",
+      "expression": "Neutral, face straight to camera",
+      "finish": "Glossy finish, no glasses",
+      "age": "Taken within last 3 months",
+      "file_format": "JPEG (if submitted digitally)"
+    },
+    "application_steps": [
+      "Choose an authorized agent (VFS, Thomas Cook, Akbar Travels, etc.)",
+      "Fill out visa form and submit documents",
+      "Pay the visa + service fee",
+      "Receive e-Visa via email (PDF format)"
+    ],
+    "visa_free_transit": {
+      "available": true,
+      "conditions": [
+        "Hold a valid visa/residence permit for US, UK, Canada, Australia, Germany, Switzerland, or New Zealand",
+        "Must be in transit through Singapore to or from these countries",
+        "Have confirmed onward flight within 96 hours"
+      ],
+      "duration": "Up to 96 hours",
+      "note": "VFTF is strictly for connecting flights, not for tourism"
+    },
+    "application_restrictions": {
+      "direct_applications": "Singapore does not accept direct applications from Indian citizens",
+      "mandatory_route": "Must apply through Singapore-authorized visa agent in India",
+      "embassy_policy": "Singapore High Commission in New Delhi and Consulate in Mumbai do not accept walk-in applications"
+    },
+    "penalties_and_tips": {
+      "overstay_penalty": "Serious offense – leads to fines or blacklisting",
+      "tips": [
+        "Always carry a printout of your e-Visa, hotel bookings, and return tickets",
+        "Carry sufficient funds or a credit card – immigration may ask at entry",
+        "Travel insurance is recommended but not mandatory",
+        "Processing may take longer during holidays or peak travel seasons",
+        "Must go through authorized agents only"
+      ]
+    },
+    "authorized_agents": [
+      "VFS Global",
+      "Akbar Travels", 
+      "Thomas Cook India",
+      "Musafir.com",
+      "Rayna Tours"
+    ],
+    "alternative_application": {
+      "method": "Letter of Introduction (LOI)",
+      "description": "If you have a relative or friend in Singapore, they can sponsor you",
+      "process": "Sponsor submits LOI via the ICA website",
+      "requirement": "Must have Singapore resident/citizen as sponsor"
+    },
+    "useful_links": [
+      {
+        "name": "Singapore Immigration & Checkpoints Authority (ICA)",
+        "url": "https://www.ica.gov.sg/"
+      },
+      {
+        "name": "Authorized Visa Agents List",
+        "url": "https://www.mfa.gov.sg/Overseas-Mission/New-Delhi/Consular-Services/Visa-Services"
+      },
+      {
+        "name": "Visit Singapore - Tourist Info",
+        "url": "https://www.visitsingapore.com/"
+      }
+    ]
+  } 

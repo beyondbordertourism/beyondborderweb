@@ -1,0 +1,197 @@
+{
+    "country": "Philippines",
+    "flag": "🇵🇭",
+    "applicable_nationality": "India",
+    "year": 2024,
+    "visa_required": true,
+    "visa_free": false,
+    "visa_on_arrival_available": false,
+    "entry_requirements": {
+      "visa_required_note": "Indian passport holders require a visa to enter the Philippines unless they meet conditions for visa-free entry under certain international visas."
+    },
+    "visa_free_conditions": {
+      "available": true,
+      "conditions": [
+        "Hold a valid US, UK, Canada, Schengen, Japan, or Australia visa or permanent residency",
+        "Visit for 14 days or less",
+        "Enter the Philippines via air travel",
+        "Hold a return ticket within 14 days",
+        "Passport is valid for at least 6 months"
+      ],
+      "duration": "14 days",
+      "purpose": "Tourism only",
+      "extendable": false,
+      "note": "This is strictly for tourism and not extendable"
+    },
+    "visa_types": [
+      {
+        "name": "Tourist Visa (9A)",
+        "entry_type": "Single/Multiple",
+        "validity": "3–6 months",
+        "max_stay_days_per_visit": "30–90",
+        "fee_single_inr": "3500–4000",
+        "fee_multiple_inr": "7000–8000",
+        "processing_time": "5–7 working days",
+        "purpose": "Tourism, leisure travel",
+        "extension_possible": true,
+        "extension_duration": "Up to 59 days"
+      },
+      {
+        "name": "Business Visa (9A)",
+        "entry_type": "Single/Multiple",
+        "validity": "3–6 months",
+        "max_stay_days_per_visit": "30–90",
+        "fee_single_inr": "3500–4000",
+        "fee_multiple_inr": "7000–8000",
+        "processing_time": "5–7 working days",
+        "purpose": "Business meetings, conferences",
+        "extension_possible": true
+      },
+      {
+        "name": "Transit Visa (9B)",
+        "entry_type": "Single",
+        "validity": "For layovers",
+        "max_stay_hours": 72,
+        "fee_inr": "2000–3000",
+        "processing_time": "3–5 working days",
+        "purpose": "Airport transit with city exit"
+      },
+      {
+        "name": "Long Stay (9G, 13A)",
+        "entry_type": "Work/Family",
+        "validity": "6 months–1 year",
+        "purpose": "Employment, family reunification",
+        "note": "Immigration approval required"
+      },
+      {
+        "name": "Visa-Free Entry (14-day rule)",
+        "entry_type": "Single",
+        "validity": "14 days",
+        "max_stay_days_per_visit": 14,
+        "fee_inr": 0,
+        "processing_time": "Immediate",
+        "purpose": "Tourism only",
+        "note": "Requires valid visa from US, UK, Canada, Schengen, Japan, or Australia"
+      }
+    ],
+    "regular_visa_process": {
+      "documents_required": {
+        "mandatory": [
+          "Passport (valid for at least 6 months with 2 blank pages)",
+          "Visa Application Form (completed and signed)",
+          "Recent Photograph (3.5 cm x 4.5 cm, white background, no glasses/headgear)",
+          "Cover Letter (explain purpose, dates, and travel itinerary)",
+          "Hotel Booking or Invitation Letter (if staying with a host)",
+          "Round-trip flight tickets",
+          "Bank Statement (last 6 months with ₹1,00,000+ balance)",
+          "Income Tax Return (ITR) – last 2 years or Form 16",
+          "Employment Proof or NOC (if employed or student)"
+        ],
+        "business_visa": [
+          "Invitation letter from Philippine company",
+          "Company registration certificate (host)",
+          "Cover letter from Indian company"
+        ],
+        "minors": [
+          "Birth certificate",
+          "Affidavit of support from parents",
+          "Passport copies of both parents"
+        ]
+      }
+    },
+    "processing_times": [
+      {
+        "type": "Tourist/Business",
+        "duration": "5–7 working days"
+      },
+      {
+        "type": "Express (if offered)",
+        "duration": "2–3 working days"
+      },
+      {
+        "type": "Transit Visa",
+        "duration": "3–5 working days"
+      }
+    ],
+    "duration_of_stay": [
+      {
+        "type": "Tourist Visa (Single)",
+        "duration": "30 days (standard)",
+        "extension_possible": true,
+        "extension_duration": "Up to 59 days"
+      },
+      {
+        "type": "Tourist Visa (Multiple)",
+        "duration": "30–90 days",
+        "extension_possible": true,
+        "extension_note": "Per entry"
+      },
+      {
+        "type": "Visa-Free (14-day rule)",
+        "duration": "14 days",
+        "extension_possible": false
+      }
+    ],
+    "visa_fees": {
+      "tourist_single": {
+        "amount_inr": "3500–4000"
+      },
+      "tourist_multiple": {
+        "amount_inr": "7000–8000"
+      },
+      "transit_visa": {
+        "amount_inr": "2000–3000"
+      },
+      "visa_extension_in_philippines": {
+        "amount_inr": "3000–5000"
+      },
+      "note": "Visa fees may vary slightly between embassy locations or due to service charges"
+    },
+    "photo_requirements": {
+      "size": "3.5 x 4.5 cm",
+      "background": "White",
+      "expression": "Neutral, facing forward",
+      "headgear": "Not allowed (unless religious)",
+      "age": "Taken within last 6 months"
+    },
+    "application_locations": {
+      "embassy_consulates": [
+        "Embassy of the Philippines – New Delhi",
+        "Consulate General – Mumbai",
+        "Consulate General – Chennai"
+      ],
+      "visa_centers": [
+        "VFS Global (in some cities)",
+        "Authorized travel agents"
+      ]
+    },
+    "application_steps": [
+      "Download and fill the visa application form",
+      "Gather all required documents",
+      "Book an appointment (if required) at the nearest embassy/consulate",
+      "Submit documents and pay visa fee",
+      "Collect visa after processing (or have it couriered if allowed)"
+    ],
+    "important_notes": [
+      "Always check the latest travel advisory before booking",
+      "Do not overstay your visa—fines and blacklisting apply",
+      "Travel insurance is recommended, though not mandatory",
+      "If eligible for 14-day visa-free entry, do not overstay—it cannot be converted or extended inside the Philippines",
+      "Tourist visas can usually be extended at the Bureau of Immigration in the Philippines",
+      "Processing time may vary based on consulate and application volume"
+    ],
+    "useful_links": [
+      {
+        "name": "Philippines Bureau of Immigration",
+        "url": "https://immigration.gov.ph/"
+      },
+      {
+        "name": "Philippines E-Visa Portal",
+        "url": "Coming Soon"
+      },
+      {
+        "name": "Philippines Embassy India",
+        "url": "https://newdelhipe.dfa.gov.ph/"
+      }
+    ]
+  } 

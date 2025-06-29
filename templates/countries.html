@@ -1,0 +1,338 @@
+{% extends "base.html" %}
+
+{% block title %}All Countries - Visa Information Guide{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50">
+    <!-- Header Section -->
+    <section class="bg-white shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="text-center">
+                <h1 class="text-4xl font-bold text-gray-900 mb-4">Countries & Visa Information</h1>
+                <p class="text-xl text-gray-600 mb-8">Complete visa requirements for Indian citizens traveling worldwide</p>
+                
+                <!-- Search and Filter Bar -->
+                <div class="max-w-4xl mx-auto">
+                    <div class="flex flex-col md:flex-row gap-4 mb-6">
+                        <!-- Search Input -->
+                        <div class="flex-1 relative">
+                            <input 
+                                type="text" 
+                                id="searchInput"
+                                placeholder="Search countries..."
+                                class="w-full px-4 py-3 pl-10 text-lg rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                            >
+                            <i class="fas fa-search absolute left-3 top-4 text-gray-400"></i>
+                        </div>
+                        
+                        <!-- Region Filter -->
+                        <select id="regionFilter" class="px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <option value="">All Regions</option>
+                        </select>
+                        
+                        <!-- Visa Status Filter -->
+                        <select id="visaFilter" class="px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <option value="">All Countries</option>
+                            <option value="true">Visa Required</option>
+                            <option value="false">Visa Free</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Stats -->
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                        <div class="bg-indigo-50 rounded-lg p-4">
+                            <div class="text-2xl font-bold text-indigo-600" id="totalCountries">0</div>
+                            <div class="text-sm text-gray-600">Total Countries</div>
+                        </div>
+                        <div class="bg-green-50 rounded-lg p-4">
+                            <div class="text-2xl font-bold text-green-600" id="visaFreeCount">0</div>
+                            <div class="text-sm text-gray-600">Visa Free</div>
+                        </div>
+                        <div class="bg-yellow-50 rounded-lg p-4">
+                            <div class="text-2xl font-bold text-yellow-600" id="visaRequiredCount">0</div>
+                            <div class="text-sm text-gray-600">Visa Required</div>
+                        </div>
+                        <div class="bg-blue-50 rounded-lg p-4">
+                            <div class="text-2xl font-bold text-blue-600" id="regionsCount">0</div>
+                            <div class="text-sm text-gray-600">Regions</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Countries Grid -->
+    <section class="py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Loading State -->
+            <div id="loadingState" class="text-center py-12">
+                <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
+                <p class="mt-4 text-gray-600">Loading countries...</p>
+            </div>
+            
+            <!-- Results Info -->
+            <div id="resultsInfo" class="mb-6 text-gray-600" style="display: none;">
+                Showing <span id="resultCount">0</span> countries
+            </div>
+            
+            <!-- Countries Grid -->
+            <div id="countriesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" style="display: none;">
+                <!-- Countries will be loaded here -->
+            </div>
+            
+            <!-- No Results -->
+            <div id="noResults" class="text-center py-12" style="display: none;">
+                <i class="fas fa-search text-4xl text-gray-400 mb-4"></i>
+                <h3 class="text-xl font-semibold text-gray-900 mb-2">No countries found</h3>
+                <p class="text-gray-600">Try adjusting your search or filter criteria.</p>
+            </div>
+            
+            <!-- Load More Button -->
+            <div id="loadMoreContainer" class="text-center mt-8" style="display: none;">
+                <button id="loadMoreBtn" class="bg-indigo-600 text-white px-8 py-3 rounded-lg hover:bg-indigo-700 transition-colors">
+                    Load More Countries
+                </button>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+let allCountries = [];
+let filteredCountries = [];
+let displayedCountries = [];
+let currentPage = 1;
+const itemsPerPage = 12;
+
+document.addEventListener('DOMContentLoaded', function() {
+    loadCountries();
+    loadRegions();
+    setupEventListeners();
+});
+
+function setupEventListeners() {
+    const searchInput = document.getElementById('searchInput');
+    const regionFilter = document.getElementById('regionFilter');
+    const visaFilter = document.getElementById('visaFilter');
+    const loadMoreBtn = document.getElementById('loadMoreBtn');
+    
+    let searchTimeout;
+    searchInput.addEventListener('input', function() {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+            currentPage = 1;
+            filterAndDisplayCountries();
+        }, 300);
+    });
+    
+    regionFilter.addEventListener('change', function() {
+        currentPage = 1;
+        filterAndDisplayCountries();
+    });
+    
+    visaFilter.addEventListener('change', function() {
+        currentPage = 1;
+        filterAndDisplayCountries();
+    });
+    
+    loadMoreBtn.addEventListener('click', function() {
+        currentPage++;
+        displayCountries(false); // Don't clear existing
+    });
+}
+
+async function loadCountries() {
+    try {
+        const response = await fetch('/api/countries/?limit=100');
+        allCountries = await response.json();
+        
+        // Load stats
+        const statsResponse = await fetch('/api/countries/stats');
+        const stats = await statsResponse.json();
+        updateStats(stats);
+        
+        filterAndDisplayCountries();
+        
+    } catch (error) {
+        console.error('Error loading countries:', error);
+        document.getElementById('loadingState').innerHTML = `
+            <div class="text-center">
+                <i class="fas fa-exclamation-triangle text-4xl text-red-400 mb-4"></i>
+                <h3 class="text-xl font-semibold text-gray-900 mb-2">Error Loading Countries</h3>
+                <p class="text-gray-600">Please try refreshing the page.</p>
+            </div>
+        `;
+    }
+}
+
+async function loadRegions() {
+    try {
+        const response = await fetch('/api/countries/regions');
+        const data = await response.json();
+        
+        const regionFilter = document.getElementById('regionFilter');
+        data.regions.forEach(region => {
+            const option = document.createElement('option');
+            option.value = region;
+            option.textContent = region;
+            regionFilter.appendChild(option);
+        });
+    } catch (error) {
+        console.error('Error loading regions:', error);
+    }
+}
+
+function updateStats(stats) {
+    document.getElementById('totalCountries').textContent = stats.total_countries;
+    document.getElementById('visaFreeCount').textContent = stats.visa_free;
+    document.getElementById('visaRequiredCount').textContent = stats.visa_required;
+    document.getElementById('regionsCount').textContent = stats.regions;
+}
+
+function filterAndDisplayCountries() {
+    const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+    const selectedRegion = document.getElementById('regionFilter').value;
+    const selectedVisaStatus = document.getElementById('visaFilter').value;
+    
+    filteredCountries = allCountries.filter(country => {
+        const matchesSearch = country.name.toLowerCase().includes(searchTerm) ||
+                            country.region.toLowerCase().includes(searchTerm);
+        
+        const matchesRegion = !selectedRegion || country.region === selectedRegion;
+        
+        const matchesVisa = !selectedVisaStatus || 
+                          country.visa_required.toString() === selectedVisaStatus;
+        
+        return matchesSearch && matchesRegion && matchesVisa;
+    });
+    
+    // Sort countries: visa-free first, then by name
+    filteredCountries.sort((a, b) => {
+        if (a.visa_required !== b.visa_required) {
+            return a.visa_required ? 1 : -1;
+        }
+        return a.name.localeCompare(b.name);
+    });
+    
+    currentPage = 1;
+    displayCountries(true);
+}
+
+function displayCountries(clearExisting = true) {
+    const container = document.getElementById('countriesGrid');
+    const loadingState = document.getElementById('loadingState');
+    const resultsInfo = document.getElementById('resultsInfo');
+    const noResults = document.getElementById('noResults');
+    const loadMoreContainer = document.getElementById('loadMoreContainer');
+    const resultCount = document.getElementById('resultCount');
+    
+    // Hide loading state
+    loadingState.style.display = 'none';
+    
+    if (filteredCountries.length === 0) {
+        container.style.display = 'none';
+        resultsInfo.style.display = 'none';
+        loadMoreContainer.style.display = 'none';
+        noResults.style.display = 'block';
+        return;
+    }
+    
+    // Calculate items to display
+    const startIndex = clearExisting ? 0 : displayedCountries.length;
+    const endIndex = currentPage * itemsPerPage;
+    const newCountries = filteredCountries.slice(startIndex, endIndex);
+    
+    if (clearExisting) {
+        displayedCountries = newCountries;
+        container.innerHTML = '';
+    } else {
+        displayedCountries = displayedCountries.concat(newCountries.slice(displayedCountries.length));
+    }
+    
+    // Add new country cards
+    const newCardsHTML = newCountries.slice(clearExisting ? 0 : newCountries.length - (endIndex - startIndex)).map(country => createCountryCard(country)).join('');
+    
+    if (clearExisting) {
+        container.innerHTML = newCardsHTML;
+    } else {
+        container.insertAdjacentHTML('beforeend', newCardsHTML);
+    }
+    
+    // Update UI states
+    container.style.display = 'grid';
+    resultsInfo.style.display = 'block';
+    noResults.style.display = 'none';
+    
+    resultCount.textContent = filteredCountries.length;
+    
+    // Show/hide load more button
+    if (displayedCountries.length < filteredCountries.length) {
+        loadMoreContainer.style.display = 'block';
+    } else {
+        loadMoreContainer.style.display = 'none';
+    }
+}
+
+function createCountryCard(country) {
+    return `
+        <div class="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden">
+            <div class="p-6">
+                <div class="flex items-center mb-4">
+                    <span class="text-4xl mr-3">${country.flag}</span>
+                    <div class="flex-1">
+                        <h3 class="text-lg font-semibold text-gray-900">${country.name}</h3>
+                        <p class="text-sm text-gray-600">${country.region}</p>
+                    </div>
+                </div>
+                
+                <p class="text-gray-700 text-sm mb-4 line-clamp-3">${country.summary}</p>
+                
+                <div class="flex items-center justify-between">
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
+                        country.visa_required 
+                        ? 'bg-yellow-100 text-yellow-800' 
+                        : 'bg-green-100 text-green-800'
+                    }">
+                        <i class="fas ${country.visa_required ? 'fa-passport' : 'fa-check-circle'} mr-1"></i>
+                        ${country.visa_required ? 'Visa Required' : 'Visa Free'}
+                    </span>
+                    
+                    <a href="/countries/${country.slug}" class="text-indigo-600 hover:text-indigo-800 font-medium text-sm">
+                        View Details <i class="fas fa-arrow-right ml-1"></i>
+                    </a>
+                </div>
+                
+                ${country.visa_types && country.visa_types.length > 0 ? `
+                    <div class="mt-3 pt-3 border-t border-gray-100">
+                        <div class="text-xs text-gray-500 mb-1">Available Visa Types:</div>
+                        <div class="flex flex-wrap gap-1">
+                            ${country.visa_types.slice(0, 2).map(visa => `
+                                <span class="inline-block bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded">
+                                    ${visa.name}
+                                </span>
+                            `).join('')}
+                            ${country.visa_types.length > 2 ? `
+                                <span class="text-xs text-gray-500">+${country.visa_types.length - 2} more</span>
+                            ` : ''}
+                        </div>
+                    </div>
+                ` : ''}
+            </div>
+        </div>
+    `;
+}
+</script>
+
+<style>
+.line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+</style>
+{% endblock %} 

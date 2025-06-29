@@ -1,0 +1,133 @@
+{
+    "country": "China",
+    "applicable_nationality": "India",
+    "year": 2024,
+    "visa_required": true,
+    "visa_free": false,
+    "visa_on_arrival_available": false,
+    "entry_requirements": {
+      "visa_required_note": "All Indian passport holders require a visa to enter China. The type of visa depends on the purpose of visit."
+    },
+    "visa_types": [
+      {
+        "name": "Tourist (L)",
+        "purpose": "Tourism",
+        "validity": "Up to 6 months",
+        "max_stay_days": 30
+      },
+      {
+        "name": "Business (M)",
+        "purpose": "Business meetings, trade",
+        "validity": "Up to 6 months",
+        "max_stay_days": 30
+      },
+      {
+        "name": "Family Visit (Q1)",
+        "purpose": "Visiting family members",
+        "validity": "Over 180 days",
+        "max_stay_days": "As per invitation"
+      },
+      {
+        "name": "Family Visit (Q2)",
+        "purpose": "Visiting family members",
+        "validity": "Up to 180 days",
+        "max_stay_days": "As per invitation"
+      },
+      {
+        "name": "Work (Z)",
+        "purpose": "Employment",
+        "validity": "Up to 6 months",
+        "max_stay_days": "As per employment contract"
+      },
+      {
+        "name": "Student (X1)",
+        "purpose": "Study (long-term)",
+        "validity": "Over 180 days",
+        "max_stay_days": "As per academic program"
+      },
+      {
+        "name": "Student (X2)",
+        "purpose": "Study (short-term)",
+        "validity": "Up to 180 days",
+        "max_stay_days": "As per academic program"
+      },
+      {
+        "name": "Transit (G)",
+        "purpose": "Transit through China",
+        "validity": "Up to 7 days",
+        "max_stay_days": "Short-term"
+      },
+      {
+        "name": "Journalist (J1)",
+        "purpose": "Media-related activities (long-term)",
+        "validity": "Long-term",
+        "max_stay_days": "As per assignment"
+      },
+      {
+        "name": "Journalist (J2)",
+        "purpose": "Media-related activities (short-term)",
+        "validity": "Short-term",
+        "max_stay_days": "As per assignment"
+      }
+    ],
+    "visa_fees": {
+      "valid_until": "December 2025",
+      "fees_in_inr": {
+        "Single Entry": 2900,
+        "Double Entry": 4400,
+        "Multiple Entry (6 months)": 5900,
+        "Multiple Entry (12 months or longer)": 8800,
+        "Group Visa": 1800,
+        "Expedited Service (additional)": 1800
+      },
+      "note": "Fees apply at Chinese Visa Application Service Center in New Delhi. May vary by location."
+    },
+    "application_process": {
+      "steps": [
+        "Determine Visa Type based on visit purpose",
+        "Complete visa application form online at the Chinese Visa Application Service Center",
+        "Prepare required documents",
+        "Submit application at nearest Chinese Visa Application Service Center",
+        "Processing Time: Regular – 4 working days, Express – 2 working days (additional ₹1,800)",
+        "Collect visa on specified date"
+      ],
+      "documents_required": [
+        "Valid passport (at least 6 months validity)",
+        "Recent passport-sized photo (48mm x 33mm)",
+        "Confirmation page of online application",
+        "Additional documents as per visa type (e.g., invitation letter)"
+      ],
+      "centers": [
+        {
+          "city": "New Delhi",
+          "address": "Concourse Floor, Baba Kharak Singh Marg, Connaught Place, New Delhi - 110001",
+          "phone": "+91-9999036735",
+          "email": "delhicentre@visaforchina.org"
+        },
+        {
+          "city": "Mumbai",
+          "address": "1st Floor, Express Towers, Nariman Point, Mumbai - 400021",
+          "phone": "+91-22-22855271",
+          "email": "mumbaicentre@visaforchina.org"
+        },
+        {
+          "city": "Kolkata",
+          "address": "BIPI Building Omega, Ground Floor, Bengal Intelligent Park, Block EP & GP, Sector V, Bidhan Nagar, Kolkata - 700091",
+          "phone": "+91-033-40010210",
+          "email": "kolkatacentre@visaforchina.org"
+        }
+      ]
+    },
+    "processing_time": {
+      "regular": "4 working days",
+      "express": "2 working days",
+      "express_additional_fee_inr": 1800
+    },
+    "important_notes": [
+      "Applicants aged 14–70 must provide fingerprints unless exempt.",
+      "No appointment is required for submission since November 2023.",
+      "Ensure passport validity of at least 6 months with blank pages.",
+      "Apply at least 3 months prior to travel for safe processing."
+    ]
+  }
+  

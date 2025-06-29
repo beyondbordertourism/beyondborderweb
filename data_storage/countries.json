@@ -1,0 +1,1275 @@
+[
+  {
+    "slug": "singapore",
+    "name": "Singapore",
+    "flag": "\ud83c\uddf8\ud83c\uddec",
+    "region": "Southeast Asia",
+    "visa_required": true,
+    "last_updated": "2025-06-28T11:51:51.331284",
+    "summary": "Indian passport holders must obtain a Singapore visa before traveling, unless they have a valid long-term visa/residence permit from the US, UK, Canada, Australia, Germany, or Switzerland.",
+    "visa_types": [
+      {
+        "name": "Tourist Visa (Visit Visa)",
+        "purpose": "Tourism, family visits",
+        "entry_type": "Single/Multiple",
+        "validity": "30 days to 2 years",
+        "stay_duration": "30 days per visit",
+        "extendable": false,
+        "fees": [
+          {
+            "type": "Singapore Visa Fee",
+            "amount_inr": 2200.0,
+            "amount_usd": 30.0,
+            "amount_local": null,
+            "local_currency": null,
+            "notes": "Approximate"
+          }
+        ],
+        "conditions": [
+          "Must apply through authorized agent",
+          "Cannot work on tourist visa"
+        ],
+        "notes": null
+      }
+    ],
+    "documents": [
+      {
+        "name": "Passport",
+        "required": true,
+        "category": "mandatory",
+        "details": "Valid for at least 6 months, 2 blank pages",
+        "format": null
+      },
+      {
+        "name": "Visa Application Form 14A",
+        "required": true,
+        "category": "mandatory",
+        "details": "Filled and signed",
+        "format": null
+      },
+      {
+        "name": "Recent Passport-size Photo",
+        "required": true,
+        "category": "mandatory",
+        "details": "35mm x 45mm, white background",
+        "format": null
+      },
+      {
+        "name": "Cover Letter",
+        "required": true,
+        "category": "mandatory",
+        "details": "Explaining purpose and duration of visit",
+        "format": null
+      },
+      {
+        "name": "Flight Itinerary",
+        "required": true,
+        "category": "mandatory",
+        "details": "Confirmed round-trip tickets",
+        "format": null
+      },
+      {
+        "name": "Hotel Booking",
+        "required": true,
+        "category": "mandatory",
+        "details": "OR invitation letter from friend/family",
+        "format": null
+      },
+      {
+        "name": "Bank Statement",
+        "required": true,
+        "category": "mandatory",
+        "details": "3-6 months with \u20b950,000+ balance",
+        "format": null
+      },
+      {
+        "name": "Employment Proof",
+        "required": true,
+        "category": "mandatory",
+        "details": "NOC, Company ID, or business registration",
+        "format": null
+      }
+    ],
+    "photo_requirements": {
+      "size": "35mm x 45mm",
+      "background": "white",
+      "format": "JPEG for eVisa",
+      "specifications": [
+        "Neutral expression",
+        "Face straight to camera",
+        "Taken within last 3 months"
+      ]
+    },
+    "processing_times": [
+      {
+        "type": "regular",
+        "duration": "3-5 working days",
+        "notes": "Through authorized agent"
+      },
+      {
+        "type": "express",
+        "duration": "Not guaranteed",
+        "notes": "Depends on agent"
+      }
+    ],
+    "fees": [
+      {
+        "type": "Visa Fee",
+        "amount_inr": 2200.0,
+        "amount_usd": 30.0,
+        "amount_local": null,
+        "local_currency": "SGD",
+        "notes": "Singapore Visa Fee"
+      },
+      {
+        "type": "Service Fee",
+        "amount_inr": 1200.0,
+        "amount_usd": null,
+        "amount_local": null,
+        "local_currency": null,
+        "notes": "Agent service fee varies"
+      }
+    ],
+    "application_methods": [],
+    "embassies": [
+      {
+        "city": "New Delhi",
+        "address": "High Commission of Singapore",
+        "phone": "+91-11-4600-6000",
+        "email": null,
+        "website": null
+      },
+      {
+        "city": "Mumbai",
+        "address": "Consulate General of Singapore",
+        "phone": "+91-22-6672-3000",
+        "email": null,
+        "website": null
+      }
+    ],
+    "visa_free_transit": {
+      "available": true,
+      "duration": "96 hours",
+      "conditions": [
+        "Valid visa for US, UK, Canada, Australia, Germany, Switzerland, or New Zealand",
+        "Confirmed onward flight"
+      ]
+    },
+    "special_conditions": [],
+    "important_notes": [
+      {
+        "type": "warning",
+        "content": "Overstaying leads to fines or blacklisting",
+        "priority": "high"
+      },
+      {
+        "type": "tip",
+        "content": "Always carry printout of e-Visa and supporting documents",
+        "priority": "medium"
+      }
+    ],
+    "sections": [],
+    "meta_title": null,
+    "meta_description": null,
+    "keywords": [],
+    "published": true,
+    "featured": true,
+    "created_at": "2025-06-28T06:21:51.332379",
+    "_id": "9ff2ff37-5e4b-480d-9f80-cf5a6e9f9767",
+    "updated_at": "2025-06-28T06:21:51.332382"
+  },
+  {
+    "slug": "japan",
+    "name": "Japan",
+    "flag": "\ud83c\uddef\ud83c\uddf5",
+    "region": "East Asia",
+    "visa_required": true,
+    "last_updated": "2025-06-28T11:51:51.331473",
+    "summary": "Indian citizens require a visa to enter Japan. Applications must be submitted through VFS Global, not directly to the embassy.",
+    "visa_types": [
+      {
+        "name": "Tourist Visa (Single Entry)",
+        "purpose": "Tourism, sightseeing",
+        "entry_type": "Single",
+        "validity": "3 months",
+        "stay_duration": "Up to 90 days",
+        "extendable": false,
+        "fees": [
+          {
+            "type": "Embassy Fee",
+            "amount_inr": 1700.0,
+            "amount_usd": 25.0,
+            "amount_local": 3000.0,
+            "local_currency": "JPY",
+            "notes": null
+          }
+        ],
+        "conditions": [],
+        "notes": null
+      },
+      {
+        "name": "Multiple Entry Visa",
+        "purpose": "Frequent travel",
+        "entry_type": "Multiple",
+        "validity": "1 to 5 years",
+        "stay_duration": "15, 30, or 90 days per visit",
+        "extendable": false,
+        "fees": [
+          {
+            "type": "Embassy Fee",
+            "amount_inr": 3400.0,
+            "amount_usd": 50.0,
+            "amount_local": 6000.0,
+            "local_currency": "JPY",
+            "notes": null
+          }
+        ],
+        "conditions": [],
+        "notes": null
+      }
+    ],
+    "documents": [
+      {
+        "name": "Passport",
+        "required": true,
+        "category": "mandatory",
+        "details": "Valid for duration of stay",
+        "format": null
+      },
+      {
+        "name": "Visa Application Form",
+        "required": true,
+        "category": "mandatory",
+        "details": null,
+        "format": null
+      },
+      {
+        "name": "Passport-size Photo",
+        "required": true,
+        "category": "mandatory",
+        "details": "45mm x 35mm, white background",
+        "format": null
+      },
+      {
+        "name": "Flight Itinerary",
+        "required": true,
+        "category": "mandatory",
+        "details": "Round-trip confirmed tickets",
+        "format": null
+      },
+      {
+        "name": "Hotel Booking",
+        "required": true,
+        "category": "mandatory",
+        "details": null,
+        "format": null
+      },
+      {
+        "name": "Bank Statement",
+        "required": true,
+        "category": "mandatory",
+        "details": "Last 6 months",
+        "format": null
+      },
+      {
+        "name": "Employment Certificate",
+        "required": true,
+        "category": "mandatory",
+        "details": "NOC from employer",
+        "format": null
+      }
+    ],
+    "photo_requirements": {
+      "size": "45mm x 35mm",
+      "background": "plain white",
+      "format": null,
+      "specifications": [
+        "Neutral expression",
+        "Face forward",
+        "Taken within last 6 months",
+        "No headgear unless religious"
+      ]
+    },
+    "processing_times": [
+      {
+        "type": "regular",
+        "duration": "4-7 working days",
+        "notes": "Through VFS Global"
+      }
+    ],
+    "fees": [
+      {
+        "type": "Single Entry Visa",
+        "amount_inr": 2700.0,
+        "amount_usd": null,
+        "amount_local": null,
+        "local_currency": null,
+        "notes": "Including VFS charges"
+      },
+      {
+        "type": "Multiple Entry Visa",
+        "amount_inr": 4500.0,
+        "amount_usd": null,
+        "amount_local": null,
+        "local_currency": null,
+        "notes": "Including VFS charges"
+      }
+    ],
+    "application_methods": [],
+    "embassies": [
+      {
+        "city": "New Delhi",
+        "address": "Embassy of Japan",
+        "phone": null,
+        "email": null,
+        "website": "https://www.in.emb-japan.go.jp/"
+      },
+      {
+        "city": "Mumbai",
+        "address": "Consulate General of Japan",
+        "phone": null,
+        "email": null,
+        "website": null
+      },
+      {
+        "city": "Chennai",
+        "address": "Consulate General of Japan",
+        "phone": null,
+        "email": null,
+        "website": null
+      },
+      {
+        "city": "Kolkata",
+        "address": "Consulate General of Japan",
+        "phone": null,
+        "email": null,
+        "website": null
+      },
+      {
+        "city": "Bengaluru",
+        "address": "Consulate General of Japan",
+        "phone": null,
+        "email": null,
+        "website": null
+      }
+    ],
+    "visa_free_transit": {
+      "available": true,
+      "duration": "24-72 hours",
+      "conditions": [
+        "Valid visa for US, Canada, UK, Australia, or Schengen",
+        "Confirmed onward flight"
+      ]
+    },
+    "special_conditions": [],
+    "important_notes": [
+      {
+        "type": "warning",
+        "content": "Overstaying is strictly penalized in Japan",
+        "priority": "high"
+      },
+      {
+        "type": "tip",
+        "content": "Book refundable flights/hotels until visa is issued",
+        "priority": "medium"
+      },
+      {
+        "type": "requirement",
+        "content": "Must apply through VFS Global, not directly to embassy",
+        "priority": "high"
+      }
+    ],
+    "sections": [],
+    "meta_title": null,
+    "meta_description": null,
+    "keywords": [],
+    "published": true,
+    "featured": true,
+    "created_at": "2025-06-28T06:21:51.333737",
+    "_id": "a137bef9-aeb4-4b46-934c-0e17f4678da9",
+    "updated_at": "2025-06-28T06:21:51.333740"
+  },
+  {
+    "slug": "thailand",
+    "name": "Thailand",
+    "flag": "\ud83c\uddf9\ud83c\udded",
+    "region": "Southeast Asia",
+    "visa_required": true,
+    "last_updated": "2025-06-28T11:51:51.331573",
+    "summary": "Indian citizens need a visa to enter Thailand, unless they qualify for a Visa on Arrival under certain conditions.",
+    "visa_types": [
+      {
+        "name": "Tourist Visa (Single Entry)",
+        "purpose": "Tourism",
+        "entry_type": "Single",
+        "validity": "3 months",
+        "stay_duration": "Up to 60 days",
+        "extendable": true,
+        "fees": [
+          {
+            "type": "Tourist Visa",
+            "amount_inr": 3000.0,
+            "amount_usd": null,
+            "amount_local": null,
+            "local_currency": null,
+            "notes": "Single entry"
+          }
+        ],
+        "conditions": [],
+        "notes": null
+      },
+      {
+        "name": "Visa on Arrival",
+        "purpose": "Short tourism",
+        "entry_type": "Single",
+        "validity": "Valid at entry only",
+        "stay_duration": "Up to 15 days",
+        "extendable": false,
+        "fees": [
+          {
+            "type": "VOA Fee",
+            "amount_inr": 4500.0,
+            "amount_usd": null,
+            "amount_local": 2000.0,
+            "local_currency": "THB",
+            "notes": "Cash only in Thai Baht"
+          }
+        ],
+        "conditions": [],
+        "notes": null
+      }
+    ],
+    "documents": [
+      {
+        "name": "Passport",
+        "required": true,
+        "category": "mandatory",
+        "details": "Valid for at least 6 months, 2 blank pages",
+        "format": null
+      },
+      {
+        "name": "Visa Application Form",
+        "required": true,
+        "category": "mandatory",
+        "details": null,
+        "format": null
+      },
+      {
+        "name": "Passport-size Photo",
+        "required": true,
+        "category": "mandatory",
+        "details": "4x6 cm, white background",
+        "format": null
+      },
+      {
+        "name": "Cover Letter",
+        "required": true,
+        "category": "mandatory",
+        "details": "Explaining travel purpose",
+        "format": null
+      },
+      {
+        "name": "Flight Tickets",
+        "required": true,
+        "category": "mandatory",
+        "details": "Confirmed round trip",
+        "format": null
+      },
+      {
+        "name": "Hotel Booking",
+        "required": true,
+        "category": "mandatory",
+        "details": null,
+        "format": null
+      },
+      {
+        "name": "Bank Statement",
+        "required": true,
+        "category": "mandatory",
+        "details": "Minimum \u20b940,000 balance",
+        "format": null
+      }
+    ],
+    "photo_requirements": {
+      "size": "4x6 cm",
+      "background": "white",
+      "format": null,
+      "specifications": [
+        "Recent (within 6 months)",
+        "Clear face visibility"
+      ]
+    },
+    "processing_times": [
+      {
+        "type": "regular",
+        "duration": "3-5 working days",
+        "notes": "Embassy application"
+      },
+      {
+        "type": "voa",
+        "duration": "30-45 minutes",
+        "notes": "At airport"
+      }
+    ],
+    "fees": [],
+    "application_methods": [],
+    "embassies": [],
+    "visa_free_transit": null,
+    "special_conditions": [],
+    "important_notes": [
+      {
+        "type": "warning",
+        "content": "Overstay fine: \u20b91,800 per day (500 THB/day)",
+        "priority": "high"
+      },
+      {
+        "type": "tip",
+        "content": "Carry exact Thai Baht for VOA",
+        "priority": "medium"
+      },
+      {
+        "type": "requirement",
+        "content": "VOA only available at designated airports",
+        "priority": "high"
+      }
+    ],
+    "sections": [],
+    "meta_title": null,
+    "meta_description": null,
+    "keywords": [],
+    "published": true,
+    "featured": true,
+    "created_at": "2025-06-28T06:21:51.336241",
+    "_id": "56743391-e6ef-4320-a676-a8c7b9495546",
+    "updated_at": "2025-06-28T06:21:51.336244"
+  },
+  {
+    "slug": "united-arab-emirates",
+    "name": "United Arab Emirates",
+    "flag": "\ud83c\udde6\ud83c\uddea",
+    "region": "Middle East",
+    "visa_required": true,
+    "last_updated": "2025-06-28T11:51:51.331641",
+    "summary": "Indian citizens can obtain UAE visa on arrival or apply for e-visa. Dubai and other emirates offer various visa options for tourism and business.",
+    "visa_types": [
+      {
+        "name": "Tourist Visa on Arrival",
+        "purpose": "Tourism, visiting family/friends",
+        "entry_type": "Single",
+        "validity": "60 days",
+        "stay_duration": "30 days",
+        "extendable": true,
+        "fees": [
+          {
+            "type": "VOA Fee",
+            "amount_inr": 4500.0,
+            "amount_usd": null,
+            "amount_local": 100.0,
+            "local_currency": "AED",
+            "notes": null
+          }
+        ],
+        "conditions": [
+          "Minimum salary \u20b92 lakh per month",
+          "Valid for certain professions only"
+        ],
+        "notes": null
+      },
+      {
+        "name": "e-Visa (96 hours)",
+        "purpose": "Short tourism, transit",
+        "entry_type": "Single",
+        "validity": "30 days",
+        "stay_duration": "96 hours",
+        "extendable": false,
+        "fees": [
+          {
+            "type": "e-Visa Fee",
+            "amount_inr": 2200.0,
+            "amount_usd": null,
+            "amount_local": 50.0,
+            "local_currency": "AED",
+            "notes": null
+          }
+        ],
+        "conditions": [],
+        "notes": null
+      }
+    ],
+    "documents": [
+      {
+        "name": "Passport",
+        "required": true,
+        "category": "mandatory",
+        "details": "Valid for at least 6 months",
+        "format": null
+      },
+      {
+        "name": "Passport-size Photo",
+        "required": true,
+        "category": "mandatory",
+        "details": "White background",
+        "format": null
+      },
+      {
+        "name": "Return Ticket",
+        "required": true,
+        "category": "mandatory",
+        "details": "Confirmed booking",
+        "format": null
+      },
+      {
+        "name": "Hotel Booking",
+        "required": true,
+        "category": "mandatory",
+        "details": "Confirmed accommodation",
+        "format": null
+      },
+      {
+        "name": "Bank Statement",
+        "required": true,
+        "category": "mandatory",
+        "details": "Last 3 months",
+        "format": null
+      },
+      {
+        "name": "Employment Certificate",
+        "required": true,
+        "category": "for_voa",
+        "details": "For visa on arrival eligibility",
+        "format": null
+      }
+    ],
+    "photo_requirements": {
+      "size": "35mm x 45mm",
+      "background": "white",
+      "format": null,
+      "specifications": [
+        "Recent photo",
+        "Clear face",
+        "No headgear"
+      ]
+    },
+    "processing_times": [
+      {
+        "type": "voa",
+        "duration": "15-30 minutes",
+        "notes": "At Dubai airport"
+      },
+      {
+        "type": "e-visa",
+        "duration": "3-5 working days",
+        "notes": "Online application"
+      }
+    ],
+    "fees": [],
+    "application_methods": [
+      {
+        "name": "Visa on Arrival",
+        "description": "Available for eligible Indian passport holders",
+        "requirements": [
+          "Salary certificate",
+          "Return ticket",
+          "Hotel booking"
+        ],
+        "processing_time": "15-30 minutes",
+        "available": true
+      },
+      {
+        "name": "Online e-Visa",
+        "description": "Apply through official UAE visa portal",
+        "requirements": [
+          "Online application",
+          "Document upload",
+          "Payment"
+        ],
+        "processing_time": "3-5 working days",
+        "available": true
+      }
+    ],
+    "embassies": [
+      {
+        "city": "New Delhi",
+        "address": "Embassy of UAE",
+        "phone": "+91-11-2688-7600",
+        "email": null,
+        "website": null
+      },
+      {
+        "city": "Mumbai",
+        "address": "Consulate General of UAE",
+        "phone": "+91-22-6669-2222",
+        "email": null,
+        "website": null
+      }
+    ],
+    "visa_free_transit": null,
+    "special_conditions": [],
+    "important_notes": [
+      {
+        "type": "tip",
+        "content": "Check VOA eligibility based on profession and salary",
+        "priority": "high"
+      },
+      {
+        "type": "warning",
+        "content": "Overstay penalties are strictly enforced",
+        "priority": "high"
+      },
+      {
+        "type": "requirement",
+        "content": "Hotel booking mandatory for tourist visa",
+        "priority": "medium"
+      }
+    ],
+    "sections": [],
+    "meta_title": null,
+    "meta_description": null,
+    "keywords": [],
+    "published": true,
+    "featured": true,
+    "created_at": "2025-06-28T06:21:51.338108",
+    "_id": "ce9522dc-9391-4dd2-a377-bd9ba9de0f92",
+    "updated_at": "2025-06-28T06:21:51.338115"
+  },
+  {
+    "slug": "malaysia",
+    "name": "Malaysia",
+    "flag": "\ud83c\uddf2\ud83c\uddfe",
+    "region": "Southeast Asia",
+    "visa_required": true,
+    "last_updated": "2025-06-28T11:51:51.331721",
+    "summary": "Indian citizens require a visa to enter Malaysia. eVisa and visa on arrival options are available depending on the purpose of visit.",
+    "visa_types": [
+      {
+        "name": "eVisa (Tourist)",
+        "purpose": "Tourism, visiting friends/family",
+        "entry_type": "Single",
+        "validity": "3 months",
+        "stay_duration": "30 days",
+        "extendable": false,
+        "fees": [
+          {
+            "type": "eVisa Fee",
+            "amount_inr": 2000.0,
+            "amount_usd": null,
+            "amount_local": 25.0,
+            "local_currency": "MYR",
+            "notes": null
+          }
+        ],
+        "conditions": [],
+        "notes": null
+      },
+      {
+        "name": "Visa on Arrival",
+        "purpose": "Tourism (limited entry points)",
+        "entry_type": "Single",
+        "validity": "Valid on arrival",
+        "stay_duration": "7 days",
+        "extendable": false,
+        "fees": [
+          {
+            "type": "VOA Fee",
+            "amount_inr": 2500.0,
+            "amount_usd": null,
+            "amount_local": 30.0,
+            "local_currency": "MYR",
+            "notes": null
+          }
+        ],
+        "conditions": [],
+        "notes": null
+      }
+    ],
+    "documents": [
+      {
+        "name": "Passport",
+        "required": true,
+        "category": "mandatory",
+        "details": "Valid for at least 6 months",
+        "format": null
+      },
+      {
+        "name": "Passport Photo",
+        "required": true,
+        "category": "mandatory",
+        "details": "Recent color photo",
+        "format": null
+      },
+      {
+        "name": "Flight Itinerary",
+        "required": true,
+        "category": "mandatory",
+        "details": "Return/onward ticket",
+        "format": null
+      },
+      {
+        "name": "Hotel Booking",
+        "required": true,
+        "category": "mandatory",
+        "details": "Accommodation proof",
+        "format": null
+      },
+      {
+        "name": "Bank Statement",
+        "required": true,
+        "category": "mandatory",
+        "details": "Sufficient funds proof",
+        "format": null
+      }
+    ],
+    "photo_requirements": {
+      "size": "35mm x 50mm",
+      "background": "white",
+      "format": null,
+      "specifications": [
+        "Color photo",
+        "Recent",
+        "Clear visibility"
+      ]
+    },
+    "processing_times": [
+      {
+        "type": "evisa",
+        "duration": "5-7 working days",
+        "notes": "Online processing"
+      },
+      {
+        "type": "voa",
+        "duration": "30 minutes",
+        "notes": "At designated entry points"
+      }
+    ],
+    "fees": [],
+    "application_methods": [
+      {
+        "name": "eVisa Online",
+        "description": "Apply through Malaysia eVisa portal",
+        "requirements": [
+          "Online application",
+          "Digital documents",
+          "Payment"
+        ],
+        "processing_time": "5-7 working days",
+        "available": true
+      }
+    ],
+    "embassies": [
+      {
+        "city": "New Delhi",
+        "address": "High Commission of Malaysia",
+        "phone": "+91-11-2301-2000",
+        "email": null,
+        "website": null
+      },
+      {
+        "city": "Mumbai",
+        "address": "Consulate General of Malaysia",
+        "phone": null,
+        "email": null,
+        "website": null
+      }
+    ],
+    "visa_free_transit": null,
+    "special_conditions": [],
+    "important_notes": [
+      {
+        "type": "tip",
+        "content": "eVisa is recommended over visa on arrival",
+        "priority": "medium"
+      },
+      {
+        "type": "requirement",
+        "content": "Yellow fever vaccination required if coming from infected areas",
+        "priority": "high"
+      }
+    ],
+    "sections": [],
+    "meta_title": null,
+    "meta_description": null,
+    "keywords": [],
+    "published": true,
+    "featured": true,
+    "created_at": "2025-06-28T06:21:51.339932",
+    "_id": "49f13344-66aa-43d7-bee9-03b7f3109f61",
+    "updated_at": "2025-06-28T06:21:51.339935"
+  },
+  {
+    "slug": "south-korea",
+    "name": "South Korea",
+    "flag": "\ud83c\uddf0\ud83c\uddf7",
+    "region": "East Asia",
+    "visa_required": true,
+    "last_updated": "2025-06-28T11:51:51.331788",
+    "summary": "Indian citizens need a visa to enter South Korea. Various visa types are available including tourist, business, and transit visas.",
+    "visa_types": [
+      {
+        "name": "Tourist Visa (C-3)",
+        "purpose": "Tourism, sightseeing, visiting friends",
+        "entry_type": "Single/Multiple",
+        "validity": "3 months to 5 years",
+        "stay_duration": "90 days per visit",
+        "extendable": false,
+        "fees": [
+          {
+            "type": "Single Entry",
+            "amount_inr": 4000.0,
+            "amount_usd": null,
+            "amount_local": 60000.0,
+            "local_currency": "KRW",
+            "notes": null
+          }
+        ],
+        "conditions": [],
+        "notes": null
+      }
+    ],
+    "documents": [
+      {
+        "name": "Passport",
+        "required": true,
+        "category": "mandatory",
+        "details": "Valid for at least 6 months",
+        "format": null
+      },
+      {
+        "name": "Visa Application Form",
+        "required": true,
+        "category": "mandatory",
+        "details": null,
+        "format": null
+      },
+      {
+        "name": "Passport Photo",
+        "required": true,
+        "category": "mandatory",
+        "details": "3.5cm x 4.5cm",
+        "format": null
+      },
+      {
+        "name": "Flight Itinerary",
+        "required": true,
+        "category": "mandatory",
+        "details": null,
+        "format": null
+      },
+      {
+        "name": "Hotel Booking",
+        "required": true,
+        "category": "mandatory",
+        "details": null,
+        "format": null
+      },
+      {
+        "name": "Bank Statement",
+        "required": true,
+        "category": "mandatory",
+        "details": "Last 6 months",
+        "format": null
+      },
+      {
+        "name": "Employment Certificate",
+        "required": true,
+        "category": "mandatory",
+        "details": null,
+        "format": null
+      }
+    ],
+    "photo_requirements": {
+      "size": "3.5cm x 4.5cm",
+      "background": "white",
+      "format": null,
+      "specifications": [
+        "Recent photo",
+        "Clear face",
+        "No hat"
+      ]
+    },
+    "processing_times": [
+      {
+        "type": "regular",
+        "duration": "5-7 working days",
+        "notes": "Embassy processing"
+      }
+    ],
+    "fees": [],
+    "application_methods": [
+      {
+        "name": "Embassy Application",
+        "description": "Apply at Korean Embassy/Consulate",
+        "requirements": [
+          "Completed application",
+          "All documents",
+          "Visa fee"
+        ],
+        "processing_time": "5-7 working days",
+        "available": true
+      }
+    ],
+    "embassies": [
+      {
+        "city": "New Delhi",
+        "address": "Embassy of Republic of Korea",
+        "phone": "+91-11-4200-7000",
+        "email": null,
+        "website": null
+      },
+      {
+        "city": "Mumbai",
+        "address": "Consulate General of Republic of Korea",
+        "phone": null,
+        "email": null,
+        "website": null
+      },
+      {
+        "city": "Chennai",
+        "address": "Consulate General of Republic of Korea",
+        "phone": null,
+        "email": null,
+        "website": null
+      }
+    ],
+    "visa_free_transit": null,
+    "special_conditions": [],
+    "important_notes": [
+      {
+        "type": "tip",
+        "content": "Apply well in advance during peak season",
+        "priority": "medium"
+      },
+      {
+        "type": "requirement",
+        "content": "Invitation letter may be required for some cases",
+        "priority": "medium"
+      }
+    ],
+    "sections": [],
+    "meta_title": null,
+    "meta_description": null,
+    "keywords": [],
+    "published": true,
+    "featured": false,
+    "created_at": "2025-06-28T06:21:51.341597",
+    "_id": "fe5daf8a-515f-4fe5-b584-441d32f1bb9b",
+    "updated_at": "2025-06-28T06:21:51.341599"
+  },
+  {
+    "slug": "maldives",
+    "name": "Maldives",
+    "flag": "\ud83c\uddf2\ud83c\uddfb",
+    "region": "South Asia",
+    "visa_required": false,
+    "last_updated": "2025-06-28T11:51:51.331849",
+    "summary": "Indian citizens can visit Maldives without a visa for tourism purposes. Free visa on arrival for up to 90 days.",
+    "visa_types": [
+      {
+        "name": "Visa Free Entry",
+        "purpose": "Tourism",
+        "entry_type": "Multiple",
+        "validity": "No visa required",
+        "stay_duration": "Up to 90 days",
+        "extendable": true,
+        "fees": [],
+        "conditions": [
+          "Tourism purpose only",
+          "Valid return ticket",
+          "Sufficient funds"
+        ],
+        "notes": null
+      }
+    ],
+    "documents": [
+      {
+        "name": "Passport",
+        "required": true,
+        "category": "mandatory",
+        "details": "Valid for at least 6 months",
+        "format": null
+      },
+      {
+        "name": "Return Ticket",
+        "required": true,
+        "category": "mandatory",
+        "details": "Confirmed booking",
+        "format": null
+      },
+      {
+        "name": "Hotel Booking",
+        "required": true,
+        "category": "mandatory",
+        "details": "Accommodation proof",
+        "format": null
+      },
+      {
+        "name": "Sufficient Funds",
+        "required": true,
+        "category": "mandatory",
+        "details": "$25 per day minimum",
+        "format": null
+      }
+    ],
+    "photo_requirements": {
+      "size": "Not required",
+      "background": "N/A",
+      "format": null,
+      "specifications": [
+        "No photo required for visa-free entry"
+      ]
+    },
+    "processing_times": [
+      {
+        "type": "arrival",
+        "duration": "5-10 minutes",
+        "notes": "Immigration clearance at airport"
+      }
+    ],
+    "fees": [],
+    "application_methods": [
+      {
+        "name": "Visa Free Entry",
+        "description": "No advance visa required",
+        "requirements": [
+          "Valid passport",
+          "Return ticket",
+          "Hotel booking"
+        ],
+        "processing_time": "Immediate",
+        "available": true
+      }
+    ],
+    "embassies": [],
+    "visa_free_transit": null,
+    "special_conditions": [],
+    "important_notes": [
+      {
+        "type": "tip",
+        "content": "Keep hotel booking confirmation handy",
+        "priority": "medium"
+      },
+      {
+        "type": "requirement",
+        "content": "Must have sufficient funds for stay",
+        "priority": "high"
+      }
+    ],
+    "sections": [],
+    "meta_title": null,
+    "meta_description": null,
+    "keywords": [],
+    "published": true,
+    "featured": true,
+    "created_at": "2025-06-28T06:21:51.344315",
+    "_id": "504ab301-788e-4f42-8387-061bcac19e1a",
+    "updated_at": "2025-06-28T06:21:51.344318"
+  },
+  {
+    "slug": "mauritius",
+    "name": "Mauritius",
+    "flag": "\ud83c\uddf2\ud83c\uddfa",
+    "region": "Africa",
+    "visa_required": false,
+    "last_updated": "2025-06-28T11:51:51.331894",
+    "summary": "Indian citizens can visit Mauritius without a visa for tourism and business purposes for up to 90 days.",
+    "visa_types": [
+      {
+        "name": "Visa Free Entry",
+        "purpose": "Tourism, Business",
+        "entry_type": "Multiple",
+        "validity": "No visa required",
+        "stay_duration": "Up to 90 days",
+        "extendable": true,
+        "fees": [],
+        "conditions": [
+          "Valid return ticket",
+          "Accommodation proof",
+          "Sufficient funds"
+        ],
+        "notes": null
+      }
+    ],
+    "documents": [
+      {
+        "name": "Passport",
+        "required": true,
+        "category": "mandatory",
+        "details": "Valid for at least 6 months",
+        "format": null
+      },
+      {
+        "name": "Return Ticket",
+        "required": true,
+        "category": "mandatory",
+        "details": null,
+        "format": null
+      },
+      {
+        "name": "Hotel Booking",
+        "required": true,
+        "category": "mandatory",
+        "details": null,
+        "format": null
+      },
+      {
+        "name": "Sufficient Funds",
+        "required": true,
+        "category": "mandatory",
+        "details": "$100 per day",
+        "format": null
+      }
+    ],
+    "photo_requirements": {
+      "size": "Not required",
+      "background": "N/A",
+      "format": null,
+      "specifications": [
+        "No photo required"
+      ]
+    },
+    "processing_times": [
+      {
+        "type": "arrival",
+        "duration": "10-15 minutes",
+        "notes": "Immigration processing"
+      }
+    ],
+    "fees": [],
+    "application_methods": [
+      {
+        "name": "Visa Free Entry",
+        "description": "No advance application required",
+        "requirements": [
+          "Valid passport",
+          "Return ticket",
+          "Accommodation proof"
+        ],
+        "processing_time": "Immediate",
+        "available": true
+      }
+    ],
+    "embassies": [],
+    "visa_free_transit": null,
+    "special_conditions": [],
+    "important_notes": [
+      {
+        "type": "tip",
+        "content": "Yellow fever vaccination required if coming from infected areas",
+        "priority": "high"
+      },
+      {
+        "type": "requirement",
+        "content": "Return ticket mandatory",
+        "priority": "high"
+      }
+    ],
+    "sections": [],
+    "meta_title": null,
+    "meta_description": null,
+    "keywords": [],
+    "published": true,
+    "featured": false,
+    "created_at": "2025-06-28T06:21:51.348038",
+    "_id": "d37b2c72-6592-477d-8bcc-9db29befab77",
+    "updated_at": "2025-06-28T06:21:51.348041"
+  }
+]

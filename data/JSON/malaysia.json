@@ -1,0 +1,193 @@
+{
+    "country": "Malaysia",
+    "flag": "🇲🇾",
+    "applicable_nationality": "India",
+    "year": 2024,
+    "visa_required": true,
+    "visa_free": false,
+    "visa_on_arrival_available": false,
+    "entry_requirements": {
+      "visa_required_note": "Indian citizens require a visa to enter Malaysia for tourism, business, or family visits, except for transit stays under 120 hours in certain cases."
+    },
+    "visa_types": [
+      {
+        "name": "e-Visa (Tourist/Business)",
+        "entry_type": "Single/Multiple",
+        "validity": "3 months from date of issue",
+        "max_stay_days_per_visit": 30,
+        "fee_inr": "2300–3000",
+        "processing_time": "2–4 working days",
+        "purpose": "Tourism, short business visits, family travel",
+        "note": "Most popular visa type for Indian citizens"
+      },
+      {
+        "name": "eNTRI (Electronic Travel Registration & Information)",
+        "entry_type": "Single",
+        "validity": "3 months",
+        "max_stay_days_per_visit": 15,
+        "fee_inr": "1700–2000",
+        "processing_time": "Same day or 24 hours",
+        "purpose": "Tourism only",
+        "note": "For Indians only, must enter via direct flights from India"
+      },
+      {
+        "name": "Sticker Visa (Embassy)",
+        "entry_type": "Single/Multiple",
+        "validity": "3–12 months",
+        "max_stay_days_per_visit": "30–90",
+        "fee_inr": "3500–5000",
+        "processing_time": "5–7 working days",
+        "purpose": "Tourism, business, longer stays",
+        "note": "Applied through embassy or consulates"
+      },
+      {
+        "name": "Transit Without Visa",
+        "entry_type": "Transit",
+        "validity": "Max 120 hours",
+        "max_stay_hours": 120,
+        "purpose": "Airport transit only",
+        "note": "Special cases only"
+      }
+    ],
+    "e_visa_process": {
+      "application_method": "Online at https://malaysiavisa.imi.gov.my",
+      "documents_required": [
+        "Passport (valid for at least 6 months)",
+        "Scanned Passport Biodata Page (clear PDF/JPG)",
+        "Recent Photograph (35mm x 50mm, white background, neutral expression)",
+        "Return Flight Ticket",
+        "Hotel Booking or Invitation Letter",
+        "Bank Statement (last 3 months, minimum ₹30,000 balance)",
+        "Birth Certificate (for minors)"
+      ],
+      "processing_time": "2–4 working days",
+      "validity": "30 days stay, valid for 3 months from issue date",
+      "note": "All documents must be uploaded in color and PDF/JPG format"
+    },
+    "entri_visa_process": {
+      "application_method": "Online registration",
+      "restrictions": [
+        "Only air entry via India–Malaysia direct flights (Delhi, Mumbai, Chennai, etc.)",
+        "Cannot enter Malaysia from third countries (e.g., Singapore or Thailand)",
+        "No extensions allowed",
+        "Single entry only"
+      ],
+      "processing_time": "Same day or 24 hours",
+      "validity": "15 days stay, valid for 3 months from issue",
+      "purpose": "Tourism only"
+    },
+    "processing_times": [
+      {
+        "type": "e-Visa",
+        "duration": "2–4 working days"
+      },
+      {
+        "type": "eNTRI",
+        "duration": "Same day or 24 hours"
+      },
+      {
+        "type": "Sticker Visa",
+        "duration": "5–7 working days"
+      }
+    ],
+    "visa_fees": {
+      "entri_visa": {
+        "amount_inr": "1700–2000",
+        "validity": "15 days (single entry)"
+      },
+      "e_visa": {
+        "amount_inr": "2300–3000",
+        "validity": "30 days (single/multiple)"
+      },
+      "sticker_visa": {
+        "amount_inr": "3500–5000",
+        "note": "Includes agent/embassy fees"
+      },
+      "note": "Fees vary slightly based on service providers and agents"
+    },
+    "photo_requirements": {
+      "size": "35mm x 50mm",
+      "background": "White",
+      "age": "Taken within last 6 months",
+      "face_visibility": "Full face, no glasses",
+      "file_format": "JPEG/JPG (max 200 KB)"
+    },
+    "entry_points": {
+      "airports": [
+        "Kuala Lumpur International Airport (KLIA/KLIA2)",
+        "Penang International Airport",
+        "Langkawi International Airport",
+        "Kota Kinabalu International Airport"
+      ],
+      "land_borders": [
+        "Johor–Singapore land checkpoints (Woodlands or Tuas)"
+      ],
+      "note": "eNTRI cannot be used to enter via land from Thailand or Singapore"
+    },
+    "application_locations": {
+      "online_options": [
+        "e-Visa Portal: https://malaysiavisa.imi.gov.my"
+      ],
+      "agents": [
+        "VFS Global",
+        "Akbar Travels",
+        "Thomas Cook"
+      ],
+      "embassy_consulates": [
+        "Malaysian High Commission (New Delhi)",
+        "Consulates (Mumbai, Chennai)"
+      ]
+    },
+    "entry_requirements_at_immigration": [
+      "Printed copy of visa",
+      "Return/onward ticket",
+      "Hotel booking or host contact",
+      "Proof of funds (cash or card)",
+      "Vaccination proof (if applicable)"
+    ],
+    "overstay_penalties": {
+      "daily_fine_myr": 100,
+      "consequences": [
+        "Daily fines",
+        "Detention or deportation",
+        "Blacklisting for future travel"
+      ],
+      "advice": "Always exit before visa expiry"
+    },
+    "frequently_asked_questions": [
+      {
+        "question": "Can I extend my Malaysia e-Visa?",
+        "answer": "No, extensions are not allowed for e-Visa or eNTRI."
+      },
+      {
+        "question": "Can I apply without travel history?",
+        "answer": "Yes, but a good financial statement is essential."
+      },
+      {
+        "question": "Can I enter Malaysia via Thailand or Singapore?",
+        "answer": "Only with e-Visa, not with eNTRI."
+      }
+    ],
+    "important_tips": [
+      "Apply at least 7 days before travel to avoid delays",
+      "All documents must be uploaded in color and PDF/JPG format",
+      "eNTRI is only for Indians and requires direct flights from India",
+      "e-Visa allows entry from third countries, eNTRI does not",
+      "Extensions are not allowed for tourist visas",
+      "Always carry printed visa copy and supporting documents"
+    ],
+    "useful_links": [
+      {
+        "name": "Malaysia eVisa Portal",
+        "url": "https://malaysiavisa.imi.gov.my"
+      },
+      {
+        "name": "Malaysian High Commission – New Delhi",
+        "url": "https://www.kln.gov.my/web/ind_new-delhi"
+      },
+      {
+        "name": "Malaysia Tourism",
+        "url": "https://www.malaysia.travel/"
+      }
+    ]
+  } 

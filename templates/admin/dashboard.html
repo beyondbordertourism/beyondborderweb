@@ -1,0 +1,251 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard - VisaGuide{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50">
+    <!-- Admin Header -->
+    <div class="bg-white shadow">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <h1 class="text-2xl font-bold text-gray-900">Admin Dashboard</h1>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="/admin/countries/new" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors">
+                        <i class="fas fa-plus mr-2"></i>Add Country
+                    </a>
+                    <button onclick="logout()" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors">
+                        <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Stats Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-globe text-2xl text-indigo-600"></i>
+                    </div>
+                    <div class="ml-4">
+                        <div class="text-2xl font-bold text-gray-900" id="totalCountries">0</div>
+                        <div class="text-sm text-gray-600">Total Countries</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-eye text-2xl text-green-600"></i>
+                    </div>
+                    <div class="ml-4">
+                        <div class="text-2xl font-bold text-gray-900" id="publishedCountries">0</div>
+                        <div class="text-sm text-gray-600">Published</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-star text-2xl text-yellow-600"></i>
+                    </div>
+                    <div class="ml-4">
+                        <div class="text-2xl font-bold text-gray-900" id="featuredCountries">0</div>
+                        <div class="text-sm text-gray-600">Featured</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-map text-2xl text-blue-600"></i>
+                    </div>
+                    <div class="ml-4">
+                        <div class="text-2xl font-bold text-gray-900" id="regionsCount">0</div>
+                        <div class="text-sm text-gray-600">Regions</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+            <div class="bg-white rounded-lg shadow">
+                <div class="p-6 border-b border-gray-200">
+                    <h3 class="text-lg font-medium text-gray-900">Quick Actions</h3>
+                </div>
+                <div class="p-6 space-y-4">
+                    <a href="/admin/countries" class="flex items-center p-3 rounded-lg hover:bg-gray-50 transition-colors">
+                        <i class="fas fa-list mr-3 text-indigo-600"></i>
+                        <span>Manage Countries</span>
+                    </a>
+                    <a href="/admin/countries/new" class="flex items-center p-3 rounded-lg hover:bg-gray-50 transition-colors">
+                        <i class="fas fa-plus mr-3 text-green-600"></i>
+                        <span>Add New Country</span>
+                    </a>
+                    <a href="/api/admin/stats" target="_blank" class="flex items-center p-3 rounded-lg hover:bg-gray-50 transition-colors">
+                        <i class="fas fa-chart-bar mr-3 text-blue-600"></i>
+                        <span>View API Stats</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow">
+                <div class="p-6 border-b border-gray-200">
+                    <h3 class="text-lg font-medium text-gray-900">Region Distribution</h3>
+                </div>
+                <div class="p-6">
+                    <div id="regionChart" class="space-y-3">
+                        <!-- Region stats will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Countries -->
+        <div class="bg-white rounded-lg shadow">
+            <div class="p-6 border-b border-gray-200">
+                <h3 class="text-lg font-medium text-gray-900">Countries</h3>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Country</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Region</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Visa Required</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="recentCountries" class="bg-white divide-y divide-gray-200">
+                        <!-- Countries will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    loadDashboardData();
+});
+
+async function logout() {
+    try {
+        const response = await fetch('/api/admin/logout', {
+            method: 'POST',
+            credentials: 'include'
+        });
+        
+        if (response.ok) {
+            window.location.href = '/admin/login';
+        } else {
+            alert('Logout failed');
+        }
+    } catch (error) {
+        console.error('Logout error:', error);
+        alert('Logout failed');
+    }
+}
+
+async function loadDashboardData() {
+    try {
+        // Load stats
+        const statsResponse = await fetch('/api/admin/stats');
+        const stats = await statsResponse.json();
+        
+        document.getElementById('totalCountries').textContent = stats.total_countries;
+        document.getElementById('publishedCountries').textContent = stats.published_countries;
+        document.getElementById('featuredCountries').textContent = stats.featured_countries;
+        document.getElementById('regionsCount').textContent = stats.region_distribution.length;
+        
+        // Load region distribution
+        const regionChart = document.getElementById('regionChart');
+        regionChart.innerHTML = stats.region_distribution.map(region => `
+            <div class="flex justify-between items-center">
+                <span class="text-sm text-gray-600">${region._id}</span>
+                <div class="flex items-center">
+                    <div class="w-24 bg-gray-200 rounded-full h-2 mr-2">
+                        <div class="bg-indigo-600 h-2 rounded-full" style="width: ${(region.count / stats.published_countries) * 100}%"></div>
+                    </div>
+                    <span class="text-sm font-medium text-gray-900">${region.count}</span>
+                </div>
+            </div>
+        `).join('');
+        
+        // Load recent countries
+        const countriesResponse = await fetch('/api/admin/countries?limit=20&sort=name');
+        const countriesData = await countriesResponse.json();
+        
+        // Handle new response format with countries array and total count
+        const countries = countriesData.countries || countriesData; // Fallback for old format
+        
+        const recentCountries = document.getElementById('recentCountries');
+        recentCountries.innerHTML = countries.map(country => `
+            <tr>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="flex items-center">
+                        <span class="text-2xl mr-3">${country.flag}</span>
+                        <div>
+                            <div class="text-sm font-medium text-gray-900">${country.name}</div>
+                            <div class="text-sm text-gray-500">${country.slug}</div>
+                        </div>
+                    </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${country.region}</td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${country.visa_required ? 'bg-yellow-100 text-yellow-800' : 'bg-green-100 text-green-800'}">
+                        ${country.visa_required ? 'Required' : 'Not Required'}
+                    </span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="flex space-x-2">
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${country.published ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}">
+                            ${country.published ? 'Published' : 'Draft'}
+                        </span>
+                        ${country.featured ? '<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Featured</span>' : ''}
+                    </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                    <a href="/admin/countries/${country.id}/edit" class="text-indigo-600 hover:text-indigo-900 mr-3">Edit</a>
+                    <button onclick="togglePublish('${country.id}', ${!country.published})" class="text-blue-600 hover:text-blue-900 mr-3">
+                        ${country.published ? 'Unpublish' : 'Publish'}
+                    </button>
+                </td>
+            </tr>
+        `).join('');
+        
+    } catch (error) {
+        console.error('Error loading dashboard data:', error);
+    }
+}
+
+async function togglePublish(countryId, publish) {
+    try {
+        const response = await fetch(`/api/admin/countries/${countryId}/publish?published=${publish}`, {
+            method: 'PATCH'
+        });
+        
+        if (response.ok) {
+            loadDashboardData(); // Reload data
+        } else {
+            alert('Error updating country status');
+        }
+    } catch (error) {
+        console.error('Error toggling publish status:', error);
+        alert('Error updating country status');
+    }
+}
+</script>
+{% endblock %} 

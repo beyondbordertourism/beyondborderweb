@@ -1,0 +1,190 @@
+{
+    "country": "Indonesia",
+    "flag": "🇮🇩",
+    "applicable_nationality": "India",
+    "year": 2024,
+    "visa_required": false,
+    "visa_free": true,
+    "visa_on_arrival_available": true,
+    "entry_requirements": {
+      "visa_free_note": "Indian passport holders can enter Indonesia visa-free for tourism purposes for up to 30 days (non-extendable). Visa required for stays over 30 days or for business, employment, education, or media purposes."
+    },
+    "visa_types": [
+      {
+        "name": "Visa-Free Entry",
+        "entry_type": "Single",
+        "validity": "30 days",
+        "max_stay_days_per_visit": 30,
+        "fee_inr": 0,
+        "processing_time": "Immediate on arrival",
+        "purpose": "Tourism only",
+        "note": "Not extendable, enter via designated airports/seaports only"
+      },
+      {
+        "name": "Visa on Arrival (VoA)",
+        "entry_type": "Single",
+        "validity": "30 days",
+        "max_stay_days_per_visit": 30,
+        "fee_idr": 500000,
+        "fee_inr": 2600,
+        "processing_time": "15–30 minutes",
+        "purpose": "Tourism, social visit",
+        "note": "Can be extended once for another 30 days"
+      },
+      {
+        "name": "e-Visa B211A (Tourist/Business)",
+        "entry_type": "Single",
+        "validity": "60 days",
+        "max_stay_days_per_visit": 60,
+        "fee_idr": 2000000,
+        "fee_inr": 10000,
+        "processing_time": "3–5 working days",
+        "purpose": "Tourism, business meetings",
+        "note": "Extendable 2x (up to 180 days total)"
+      },
+      {
+        "name": "Business Visa (Multiple Entry)",
+        "entry_type": "Multiple",
+        "validity": "1 year",
+        "max_stay_days_per_visit": 60,
+        "processing_time": "7–10 working days",
+        "purpose": "Frequent business trips",
+        "note": "Cannot work or earn income, requires company invitation"
+      },
+      {
+        "name": "Work Visa (KITAS)",
+        "entry_type": "Long-term",
+        "validity": "6–12 months",
+        "purpose": "Employment"
+      },
+      {
+        "name": "Student Visa",
+        "entry_type": "Long-term",
+        "validity": "As per course",
+        "purpose": "Education"
+      }
+    ],
+    "visa_free_entry": {
+      "conditions": [
+        "Tourism purpose only",
+        "Maximum 30 days stay",
+        "Not extendable",
+        "Enter via designated airports/seaports"
+      ],
+      "documents_required": [
+        "Valid passport (6+ months validity)",
+        "Return ticket or onward flight",
+        "Proof of accommodation"
+      ]
+    },
+    "visa_on_arrival": {
+      "available_airports": [
+        "Ngurah Rai International Airport (Bali)",
+        "Soekarno-Hatta (Jakarta)",
+        "Surabaya",
+        "Medan",
+        "Batam"
+      ],
+      "documents_required": [
+        "Passport (valid 6+ months)",
+        "Return or onward ticket",
+        "Proof of funds (credit card or cash)",
+        "Hotel reservation",
+        "VoA fee in cash or card"
+      ],
+      "fee": {
+        "amount_idr": 500000,
+        "amount_inr": 2600
+      },
+      "extension": {
+        "possible": true,
+        "duration": "30 days",
+        "times": "Once only"
+      }
+    },
+    "e_visa_process": {
+      "application_method": "Online at https://molina.imigrasi.go.id",
+      "documents_required": [
+        "Passport scan (valid 6+ months)",
+        "Passport-size photo (3.5 x 4.5 cm, white background, neutral face)",
+        "Return flight ticket",
+        "Hotel booking",
+        "Proof of funds (bank statement with at least ₹50,000)",
+        "Sponsor letter (optional for tourist, mandatory for business)"
+      ],
+      "processing_time": "3–5 working days",
+      "fee": {
+        "amount_idr": 2000000,
+        "amount_inr": 10000
+      },
+      "validity": "60 days",
+      "extensions": "Up to 2 extensions (180 days total)"
+    },
+    "processing_times": [
+      {
+        "type": "Visa-Free Entry",
+        "duration": "Immediate on arrival"
+      },
+      {
+        "type": "Visa on Arrival (VoA)",
+        "duration": "15–30 minutes"
+      },
+      {
+        "type": "e-Visa B211A",
+        "duration": "3–5 working days"
+      },
+      {
+        "type": "Embassy Visa",
+        "duration": "7–10 working days"
+      }
+    ],
+    "application_locations": {
+      "indonesian_embassies": [
+        "New Delhi (Embassy of Indonesia)",
+        "Mumbai (Consulate General)",
+        "Chennai (Consulate General)"
+      ],
+      "note": "Embassy visit only required for long-term visas (work, study, business)"
+    },
+    "photo_requirements": {
+      "size": "3.5 x 4.5 cm",
+      "background": "Plain white",
+      "head_position": "Centered, facing camera",
+      "accessories": "No glasses or hats",
+      "file_format": "JPG or PNG, < 200 KB",
+      "age": "Recent photo"
+    },
+    "overstay_penalties": {
+      "fine_per_day_idr": 1000000,
+      "fine_per_day_inr": 5200,
+      "consequences": [
+        "Daily fines",
+        "Possible blacklisting",
+        "Deportation risk"
+      ],
+      "advice": "Always extend visa before expiry"
+    },
+    "key_tips": [
+      "Carry printed proof of hotel and return flight",
+      "Use international debit/credit card",
+      "Avoid overstaying – extend visa if needed",
+      "Best airport for smooth entry: Bali (DPS)",
+      "Visa-free entry is only for tourism",
+      "VoA can be extended once, visa-free cannot be extended"
+    ],
+    "useful_links": [
+      {
+        "name": "Official e-Visa Portal",
+        "url": "https://molina.imigrasi.go.id"
+      },
+      {
+        "name": "Indonesia Embassy India",
+        "url": "https://kemlu.go.id/newdelhi"
+      },
+      {
+        "name": "Indonesia Tourist Information",
+        "url": "https://www.indonesia.travel/"
+      }
+    ]
+  }
+  

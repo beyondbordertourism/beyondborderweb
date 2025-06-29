@@ -1,0 +1,168 @@
+{
+    "country": "South Korea",
+    "flag": "🇰🇷",
+    "applicable_nationality": "India",
+    "year": 2024,
+    "visa_required": true,
+    "visa_free": false,
+    "visa_on_arrival_available": false,
+    "entry_requirements": {
+      "visa_required_note": "All Indian citizens need to apply for a visa in advance. South Korea currently does not offer e-visa or visa on arrival for Indian citizens."
+    },
+    "visa_types": [
+      {
+        "name": "C-3 Tourist Visa",
+        "entry_type": "Single/Multiple",
+        "validity": "Single or multiple entry",
+        "max_stay_days_per_visit": 90,
+        "fee_krw": 40000,
+        "fee_inr": 2500,
+        "processing_time": "7–10 working days",
+        "purpose": "Tourism, family/friend visit",
+        "note": "Most common visa for Indian tourists"
+      },
+      {
+        "name": "Business Visa (C-3-4)",
+        "entry_type": "Single/Multiple",
+        "validity": "As per invitation",
+        "max_stay_days_per_visit": 90,
+        "fee_krw": 40000,
+        "fee_inr": 2500,
+        "processing_time": "3–5 days (priority)",
+        "purpose": "Meetings, short-term business",
+        "note": "Priority processing available for business visas"
+      },
+      {
+        "name": "Student Visa (D-2)",
+        "entry_type": "Long-term",
+        "validity": "As per course duration",
+        "max_stay": "As per course",
+        "purpose": "Long-term education programs"
+      },
+      {
+        "name": "Work Visa (E Series)",
+        "entry_type": "Long-term",
+        "validity": "1+ year",
+        "max_stay": "Contract-based",
+        "purpose": "Employment in Korea"
+      },
+      {
+        "name": "Transit Visa",
+        "entry_type": "Transit",
+        "validity": "Max 72 hours",
+        "max_stay_hours": 72,
+        "purpose": "For long layovers with city exit",
+        "note": "Not commonly issued"
+      }
+    ],
+    "regular_visa_process": {
+      "application_method": [
+        "VFS Global Korea centers in India",
+        "Embassy/Consulates of the Republic of Korea"
+      ],
+      "documents_required": {
+        "basic": [
+          "Passport (valid for at least 6 months, 2 blank pages)",
+          "Visa Application Form (duly filled & signed)",
+          "Recent Passport-size Photo (35mm x 45mm, white background, matte finish)",
+          "Cover Letter (purpose of visit, duration, funding details)",
+          "Day-wise Travel Itinerary (cities, activities, dates)",
+          "Flight Booking (confirmed round-trip ticket)",
+          "Hotel Booking (full stay period) OR invitation from host",
+          "Bank Statement (last 6 months, stamped, ₹1.5–2 lakh balance suggested)",
+          "Income Tax Returns (ITR) – Past 2 years"
+        ],
+        "employment_proof": [
+          "NOC from employer",
+          "Business registration (if self-employed)",
+          "Student ID + NOC (if student)"
+        ],
+        "family_visit": [
+          "Invitation letter from host in Korea",
+          "Copy of host's Korean ID/Residence Card",
+          "Proof of relationship (birth certificate, etc.)"
+        ]
+      }
+    },
+    "processing_time": [
+      {
+        "type": "Regular Visa",
+        "duration_days": "7–10 working days"
+      },
+      {
+        "type": "Business Priority",
+        "duration_days": "3–5 days",
+        "note": "If eligible"
+      }
+    ],
+    "visa_fees": {
+      "single_entry": {
+        "embassy_fee_krw": 40000,
+        "embassy_fee_inr": 2500,
+        "vfs_service_fee_inr": "1500–2000",
+        "total_cost_inr": "4000–4500"
+      },
+      "double_entry": {
+        "embassy_fee_krw": 70000,
+        "embassy_fee_inr": 4300,
+        "vfs_service_fee_inr": "1500–2000",
+        "total_cost_inr": "6000–6500"
+      },
+      "multiple_entry": {
+        "embassy_fee_krw": 90000,
+        "embassy_fee_inr": 5500,
+        "vfs_service_fee_inr": "1500–2000",
+        "total_cost_inr": "7000+"
+      },
+      "note": "Fees are non-refundable, even if visa is rejected"
+    },
+    "photo_requirements": {
+      "size": "35mm x 45mm",
+      "background": "White",
+      "expression": "Neutral",
+      "age": "Taken within last 6 months",
+      "finish": "Matte/glossy printed format"
+    },
+    "application_steps": [
+      "Gather all required documents",
+      "Fill out the visa form",
+      "Book an appointment with VFS Global Korea",
+      "Submit documents at your nearest VFS centre",
+      "Track your visa status online",
+      "Collect the passport or opt for courier return"
+    ],
+    "application_locations": {
+      "vfs_centers": [
+        "New Delhi",
+        "Mumbai", 
+        "Chennai",
+        "Hyderabad",
+        "Bengaluru",
+        "Kolkata"
+      ],
+      "korean_consulates": [
+        "New Delhi (Embassy)",
+        "Mumbai (Consulate)",
+        "Chennai (Consulate)"
+      ]
+    },
+    "important_notes": [
+      "South Korea does not allow online or e-visa applications for Indian citizens as of 2024",
+      "Overstaying is a serious offense in Korea – may result in fines or blacklisting",
+      "Tourist visas cannot be extended inside Korea",
+      "Always carry printed visa copy, return ticket, hotel booking, and proof of funds while entering Korea"
+    ],
+    "sample_cover_letter": {
+      "format": "To: Embassy of the Republic of Korea\nSubject: Tourist Visa Request\nDear Sir/Madam,\nI am [Your Name], holding Indian Passport No. XXXXXXXX, planning to visit South Korea from [start date] to [end date] for tourism. I have enclosed all required documents including return tickets and accommodation details. I kindly request you to grant me a tourist visa.\nSincerely,\n[Signature]\n[Contact Info]"
+    },
+    "useful_links": [
+      {
+        "name": "VFS Global Korea Visa Centers",
+        "url": "https://visa.vfsglobal.com/ind/en/kor"
+      },
+      {
+        "name": "Embassy of the Republic of Korea",
+        "url": "http://ind.mofa.go.kr/"
+      }
+    ]
+  } 

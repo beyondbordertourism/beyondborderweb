@@ -1,0 +1,990 @@
+{
+  "countries": [
+    {
+      "id": "singapore",
+      "name": "Singapore",
+      "flag": "🇸🇬",
+      "region": "Southeast Asia",
+      "visaRequired": true,
+      "lastUpdated": "2024",
+      "summary": "Indian passport holders must obtain a Singapore visa before traveling, unless they have a valid long-term visa/residence permit from the US, UK, Canada, Australia, Germany, or Switzerland.",
+      "visaTypes": [
+        {
+          "name": "Tourist Visa (Visit Visa)",
+          "purpose": "Tourism, family visits",
+          "entryType": "Single/Multiple",
+          "validity": "30 days to 2 years",
+          "stayDuration": "30 days per visit",
+          "extendable": false,
+          "fees": [
+            {
+              "type": "Singapore Visa Fee",
+              "amount": "₹1,800 – ₹2,200",
+              "originalCurrency": "SGD 30"
+            },
+            {
+              "type": "Agent Service Fee",
+              "amount": "₹500 – ₹1,200",
+              "note": "varies by provider"
+            }
+          ]
+        },
+        {
+          "name": "Business Visa",
+          "purpose": "Business meetings, conferences",
+          "entryType": "Single/Multiple",
+          "validity": "30 days to 2 years",
+          "stayDuration": "30 days per visit",
+          "extendable": false
+        },
+        {
+          "name": "Transit Visa (VFTF)",
+          "purpose": "Transit through Singapore",
+          "entryType": "Single",
+          "validity": "Only for VFTF",
+          "stayDuration": "Up to 96 hours",
+          "specialConditions": [
+            "Must hold valid visa/residence permit for US, UK, Canada, Australia, Germany, Switzerland, or New Zealand",
+            "Must be in transit to/from these countries",
+            "Must have confirmed onward flight within 96 hours"
+          ]
+        }
+      ],
+      "documents": {
+        "mandatory": [
+          {
+            "name": "Passport",
+            "specifications": [
+              {
+                "property": "Validity",
+                "value": "At least 6 months"
+              },
+              {
+                "property": "Blank Pages",
+                "value": "2 blank pages minimum"
+              }
+            ]
+          },
+          {
+            "name": "Visa Application Form 14A",
+            "specifications": [
+              {
+                "property": "Status",
+                "value": "Filled and signed"
+              }
+            ]
+          },
+          {
+            "name": "Passport-size Photo",
+            "specifications": [
+              {
+                "property": "Size",
+                "value": "35mm x 45mm"
+              },
+              {
+                "property": "Background",
+                "value": "White, plain"
+              },
+              {
+                "property": "Expression",
+                "value": "Neutral, face straight to camera"
+              },
+              {
+                "property": "Age",
+                "value": "Taken within last 3 months"
+              },
+              {
+                "property": "Finish",
+                "value": "Glossy finish, no glasses"
+              }
+            ]
+          },
+          {
+            "name": "Cover Letter",
+            "specifications": [
+              {
+                "property": "Content",
+                "value": "Explaining purpose and duration of visit"
+              }
+            ]
+          },
+          {
+            "name": "Flight Itinerary",
+            "specifications": [
+              {
+                "property": "Type",
+                "value": "Confirmed round-trip tickets"
+              }
+            ]
+          },
+          {
+            "name": "Accommodation Proof",
+            "specifications": [
+              {
+                "property": "Options",
+                "value": "Hotel booking OR invitation letter from friend/family in Singapore"
+              }
+            ]
+          },
+          {
+            "name": "Financial Proof",
+            "specifications": [
+              {
+                "property": "Bank Statement",
+                "value": "Latest 3-6 months with ₹50,000+ balance"
+              },
+              {
+                "property": "Tax Documents",
+                "value": "Income Tax Returns/Form 16"
+              }
+            ]
+          },
+          {
+            "name": "Employment Proof",
+            "specifications": [
+              {
+                "property": "Options",
+                "value": "NOC from employer, Company ID card, Leave letter, or Business registration (if self-employed)"
+              }
+            ]
+          }
+        ],
+        "forMinors": [
+          {
+            "name": "Birth Certificate",
+            "mandatory": true
+          },
+          {
+            "name": "Passport Copies of Parents",
+            "mandatory": true
+          },
+          {
+            "name": "Consent Letter",
+            "mandatory": true,
+            "condition": "If traveling without parents"
+          }
+        ]
+      },
+      "processingTimes": [
+        {
+          "type": "Regular Processing",
+          "duration": "3 – 5 working days",
+          "notes": "Processing may take longer during holidays or peak travel seasons"
+        },
+        {
+          "type": "Express Service",
+          "duration": "Not guaranteed",
+          "notes": "Depends on agent"
+        }
+      ],
+      "applicationProcess": {
+        "method": "Through authorized agent only",
+        "note": "Singapore does not accept direct applications from Indian citizens",
+        "steps": [
+          "Choose an authorized agent (VFS, Thomas Cook, Akbar Travels, etc.)",
+          "Fill out visa form and submit documents",
+          "Pay the visa + service fee",
+          "Receive e-Visa via email (PDF format)"
+        ],
+        "alternativeMethod": {
+          "name": "Through Local Singapore Contact (LOI)",
+          "condition": "If you have a relative or friend in Singapore",
+          "process": "They can sponsor you by submitting a Letter of Introduction (LOI) via the ICA website"
+        }
+      },
+      "fees": {
+        "breakdown": [
+          {
+            "item": "Singapore Visa Fee",
+            "amount": "₹1,800 – ₹2,200",
+            "originalAmount": "SGD 30"
+          },
+          {
+            "item": "Agent Service Fee", 
+            "amount": "₹500 – ₹1,200",
+            "note": "varies by provider"
+          }
+        ],
+        "total": "₹2,300 – ₹3,500 approx.",
+        "paymentNote": "You will receive a PDF e-visa via email which must be printed and carried when you travel"
+      },
+      "importantNotes": [
+        "Always carry a printout of your e-Visa, hotel bookings, and return tickets",
+        "Carry sufficient funds or a credit card – immigration may ask at entry", 
+        "Overstaying is a serious offense – leads to fines or blacklisting",
+        "Travel insurance is recommended but not mandatory"
+      ],
+      "whereToApply": [
+        "VFS Global",
+        "Akbar Travels", 
+        "Thomas Cook India",
+        "Musafir.com",
+        "Rayna Tours"
+      ],
+      "officialLinks": [
+        {
+          "name": "Singapore Immigration & Checkpoints Authority (ICA)",
+          "url": "https://www.ica.gov.sg"
+        },
+        {
+          "name": "Authorized Visa Agents List",
+          "url": "https://www.mfa.gov.sg/newdelhi"
+        }
+      ]
+    },
+    {
+      "id": "japan",
+      "name": "Japan", 
+      "flag": "🇯🇵",
+      "region": "East Asia",
+      "visaRequired": true,
+      "lastUpdated": "2024",
+      "summary": "Indian citizens require a visa to visit Japan for tourism, business, family visits, or transit. Japan does not currently offer e-visa or visa-on-arrival for Indian travelers.",
+      "visaTypes": [
+        {
+          "name": "Tourist Visa",
+          "purpose": "Tourism, visiting friends/family",
+          "entryType": "Single",
+          "validity": "3 months – 5 years",
+          "stayDuration": "15 to 90 days",
+          "fees": [
+            {
+              "type": "Embassy Fee",
+              "amount": "₹1,700",
+              "originalCurrency": "¥3,000"
+            },
+            {
+              "type": "VFS Charges",
+              "amount": "₹650 – ₹1,000"
+            }
+          ]
+        },
+        {
+          "name": "Business Visa",
+          "purpose": "Meetings, conferences",
+          "entryType": "Single",
+          "validity": "3 months",
+          "stayDuration": "15 to 90 days"
+        },
+        {
+          "name": "Multiple-Entry Visa",
+          "purpose": "Frequent travelers",
+          "entryType": "Multiple",
+          "validity": "1 – 5 years", 
+          "stayDuration": "15–90 days per visit",
+          "specialConditions": ["Conditions apply"],
+          "fees": [
+            {
+              "type": "Embassy Fee",
+              "amount": "₹3,400",
+              "originalCurrency": "¥6,000"
+            }
+          ]
+        },
+        {
+          "name": "Transit Visa",
+          "purpose": "For layovers in Japan",
+          "entryType": "Single",
+          "validity": "15 days",
+          "stayDuration": "Up to 72 hours",
+          "fees": [
+            {
+              "type": "Embassy Fee", 
+              "amount": "₹400",
+              "originalCurrency": "¥700"
+            }
+          ]
+        }
+      ],
+      "documents": {
+        "mandatory": [
+          {
+            "name": "Original Passport",
+            "specifications": [
+              {
+                "property": "Validity",
+                "value": "At least 6 months"
+              },
+              {
+                "property": "Blank Pages",
+                "value": "2 blank pages minimum"
+              }
+            ]
+          },
+          {
+            "name": "Visa Application Form",
+            "specifications": [
+              {
+                "property": "Status",
+                "value": "Filled and signed"
+              }
+            ]
+          },
+          {
+            "name": "Recent Photograph",
+            "specifications": [
+              {
+                "property": "Size",
+                "value": "45mm x 35mm"
+              },
+              {
+                "property": "Background",
+                "value": "White background, no shadows"
+              },
+              {
+                "property": "Expression", 
+                "value": "Neutral expression"
+              },
+              {
+                "property": "Age",
+                "value": "Taken within last 6 months"
+              }
+            ]
+          },
+          {
+            "name": "Day-wise Travel Itinerary",
+            "specifications": [
+              {
+                "property": "Content",
+                "value": "Mention places, cities, dates"
+              }
+            ]
+          },
+          {
+            "name": "Hotel Reservations",
+            "specifications": [
+              {
+                "property": "Coverage",
+                "value": "For the entire stay"
+              }
+            ]
+          },
+          {
+            "name": "Flight Tickets",
+            "specifications": [
+              {
+                "property": "Type",
+                "value": "Confirmed round-trip"
+              }
+            ]
+          },
+          {
+            "name": "Bank Statement",
+            "specifications": [
+              {
+                "property": "Duration",
+                "value": "Last 6 months, stamped by bank"
+              }
+            ]
+          },
+          {
+            "name": "Income Tax Returns (ITR)",
+            "specifications": [
+              {
+                "property": "Duration",
+                "value": "Last 2 years"
+              }
+            ]
+          }
+        ]
+      },
+      "processingTimes": [
+        {
+          "type": "Regular Processing",
+          "duration": "4 – 7 working days",
+          "notes": "Processing time may vary by city or consulate and during peak travel seasons"
+        }
+      ],
+      "applicationProcess": {
+        "method": "Through VFS Global only",
+        "note": "Japan visa applications from India must go through VFS Global, not directly to the embassy",
+        "steps": [
+          "Prepare all documents",
+          "Fill out the Visa Application Form",
+          "Schedule an appointment with VFS Japan",
+          "Submit application to VFS Japan in person or through an authorized agent",
+          "Track application online", 
+          "Collect your passport with visa or request courier delivery"
+        ]
+      },
+      "fees": {
+        "breakdown": [
+          {
+            "visa": "Single Entry",
+            "embassyFee": "¥3,000 (~₹1,700)",
+            "vfsCharges": "₹650 – ₹1,000",
+            "total": "₹2,300 – ₹2,700"
+          },
+          {
+            "visa": "Multiple Entry", 
+            "embassyFee": "¥6,000 (~₹3,400)",
+            "vfsCharges": "₹650 – ₹1,000",
+            "total": "₹4,000 – ₹4,500"
+          },
+          {
+            "visa": "Transit Visa",
+            "embassyFee": "¥700 (~₹400)",
+            "vfsCharges": "₹650 – ₹1,000", 
+            "total": "₹1,000 – ₹1,500"
+          }
+        ],
+        "note": "Fees are non-refundable, regardless of visa approval"
+      },
+      "specialFacilities": [
+        {
+          "name": "Visa-Free Transit Facility (VFTF)",
+          "conditions": [
+            "Indians with US, Canada, UK, Australia, or Schengen visa can apply",
+            "For 24–72 hours if transiting through Japan",
+            "Must have onward confirmed flight ticket"
+          ]
+        }
+      ],
+      "importantNotes": [
+        "Submit complete & accurate documentation",
+        "Always book refundable flights/hotels until visa is issued",
+        "Include cover letter if applying as a group or family",
+        "Always check for updated forms or requirements on the embassy website",
+        "Overstaying is strictly penalized in Japan — never exceed visa limits"
+      ]
+    },
+    {
+      "id": "indonesia",
+      "name": "Indonesia",
+      "flag": "🇮🇩", 
+      "region": "Southeast Asia",
+      "visaRequired": false,
+      "visaFreeEligible": true,
+      "lastUpdated": "2024",
+      "summary": "Indian citizens are eligible for visa-free entry, e-visa, or visa-on-arrival, depending on the purpose and duration of their stay.",
+      "visaTypes": [
+        {
+          "name": "Visa-Free Entry",
+          "purpose": "Tourism only",
+          "entryType": "Single",
+          "validity": "Entry only",
+          "stayDuration": "Max 30 days, non-extendable",
+          "fees": [],
+          "conditions": [
+            "No visa required",
+            "Valid for up to 30 days", 
+            "Not extendable",
+            "Allowed only for tourism",
+            "Enter via designated airports/seaports"
+          ],
+          "documentsRequired": [
+            "Valid passport (6+ months)",
+            "Return ticket or onward flight",
+            "Proof of accommodation"
+          ]
+        },
+        {
+          "name": "Visa on Arrival (VoA)",
+          "purpose": "Tourism, social visit",
+          "entryType": "Single",
+          "validity": "Entry only",
+          "stayDuration": "30 days (extendable once)",
+          "fees": [
+            {
+              "type": "VoA Fee",
+              "amount": "₹2,600",
+              "originalCurrency": "IDR 500,000"
+            }
+          ],
+          "availableAt": [
+            "Ngurah Rai International Airport (Bali)",
+            "Soekarno-Hatta (Jakarta)",
+            "Surabaya, Medan, Batam, etc."
+          ]
+        },
+        {
+          "name": "e-Visa B211A (Tourist/Business)",
+          "purpose": "Tourism, business meetings",
+          "entryType": "Single", 
+          "validity": "60 days",
+          "stayDuration": "60 days (extendable)",
+          "fees": [
+            {
+              "type": "Visa Fee",
+              "amount": "₹10,000",
+              "originalCurrency": "IDR 2,000,000"
+            }
+          ],
+          "processingTime": "3–5 working days",
+          "applicationUrl": "https://molina.imigrasi.go.id"
+        }
+      ],
+      "processingTimes": [
+        {
+          "type": "Visa-Free Entry",
+          "duration": "Immediate on arrival"
+        },
+        {
+          "type": "Visa on Arrival (VoA)",
+          "duration": "15–30 minutes"
+        },
+        {
+          "type": "e-Visa B211A",
+          "duration": "3 – 5 working days"
+        },
+        {
+          "type": "Embassy Visa",
+          "duration": "7 – 10 working days"
+        }
+      ],
+      "penalties": [
+        {
+          "offense": "Overstaying",
+          "penalty": "IDR 1,000,000 (~₹5,200) per day of overstay",
+          "consequences": "Can lead to blacklisting or deportation"
+        }
+      ],
+      "embassyLocations": [
+        "New Delhi (Embassy of Indonesia)",
+        "Mumbai (Consulate General)", 
+        "Chennai (Consulate General)"
+      ],
+      "importantNotes": [
+        "Carry printed proof of hotel and return flight",
+        "Use international debit/credit card",
+        "Avoid overstaying – extend visa if needed",
+        "Best airport for smooth entry: Bali (DPS)",
+        "Always extend your visa before it expires"
+      ]
+    },
+    {
+      "id": "thailand",
+      "name": "Thailand",
+      "flag": "🇹🇭",
+      "region": "Southeast Asia", 
+      "visaRequired": true,
+      "visaOnArrivalAvailable": true,
+      "lastUpdated": "2024",
+      "summary": "Indian citizens need a visa to enter Thailand, unless they qualify for a Visa on Arrival under certain conditions.",
+      "visaTypes": [
+        {
+          "name": "Tourist Visa (Single Entry)",
+          "purpose": "Tourism",
+          "entryType": "Single Entry",
+          "validity": "3 months",
+          "stayDuration": "Up to 60 days",
+          "fees": [
+            {
+              "type": "Visa Fee",
+              "amount": "₹2,500 – ₹3,000"
+            }
+          ]
+        },
+        {
+          "name": "Tourist Visa (Multiple Entry)",
+          "purpose": "Tourism",
+          "entryType": "Multiple Entries", 
+          "validity": "6 months",
+          "stayDuration": "Up to 60 days per entry",
+          "fees": [
+            {
+              "type": "Visa Fee",
+              "amount": "₹10,000 – ₹12,000"
+            }
+          ]
+        },
+        {
+          "name": "Visa on Arrival (VOA)",
+          "purpose": "Tourism", 
+          "entryType": "Single Entry",
+          "validity": "Valid at entry only",
+          "stayDuration": "Up to 15 days",
+          "fees": [
+            {
+              "type": "VOA Fee",
+              "amount": "₹4,500",
+              "originalCurrency": "2,000 Thai Baht",
+              "paymentMethod": "Cash (Thai Baht only)"
+            }
+          ],
+          "conditions": [
+            "Staying in Thailand for no more than 15 days",
+            "Arrive by air at a designated international airport", 
+            "Have confirmed return tickets within 15 days",
+            "Can provide proof of accommodation and sufficient funds"
+          ],
+          "documentsRequired": [
+            "Valid passport (at least 30 days' validity)",
+            "Return ticket within 15 days",
+            "Hotel reservation proof",
+            "Photo (4x6 cm) taken within 6 months",
+            "Proof of funds: 10,000 THB per person or 20,000 THB per family"
+          ],
+          "availableAt": [
+            "Suvarnabhumi", 
+            "Don Mueang",
+            "Phuket",
+            "Krabi", 
+            "Chiang Mai"
+          ]
+        }
+      ],
+      "documents": {
+        "mandatory": [
+          {
+            "name": "Passport",
+            "specifications": [
+              {
+                "property": "Validity",
+                "value": "At least 6 months"
+              },
+              {
+                "property": "Blank Pages", 
+                "value": "2 blank pages"
+              }
+            ]
+          },
+          {
+            "name": "Visa Application Form",
+            "specifications": [
+              {
+                "property": "Status",
+                "value": "Duly filled and signed"
+              }
+            ]
+          },
+          {
+            "name": "Passport-size Photograph",
+            "specifications": [
+              {
+                "property": "Size",
+                "value": "4 x 6 cm"
+              },
+              {
+                "property": "Background",
+                "value": "White background"
+              },
+              {
+                "property": "Age",
+                "value": "Recent (taken in the last 6 months)"
+              }
+            ]
+          },
+          {
+            "name": "Bank Statement",
+            "specifications": [
+              {
+                "property": "Duration", 
+                "value": "Last 6 months, signed by bank"
+              },
+              {
+                "property": "Minimum Balance",
+                "value": "₹40,000 per person"
+              }
+            ]
+          }
+        ]
+      },
+      "processingTimes": [
+        {
+          "type": "Tourist Visa (Embassy)",
+          "duration": "3 – 5 working days"
+        },
+        {
+          "type": "Tourist Visa (Agency)",
+          "duration": "4 – 7 working days"
+        },
+        {
+          "type": "Visa on Arrival (Airport)",
+          "duration": "30 – 45 minutes"
+        }
+      ],
+      "penalties": [
+        {
+          "offense": "Overstaying",
+          "penalty": "₹1,800 per day (500 THB/day)"
+        }
+      ],
+      "whereToApply": [
+        "Royal Thai Embassy, New Delhi",
+        "Royal Thai Consulate-General, Mumbai, Chennai, Kolkata",
+        "Authorized VFS centers or travel agents"
+      ],
+      "importantNotes": [
+        "Do not overstay your visa – fines are ₹1,800 per day (500 THB/day)",
+        "Always carry a copy of your visa and passport while traveling in Thailand",
+        "For long stays or business visits, always apply before departure", 
+        "For Visa on Arrival, carry exact Thai Baht and completed forms for faster processing",
+        "Extensions up to 30 days can be granted at the Immigration Office in Thailand (Tourist visas only)"
+      ]
+    },
+    {
+      "id": "china",
+      "name": "China",
+      "flag": "🇨🇳",
+      "region": "East Asia",
+      "visaRequired": true,
+      "lastUpdated": "2024",
+      "summary": "All Indian passport holders require a visa to enter China. The type of visa depends on the purpose of your visit.",
+      "visaTypes": [
+        {
+          "name": "Tourist (L)",
+          "purpose": "Tourism",
+          "entryType": "Single/Multiple",
+          "validity": "Up to 6 months", 
+          "stayDuration": "Up to 30 days"
+        },
+        {
+          "name": "Business (M)",
+          "purpose": "Business meetings, trade",
+          "entryType": "Single/Multiple",
+          "validity": "Up to 6 months",
+          "stayDuration": "Up to 30 days"
+        },
+        {
+          "name": "Work (Z)",
+          "purpose": "Employment",
+          "entryType": "Single",
+          "validity": "Up to 6 months",
+          "stayDuration": "As per employment contract"
+        }
+      ],
+      "fees": {
+        "note": "Extended reduced visa fees until December 2025",
+        "breakdown": [
+          {
+            "type": "Single Entry Visa",
+            "amount": "₹2,900"
+          },
+          {
+            "type": "Double Entry Visa",
+            "amount": "₹4,400"
+          },
+          {
+            "type": "Multiple Entry Visa (6 months)",
+            "amount": "₹5,900"
+          },
+          {
+            "type": "Multiple Entry Visa (12 months or longer)",
+            "amount": "₹8,800"
+          },
+          {
+            "type": "Expedited Service",
+            "amount": "₹1,800 additional"
+          }
+        ]
+      },
+      "processingTimes": [
+        {
+          "type": "Regular Service",
+          "duration": "4 working days"
+        },
+        {
+          "type": "Express Service", 
+          "duration": "2 working days",
+          "additionalFee": "₹1,800"
+        }
+      ],
+      "applicationCenters": [
+        {
+          "city": "New Delhi",
+          "address": "Concourse Floor, Baba Kharak Singh Marg, Connaught Place, New Delhi - 110001",
+          "phone": "+91-9999036735",
+          "email": "delhicentre@visaforchina.org"
+        },
+        {
+          "city": "Mumbai", 
+          "address": "1st Floor, Express Towers, Nariman Point, Mumbai - 400021",
+          "phone": "+91-22-22855271",
+          "email": "mumbaicentre@visaforchina.org"
+        },
+        {
+          "city": "Kolkata",
+          "address": "BIPI Building Omega, Ground Floor, Bengal Intelligent Park, Block EP & GP, Sector V, Bidhan Nagar, Kolkata - 700091",
+          "phone": "+91-033-40010210",
+          "email": "kolkatacentre@visaforchina.org"
+        }
+      ],
+      "importantNotes": [
+        "Fingerprint Collection: Applicants aged 14–70 are required to provide fingerprints",
+        "As of November 2023, the requirement for an appointment has been removed",
+        "Ensure your passport has at least 6 months' validity and sufficient blank pages",
+        "Apply at least 3 months before your intended travel date"
+      ]
+    },
+    {
+      "id": "dubai",
+      "name": "Dubai (UAE)",
+      "flag": "🇦🇪",
+      "region": "Middle East",
+      "visaRequired": true,
+      "visaOnArrivalAvailable": true,
+      "lastUpdated": "2024",
+      "summary": "Indian citizens require a visa to enter Dubai (UAE), unless they fall under a special exemption rule for holders of certain visas.",
+      "specialExemptions": {
+        "visaOnArrival": {
+          "eligibleFor": [
+            "Valid US visa (B1/B2, H1B, etc.)",
+            "Valid Green Card (US permanent residency)",
+            "Valid UK or EU residence visa"
+          ],
+          "duration": "14 days (extendable once for another 14 days)",
+          "cost": "AED 120 – AED 140",
+          "extensionFee": "AED 250",
+          "conditions": [
+            "Entry only through air travel",
+            "Passport and visa/residency must be valid for at least 6 months"
+          ]
+        }
+      },
+      "visaTypes": [
+        {
+          "name": "Tourist Visa (30 Days)",
+          "purpose": "Leisure, tourism",
+          "entryType": "Single",
+          "validity": "60 days",
+          "stayDuration": "30 days",
+          "extendable": true
+        },
+        {
+          "name": "Tourist Visa (60 Days)",
+          "purpose": "Longer stays", 
+          "entryType": "Single",
+          "validity": "60 days",
+          "stayDuration": "60 days",
+          "extendable": true
+        },
+        {
+          "name": "Transit Visa (48/96 hours)",
+          "purpose": "Short layovers via UAE airports",
+          "entryType": "Single",
+          "validity": "14 days",
+          "stayDuration": "2 or 4 days"
+        },
+        {
+          "name": "Visit Visa (Family/Friends)",
+          "purpose": "Visiting UAE residents",
+          "entryType": "Single",
+          "validity": "60 days", 
+          "stayDuration": "30 or 60 days",
+          "sponsorRequired": true
+        }
+      ],
+      "processingTimes": [
+        {
+          "type": "Tourist Visa",
+          "duration": "3 – 5 working days"
+        },
+        {
+          "type": "Express Tourist Visa",
+          "duration": "24 – 48 hours"
+        },
+        {
+          "type": "Transit Visa (48/96h)",
+          "duration": "1 – 2 working days"
+        },
+        {
+          "type": "Business/Visit Visa",
+          "duration": "5 – 7 working days"
+        }
+      ],
+      "documents": {
+        "mandatory": [
+          {
+            "name": "Passport Copy",
+            "specifications": [
+              {
+                "property": "Validity",
+                "value": "Valid for at least 6 months"
+              }
+            ]
+          },
+          {
+            "name": "Passport-size Photograph",
+            "specifications": [
+              {
+                "property": "Background",
+                "value": "White background, recent"
+              }
+            ]
+          },
+          {
+            "name": "Flight Ticket",
+            "specifications": [
+              {
+                "property": "Type",
+                "value": "Confirmed return flight ticket"
+              }
+            ]
+          }
+        ],
+        "forVisitVisa": [
+          {
+            "name": "Host's UAE Residence Visa",
+            "mandatory": true
+          },
+          {
+            "name": "Host's Emirates ID",
+            "mandatory": true
+          },
+          {
+            "name": "Relationship Proof",
+            "mandatory": true,
+            "examples": ["birth certificate", "marriage certificate"]
+          }
+        ]
+      },
+      "penalties": [
+        {
+          "offense": "Overstaying",
+          "penalty": "AED 50–100 per day"
+        }
+      ],
+      "importantNotes": [
+        "Overstaying your visa can lead to fines of AED 50–100 per day",
+        "Ensure your passport is valid for at least 6 months from your entry date",
+        "Always verify details through official UAE government portals or approved agents",
+        "UAE nationals do not need a visa to travel within the country"
+      ]
+    }
+  ],
+  "metadata": {
+    "totalCountries": 13,
+    "regions": [
+      {
+        "name": "Southeast Asia",
+        "countries": ["Singapore", "Indonesia", "Thailand", "Malaysia", "Philippines", "Vietnam", "Cambodia"]
+      },
+      {
+        "name": "East Asia", 
+        "countries": ["Japan", "China", "South Korea"]
+      },
+      {
+        "name": "Middle East",
+        "countries": ["Dubai (UAE)"]
+      }
+    ],
+    "lastGlobalUpdate": "2024",
+    "visaRequirementSummary": {
+      "visaRequired": 10,
+      "visaFree": 1,
+      "visaOnArrival": 3,
+      "eVisaAvailable": 2
+    },
+    "commonDocuments": [
+      "Valid Passport (6+ months)",
+      "Passport-size Photographs", 
+      "Bank Statements",
+      "Flight Tickets",
+      "Hotel Bookings",
+      "Employment Proof"
+    ],
+    "commonPhotoSpecs": {
+      "backgrounds": ["White", "Plain white"],
+      "commonSizes": ["35mm x 45mm", "4 x 6 cm", "45mm x 35mm"],
+      "generalRequirements": ["Neutral expression", "Recent photo", "No glasses/hats"]
+    },
+    "averageProcessingTimes": {
+      "regular": "3-7 working days",
+      "express": "1-2 working days", 
+      "visaOnArrival": "15-45 minutes"
+    },
+    "dataSource": "Embassy websites and official government portals",
+    "disclaimer": "Visa requirements and fees are subject to change. Always verify with official sources before travel."
+  }
+} 
