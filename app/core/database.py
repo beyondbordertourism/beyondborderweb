@@ -42,7 +42,7 @@ async def connect_to_mongo():
         
         print(f"🔄 Attempting to connect to MongoDB...")
         
-        # Add SSL/TLS configuration for better compatibility
+        # Configure MongoDB connection with proper SSL settings
         client = AsyncIOMotorClient(
             MONGODB_URL,
             serverSelectionTimeoutMS=30000,
@@ -50,12 +50,13 @@ async def connect_to_mongo():
             socketTimeoutMS=30000,
             maxPoolSize=10,
             retryWrites=True,
-            ssl=True,
-            ssl_cert_reqs=None  # Don't require SSL certificates
+            tls=True,  # Use tls instead of ssl
+            tlsAllowInvalidCertificates=True,  # Allow self-signed certificates
+            tlsAllowInvalidHostnames=True  # Allow hostname mismatches
         )
         
         # Test the connection with shorter timeout
-        await asyncio.wait_for(client.admin.command('ping'), timeout=10)
+        await asyncio.wait_for(client.admin.command('ping'), timeout=15)
         print(f"✅ Successfully connected to MongoDB!")
         
         database = client[DATABASE_NAME]
