@@ -940,3 +940,15 @@ body, html {
         font-size: 0.9rem;
     }
 }
+
+/* Navbar spacing fix for pages that need top padding */
+.navbar-spaced {
+    padding-top: 80px;
+}
+
+/* Responsive navbar spacing */
+@media (max-width: 768px) {
+    .navbar-spaced {
+        padding-top: 70px;
+    }
+}
