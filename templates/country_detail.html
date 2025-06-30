@@ -97,66 +97,26 @@
         </div>
 
         <!-- Special Vietnam Hero Card (hidden by default) -->
-        <div class="vietnam-hero-card hidden" id="vietnamHero">
-            <div class="vietnam-hero-container">
-                <div class="vietnam-hero-left">
-                    <h1 class="text-4xl md:text-6xl font-bold mb-4 text-white">Vietnam</h1>
-                    <p class="text-lg text-white/90 mb-6" id="vietnamSummary">Discover the cultural heritage and stunning landscapes of Vietnam</p>
-                    <p class="text-white/80">Experience the rich history, vibrant culture, and breathtaking beauty that Vietnam has to offer.</p>
-                    
-                    <!-- Visa Status Badge -->
-                    <div class="mt-6">
-                        <span class="inline-flex items-center px-6 py-3 rounded-full text-lg font-bold bg-yellow-400 text-yellow-900 shadow-lg" id="vietnamVisaStatus">
-                            <i class="fas fa-passport mr-2"></i>Visa Required
-                        </span>
-                        <p class="text-white/60 text-sm mt-2">Last updated: <span id="vietnamLastUpdated">...</span></p>
+        <div class="hidden" id="vietnamHero">
+            <div class="new-hero-container">
+                <div class="new-hero-left-panel">
+                    <div class="new-hero-text-content">
+                        <h1 class="new-hero-country-name" id="vietnamHeroCountryName">
+                            <!-- Populated by JS -->
+                        </h1>
+                        <p class="new-hero-subtitle" id="vietnamHeroSummary">
+                            <!-- Populated by JS -->
+                        </p>
+                        <p class="new-hero-description" id="vietnamHeroDescription">
+                            <!-- Populated by JS -->
+                        </p>
+                        <a href="#visaTypes" class="new-hero-cta-button">
+                            <i class="fas fa-ticket-alt"></i>
+                            <span>View Visa Types</span>
+                        </a>
                     </div>
                 </div>
-                
-                <!-- Vietnam 3D Floating Card -->
-                <div class="vietnam-card-3d-container">
-                    <div class="vietnam-floating-card">
-                        <div class="vietnam-card-inner">
-                            <!-- Card front -->
-                            <div class="vietnam-card-front">
-                                <div class="vietnam-card-content-3d">
-                                    <!-- Card header with Vietnamese pattern -->
-                                    <div class="vietnam-card-header">
-                                        <div class="vietnam-pattern"></div>
-                                        <div class="vietnam-card-title">
-                                            <h3 class="text-white font-bold text-lg">Vietnam Travel Card</h3>
-                                            <p class="text-red-200 text-sm">Cultural Heritage</p>
-                                        </div>
-                                    </div>
-                                    
-                                    <!-- Card body -->
-                                    <div class="vietnam-card-body">
-                                        <div class="vietnam-landscape"></div>
-                                        <div class="flex justify-between items-end h-full pt-8">
-                                            <div class="text-white">
-                                                <p class="text-xs opacity-80 mb-1">TRAVEL STATUS</p>
-                                                <p class="font-bold text-lg" id="vietnamCardStatus">VISA REQUIRED</p>
-                                            </div>
-                                            <div class="text-white text-right">
-                                                <p class="text-xs opacity-80 mb-1">REGION</p>
-                                                <p class="font-bold">SOUTHEAST ASIA</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <!-- Card footer -->
-                                    <div class="vietnam-card-footer">
-                                        <div class="flex justify-between items-center">
-                                            <div class="vietnam-chip"></div>
-                                            <div class="text-white text-xs font-mono">
-                                                <span class="opacity-60">EXP</span> <span id="vietnamCardExp">12/25</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="new-hero-right-panel">
                 </div>
             </div>
         </div>
@@ -649,12 +609,10 @@ function showSpecialHero(country, config) {
     const defaultHero = document.getElementById('defaultHero');
     const uaeHero = document.getElementById('uaeHero');
     const vietnamHero = document.getElementById('vietnamHero');
-    const specialHero = document.getElementById('specialHero');
     
     if (defaultHero) defaultHero.classList.add('hidden');
     if (uaeHero) uaeHero.classList.add('hidden');
     if (vietnamHero) vietnamHero.classList.add('hidden');
-    if (specialHero) specialHero.classList.remove('hidden');
     
     // Apply country-specific theme
     const countryClass = `${country.slug.toLowerCase()}-page`;
@@ -1195,75 +1153,36 @@ async function loadRelatedCountries() {
 
 function showVietnamHero(country) {
     console.log('showVietnamHero called for:', country.name);
-    // Hide default and UAE heroes, show Vietnam special card
+    // Hide all other hero sections
     const defaultHero = document.getElementById('defaultHero');
     const uaeHero = document.getElementById('uaeHero');
-    const vietnamHero = document.getElementById('vietnamHero');
     const specialHero = document.getElementById('specialHero');
-    
-    console.log('Elements found:', {
-        defaultHero: !!defaultHero,
-        uaeHero: !!uaeHero,
-        vietnamHero: !!vietnamHero,
-        specialHero: !!specialHero
-    });
+    const imageHero = document.getElementById('imageHero');
     
     if (defaultHero) defaultHero.classList.add('hidden');
     if (uaeHero) uaeHero.classList.add('hidden');
     if (specialHero) specialHero.classList.add('hidden');
-    if (vietnamHero) vietnamHero.classList.remove('hidden');
-    
-    // Add Vietnam theme class to body and remove others
-    document.body.classList.remove('uae-page');
+    if (imageHero) imageHero.classList.add('hidden');
+
+    // Show the new Vietnam hero
+    const vietnamHero = document.getElementById('vietnamHero');
+    if (vietnamHero) {
+        vietnamHero.classList.remove('hidden');
+    }
+
+    // Populate the hero with dynamic content
+    const countryNameEl = document.getElementById('vietnamHeroCountryName');
+    const summaryEl = document.getElementById('vietnamHeroSummary');
+    const descriptionEl = document.getElementById('vietnamHeroDescription');
+
+    if (countryNameEl) countryNameEl.textContent = country.name;
+    if (summaryEl) summaryEl.textContent = country.summary || `Discover the cultural heritage and stunning landscapes of ${country.name}.`;
+    if (descriptionEl) descriptionEl.textContent = `Experience the rich history, vibrant culture, and breathtaking beauty that ${country.name} has to offer.`;
+
+    document.body.classList.remove('uae-page'); // Clean up old classes
     document.body.classList.add('vietnam-page');
     
-    // Populate Vietnam hero data
-    const vietnamSummary = document.getElementById('vietnamSummary');
-    const vietnamLastUpdated = document.getElementById('vietnamLastUpdated');
-    
-    console.log('Vietnam elements found:', {
-        vietnamSummary: !!vietnamSummary,
-        vietnamLastUpdated: !!vietnamLastUpdated
-    });
-    
-    if (vietnamSummary) {
-        vietnamSummary.textContent = country.summary || 'Experience Vietnam\'s rich culture, stunning landscapes, and delicious cuisine in this captivating Southeast Asian destination.';
-    }
-    if (vietnamLastUpdated) {
-        vietnamLastUpdated.textContent = new Date(country.last_updated).toLocaleDateString();
-    }
-    
-    // Set card expiry to next year
-    const nextYear = new Date().getFullYear() + 1;
-    const vietnamCardExp = document.getElementById('vietnamCardExp');
-    if (vietnamCardExp) {
-        vietnamCardExp.textContent = `12/${nextYear.toString().slice(-2)}`;
-    }
-    
-    // Vietnam Visa status with special styling
-    const vietnamVisaStatus = document.getElementById('vietnamVisaStatus');
-    const vietnamCardStatus = document.getElementById('vietnamCardStatus');
-    
-    console.log('Visa status elements found:', {
-        vietnamVisaStatus: !!vietnamVisaStatus,
-        vietnamCardStatus: !!vietnamCardStatus
-    });
-    
-    if (vietnamVisaStatus) {
-        if (country.visa_required) {
-            vietnamVisaStatus.textContent = 'Visa Required';
-            vietnamVisaStatus.className = 'inline-flex items-center px-6 py-3 rounded-full text-lg font-bold bg-yellow-400 text-yellow-900 shadow-lg';
-        } else {
-            vietnamVisaStatus.textContent = 'Visa Free';
-            vietnamVisaStatus.className = 'inline-flex items-center px-6 py-3 rounded-full text-lg font-bold bg-green-400 text-green-900 shadow-lg';
-        }
-    }
-    
-    if (vietnamCardStatus) {
-        vietnamCardStatus.textContent = country.visa_required ? 'VISA REQUIRED' : 'VISA FREE';
-    }
-    
-    console.log('Vietnam hero setup complete');
+    console.log('New Vietnam hero setup complete V4');
 }
 
 function showUAEHero(country) {

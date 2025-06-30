@@ -1382,6 +1382,99 @@ body, html {
     }
 }
 
+/* New Vietnam Hero Card Styles */
+.vietnam-hero-card-new {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background-color: #C0392B; /* A deep red similar to the image */
+    background-image: url('https://www.transparenttextures.com/patterns/subtle-grunge.png'); /* A subtle texture */
+    padding: 6rem 2rem;
+    min-height: 450px;
+    color: white;
+}
+
+.vietnam-hero-content {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    max-width: 800px;
+}
+
+.vietnam-hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 5rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 1.5rem;
+}
+
+.vietnam-hero-subtitle {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.25rem;
+    line-height: 1.6;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    opacity: 0.9;
+}
+
+.vietnam-hero-divider {
+    width: 150px;
+    height: 2px;
+    background-color: white;
+    margin: 2rem auto 0;
+    opacity: 0.8;
+}
+
+.vietnam-hero-img-left,
+.vietnam-hero-img-right {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 55%; /* Ensure images are wide enough */
+    object-fit: cover;
+    z-index: 5;
+    opacity: 1;
+}
+
+.vietnam-hero-img-left {
+    left: 0;
+    clip-path: polygon(0 0, 90% 0, 60% 100%, 0% 100%);
+}
+
+.vietnam-hero-img-right {
+    right: 0;
+    clip-path: polygon(40% 0, 100% 0, 100% 100%, 10% 100%);
+}
+
+.vietnam-hero-backdrop-left,
+.vietnam-hero-backdrop-right {
+    position: absolute;
+    width: 50%;
+    height: 130%;
+    background-color: #F1C40F; /* Gold color from the design */
+    z-index: 4;
+    filter: blur(10px); /* Add a blur for softer edges */
+}
+
+.vietnam-hero-backdrop-left {
+    left: -15%;
+    top: -15%;
+    transform: rotate(-20deg);
+    border-radius: 50%;
+}
+
+.vietnam-hero-backdrop-right {
+    right: -15%;
+    top: -15%;
+    transform: rotate(20deg);
+    border-radius: 50%;
+}
+
 /* Vietnam Special Hero with 3D Floating Card */
 .vietnam-hero-card {
     position: relative;
@@ -2460,4 +2553,183 @@ footer {
 .bg-white *,
 .bg-gray-100 * {
     color: inherit;
+}
+
+/* New Hero Design V4 - Image Shape */
+.new-hero-container {
+    display: flex;
+    width: 100%;
+    min-height: 550px;
+    background-color: #1A2C4A; /* Dark Blue */
+    overflow: hidden;
+    position: relative;
+}
+
+.new-hero-left-panel {
+    width: 65%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 3rem 6rem;
+    position: relative;
+    z-index: 2; /* Text on top */
+}
+
+.new-hero-text-content {
+    color: white;
+}
+
+.new-hero-country-name {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 6.5rem;
+    color: white;
+    text-transform: uppercase;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+}
+
+.new-hero-subtitle { /* This is now the main summary */
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 1rem;
+    max-width: 500px;
+    line-height: 1.6;
+}
+
+.new-hero-description { /* This is the secondary text */
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 2.5rem;
+    max-width: 500px;
+    line-height: 1.6;
+}
+
+.new-hero-cta-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    background-color: #F1C40F; /* Gold */
+    color: #1A2C4A; /* Dark Blue */
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.new-hero-cta-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+.new-hero-right-panel {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50%;
+    height: 100%;
+    background-image: url('https://www.hindustantimes.com/ht-img/img/2025/03/25/1600x900/vietnam_1742885224191_1742885224438.jpg');
+    background-size: cover;
+    background-position: 70% 50%; /* Center the interesting part of the image */
+    z-index: 1; /* Image below text */
+    clip-path: ellipse(100% 100% at 100% 50%);
+    mask-image: linear-gradient(to right, transparent 2%, black 30%);
+    -webkit-mask-image: linear-gradient(to right, transparent 2%, black 30%);
+}
+
+.new-hero-swoosh,
+.new-hero-swoosh::after {
+    display: none !important;
+}
+
+@media (max-width: 1024px) {
+    .new-hero-container {
+        flex-direction: column;
+        min-height: auto;
+    }
+    .new-hero-left-panel, .new-hero-right-panel {
+        width: 100%;
+    }
+    .new-hero-right-panel {
+        position: relative;
+        min-height: 300px;
+        clip-path: none;
+        mask-image: linear-gradient(to top, transparent 0%, black 40%);
+        -webkit-mask-image: linear-gradient(to top, transparent 0%, black 40%);
+    }
+    .new-hero-left-panel {
+        padding: 3rem 2rem;
+        align-items: center;
+        text-align: center;
+        margin-top: -80px; /* Pull text up over the faded image */
+        background: transparent;
+    }
+    .new-hero-country-name {
+        font-size: 4.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .new-hero-country-name {
+        font-size: 3.5rem;
+    }
+    .new-hero-cta-button {
+        padding: 0.8rem 1.5rem;
+    }
+}
+
+#navbar.scrolled .nav-contact-button {
+    background: #FF5B00;
+    color: white;
+}
+
+/* Mobile Menu Styles */
+#mobile-menu {
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 1rem 0;
+}
+
+#mobile-menu a {
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+#mobile-menu a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+#navbar.scrolled #mobile-menu-button i {
+    color: #333;
+}
+
+#navbar .nav-link,
+#navbar.scrolled .nav-link {
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+#navbar .nav-link::after,
+#navbar.scrolled .nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #FF5B00;
+    transition: width 0.3s ease;
+}
+
+#navbar .nav-link:hover::after,
+#navbar.scrolled .nav-link:hover::after {
+    width: 100%;
 }
