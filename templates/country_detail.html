@@ -4,213 +4,21 @@
 
 {% block content %}
 <div class="min-h-screen bg-gray-50 navbar-spaced">
-    <!-- Hero Section -->
-    <section class="bg-white shadow-sm" id="heroSection">
-        <!-- Default Hero (will be replaced by JS for UAE) -->
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8" id="defaultHero">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center">
-                    <span class="text-6xl mr-4" id="countryFlag">🏳️</span>
-                    <div>
-                        <h1 class="text-4xl font-bold text-gray-900" id="countryName">Loading...</h1>
-                        <p class="text-xl text-gray-600" id="countryRegion">...</p>
-                    </div>
-                </div>
-                <div class="text-right">
-                    <span class="inline-flex items-center px-4 py-2 rounded-full text-lg font-medium" id="visaStatus">
-                        <!-- Status will be filled by JavaScript -->
-                    </span>
-                    <p class="text-sm text-gray-500 mt-2">Last updated: <span id="lastUpdated">...</span></p>
-                </div>
-            </div>
-            
-            <!-- Summary -->
-            <div class="mt-6 p-4 bg-blue-50 rounded-lg">
-                <p class="text-lg text-gray-700" id="countrySummary">Loading summary...</p>
+    <!-- Unified Hero Section -->
+    <section id="unified-hero" class="unified-hero-container">
+        <div class="unified-hero-left-panel">
+            <div class="unified-hero-text-content">
+                <h1 id="unified-hero-country-name" class="unified-hero-country-name"></h1>
+                <p id="unified-hero-summary" class="unified-hero-subtitle"></p>
+                <p id="unified-hero-description" class="unified-hero-description"></p>
+                <a href="#visaTypes" class="unified-hero-cta-button">
+                    <i class="fas fa-ticket-alt"></i>
+                    <span>View Visa Types</span>
+                </a>
             </div>
         </div>
-
-        <!-- Special UAE Hero Card (hidden by default) -->
-        <div class="uae-hero-card hidden" id="uaeHero">
-            <div class="uae-hero-container">
-                <!-- Left side content -->
-                <div class="uae-hero-left">
-                    <h1 class="text-4xl md:text-6xl font-bold mb-4 text-white">United Arab Emirates</h1>
-                    <p class="text-lg text-white/90 mb-6" id="uaeSummary">Discover the UAE's visa requirements and travel to this stunning destination of modern cities and rich culture.</p>
-                    <p class="text-white/80">Experience the luxury, innovation, and cultural richness that the United Arab Emirates has to offer.</p>
-                    
-                    <!-- Visa Status Badge -->
-                    <div class="mt-6">
-                        <span class="inline-flex items-center px-6 py-3 rounded-full text-lg font-bold bg-yellow-400 text-yellow-900 shadow-lg" id="uaeVisaStatus">
-                            <!-- Status will be filled by JavaScript -->
-                        </span>
-                        <p class="text-white/60 text-sm mt-2">Last updated: <span id="uaeLastUpdated">...</span></p>
-                    </div>
-                </div>
-                
-                <!-- Right side 3D floating card -->
-                <div class="uae-card-3d-container">
-                    <div class="uae-floating-card">
-                        <div class="uae-card-inner">
-                            <!-- Card front -->
-                            <div class="uae-card-front">
-                                <div class="uae-card-content-3d">
-                                    <!-- Card header with geometric pattern -->
-                                    <div class="uae-card-header">
-                                        <div class="uae-geometric-pattern"></div>
-                                        <div class="uae-card-title">
-                                            <h3 class="text-white font-bold text-lg">UAE Travel Card</h3>
-                                            <p class="text-blue-200 text-sm">Premium Destination</p>
-                                        </div>
-                                    </div>
-                                    
-                                    <!-- Card body -->
-                                    <div class="uae-card-body">
-                                        <div class="uae-skyline"></div>
-                                        <div class="flex justify-between items-end h-full pt-8">
-                                            <div class="text-white">
-                                                <p class="text-xs opacity-80 mb-1">TRAVEL STATUS</p>
-                                                <p class="font-bold text-lg" id="uaeCardStatus">VISA REQUIRED</p>
-                                            </div>
-                                            <div class="text-white text-right">
-                                                <p class="text-xs opacity-80 mb-1">REGION</p>
-                                                <p class="font-bold">MIDDLE EAST</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <!-- Card footer -->
-                                    <div class="uae-card-footer">
-                                        <div class="flex justify-between items-center">
-                                            <div class="uae-chip"></div>
-                                            <div class="text-white text-xs font-mono">
-                                                <span class="opacity-60">EXP</span> <span id="uaeCardExp">12/25</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Special Vietnam Hero Card (hidden by default) -->
-        <div class="hidden" id="vietnamHero">
-            <div class="new-hero-container">
-                <div class="new-hero-left-panel">
-                    <div class="new-hero-text-content">
-                        <h1 class="new-hero-country-name" id="vietnamHeroCountryName">
-                            <!-- Populated by JS -->
-                        </h1>
-                        <p class="new-hero-subtitle" id="vietnamHeroSummary">
-                            <!-- Populated by JS -->
-                        </p>
-                        <p class="new-hero-description" id="vietnamHeroDescription">
-                            <!-- Populated by JS -->
-                        </p>
-                        <a href="#visaTypes" class="new-hero-cta-button">
-                            <i class="fas fa-ticket-alt"></i>
-                            <span>View Visa Types</span>
-                        </a>
-                    </div>
-                </div>
-                <div class="new-hero-right-panel">
-                </div>
-            </div>
-        </div>
-
-        <!-- Unified Special Hero Card Template (hidden by default) -->
-        <!-- This template will be dynamically populated for new countries -->
-        <div class="special-hero-card hidden" id="specialHero">
-            <div class="special-hero-container">
-                <div class="special-hero-left">
-                    <h1 class="text-4xl md:text-6xl font-bold mb-4 text-white" id="specialCountryName"></h1>
-                    <p class="text-lg text-white/90 mb-6" id="specialSummary"></p>
-                    <p class="text-white/80" id="specialDescription"></p>
-                    
-                    <!-- Visa Status Badge -->
-                    <div class="mt-6">
-                        <span class="inline-flex items-center px-6 py-3 rounded-full text-lg font-bold bg-yellow-400 text-yellow-900 shadow-lg" id="specialVisaStatus">
-                            <!-- Status will be filled by JavaScript -->
-                        </span>
-                        <p class="text-white/60 text-sm mt-2">Last updated: <span id="specialLastUpdated">...</span></p>
-                    </div>
-                </div>
-                
-                <!-- Universal 3D Floating Card -->
-                <div class="special-card-3d-container">
-                    <div class="special-floating-card">
-                        <div class="special-card-inner">
-                            <!-- Card front -->
-                            <div class="special-card-front">
-                                <div class="special-card-content-3d">
-                                    <!-- Card header with pattern -->
-                                    <div class="special-card-header">
-                                        <div class="special-pattern"></div>
-                                        <div class="special-card-title">
-                                            <h3 class="text-white font-bold text-lg" id="specialCardTitle"></h3>
-                                            <p class="text-sm opacity-90" id="specialCardSubtitle"></p>
-                                        </div>
-                                    </div>
-                                    
-                                    <!-- Card body -->
-                                    <div class="special-card-body">
-                                        <div class="special-landscape"></div>
-                                        <div class="flex justify-between items-end h-full pt-8">
-                                            <div class="text-white">
-                                                <p class="text-xs opacity-80 mb-1">TRAVEL STATUS</p>
-                                                <p class="font-bold text-lg" id="specialCardStatus">VISA REQUIRED</p>
-                                            </div>
-                                            <div class="text-white text-right">
-                                                <p class="text-xs opacity-80 mb-1">REGION</p>
-                                                <p class="font-bold" id="specialCardRegion"></p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <!-- Card footer -->
-                                    <div class="special-card-footer">
-                                        <div class="flex justify-between items-center">
-                                            <div class="special-chip"></div>
-                                            <div class="text-white text-xs font-mono">
-                                                <span class="opacity-60">EXP</span> <span id="specialCardExp">12/25</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <div id="unified-hero-right-panel" class="unified-hero-right-panel"></div>
     </section>
-
-    <!-- Simple Image Hero Template (hidden by default) -->
-    <div class="image-hero-card hidden" id="imageHero">
-        <div class="image-hero-container">
-            <div class="image-hero-left">
-                <h1 class="text-4xl md:text-6xl font-bold mb-4 text-white" id="imageCountryName"></h1>
-                <p class="text-lg text-white/90 mb-6" id="imageSummary"></p>
-                <p class="text-white/80" id="imageDescription"></p>
-                
-                <!-- Visa Status Badge -->
-                <div class="mt-6">
-                    <span class="inline-flex items-center px-6 py-3 rounded-full text-lg font-bold bg-yellow-400 text-yellow-900 shadow-lg" id="imageVisaStatus">
-                        <!-- Status will be filled by JavaScript -->
-                    </span>
-                    <p class="text-white/60 text-sm mt-2">Last updated: <span id="imageLastUpdated">...</span></p>
-                </div>
-            </div>
-            
-            <!-- Simple Image Display -->
-            <div class="image-display-container">
-                <img id="heroImage" src="" alt="Country Image" class="hero-image">
-            </div>
-        </div>
-    </div>
 
     <!-- Main Content -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -220,7 +28,7 @@
             <div class="lg:col-span-2 space-y-8">
                 
                 <!-- Visa Types -->
-                <section class="bg-white rounded-lg shadow-sm p-6">
+                <section id="visaTypesSection" class="bg-white rounded-lg shadow-sm p-6">
                     <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center">
                         <i class="fas fa-passport mr-3 text-indigo-600"></i>
                         Visa Types
@@ -385,180 +193,40 @@ async function loadCountryData(slug) {
 // Country-specific configurations for special hero cards
 const countryHeroConfigs = {
     'united-arab-emirates': {
-        type: 'uae', // Still use existing UAE implementation
-        colors: {
-            primary: '#1a365d',
-            secondary: '#2b5797', 
-            accent: '#4a90a4'
-        }
+        heroImageUrl: 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'
     },
     'vietnam': {
-        type: 'vietnam', // Still use existing Vietnam implementation  
-        colors: {
-            primary: '#8B0000',
-            secondary: '#DC143C',
-            accent: '#FF6347'
-        }
+        heroImageUrl: 'https://www.hindustantimes.com/ht-img/img/2025/03/25/1600x900/vietnam_1742885224191_1742885224438.jpg'
     },
     'japan': {
-        type: 'special',
-        colors: {
-            primary: '#1B1B3A',
-            secondary: '#E91E63',
-            accent: '#FF5722'
-        },
-        theme: {
-            gradient: 'linear-gradient(135deg, #1B1B3A 0%, #E91E63 50%, #FF5722 100%)',
-            patternUrl: 'https://i.pinimg.com/736x/ff/8c/00/ff8c000c8c92e27e1e5d4c5a1e4b2c6a.jpg',
-            cardTitle: 'Japan Travel Card',
-            cardSubtitle: 'Land of Rising Sun',
-            regionText: 'EAST ASIA',
-            chipGradient: 'linear-gradient(135deg, #FFD700 0%, #FF6B6B 100%)'
-        }
+        heroImageUrl: 'https://www.celebritycruises.com/blog/content/uploads/2021/03/what-is-japan-known-for-mt-fuji-hero-1920x890.jpg'
     },
     'thailand': {
-        type: 'special',
-        colors: {
-            primary: '#8B4513',
-            secondary: '#FFD700',
-            accent: '#FF8C00'
-        },
-        theme: {
-            gradient: 'linear-gradient(135deg, #8B4513 0%, #FFD700 30%, #FF8C00 70%, #FF6347 100%)',
-            patternUrl: 'https://i.pinimg.com/736x/dd/25/8b/dd258bf5e0e8c5a1f0e3d5c4a6b2e1f9.jpg',
-            cardTitle: 'Thailand Travel Card',
-            cardSubtitle: 'Land of Smiles',
-            regionText: 'SOUTHEAST ASIA',
-            chipGradient: 'linear-gradient(135deg, #FFD700 0%, #FF8C00 100%)'
-        }
+        heroImageUrl: 'https://images.unsplash.com/photo-1528181304800-259b08848526?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'
     },
     'singapore': {
-        type: 'special',
-        colors: {
-            primary: '#2E8B57',
-            secondary: '#32CD32',
-            accent: '#00CED1'
-        },
-        theme: {
-            gradient: 'linear-gradient(135deg, #2E8B57 0%, #32CD32 50%, #00CED1 100%)',
-            patternUrl: 'https://i.pinimg.com/736x/ac/b5/f2/acb5f2c8d1e4f7a9b6c3d8e2f5a7b0c4.jpg',
-            cardTitle: 'Singapore Travel Card',
-            cardSubtitle: 'Garden City',
-            regionText: 'SOUTHEAST ASIA',
-            chipGradient: 'linear-gradient(135deg, #FFD700 0%, #32CD32 100%)'
-        }
+        heroImageUrl: 'https://images.unsplash.com/photo-1525625293386-3f8f99389edd?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'
     },
     'south-korea': {
-        type: 'special',
-        colors: {
-            primary: '#4B0082',
-            secondary: '#9370DB',
-            accent: '#FF69B4'
-        },
-        theme: {
-            gradient: 'linear-gradient(135deg, #4B0082 0%, #9370DB 50%, #FF69B4 100%)',
-            patternUrl: 'https://i.pinimg.com/736x/89/12/45/891245c7d3e8f2a1b4c6d9e5f7a0b3c8.jpg',
-            cardTitle: 'South Korea Travel Card',
-            cardSubtitle: 'Hallyu Wave',
-            regionText: 'EAST ASIA',
-            chipGradient: 'linear-gradient(135deg, #FFD700 0%, #FF69B4 100%)'
-        }
+        heroImageUrl: 'https://images.unsplash.com/photo-1545569341-9eb8b30979d9?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'
     },
     'china': {
-        type: 'special',
-        colors: {
-            primary: '#8B0000',
-            secondary: '#FFD700',
-            accent: '#FF4500'
-        },
-        theme: {
-            gradient: 'linear-gradient(135deg, #8B0000 0%, #FFD700 50%, #FF4500 100%)',
-            patternUrl: 'https://i.pinimg.com/736x/f3/d8/12/f3d812a4b6e9c5f2a1d7e3b8c4f5a9b2.jpg',
-            cardTitle: 'China Travel Card',
-            cardSubtitle: 'Middle Kingdom',
-            regionText: 'EAST ASIA',
-            chipGradient: 'linear-gradient(135deg, #FFD700 0%, #FF4500 100%)'
-        }
+        heroImageUrl: 'https://i.natgeofe.com/k/cc247ea7-5ae7-4131-8e07-60307c8f11e7/china-dragon_16x9.jpg?w=1200'
     },
     'malaysia': {
-        type: 'special',
-        colors: {
-            primary: '#003366', // Dark Blue
-            secondary: '#FFCC00', // Gold
-            accent: '#FFFFFF' // White
-        },
-        theme: {
-            gradient: 'linear-gradient(135deg, #003366 0%, #0055A4 50%, #FFCC00 100%)',
-            patternUrl: 'https://i.pinimg.com/736x/1a/3f/e0/1a3fe08a1a3b1a7c9d7f022376b3b8c6.jpg',
-            cardTitle: 'Malaysia Travel Card',
-            cardSubtitle: 'Truly Asia',
-            regionText: 'SOUTHEAST ASIA',
-            chipGradient: 'linear-gradient(135deg, #FFCC00 0%, #FFFFFF 100%)'
-        }
+        heroImageUrl: 'https://images.unsplash.com/photo-1596422846543-75c6d1314da7?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'
     },
     'maldives': {
-        type: 'special',
-        colors: {
-            primary: '#006994',
-            secondary: '#00BFFF',
-            accent: '#FFFFFF'
-        },
-        theme: {
-            gradient: 'linear-gradient(135deg, #006994 0%, #00BFFF 50%, #FFFFFF 100%)',
-            patternUrl: 'https://i.pinimg.com/736x/98/88/82/98888211ab9578b3466fda6eb3d33e95.jpg',
-            cardTitle: 'Maldives Travel Card',
-            cardSubtitle: 'Sunny Side of Life',
-            regionText: 'SOUTH ASIA',
-            chipGradient: 'linear-gradient(135deg, #00BFFF 0%, #FFFFFF 100%)'
-        }
+        heroImageUrl: 'https://media.cnn.com/api/v1/images/stellar/prod/230516112548-01-crossroads-maldives-aerial.jpg?c=original'
     },
     'indonesia': {
-        type: 'special',
-        colors: {
-            primary: '#B22222', // Firebrick red
-            secondary: '#FFFFFF',
-            accent: '#000000'
-        },
-        theme: {
-            gradient: 'linear-gradient(135deg, #B22222 0%, #E6E6E6 100%)',
-            patternUrl: 'https://i.pinimg.com/736x/98/88/82/98888211ab9578b3466fda6eb3d33e95.jpg',
-            cardTitle: 'Indonesia Travel Card',
-            cardSubtitle: 'Wonderful Indonesia',
-            regionText: 'SOUTHEAST ASIA',
-            chipGradient: 'linear-gradient(135deg, #FFFFFF 0%, #B22222 100%)'
-        }
+        heroImageUrl: 'https://www.intrepidtravel.com/adventures/wp-content/uploads/2018/09/2018-06-02_08-04-56-685.jpg'
     },
     'mauritius': {
-        type: 'special',
-        colors: {
-            primary: '#CE1126', // Red
-            secondary: '#00A4E0', // Blue
-            accent: '#FFD100'  // Yellow
-        },
-        theme: {
-            gradient: 'linear-gradient(135deg, #CE1126 0%, #00A4E0 50%, #FFD100 100%)',
-            patternUrl: 'https://i.pinimg.com/736x/98/88/82/98888211ab9578b3466fda6eb3d33e95.jpg',
-            cardTitle: 'Mauritius Travel Card',
-            cardSubtitle: 'The Paradise Island',
-            regionText: 'EAST AFRICA',
-            chipGradient: 'linear-gradient(135deg, #FFD100 0%, #50C878 100%)' // Yellow and Green
-        }
+        heroImageUrl: 'https://www.andbeyond.com/wp-content/uploads/sites/5/Royal-Villa-Swimming-Pool-at-The-Oberoi-Mauritius.jpg'
     },
     'cambodia': {
-        type: 'special',
-        colors: {
-            primary: '#002B7F', // Blue
-            secondary: '#D60000', // Red
-            accent: '#FFFFFF'
-        },
-        theme: {
-            gradient: 'linear-gradient(135deg, #002B7F 0%, #D60000 100%)',
-            patternUrl: 'https://i.pinimg.com/736x/98/88/82/98888211ab9578b3466fda6eb3d33e95.jpg',
-            cardTitle: 'Cambodia Travel Card',
-            cardSubtitle: 'Kingdom of Wonder',
-            regionText: 'SOUTHEAST ASIA',
-            chipGradient: 'linear-gradient(135deg, #FFFFFF 0%, #D60000 100%)'
-        }
+        heroImageUrl: 'https://cdn.britannica.com/49/94449-050-ECB0E7C2/Angkor-Wat-temple-complex-Camb.jpg'
     }
 };
 
@@ -568,24 +236,8 @@ function displayCountryData(country) {
     const countrySlug = country.slug.toLowerCase();
     const config = countryHeroConfigs[countrySlug];
     
-    if (config) {
-        if (config.type === 'uae') {
-            console.log('Showing UAE hero');
-            showUAEHero(country);
-        } else if (config.type === 'vietnam') {
-            console.log('Showing Vietnam hero');
-            showVietnamHero(country);
-        } else if (config.type === 'special') {
-            console.log('Showing special hero for:', country.name);
-            showSpecialHero(country, config);
-        } else if (config.type === 'image') {
-            console.log('Showing image hero for:', country.name);
-            showImageHero(country, config);
-        }
-    } else {
-        console.log('Showing default hero');
-        showDefaultHero(country);
-    }
+    // Always show the unified hero
+    showUnifiedHero(country, config);
     
     // Update page title
     document.title = `${country.name} Visa Information - Complete Guide`;
@@ -602,157 +254,27 @@ function displayCountryData(country) {
     displayTransitInfo(country.visa_free_transit);
 }
 
-function showSpecialHero(country, config) {
-    console.log('showSpecialHero called for:', country.name, 'with config:', config);
+function showUnifiedHero(country, config) {
+    console.log('showUnifiedHero called for:', country.name);
     
-    // Hide all other heroes
-    const defaultHero = document.getElementById('defaultHero');
-    const uaeHero = document.getElementById('uaeHero');
-    const vietnamHero = document.getElementById('vietnamHero');
-    
-    if (defaultHero) defaultHero.classList.add('hidden');
-    if (uaeHero) uaeHero.classList.add('hidden');
-    if (vietnamHero) vietnamHero.classList.add('hidden');
-    
-    // Apply country-specific theme
-    const countryClass = `${country.slug.toLowerCase()}-page`;
-    document.body.classList.remove('uae-page', 'vietnam-page');
-    document.body.classList.add(countryClass);
-    
-    // Apply dynamic styles for this country
-    applyCountryTheme(country.slug.toLowerCase(), config);
-    
-    // Populate hero data
-    const elements = {
-        countryName: document.getElementById('specialCountryName'),
-        summary: document.getElementById('specialSummary'),
-        description: document.getElementById('specialDescription'),
-        lastUpdated: document.getElementById('specialLastUpdated'),
-        visaStatus: document.getElementById('specialVisaStatus'),
-        cardTitle: document.getElementById('specialCardTitle'),
-        cardSubtitle: document.getElementById('specialCardSubtitle'),
-        cardStatus: document.getElementById('specialCardStatus'),
-        cardRegion: document.getElementById('specialCardRegion'),
-        cardExp: document.getElementById('specialCardExp')
-    };
-    
-    console.log('Special hero elements found:', Object.keys(elements).reduce((acc, key) => {
-        acc[key] = !!elements[key];
-        return acc;
-    }, {}));
-    
-    // Populate content
-    if (elements.countryName) elements.countryName.textContent = country.name;
-    if (elements.summary) elements.summary.textContent = country.summary || `Discover the beauty and culture of ${country.name}`;
-    if (elements.description) elements.description.textContent = `Experience the rich history, vibrant culture, and breathtaking beauty that ${country.name} has to offer.`;
-    if (elements.lastUpdated) elements.lastUpdated.textContent = new Date(country.last_updated).toLocaleDateString();
-    
-    if (elements.cardTitle) elements.cardTitle.textContent = config.theme.cardTitle;
-    if (elements.cardSubtitle) elements.cardSubtitle.textContent = config.theme.cardSubtitle;
-    if (elements.cardRegion) elements.cardRegion.textContent = config.theme.regionText;
-    
-    // Set card expiry to next year
-    const nextYear = new Date().getFullYear() + 1;
-    if (elements.cardExp) elements.cardExp.textContent = `12/${nextYear.toString().slice(-2)}`;
-    
-    // Visa status styling
-    if (elements.visaStatus) {
-        if (country.visa_required) {
-            elements.visaStatus.textContent = 'Visa Required';
-            elements.visaStatus.className = 'inline-flex items-center px-6 py-3 rounded-full text-lg font-bold bg-yellow-400 text-yellow-900 shadow-lg';
-        } else {
-            elements.visaStatus.textContent = 'Visa Free';
-            elements.visaStatus.className = 'inline-flex items-center px-6 py-3 rounded-full text-lg font-bold bg-green-400 text-green-900 shadow-lg';
-        }
-    }
-    
-    if (elements.cardStatus) {
-        elements.cardStatus.textContent = country.visa_required ? 'VISA REQUIRED' : 'VISA FREE';
-    }
-    
-    console.log('Special hero setup complete for:', country.name);
-}
+    const heroSection = document.getElementById('unified-hero');
+    if (!heroSection) return;
 
-function applyCountryTheme(countrySlug, config) {
-    // Create or update dynamic styles for this country
-    let styleElement = document.getElementById('dynamic-country-styles');
-    if (!styleElement) {
-        styleElement = document.createElement('style');
-        styleElement.id = 'dynamic-country-styles';
-        document.head.appendChild(styleElement);
+    // Populate the hero with dynamic content
+    document.getElementById('unified-hero-country-name').textContent = country.name;
+    document.getElementById('unified-hero-summary').textContent = country.summary || `Discover the cultural heritage and stunning landscapes of ${country.name}.`;
+    document.getElementById('unified-hero-description').textContent = `Experience the rich history, vibrant culture, and breathtaking beauty that ${country.name} has to offer.`;
+
+    // Set the background image
+    const rightPanel = document.getElementById('unified-hero-right-panel');
+    if (rightPanel && config && config.heroImageUrl) {
+        rightPanel.style.backgroundImage = `url('${config.heroImageUrl}')`;
+    } else if (rightPanel) {
+        // Fallback image if none is configured
+        rightPanel.style.backgroundImage = `url('https://images.unsplash.com/photo-1534067783941-51c9c23ecefd?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')`;
     }
     
-    const theme = config.theme;
-    const className = `${countrySlug}-page`;
-    
-    styleElement.textContent = `
-        /* ${countrySlug.toUpperCase()} Special Hero Styles */
-        .${className} .special-hero-card {
-            background: ${theme.gradient};
-        }
-        
-        .${className} .special-card-front {
-            background: ${theme.gradient};
-        }
-        
-        .${className} .special-pattern {
-            background-image: url('${theme.patternUrl}');
-            background-size: cover;
-            background-position: center;
-            position: absolute;
-            top: -12px;
-            right: -12px;
-            width: 80px;
-            height: 80px;
-            border-radius: 12px;
-            opacity: 0.4;
-            filter: brightness(1.3) contrast(1.1);
-        }
-        
-        .${className} .special-chip {
-            background: ${theme.chipGradient};
-        }
-        
-        .${className} .special-landscape {
-            background: linear-gradient(to right, 
-                ${config.colors.secondary}20 0%,
-                ${config.colors.secondary}30 15%,
-                ${config.colors.secondary}10 30%,
-                ${config.colors.secondary}40 45%,
-                ${config.colors.secondary}20 60%,
-                ${config.colors.secondary}30 75%,
-                ${config.colors.secondary}10 90%,
-                ${config.colors.secondary}20 100%
-            );
-        }
-        
-        /* Page content theming */
-        .${className} .bg-white {
-            background: linear-gradient(145deg, #ffffff 0%, ${config.colors.primary}05 100%);
-            border: 1px solid ${config.colors.primary}20;
-        }
-        
-        .${className} .border-gray-200 {
-            border-color: ${config.colors.primary}30;
-        }
-        
-        .${className} .text-indigo-600 {
-            color: ${config.colors.secondary};
-        }
-        
-        .${className} .bg-indigo-100 {
-            background: linear-gradient(135deg, ${config.colors.secondary}10 0%, ${config.colors.accent}10 100%);
-        }
-        
-        .${className} .text-indigo-800 {
-            color: ${config.colors.primary};
-        }
-        
-        .${className} .bg-blue-50 {
-            background: linear-gradient(135deg, ${config.colors.secondary}05 0%, ${config.colors.accent}05 100%);
-            border-left-color: ${config.colors.secondary};
-        }
-    `;
+    console.log('Unified hero setup complete for:', country.name);
 }
 
 function shouldShowStayDuration(visa) {
@@ -1149,224 +671,6 @@ async function loadRelatedCountries() {
     } catch (error) {
         console.error('Error loading related countries:', error);
     }
-}
-
-function showVietnamHero(country) {
-    console.log('showVietnamHero called for:', country.name);
-    // Hide all other hero sections
-    const defaultHero = document.getElementById('defaultHero');
-    const uaeHero = document.getElementById('uaeHero');
-    const specialHero = document.getElementById('specialHero');
-    const imageHero = document.getElementById('imageHero');
-    
-    if (defaultHero) defaultHero.classList.add('hidden');
-    if (uaeHero) uaeHero.classList.add('hidden');
-    if (specialHero) specialHero.classList.add('hidden');
-    if (imageHero) imageHero.classList.add('hidden');
-
-    // Show the new Vietnam hero
-    const vietnamHero = document.getElementById('vietnamHero');
-    if (vietnamHero) {
-        vietnamHero.classList.remove('hidden');
-    }
-
-    // Populate the hero with dynamic content
-    const countryNameEl = document.getElementById('vietnamHeroCountryName');
-    const summaryEl = document.getElementById('vietnamHeroSummary');
-    const descriptionEl = document.getElementById('vietnamHeroDescription');
-
-    if (countryNameEl) countryNameEl.textContent = country.name;
-    if (summaryEl) summaryEl.textContent = country.summary || `Discover the cultural heritage and stunning landscapes of ${country.name}.`;
-    if (descriptionEl) descriptionEl.textContent = `Experience the rich history, vibrant culture, and breathtaking beauty that ${country.name} has to offer.`;
-
-    document.body.classList.remove('uae-page'); // Clean up old classes
-    document.body.classList.add('vietnam-page');
-    
-    console.log('New Vietnam hero setup complete V4');
-}
-
-function showUAEHero(country) {
-    // Hide default, Vietnam and special heroes, show UAE special card
-    const defaultHero = document.getElementById('defaultHero');
-    const vietnamHero = document.getElementById('vietnamHero');
-    const uaeHero = document.getElementById('uaeHero');
-    const specialHero = document.getElementById('specialHero');
-    
-    if (defaultHero) defaultHero.classList.add('hidden');
-    if (vietnamHero) vietnamHero.classList.add('hidden');
-    if (specialHero) specialHero.classList.add('hidden');
-    if (uaeHero) uaeHero.classList.remove('hidden');
-    
-    // Add UAE theme class to body and remove others
-    document.body.classList.remove('vietnam-page');
-    document.body.classList.add('uae-page');
-    
-    // Populate UAE hero data
-    document.getElementById('uaeSummary').textContent = country.summary || 'Discover the UAE\'s visa requirements and travel to this stunning destination of modern cities and rich culture.';
-    document.getElementById('uaeLastUpdated').textContent = new Date(country.last_updated).toLocaleDateString();
-    
-    // Set card expiry to next year
-    const nextYear = new Date().getFullYear() + 1;
-    document.getElementById('uaeCardExp').textContent = `12/${nextYear.toString().slice(-2)}`;
-    
-    // UAE Visa status with special styling
-    const uaeVisaStatus = document.getElementById('uaeVisaStatus');
-    const uaeCardStatus = document.getElementById('uaeCardStatus');
-    
-    if (country.visa_required) {
-        uaeVisaStatus.textContent = 'Visa Required';
-        uaeVisaStatus.className = 'inline-flex items-center px-6 py-3 rounded-full text-lg font-bold bg-yellow-400 text-yellow-900 shadow-lg';
-        uaeCardStatus.textContent = 'VISA REQUIRED';
-    } else {
-        uaeVisaStatus.textContent = 'Visa Free';
-        uaeVisaStatus.className = 'inline-flex items-center px-6 py-3 rounded-full text-lg font-bold bg-green-400 text-green-900 shadow-lg';
-        uaeCardStatus.textContent = 'VISA FREE';
-    }
-}
-
-function showDefaultHero(country) {
-    // Show default hero and hide special cards
-    const defaultHero = document.getElementById('defaultHero');
-    const uaeHero = document.getElementById('uaeHero');
-    const vietnamHero = document.getElementById('vietnamHero');
-    const specialHero = document.getElementById('specialHero');
-    
-    if (defaultHero) defaultHero.classList.remove('hidden');
-    if (uaeHero) uaeHero.classList.add('hidden');
-    if (vietnamHero) vietnamHero.classList.add('hidden');
-    if (specialHero) specialHero.classList.add('hidden');
-    
-    // Remove theme classes from body
-    document.body.classList.remove('uae-page', 'vietnam-page');
-    
-    // Header information
-    document.getElementById('countryFlag').textContent = country.flag;
-    document.getElementById('countryName').textContent = country.name;
-    document.getElementById('countryRegion').textContent = country.region;
-    document.getElementById('countrySummary').textContent = country.summary;
-    document.getElementById('lastUpdated').textContent = new Date(country.last_updated).toLocaleDateString();
-    
-    // Visa status
-    const visaStatus = document.getElementById('visaStatus');
-    if (country.visa_required) {
-        visaStatus.className = 'inline-flex items-center px-4 py-2 rounded-full text-lg font-medium bg-yellow-100 text-yellow-800';
-        visaStatus.textContent = 'Visa Required';
-    } else {
-        visaStatus.className = 'inline-flex items-center px-4 py-2 rounded-full text-lg font-medium bg-green-100 text-green-800';
-        visaStatus.textContent = 'Visa Free';
-    }
-}
-
-function showImageHero(country, config) {
-    console.log('showImageHero called for:', country.name, 'with config:', config);
-    
-    // Hide all other heroes
-    const defaultHero = document.getElementById('defaultHero');
-    const uaeHero = document.getElementById('uaeHero');
-    const vietnamHero = document.getElementById('vietnamHero');
-    const specialHero = document.getElementById('specialHero');
-    const imageHero = document.getElementById('imageHero');
-    
-    if (defaultHero) defaultHero.classList.add('hidden');
-    if (uaeHero) uaeHero.classList.add('hidden');
-    if (vietnamHero) vietnamHero.classList.add('hidden');
-    if (specialHero) specialHero.classList.add('hidden');
-    if (imageHero) imageHero.classList.remove('hidden');
-    
-    // Apply country-specific theme
-    const countryClass = `${country.slug.toLowerCase()}-page`;
-    document.body.classList.remove('uae-page', 'vietnam-page');
-    document.body.classList.add(countryClass);
-    
-    // Apply dynamic styles for this country
-    applyImageCountryTheme(country.slug.toLowerCase(), config);
-    
-    // Populate hero data
-    const elements = {
-        countryName: document.getElementById('imageCountryName'),
-        summary: document.getElementById('imageSummary'),
-        description: document.getElementById('imageDescription'),
-        lastUpdated: document.getElementById('imageLastUpdated'),
-        visaStatus: document.getElementById('imageVisaStatus'),
-        heroImage: document.getElementById('heroImage')
-    };
-    
-    console.log('Image hero elements found:', Object.keys(elements).reduce((acc, key) => {
-        acc[key] = !!elements[key];
-        return acc;
-    }, {}));
-    
-    // Populate content
-    if (elements.countryName) elements.countryName.textContent = country.name;
-    if (elements.summary) elements.summary.textContent = country.summary || `Discover the beauty and culture of ${country.name}`;
-    if (elements.description) elements.description.textContent = `Experience the rich history, vibrant culture, and breathtaking beauty that ${country.name} has to offer.`;
-    if (elements.lastUpdated) elements.lastUpdated.textContent = new Date(country.last_updated).toLocaleDateString();
-    
-    // Set the hero image
-    if (elements.heroImage && config.imageUrl) {
-        elements.heroImage.src = config.imageUrl;
-        elements.heroImage.alt = `${country.name} scenic view`;
-    }
-    
-    // Visa status styling
-    if (elements.visaStatus) {
-        if (country.visa_required) {
-            elements.visaStatus.textContent = 'Visa Required';
-            elements.visaStatus.className = 'inline-flex items-center px-6 py-3 rounded-full text-lg font-bold bg-yellow-400 text-yellow-900 shadow-lg';
-        } else {
-            elements.visaStatus.textContent = 'Visa Free';
-            elements.visaStatus.className = 'inline-flex items-center px-6 py-3 rounded-full text-lg font-bold bg-green-400 text-green-900 shadow-lg';
-        }
-    }
-    
-    console.log('Image hero setup complete for:', country.name);
-}
-
-function applyImageCountryTheme(countrySlug, config) {
-    // Create or update dynamic styles for this country
-    let styleElement = document.getElementById('dynamic-image-country-styles');
-    if (!styleElement) {
-        styleElement = document.createElement('style');
-        styleElement.id = 'dynamic-image-country-styles';
-        document.head.appendChild(styleElement);
-    }
-    
-    const theme = config.theme;
-    const className = `${countrySlug}-page`;
-    
-    styleElement.textContent = `
-        /* ${countrySlug.toUpperCase()} Image Hero Styles */
-        .${className} .image-hero-card {
-            background: ${theme.gradient};
-        }
-        
-        /* Page content theming */
-        .${className} .bg-white {
-            background: linear-gradient(145deg, #ffffff 0%, ${config.colors.primary}05 100%);
-            border: 1px solid ${config.colors.primary}20;
-        }
-        
-        .${className} .border-gray-200 {
-            border-color: ${config.colors.primary}30;
-        }
-        
-        .${className} .text-indigo-600 {
-            color: ${config.colors.secondary};
-        }
-        
-        .${className} .bg-indigo-100 {
-            background: linear-gradient(135deg, ${config.colors.secondary}10 0%, ${config.colors.accent}10 100%);
-        }
-        
-        .${className} .text-indigo-800 {
-            color: ${config.colors.primary};
-        }
-        
-        .${className} .bg-blue-50 {
-            background: linear-gradient(135deg, ${config.colors.secondary}05 0%, ${config.colors.accent}05 100%);
-            border-left-color: ${config.colors.secondary};
-        }
-    `;
 }
 </script>
 {% endblock %} 
