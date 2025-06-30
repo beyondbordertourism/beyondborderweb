@@ -10,6 +10,7 @@
     background-image: url('/static/images/hero-bg.jpg');
     background-size: cover;
     background-position: center;
+    color: white;
 }
 
 .hero-overlay-bottom {
@@ -26,13 +27,13 @@
     position: relative;
     z-index: 1;
     text-align: left;
-    color: white;
     max-width: 1200px;
     padding: 0 6rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 100%;
+    color: white;
 }
 
 .hero-content .flex-1 h1,
@@ -345,6 +346,7 @@ html {
     justify-content: center;
     text-align: center;
     position: relative;
+    color: white;
 }
 
 .hero-content-green {
@@ -488,7 +490,8 @@ body, html {
     padding: 0;
     height: 100%;
     background-color: #f1f1f1; /* Fallback color */
-    color: white;
+    color: #374151; /* Default dark text color */
+    font-family: 'Inter', sans-serif;
 }
 
 .hero-klook {
@@ -500,6 +503,20 @@ body, html {
     padding: 4rem 6rem;
     box-sizing: border-box;
     transition: background-image 0.8s ease-in-out;
+    color: white;
+}
+
+/* Only make specific text elements white in hero-klook, not everything */
+.hero-klook h1,
+.hero-klook h2,
+.hero-klook h3,
+.hero-klook h4,
+.hero-klook h5,
+.hero-klook h6,
+.hero-klook p:not(.search-box-klook p),
+.hero-klook .city-item,
+.hero-klook .filter-buttons-klook button {
+    color: white;
 }
 
 .hero-klook-left {
@@ -675,21 +692,73 @@ body, html {
 
 /* Navbar Styles */
 #navbar {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-#navbar.scrolled {
-    background: white;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    color: white;
 }
 
 #navbar .nav-link {
-    color: white;
+    color: #333;
     font-weight: 500;
     transition: color 0.3s ease;
+}
+
+#navbar .nav-link:hover {
+    color: #000;
+}
+
+#navbar .text-2xl {
+    color: #333;
+}
+
+#navbar .nav-contact-button {
+    background: #FF5B00;
+    color: white;
+    padding: 0.5rem 1.5rem;
+    border-radius: 50px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+#navbar .nav-contact-button:hover {
+    transform: scale(1.05);
+}
+
+/* Special styling for homepage navbar (transparent with white text) */
+.hero-section #navbar,
+.hero-klook #navbar {
+    background: rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.hero-section #navbar .nav-link,
+.hero-klook #navbar .nav-link {
+    color: white;
+}
+
+.hero-section #navbar .nav-link:hover,
+.hero-klook #navbar .nav-link:hover {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.hero-section #navbar .text-2xl,
+.hero-klook #navbar .text-2xl {
+    color: white;
+}
+
+.hero-section #navbar .nav-contact-button,
+.hero-klook #navbar .nav-contact-button {
+    background: white;
+    color: #333;
+}
+
+/* Scrolled navbar becomes solid white */
+#navbar.scrolled {
+    background: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 #navbar.scrolled .nav-link {
@@ -704,22 +773,9 @@ body, html {
     color: #333;
 }
 
-#navbar .nav-contact-button {
-    background: white;
-    color: #333;
-    padding: 0.5rem 1.5rem;
-    border-radius: 50px;
-    font-weight: 600;
-    transition: all 0.3s ease;
-}
-
 #navbar.scrolled .nav-contact-button {
     background: #FF5B00;
     color: white;
-}
-
-#navbar .nav-contact-button:hover {
-    transform: scale(1.05);
 }
 
 /* Live Search Results */
@@ -944,6 +1000,7 @@ body, html {
 /* Navbar spacing fix for pages that need top padding */
 .navbar-spaced {
     padding-top: 80px;
+    /* color: #1f2937; */ /* No longer needed here, set on body */
 }
 
 /* Responsive navbar spacing */
@@ -951,4 +1008,1456 @@ body, html {
     .navbar-spaced {
         padding-top: 70px;
     }
+}
+
+/* UAE Special Hero with 3D Floating Card */
+.uae-hero-card {
+    position: relative;
+    min-height: 350px;
+    background: linear-gradient(135deg, #1a365d 0%, #2b5797 50%, #4a90a4 100%);
+    overflow-x: hidden;
+    overflow-y: visible;
+    padding: 0;
+    color: white;
+}
+
+.uae-hero-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+    min-height: 350px;
+    position: relative;
+    overflow-x: hidden;
+}
+
+.uae-hero-left {
+    flex: 1;
+    max-width: 600px;
+    z-index: 2;
+}
+
+.uae-hero-left h1 {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 300;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.uae-hero-left p {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 300;
+    letter-spacing: 0.5px;
+}
+
+.uae-hero-left .text-lg {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+}
+
+/* 3D Card Container - Allow overflow */
+.uae-card-3d-container {
+    position: absolute;
+    right: 20px;
+    top: 40%;
+    transform: translateY(-50%);
+    perspective: 1000px;
+    z-index: 15;
+}
+
+.uae-floating-card {
+    width: 350px;
+    height: 220px;
+    position: relative;
+    transform-style: preserve-3d;
+    animation: float3D 6s ease-in-out infinite;
+}
+
+@keyframes float3D {
+    0%, 100% { 
+        transform: rotateY(-15deg) rotateX(5deg) translateZ(0px);
+    }
+    50% { 
+        transform: rotateY(-15deg) rotateX(5deg) translateZ(20px);
+    }
+}
+
+.uae-card-inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    border-radius: 20px;
+    box-shadow: 
+        0 25px 50px rgba(0, 0, 0, 0.4),
+        0 15px 35px rgba(0, 0, 0, 0.25),
+        0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.uae-card-front {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    backface-visibility: hidden;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #1a365d 0%, #2b5797 50%, #4a90a4 100%);
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.uae-card-front::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.1) 0%, 
+        rgba(255, 255, 255, 0.05) 50%, 
+        rgba(255, 255, 255, 0.02) 100%
+    );
+    border-radius: 20px;
+    pointer-events: none;
+}
+
+.uae-card-front::after {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 60px;
+    height: 60px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.uae-card-content-3d {
+    width: 100%;
+    height: 100%;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+/* Card Header */
+.uae-card-header {
+    position: relative;
+    margin-bottom: 16px;
+}
+
+.uae-geometric-pattern {
+    position: absolute;
+    top: -12px;
+    right: -12px;
+    width: 80px;
+    height: 80px;
+    background-image: url('https://i.pinimg.com/736x/0f/16/e1/0f16e1696165cdc1bf8722f7b917d37a.jpg');
+    background-size: cover;
+    background-position: center;
+    border-radius: 12px;
+    opacity: 0.3;
+    filter: brightness(1.5);
+}
+
+.uae-card-title h3 {
+    font-size: 1.1rem;
+    margin: 0;
+    letter-spacing: 0.5px;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 400;
+    text-transform: uppercase;
+}
+
+.uae-card-title p {
+    margin: 4px 0 0 0;
+    font-size: 0.8rem;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 300;
+}
+
+/* Card Body */
+.uae-card-body {
+    flex: 1;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    font-family: 'Oswald', sans-serif;
+}
+
+.uae-card-body .text-xs {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 300;
+    letter-spacing: 0.5px;
+}
+
+.uae-card-body .font-bold {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+.uae-skyline {
+    position: absolute;
+    bottom: 40px;
+    left: 0;
+    right: 0;
+    height: 30px;
+    background: linear-gradient(to right, 
+        rgba(255, 255, 255, 0.1) 0%,
+        rgba(255, 255, 255, 0.2) 20%,
+        rgba(255, 255, 255, 0.1) 40%,
+        rgba(255, 255, 255, 0.3) 60%,
+        rgba(255, 255, 255, 0.1) 80%,
+        rgba(255, 255, 255, 0.2) 100%
+    );
+    clip-path: polygon(
+        0% 100%, 10% 70%, 15% 80%, 25% 40%, 35% 60%, 
+        45% 30%, 55% 50%, 65% 20%, 75% 45%, 85% 35%, 
+        95% 55%, 100% 65%, 100% 100%
+    );
+    opacity: 0.6;
+}
+
+/* Card Footer */
+.uae-card-footer {
+    margin-top: auto;
+}
+
+.uae-chip {
+    width: 32px;
+    height: 24px;
+    background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+    border-radius: 4px;
+    position: relative;
+}
+
+.uae-chip::before {
+    content: '';
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    right: 4px;
+    bottom: 4px;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 2px;
+}
+
+/* Entry animation */
+.uae-floating-card {
+    animation: cardEnter 1.5s ease-out, float3D 6s ease-in-out infinite 1.5s;
+}
+
+@keyframes cardEnter {
+    0% {
+        opacity: 0;
+        transform: rotateY(-60deg) rotateX(20deg) translateX(100px) translateZ(-100px);
+    }
+    100% {
+        opacity: 1;
+        transform: rotateY(-15deg) rotateX(5deg) translateX(0px) translateZ(0px);
+    }
+}
+
+/* UAE Page Content Styling */
+.uae-page .bg-white {
+    background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+    border: 1px solid rgba(74, 144, 164, 0.1);
+}
+
+.uae-page .border-gray-200 {
+    border-color: rgba(74, 144, 164, 0.2);
+}
+
+.uae-page .text-indigo-600 {
+    color: #2b5797;
+}
+
+.uae-page .bg-indigo-100 {
+    background: linear-gradient(135deg, rgba(43, 87, 151, 0.1) 0%, rgba(74, 144, 164, 0.1) 100%);
+}
+
+.uae-page .text-indigo-800 {
+    color: #1a365d;
+}
+
+.uae-page .bg-blue-50 {
+    background: linear-gradient(135deg, rgba(74, 144, 164, 0.05) 0%, rgba(91, 163, 184, 0.05) 100%);
+    border-left-color: #4a90a4;
+}
+
+/* Responsive adjustments for UAE card */
+@media (max-width: 1200px) {
+    .uae-card-3d-container {
+        right: 10px;
+        top: 35%;
+    }
+    
+    .uae-floating-card {
+        width: 300px;
+        height: 190px;
+    }
+}
+
+@media (max-width: 992px) {
+    .uae-hero-card {
+        min-height: 300px;
+    }
+    
+    .uae-hero-container {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 2rem;
+        padding: 2rem;
+        min-height: 300px;
+    }
+    
+    .uae-card-3d-container {
+        position: relative;
+        right: 0;
+        top: 0;
+        transform: none;
+    }
+    
+    .uae-floating-card {
+        width: 320px;
+        height: 200px;
+    }
+    
+    @keyframes float3D {
+        0%, 100% { 
+            transform: rotateY(0deg) rotateX(5deg) translateZ(0px);
+        }
+        50% { 
+            transform: rotateY(0deg) rotateX(5deg) translateZ(15px);
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .uae-hero-card {
+        min-height: 280px;
+    }
+    
+    .uae-hero-container {
+        padding: 2rem 1rem;
+        min-height: 280px;
+    }
+    
+    .uae-hero-left h1 {
+        font-size: 2.5rem;
+        font-weight: 300;
+    }
+    
+    /* Hide some monuments on mobile for cleaner look */
+    .uae-monument.monument-1,
+    .uae-monument.monument-5 {
+        display: none;
+    }
+    
+    /* Adjust remaining monuments for mobile */
+    .uae-monument.monument-2 {
+        bottom: -20px;
+        right: -25px;
+        width: 30px;
+        height: 30px;
+    }
+    
+    .uae-monument.monument-3 {
+        top: 60px;
+        left: -25px;
+        width: 25px;
+        height: 25px;
+    }
+    
+    .uae-floating-card {
+        width: 280px;
+        height: 180px;
+    }
+}
+
+/* Vietnam Special Hero with 3D Floating Card */
+.vietnam-hero-card {
+    position: relative;
+    min-height: 350px;
+    background: linear-gradient(135deg, #8B0000 0%, #DC143C 30%, #FF6347 70%, #FFD700 100%);
+    overflow-x: hidden;
+    overflow-y: visible;
+    padding: 0;
+    color: white;
+}
+
+.vietnam-hero-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+    min-height: 350px;
+    position: relative;
+    overflow-x: hidden;
+}
+
+.vietnam-hero-left {
+    flex: 1;
+    max-width: 580px;
+    z-index: 2;
+    padding-right: 2rem;
+}
+
+.vietnam-hero-left h1 {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 400;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    line-height: 1.2;
+}
+
+.vietnam-hero-left p {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    letter-spacing: 0.2px;
+    line-height: 1.6;
+}
+
+.vietnam-hero-left .text-lg {
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+/* Vietnam 3D Card Container */
+.vietnam-card-3d-container {
+    position: absolute;
+    right: 20px;
+    top: 40%;
+    transform: translateY(-50%);
+    perspective: 1000px;
+    z-index: 15;
+}
+
+.vietnam-floating-card {
+    width: 350px;
+    height: 220px;
+    position: relative;
+    transform-style: preserve-3d;
+    animation: vietnamFloat3D 6s ease-in-out infinite;
+}
+
+@keyframes vietnamFloat3D {
+    0%, 100% { 
+        transform: rotateY(-15deg) rotateX(5deg) translateZ(0px);
+    }
+    50% { 
+        transform: rotateY(-15deg) rotateX(5deg) translateZ(20px);
+    }
+}
+
+.vietnam-card-inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    border-radius: 20px;
+    box-shadow: 
+        0 25px 50px rgba(0, 0, 0, 0.4),
+        0 15px 35px rgba(0, 0, 0, 0.25),
+        0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.vietnam-card-front {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    backface-visibility: hidden;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #8B0000 0%, #DC143C 50%, #FF6347 100%);
+    overflow: hidden;
+    border: 1px solid rgba(255, 215, 0, 0.2);
+}
+
+.vietnam-card-front::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, 
+        rgba(255, 215, 0, 0.1) 0%, 
+        rgba(255, 215, 0, 0.05) 50%, 
+        rgba(255, 215, 0, 0.02) 100%
+    );
+    border-radius: 20px;
+    pointer-events: none;
+}
+
+.vietnam-card-front::after {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 60px;
+    height: 60px;
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.3) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.vietnam-card-content-3d {
+    width: 100%;
+    height: 100%;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+/* Vietnam Card Header */
+.vietnam-card-header {
+    position: relative;
+    margin-bottom: 16px;
+}
+
+.vietnam-pattern {
+    position: absolute;
+    top: -12px;
+    right: -12px;
+    width: 80px;
+    height: 80px;
+    background-image: url('https://i.pinimg.com/736x/8a/28/3f/8a283fcb2d8d42821b909209e5cebaff.jpg');
+    background-size: cover;
+    background-position: center;
+    border-radius: 12px;
+    opacity: 0.4;
+    filter: brightness(1.3) contrast(1.1);
+}
+
+.vietnam-card-title h3 {
+    font-size: 1.1rem;
+    margin: 0;
+    letter-spacing: 0.5px;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 400;
+    text-transform: uppercase;
+}
+
+.vietnam-card-title p {
+    margin: 4px 0 0 0;
+    font-size: 0.8rem;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 300;
+}
+
+/* Vietnam Card Body */
+.vietnam-card-body {
+    flex: 1;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    font-family: 'Oswald', sans-serif;
+}
+
+.vietnam-landscape {
+    position: absolute;
+    bottom: 40px;
+    left: 0;
+    right: 0;
+    height: 35px;
+    background: linear-gradient(to right, 
+        rgba(255, 215, 0, 0.2) 0%,
+        rgba(255, 215, 0, 0.3) 15%,
+        rgba(255, 215, 0, 0.1) 30%,
+        rgba(255, 215, 0, 0.4) 45%,
+        rgba(255, 215, 0, 0.2) 60%,
+        rgba(255, 215, 0, 0.3) 75%,
+        rgba(255, 215, 0, 0.1) 90%,
+        rgba(255, 215, 0, 0.2) 100%
+    );
+    clip-path: polygon(
+        0% 100%, 8% 60%, 16% 75%, 24% 40%, 32% 65%, 
+        40% 25%, 48% 55%, 56% 20%, 64% 50%, 72% 30%, 
+        80% 45%, 88% 35%, 96% 60%, 100% 70%, 100% 100%
+    );
+    opacity: 0.7;
+}
+
+.vietnam-card-body .text-xs {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 300;
+    letter-spacing: 0.5px;
+}
+
+.vietnam-card-body .font-bold {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+/* Vietnam Card Footer */
+.vietnam-card-footer {
+    margin-top: auto;
+}
+
+.vietnam-chip {
+    width: 32px;
+    height: 24px;
+    background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+    border-radius: 4px;
+    position: relative;
+}
+
+.vietnam-chip::before {
+    content: '';
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    right: 4px;
+    bottom: 4px;
+    background: rgba(139, 0, 0, 0.2);
+    border-radius: 2px;
+}
+
+/* Vietnam Entry animation */
+.vietnam-floating-card {
+    animation: vietnamCardEnter 1.5s ease-out, vietnamFloat3D 6s ease-in-out infinite 1.5s;
+}
+
+@keyframes vietnamCardEnter {
+    0% {
+        opacity: 0;
+        transform: rotateY(-60deg) rotateX(20deg) translateX(100px) translateZ(-100px);
+    }
+    100% {
+        opacity: 1;
+        transform: rotateY(-15deg) rotateX(5deg) translateX(0px) translateZ(0px);
+    }
+}
+
+/* Vietnam Page Content Styling */
+.vietnam-page .bg-white {
+    background: linear-gradient(145deg, #ffffff 0%, #fff8f8 100%);
+    border: 1px solid rgba(220, 20, 60, 0.1);
+}
+
+.vietnam-page .border-gray-200 {
+    border-color: rgba(220, 20, 60, 0.2);
+}
+
+.vietnam-page .text-indigo-600 {
+    color: #DC143C;
+}
+
+.vietnam-page .bg-indigo-100 {
+    background: linear-gradient(135deg, rgba(220, 20, 60, 0.1) 0%, rgba(255, 99, 71, 0.1) 100%);
+}
+
+.vietnam-page .text-indigo-800 {
+    color: #8B0000;
+}
+
+.vietnam-page .bg-blue-50 {
+    background: linear-gradient(135deg, rgba(255, 99, 71, 0.05) 0%, rgba(255, 215, 0, 0.05) 100%);
+    border-left-color: #FF6347;
+}
+
+/* Responsive adjustments for Vietnam card */
+@media (max-width: 1200px) {
+    .vietnam-card-3d-container {
+        right: 10px;
+        top: 35%;
+    }
+    
+    .vietnam-floating-card {
+        width: 300px;
+        height: 190px;
+    }
+}
+
+@media (max-width: 992px) {
+    .vietnam-hero-card {
+        min-height: 300px;
+    }
+    
+    .vietnam-hero-container {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 2rem;
+        padding: 2rem;
+        min-height: 300px;
+    }
+    
+    .vietnam-card-3d-container {
+        position: relative;
+        right: 0;
+        top: 0;
+        transform: none;
+    }
+    
+    .vietnam-floating-card {
+        width: 320px;
+        height: 200px;
+    }
+    
+    @keyframes vietnamFloat3D {
+        0%, 100% { 
+            transform: rotateY(0deg) rotateX(5deg) translateZ(0px);
+        }
+        50% { 
+            transform: rotateY(0deg) rotateX(5deg) translateZ(15px);
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .vietnam-hero-card {
+        min-height: 280px;
+    }
+    
+    .vietnam-hero-container {
+        padding: 2rem 1rem;
+        min-height: 280px;
+    }
+    
+    .vietnam-hero-left h1 {
+        font-size: 2.5rem;
+        font-weight: 300;
+    }
+    
+    .vietnam-floating-card {
+        width: 280px;
+        height: 180px;
+    }
+}
+
+/* Universal Special Hero Card System */
+.special-hero-card {
+    position: relative;
+    min-height: 350px;
+    overflow-x: hidden;
+    overflow-y: visible;
+    padding: 0;
+    /* Background will be set dynamically by JavaScript */
+    color: white;
+}
+
+.special-hero-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+    min-height: 350px;
+    position: relative;
+    overflow-x: hidden;
+}
+
+.special-hero-left {
+    flex: 1;
+    max-width: 580px;
+    z-index: 2;
+    padding-right: 2rem;
+}
+
+.special-hero-left h1 {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 400;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    line-height: 1.2;
+}
+
+.special-hero-left p {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    letter-spacing: 0.2px;
+    line-height: 1.6;
+}
+
+.special-hero-left .text-lg {
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+/* Universal 3D Card Container */
+.special-card-3d-container {
+    position: absolute;
+    right: 20px;
+    top: 40%;
+    transform: translateY(-50%);
+    perspective: 1000px;
+    z-index: 15;
+}
+
+.special-floating-card {
+    width: 350px;
+    height: 220px;
+    position: relative;
+    transform-style: preserve-3d;
+    animation: specialFloat3D 6s ease-in-out infinite;
+}
+
+@keyframes specialFloat3D {
+    0%, 100% { 
+        transform: rotateY(-15deg) rotateX(5deg) translateZ(0px);
+    }
+    50% { 
+        transform: rotateY(-15deg) rotateX(5deg) translateZ(20px);
+    }
+}
+
+.special-card-inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    border-radius: 20px;
+    box-shadow: 
+        0 25px 50px rgba(0, 0, 0, 0.4),
+        0 15px 35px rgba(0, 0, 0, 0.25),
+        0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.special-card-front {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    backface-visibility: hidden;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    /* Background will be set dynamically by JavaScript */
+}
+
+.special-card-front::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.1) 0%, 
+        rgba(255, 255, 255, 0.05) 50%, 
+        rgba(255, 255, 255, 0.02) 100%
+    );
+    border-radius: 20px;
+    pointer-events: none;
+}
+
+.special-card-front::after {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 60px;
+    height: 60px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.special-card-content-3d {
+    width: 100%;
+    height: 100%;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+/* Universal Card Header */
+.special-card-header {
+    position: relative;
+    margin-bottom: 16px;
+}
+
+.special-pattern {
+    /* Background image will be set dynamically by JavaScript */
+}
+
+.special-card-title h3 {
+    font-size: 1.1rem;
+    margin: 0;
+    letter-spacing: 0.5px;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 400;
+    text-transform: uppercase;
+}
+
+.special-card-title p {
+    margin: 4px 0 0 0;
+    font-size: 0.8rem;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 300;
+}
+
+/* Universal Card Body */
+.special-card-body {
+    flex: 1;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    font-family: 'Oswald', sans-serif;
+}
+
+.special-landscape {
+    position: absolute;
+    bottom: 40px;
+    left: 0;
+    right: 0;
+    height: 35px;
+    /* Background will be set dynamically by JavaScript */
+    clip-path: polygon(
+        0% 100%, 8% 60%, 16% 75%, 24% 40%, 32% 65%, 
+        40% 25%, 48% 55%, 56% 20%, 64% 50%, 72% 30%, 
+        80% 45%, 88% 35%, 96% 60%, 100% 70%, 100% 100%
+    );
+    opacity: 0.7;
+}
+
+.special-card-body .text-xs {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 300;
+    letter-spacing: 0.5px;
+}
+
+.special-card-body .font-bold {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+/* Universal Card Footer */
+.special-card-footer {
+    margin-top: auto;
+}
+
+.special-chip {
+    width: 32px;
+    height: 24px;
+    border-radius: 4px;
+    position: relative;
+    /* Background will be set dynamically by JavaScript */
+}
+
+.special-chip::before {
+    content: '';
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    right: 4px;
+    bottom: 4px;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 2px;
+}
+
+/* Entry animation for universal card */
+.special-floating-card {
+    animation: specialCardEnter 1.5s ease-out, specialFloat3D 6s ease-in-out infinite 1.5s;
+}
+
+@keyframes specialCardEnter {
+    0% {
+        opacity: 0;
+        transform: rotateY(-60deg) rotateX(20deg) translateX(100px) translateZ(-100px);
+    }
+    100% {
+        opacity: 1;
+        transform: rotateY(-15deg) rotateX(5deg) translateX(0px) translateZ(0px);
+    }
+}
+
+/* Responsive adjustments for universal special card */
+@media (max-width: 1200px) {
+    .special-card-3d-container {
+        right: 10px;
+        top: 35%;
+    }
+    
+    .special-floating-card {
+        width: 300px;
+        height: 190px;
+    }
+}
+
+@media (max-width: 992px) {
+    .special-hero-card {
+        min-height: 300px;
+    }
+    
+    .special-hero-container {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 2rem;
+        padding: 2rem;
+        min-height: 300px;
+    }
+    
+    .special-card-3d-container {
+        position: relative;
+        right: 0;
+        top: 0;
+        transform: none;
+    }
+    
+    .special-floating-card {
+        width: 320px;
+        height: 200px;
+    }
+    
+    @keyframes specialFloat3D {
+        0%, 100% { 
+            transform: rotateY(0deg) rotateX(5deg) translateZ(0px);
+        }
+        50% { 
+            transform: rotateY(0deg) rotateX(5deg) translateZ(15px);
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .special-hero-card {
+        min-height: 280px;
+    }
+    
+    .special-hero-container {
+        padding: 2rem 1rem;
+        min-height: 280px;
+    }
+    
+    .special-hero-left h1 {
+        font-size: 2.5rem;
+        font-weight: 300;
+    }
+    
+    .special-floating-card {
+        width: 280px;
+        height: 180px;
+    }
+}
+
+/* Image Hero Styles */
+.image-hero-card {
+    position: relative;
+    min-height: 400px;
+    overflow: hidden;
+    padding: 0;
+    color: white;
+}
+
+.image-hero-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+    min-height: 400px;
+    position: relative;
+    gap: 3rem;
+}
+
+.image-hero-left {
+    flex: 1;
+    max-width: 550px;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    text-align: left;
+}
+
+.image-hero-left h1 {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 300;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    line-height: 1.1;
+}
+
+.image-hero-left p {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 300;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.5rem;
+}
+
+.image-hero-left .text-lg {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+.image-display-container {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+}
+
+.hero-image {
+    width: 450px;
+    height: 320px;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 20px;
+    box-shadow: 
+        0 25px 50px rgba(0, 0, 0, 0.4),
+        0 15px 35px rgba(0, 0, 0, 0.25),
+        0 5px 15px rgba(0, 0, 0, 0.1);
+    animation: imageFloat 4s ease-in-out infinite;
+    transition: transform 0.3s ease;
+}
+
+.hero-image:hover {
+    transform: scale(1.02);
+}
+
+@keyframes imageFloat {
+    0%, 100% { 
+        transform: translateY(0px) scale(1);
+    }
+    50% { 
+        transform: translateY(-10px) scale(1);
+    }
+}
+
+.hero-image:hover {
+    animation-play-state: paused;
+    transform: translateY(-5px) scale(1.02);
+}
+
+/* Responsive adjustments for image hero */
+@media (max-width: 1200px) {
+    .image-hero-container {
+        gap: 2rem;
+        padding: 3rem 2rem;
+    }
+    
+    .image-hero-left {
+        max-width: 500px;
+    }
+    
+    .hero-image {
+        width: 380px;
+        height: 280px;
+    }
+}
+
+@media (max-width: 992px) {
+    .image-hero-card {
+        min-height: 350px;
+    }
+    
+    .image-hero-container {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 2.5rem;
+        padding: 3rem 2rem;
+        min-height: 350px;
+    }
+    
+    .image-hero-left {
+        align-items: center;
+        text-align: center;
+        max-width: 100%;
+    }
+    
+    .image-display-container {
+        order: -1;
+    }
+    
+    .hero-image {
+        width: 350px;
+        height: 250px;
+    }
+}
+
+@media (max-width: 768px) {
+    .image-hero-card {
+        min-height: 320px;
+    }
+    
+    .image-hero-container {
+        padding: 2rem 1rem;
+        gap: 2rem;
+        min-height: 320px;
+    }
+    
+    .image-hero-left h1 {
+        font-size: 2.5rem;
+        font-weight: 300;
+        margin-bottom: 0.75rem;
+    }
+    
+    .image-hero-left .text-lg {
+        margin-bottom: 1.5rem;
+    }
+    
+    .hero-image {
+        width: 300px;
+        height: 200px;
+        border-radius: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .image-hero-container {
+        padding: 1.5rem 1rem;
+        gap: 1.5rem;
+    }
+    
+    .image-hero-left h1 {
+        font-size: 2rem;
+    }
+    
+    .hero-image {
+        width: 280px;
+        height: 180px;
+    }
+}
+
+/* New Visa Type Card Styles */
+.visa-type-card {
+    background-color: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    transition: box-shadow 0.3s ease;
+}
+
+.visa-type-card:hover {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.07), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.visa-card-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.visa-card-title-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.5rem;
+}
+
+.visa-card-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #111827;
+}
+
+.visa-card-entry-type,
+.visa-type-card .visa-card-entry-type,
+.visa-card-header .visa-card-entry-type,
+span.visa-card-entry-type,
+.visa-type-card .visa-card-header .visa-card-entry-type {
+    background-color: #3b82f6 !important;
+    color: #ffffff !important;
+    font-size: 0.8rem !important;
+    font-weight: 600 !important;
+    padding: 0.25rem 0.75rem !important;
+    border-radius: 9999px !important;
+    white-space: nowrap !important;
+    border: 1px solid #1d4ed8 !important;
+    text-shadow: none !important;
+    display: inline-block !important;
+}
+
+.visa-card-description {
+    font-size: 0.9rem;
+    color: #4b5563;
+    background-color: #f8fafc;
+    padding: 0.75rem;
+    border-radius: 8px;
+    margin-top: 1rem;
+    border-left: 3px solid #0ea5e9;
+}
+
+.visa-card-purpose {
+    font-size: 0.9rem;
+    color: #6b7280;
+    font-style: italic;
+}
+
+.visa-card-body {
+    padding: 1.5rem;
+}
+
+.visa-info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.info-item {
+    background-color: #f9fafb;
+    padding: 1rem;
+    border-radius: 8px;
+}
+
+.info-item-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #4b5563;
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.info-item-header i {
+    color: #9ca3af;
+}
+
+.info-item-value {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.visa-fees-section,
+.visa-conditions-section,
+.visa-notes-section {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px dashed #e5e7eb;
+}
+
+.fee-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9rem;
+    padding: 0.25rem 0;
+}
+
+.fee-amount {
+    font-weight: 600;
+    color: #0ea5e9;
+}
+
+.fee-notes {
+    font-size: 0.8rem;
+    color: #6b7280;
+    font-style: italic;
+    margin-top: 0.25rem;
+}
+
+.visa-conditions-list {
+    list-style-position: inside;
+    list-style-type: disc;
+    color: #4b5563;
+    font-size: 0.9rem;
+    padding-left: 0.5rem;
+}
+
+.visa-conditions-list li {
+    margin-bottom: 0.5rem;
+}
+
+.visa-notes-text {
+    font-size: 0.9rem;
+    color: #4b5563;
+    line-height: 1.6;
+}
+/* End New Visa Type Card Styles */
+
+/* Ensure form elements and specific components maintain proper colors even in hero sections */
+.hero-klook .search-box-klook input,
+.hero-klook input,
+.hero-klook select,
+.hero-klook textarea,
+.hero-klook .visa-card-entry-type,
+.hero-klook .search-result-item,
+.hero-klook .search-result-item strong,
+.hero-klook .search-result-item p {
+    color: #333 !important;
+}
+
+.hero-klook .search-box-klook i {
+    color: #888 !important;
+}
+
+/* Ensure visa entry types are always visible regardless of container */
+.visa-card-entry-type,
+.visa-type-card .visa-card-entry-type,
+.visa-card-header .visa-card-entry-type,
+span.visa-card-entry-type,
+.visa-type-card .visa-card-header .visa-card-entry-type,
+.hero-klook .visa-card-entry-type,
+.hero-section .visa-card-entry-type {
+    background-color: #3b82f6 !important;
+    color: #ffffff !important;
+    font-size: 0.8rem !important;
+    font-weight: 600 !important;
+    padding: 0.25rem 0.75rem !important;
+    border-radius: 9999px !important;
+    white-space: nowrap !important;
+    border: 1px solid #1d4ed8 !important;
+    text-shadow: none !important;
+    display: inline-block !important;
+}
+
+/* Ensure proper text colors for different sections */
+/* Hero sections should have white text */
+.hero-section,
+.hero-klook,
+.hero-section-green {
+    color: white;
+}
+
+.hero-section *,
+.hero-klook *,
+.hero-section-green * {
+    color: white;
+}
+
+/* But form elements in hero sections should maintain proper colors for usability */
+.hero-section input,
+.hero-section select,
+.hero-section textarea,
+.hero-klook input,
+.hero-klook select,
+.hero-klook textarea {
+    color: #333 !important;
+}
+
+/* Navigation and footer should have white text */
+#navbar,
+footer {
+    color: white;
+}
+
+/* Regular content areas should have dark text */
+.bg-gray-50,
+.bg-white,
+.bg-gray-100 {
+    color: #1f2937;
+}
+
+.bg-gray-50 *,
+.bg-white *,
+.bg-gray-100 * {
+    color: inherit;
 }

@@ -1,8 +1,48 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visa Information Guide</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="/static/css/styles.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #0B3D34;
+            font-family: 'Poppins', sans-serif;
+        }
+    </style>
+</head>
+<body class="text-white">
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 py-4 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <a href="/" class="text-2xl font-bold">Here.</a>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="/" class="nav-link">Home</a>
+                    <a href="/countries" class="nav-link">All Countries</a>
+                    <a href="/admin" class="nav-link">Admin</a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="/contact" class="nav-contact-button">Contact Us</a>
+                </div>
+            </div>
+        </div>
+    </nav>
 
-{% block title %}Visa Information Guide{% endblock %}
-
-{% block content %}
+    <!-- Main Content -->
+    <main>
+        
 <div class="min-h-screen bg-gray-50 navbar-spaced">
     <!-- Hero Section -->
     <section class="bg-white shadow-sm" id="heroSection">
@@ -35,16 +75,28 @@
             <div class="uae-hero-container">
                 <!-- Left side content -->
                 <div class="uae-hero-left">
-                    <h1 class="text-4xl md:text-6xl font-bold mb-4 text-white">United Arab Emirates</h1>
-                    <p class="text-lg text-white/90 mb-6" id="uaeSummary">Discover the UAE's visa requirements and travel to this stunning destination of modern cities and rich culture.</p>
-                    <p class="text-white/80">Experience the luxury, innovation, and cultural richness that the United Arab Emirates has to offer.</p>
+                    <div class="flex items-center mb-6">
+                        <span class="text-6xl mr-4" id="uaeFlag">🇦🇪</span>
+                        <div>
+                            <h1 class="text-5xl font-bold mb-2 text-white" data-text="United Arab Emirates">United Arab Emirates</h1>
+                            <p class="text-xl text-blue-100">Middle East • Premium Destination</p>
+                        </div>
+                    </div>
                     
-                    <!-- Visa Status Badge -->
-                    <div class="mt-6">
+                    <div class="mb-6">
+                        <div class="flex items-start">
+                            <i class="fas fa-info-circle text-white text-lg mr-3 mt-1 opacity-80"></i>
+                            <p class="text-lg leading-relaxed text-white" id="uaeSummary">Discover the UAE's visa requirements and travel to this stunning destination of modern cities and rich culture.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 flex items-center space-x-4">
                         <span class="inline-flex items-center px-6 py-3 rounded-full text-lg font-bold bg-yellow-400 text-yellow-900 shadow-lg" id="uaeVisaStatus">
                             <!-- Status will be filled by JavaScript -->
                         </span>
-                        <p class="text-white/60 text-sm mt-2">Last updated: <span id="uaeLastUpdated">...</span></p>
+                        <div class="text-white text-sm opacity-75">
+                            <p>Last Updated: <span class="font-semibold" id="uaeLastUpdated">...</span></p>
+                        </div>
                     </div>
                 </div>
                 
@@ -166,16 +218,28 @@
         <div class="special-hero-card hidden" id="specialHero">
             <div class="special-hero-container">
                 <div class="special-hero-left">
-                    <h1 class="text-4xl md:text-6xl font-bold mb-4 text-white" id="specialCountryName"></h1>
-                    <p class="text-lg text-white/90 mb-6" id="specialSummary"></p>
-                    <p class="text-white/80" id="specialDescription"></p>
+                    <div class="flex items-center mb-6">
+                        <span class="text-6xl mr-4" id="specialFlag"></span>
+                        <div>
+                            <h1 class="text-4xl md:text-6xl font-bold mb-2 text-white" id="specialCountryName"></h1>
+                            <p class="text-xl opacity-90" id="specialRegion"></p>
+                        </div>
+                    </div>
                     
-                    <!-- Visa Status Badge -->
-                    <div class="mt-6">
+                    <div class="mb-6">
+                        <div class="flex items-start">
+                            <i class="fas fa-info-circle text-white text-lg mr-3 mt-1 opacity-80"></i>
+                            <p class="text-lg leading-relaxed text-white opacity-90" id="specialSummary"></p>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 flex items-center space-x-4">
                         <span class="inline-flex items-center px-6 py-3 rounded-full text-lg font-bold bg-yellow-400 text-yellow-900 shadow-lg" id="specialVisaStatus">
                             <!-- Status will be filled by JavaScript -->
                         </span>
-                        <p class="text-white/60 text-sm mt-2">Last updated: <span id="specialLastUpdated">...</span></p>
+                        <div class="text-white text-sm opacity-75">
+                            <p>Last Updated: <span class="font-semibold" id="specialLastUpdated">...</span></p>
+                        </div>
                     </div>
                 </div>
                 
@@ -232,16 +296,28 @@
     <div class="image-hero-card hidden" id="imageHero">
         <div class="image-hero-container">
             <div class="image-hero-left">
-                <h1 class="text-4xl md:text-6xl font-bold mb-4 text-white" id="imageCountryName"></h1>
-                <p class="text-lg text-white/90 mb-6" id="imageSummary"></p>
-                <p class="text-white/80" id="imageDescription"></p>
+                <div class="flex items-center mb-6">
+                    <span class="text-6xl mr-4" id="imageFlag"></span>
+                    <div>
+                        <h1 class="text-4xl md:text-6xl font-bold mb-2 text-white" id="imageCountryName"></h1>
+                        <p class="text-xl opacity-90" id="imageRegion"></p>
+                    </div>
+                </div>
                 
-                <!-- Visa Status Badge -->
-                <div class="mt-6">
+                <div class="mb-6">
+                    <div class="flex items-start">
+                        <i class="fas fa-info-circle text-white text-lg mr-3 mt-1 opacity-80"></i>
+                        <p class="text-lg leading-relaxed text-white opacity-90" id="imageSummary"></p>
+                    </div>
+                </div>
+                
+                <div class="mt-6 flex items-center space-x-4">
                     <span class="inline-flex items-center px-6 py-3 rounded-full text-lg font-bold bg-yellow-400 text-yellow-900 shadow-lg" id="imageVisaStatus">
                         <!-- Status will be filled by JavaScript -->
                     </span>
-                    <p class="text-white/60 text-sm mt-2">Last updated: <span id="imageLastUpdated">...</span></p>
+                    <div class="text-white text-sm opacity-75">
+                        <p>Last Updated: <span class="font-semibold" id="imageLastUpdated">...</span></p>
+                    </div>
                 </div>
             </div>
             
@@ -321,11 +397,7 @@
                         <!-- Application methods will be loaded here -->
                     </div>
                 </section>
-            </div>
 
-            <!-- Sidebar -->
-            <div class="space-y-6">
-                
                 <!-- Important Notes -->
                 <section class="bg-white rounded-lg shadow-sm p-6" id="importantNotesSection">
                     <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center">
@@ -336,7 +408,11 @@
                         <!-- Important notes will be loaded here -->
                     </div>
                 </section>
+            </div>
 
+            <!-- Sidebar -->
+            <div class="space-y-6">
+                
                 <!-- Quick Facts -->
                 <div class="bg-white rounded-lg shadow-sm p-6">
                     <h3 class="text-lg font-bold text-gray-900 mb-4">Quick Facts</h3>
@@ -378,13 +454,32 @@
         </div>
     </div>
 </div>
-{% endblock %}
 
-{% block scripts %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-12 mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-400">
+            <p>&copy; 2024 Here. Travel Agency. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <script>
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+    </script>
+    
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM loaded, starting country data load');
-    const slug = '{{ slug }}';
+    const slug = 'maldives';
     
     // Add a small delay to ensure all elements are properly rendered
     setTimeout(() => {
@@ -520,84 +615,16 @@ const countryHeroConfigs = {
             chipGradient: 'linear-gradient(135deg, #FFD700 0%, #FF4500 100%)'
         }
     },
-    'malaysia': {
-        type: 'special',
-        colors: {
-            primary: '#003366', // Dark Blue
-            secondary: '#FFCC00', // Gold
-            accent: '#FFFFFF' // White
-        },
-        theme: {
-            gradient: 'linear-gradient(135deg, #003366 0%, #0055A4 50%, #FFCC00 100%)',
-            patternUrl: 'https://i.pinimg.com/736x/1a/3f/e0/1a3fe08a1a3b1a7c9d7f022376b3b8c6.jpg',
-            cardTitle: 'Malaysia Travel Card',
-            cardSubtitle: 'Truly Asia',
-            regionText: 'SOUTHEAST ASIA',
-            chipGradient: 'linear-gradient(135deg, #FFCC00 0%, #FFFFFF 100%)'
-        }
-    },
     'maldives': {
-        type: 'special',
+        type: 'image',
+        imageUrl: 'https://i.pinimg.com/736x/c2/24/a5/c224a5a624b03574d5227becf9875c17.jpg',
         colors: {
             primary: '#006994',
             secondary: '#00BFFF',
-            accent: '#FFFFFF'
+            accent: '#40E0D0'
         },
         theme: {
-            gradient: 'linear-gradient(135deg, #006994 0%, #00BFFF 50%, #FFFFFF 100%)',
-            patternUrl: 'https://i.pinimg.com/736x/98/88/82/98888211ab9578b3466fda6eb3d33e95.jpg',
-            cardTitle: 'Maldives Travel Card',
-            cardSubtitle: 'Sunny Side of Life',
-            regionText: 'SOUTH ASIA',
-            chipGradient: 'linear-gradient(135deg, #00BFFF 0%, #FFFFFF 100%)'
-        }
-    },
-    'indonesia': {
-        type: 'special',
-        colors: {
-            primary: '#B22222', // Firebrick red
-            secondary: '#FFFFFF',
-            accent: '#000000'
-        },
-        theme: {
-            gradient: 'linear-gradient(135deg, #B22222 0%, #E6E6E6 100%)',
-            patternUrl: 'https://i.pinimg.com/736x/98/88/82/98888211ab9578b3466fda6eb3d33e95.jpg',
-            cardTitle: 'Indonesia Travel Card',
-            cardSubtitle: 'Wonderful Indonesia',
-            regionText: 'SOUTHEAST ASIA',
-            chipGradient: 'linear-gradient(135deg, #FFFFFF 0%, #B22222 100%)'
-        }
-    },
-    'mauritius': {
-        type: 'special',
-        colors: {
-            primary: '#CE1126', // Red
-            secondary: '#00A4E0', // Blue
-            accent: '#FFD100'  // Yellow
-        },
-        theme: {
-            gradient: 'linear-gradient(135deg, #CE1126 0%, #00A4E0 50%, #FFD100 100%)',
-            patternUrl: 'https://i.pinimg.com/736x/98/88/82/98888211ab9578b3466fda6eb3d33e95.jpg',
-            cardTitle: 'Mauritius Travel Card',
-            cardSubtitle: 'The Paradise Island',
-            regionText: 'EAST AFRICA',
-            chipGradient: 'linear-gradient(135deg, #FFD100 0%, #50C878 100%)' // Yellow and Green
-        }
-    },
-    'cambodia': {
-        type: 'special',
-        colors: {
-            primary: '#002B7F', // Blue
-            secondary: '#D60000', // Red
-            accent: '#FFFFFF'
-        },
-        theme: {
-            gradient: 'linear-gradient(135deg, #002B7F 0%, #D60000 100%)',
-            patternUrl: 'https://i.pinimg.com/736x/98/88/82/98888211ab9578b3466fda6eb3d33e95.jpg',
-            cardTitle: 'Cambodia Travel Card',
-            cardSubtitle: 'Kingdom of Wonder',
-            regionText: 'SOUTHEAST ASIA',
-            chipGradient: 'linear-gradient(135deg, #FFFFFF 0%, #D60000 100%)'
+            gradient: 'linear-gradient(135deg, #006994 0%, #00BFFF 50%, #40E0D0 100%)'
         }
     }
 };
@@ -666,9 +693,10 @@ function showSpecialHero(country, config) {
     
     // Populate hero data
     const elements = {
+        flag: document.getElementById('specialFlag'),
         countryName: document.getElementById('specialCountryName'),
+        region: document.getElementById('specialRegion'),
         summary: document.getElementById('specialSummary'),
-        description: document.getElementById('specialDescription'),
         lastUpdated: document.getElementById('specialLastUpdated'),
         visaStatus: document.getElementById('specialVisaStatus'),
         cardTitle: document.getElementById('specialCardTitle'),
@@ -684,9 +712,10 @@ function showSpecialHero(country, config) {
     }, {}));
     
     // Populate content
+    if (elements.flag) elements.flag.textContent = country.flag;
     if (elements.countryName) elements.countryName.textContent = country.name;
-    if (elements.summary) elements.summary.textContent = country.summary || `Discover the beauty and culture of ${country.name}`;
-    if (elements.description) elements.description.textContent = `Experience the rich history, vibrant culture, and breathtaking beauty that ${country.name} has to offer.`;
+    if (elements.region) elements.region.textContent = `${country.region} • ${config.theme.cardSubtitle}`;
+    if (elements.summary) elements.summary.textContent = country.summary || `Experience the beauty and culture of ${country.name}`;
     if (elements.lastUpdated) elements.lastUpdated.textContent = new Date(country.last_updated).toLocaleDateString();
     
     if (elements.cardTitle) elements.cardTitle.textContent = config.theme.cardTitle;
@@ -700,10 +729,10 @@ function showSpecialHero(country, config) {
     // Visa status styling
     if (elements.visaStatus) {
         if (country.visa_required) {
-            elements.visaStatus.textContent = 'Visa Required';
+            elements.visaStatus.innerHTML = '<i class="fas fa-passport mr-2"></i>Visa Required';
             elements.visaStatus.className = 'inline-flex items-center px-6 py-3 rounded-full text-lg font-bold bg-yellow-400 text-yellow-900 shadow-lg';
         } else {
-            elements.visaStatus.textContent = 'Visa Free';
+            elements.visaStatus.innerHTML = '<i class="fas fa-check-circle mr-2"></i>Visa Free';
             elements.visaStatus.className = 'inline-flex items-center px-6 py-3 rounded-full text-lg font-bold bg-green-400 text-green-900 shadow-lg';
         }
     }
@@ -757,14 +786,14 @@ function applyCountryTheme(countrySlug, config) {
         
         .${className} .special-landscape {
             background: linear-gradient(to right, 
-                ${config.colors.secondary}20 0%,
-                ${config.colors.secondary}30 15%,
-                ${config.colors.secondary}10 30%,
-                ${config.colors.secondary}40 45%,
-                ${config.colors.secondary}20 60%,
-                ${config.colors.secondary}30 75%,
-                ${config.colors.secondary}10 90%,
-                ${config.colors.secondary}20 100%
+                ${config.colors.accent}20 0%,
+                ${config.colors.accent}30 15%,
+                ${config.colors.accent}10 30%,
+                ${config.colors.accent}40 45%,
+                ${config.colors.accent}20 60%,
+                ${config.colors.accent}30 75%,
+                ${config.colors.accent}10 90%,
+                ${config.colors.accent}20 100%
             );
         }
         
@@ -791,8 +820,8 @@ function applyCountryTheme(countrySlug, config) {
         }
         
         .${className} .bg-blue-50 {
-            background: linear-gradient(135deg, ${config.colors.secondary}05 0%, ${config.colors.accent}05 100%);
-            border-left-color: ${config.colors.secondary};
+            background: linear-gradient(135deg, ${config.colors.accent}05 0%, ${config.colors.secondary}05 100%);
+            border-left-color: ${config.colors.accent};
         }
     `;
 }
@@ -819,10 +848,13 @@ function displayVisaTypes(visaTypes) {
     }
     
     container.innerHTML = visaTypes.map((visa, index) => {
+        // Clean up the visa name if it's too long or contains requirements
         let visaName = visa.name;
         let visaDescription = '';
         
+        // If the name is very long and looks like a requirement, clean it up
         if (visaName.length > 50 || visaName.includes('valid') || visaName.includes('visa or permanent')) {
+            // Create a proper title based on the purpose and entry type
             if (visa.purpose && visa.purpose.toLowerCase().includes('tourism')) {
                 visaName = 'Visa-Free Entry (Special Conditions)';
             } else if (visa.entry_type && visa.entry_type.toLowerCase().includes('single')) {
@@ -830,106 +862,117 @@ function displayVisaTypes(visaTypes) {
             } else {
                 visaName = `Visa Type ${index + 1}`;
             }
-            visaDescription = visa.name;
+            visaDescription = visa.name; // Original name becomes the description
         }
         
         return `
-        <div class="visa-type-card">
-            <div class="visa-card-header">
-                <div class="visa-card-title-group">
-                    <h3 class="visa-card-title">${visaName}</h3>
-                    <span class="visa-card-entry-type">${visa.entry_type}</span>
+        <div class="border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow">
+            <div class="flex justify-between items-start mb-4">
+                <div class="flex-1">
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">${visaName}</h3>
+                    ${visaDescription ? `<p class="text-gray-600 text-sm mb-3 p-3 bg-blue-50 rounded-lg border-l-4 border-blue-500">${visaDescription}</p>` : ''}
                 </div>
-                ${visaDescription ? `<p class="visa-card-description">${visaDescription}</p>` : ''}
-                ${visa.purpose && !visaDescription ? `<p class="visa-card-purpose">${visa.purpose}</p>` : ''}
+                <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full ml-4 flex-shrink-0">${visa.entry_type}</span>
             </div>
             
-            <div class="visa-card-body">
-                <div class="visa-info-grid">
-                    <div class="info-item">
-                        <div class="info-item-header">
-                            <i class="fas fa-calendar-alt"></i>
-                            <span>Validity Period</span>
+            ${visa.purpose && !visaDescription ? `<p class="text-gray-600 mb-4 italic">${visa.purpose}</p>` : ''}
+            
+            <!-- Visa Details in Clean Layout -->
+            <div class="space-y-4">
+                <!-- Basic Information Row -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-gray-50 rounded-lg p-4">
+                        <div class="flex items-center mb-2">
+                            <i class="fas fa-calendar-alt text-indigo-600 mr-2"></i>
+                            <span class="font-medium text-gray-700">Validity Period</span>
                         </div>
-                        <p class="info-item-value">${visa.validity}</p>
+                        <p class="text-gray-900 font-semibold">${visa.validity}</p>
                     </div>
                     
                     ${shouldShowStayDuration(visa) ? `
-                        <div class="info-item">
-                            <div class="info-item-header">
-                                <i class="fas fa-clock"></i>
-                                <span>Stay Duration</span>
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <div class="flex items-center mb-2">
+                                <i class="fas fa-clock text-green-600 mr-2"></i>
+                                <span class="font-medium text-gray-700">Stay Duration</span>
                             </div>
-                            <p class="info-item-value">${visa.stay_duration}</p>
+                            <p class="text-gray-900 font-semibold">${visa.stay_duration}</p>
                         </div>
                     ` : ''}
-                    
+                </div>
+                
+                <!-- Processing Time & Extension Info -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     ${visa.processing_time ? `
-                        <div class="info-item">
-                            <div class="info-item-header">
-                                <i class="fas fa-hourglass-half"></i>
-                                <span>Processing Time</span>
+                        <div class="bg-orange-50 rounded-lg p-4 border border-orange-200">
+                            <div class="flex items-center mb-2">
+                                <i class="fas fa-hourglass-half text-orange-600 mr-2"></i>
+                                <span class="font-medium text-gray-700">Processing Time</span>
                             </div>
-                            <p class="info-item-value">${visa.processing_time}</p>
+                            <p class="text-orange-700 font-semibold">${visa.processing_time}</p>
                         </div>
                     ` : ''}
                     
                     ${visa.extendable ? `
-                        <div class="info-item">
-                            <div class="info-item-header">
-                                <i class="fas fa-sync-alt"></i>
-                                <span>Extension</span>
+                        <div class="bg-green-50 rounded-lg p-4 border border-green-200">
+                            <div class="flex items-center mb-2">
+                                <i class="fas fa-sync-alt text-green-600 mr-2"></i>
+                                <span class="font-medium text-gray-700">Extension</span>
                             </div>
-                            <p class="info-item-value text-green-600">Extension Possible</p>
+                            <p class="text-green-700 font-semibold">Extension Possible</p>
                         </div>
                     ` : ''}
                 </div>
-
+                
+                <!-- Visa Fees (if available for this specific visa type) -->
                 ${visa.fees && visa.fees.length > 0 ? `
-                    <div class="visa-fees-section">
-                        <div class="info-item-header">
-                            <i class="fas fa-rupee-sign"></i>
-                            <span>Visa Fees</span>
+                    <div class="bg-red-50 rounded-lg p-4 border border-red-200">
+                        <div class="flex items-center mb-3">
+                            <i class="fas fa-rupee-sign text-red-600 mr-2"></i>
+                            <span class="font-medium text-gray-700">Visa Fees</span>
                         </div>
                         <div class="space-y-2">
                             ${visa.fees.map(fee => `
-                                <div class="fee-item">
-                                    <span>${fee.type}</span>
-                                    <div class="fee-amount">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm text-gray-600">${fee.type}</span>
+                                    <div class="text-right">
                                         ${fee.notes && fee.notes.includes('₹') ? `
-                                            <span>${fee.notes}</span>
+                                            <span class="font-bold text-red-600">${fee.notes}</span>
                                         ` : `
-                                            <span>₹${fee.amount_inr ? fee.amount_inr.toLocaleString() : 'TBD'}</span>
+                                            <span class="font-bold text-red-600">₹${fee.amount_inr ? fee.amount_inr.toLocaleString() : 'TBD'}</span>
                                         `}
                                     </div>
                                 </div>
                                 ${fee.notes && !fee.notes.includes('₹') && fee.notes.trim() !== '' ? `
-                                    <p class="fee-notes">${fee.notes}</p>
+                                    <p class="text-xs text-gray-500 italic">${fee.notes}</p>
                                 ` : ''}
                             `).join('')}
                         </div>
                     </div>
                 ` : ''}
                 
+                <!-- Conditions -->
                 ${visa.conditions && visa.conditions.length > 0 ? `
-                    <div class="visa-conditions-section">
-                        <div class="info-item-header">
-                            <i class="fas fa-list-check"></i>
-                            <span>Requirements & Conditions</span>
+                    <div class="bg-yellow-50 rounded-lg p-4 border border-yellow-200">
+                        <div class="flex items-start mb-3">
+                            <i class="fas fa-list-check text-yellow-600 mr-2 mt-1"></i>
+                            <span class="font-medium text-gray-700">Requirements & Conditions</span>
                         </div>
-                        <ul class="visa-conditions-list">
+                        <ul class="list-disc list-inside text-sm text-gray-600 space-y-1 ml-4">
                             ${visa.conditions.map(condition => `<li>${condition}</li>`).join('')}
                         </ul>
                     </div>
                 ` : ''}
                 
+                <!-- Additional Notes -->
                 ${visa.notes && visa.notes.trim() ? `
-                    <div class="visa-notes-section">
-                        <div class="info-item-header">
-                            <i class="fas fa-info-circle"></i>
-                            <span>Additional Information</span>
+                    <div class="bg-blue-50 rounded-lg p-4 border border-blue-200">
+                        <div class="flex items-start">
+                            <i class="fas fa-info-circle text-blue-600 mr-2 mt-1"></i>
+                            <div>
+                                <span class="font-medium text-gray-700 block mb-2">Additional Information</span>
+                                <p class="text-sm text-gray-700">${visa.notes}</p>
+                            </div>
                         </div>
-                        <p class="visa-notes-text">${visa.notes}</p>
                     </div>
                 ` : ''}
             </div>
@@ -973,14 +1016,14 @@ function displayDocuments(documents) {
     container.innerHTML = `
         <div class="space-y-2">
             ${documents.map(doc => `
-                <div class="flex items-center py-2 px-3 border-l-4 ${doc.required ? 'border-sky-500 bg-sky-50' : 'border-gray-300 bg-gray-50'} rounded-r">
-                    <i class="fas fa-file-alt ${doc.required ? 'text-sky-600' : 'text-gray-500'} mr-3 text-sm"></i>
+                <div class="flex items-center py-2 px-3 border-l-4 ${doc.required ? 'border-red-500 bg-red-50' : 'border-gray-300 bg-gray-50'} rounded-r">
+                    <i class="fas fa-file-alt ${doc.required ? 'text-red-600' : 'text-gray-500'} mr-3 text-sm"></i>
                     <div class="flex-1">
                         <span class="font-medium text-gray-900">${doc.name}</span>
                         ${doc.category ? `<span class="text-xs text-gray-500 ml-2">(${doc.category})</span>` : ''}
                         ${doc.details ? `<p class="text-sm text-gray-600 mt-1">${doc.details}</p>` : ''}
                     </div>
-                    <span class="text-xs font-medium px-2 py-1 rounded ${doc.required ? 'bg-sky-100 text-sky-700' : 'bg-gray-100 text-gray-600'}">
+                    <span class="text-xs font-medium px-2 py-1 rounded ${doc.required ? 'bg-red-100 text-red-700' : 'bg-gray-100 text-gray-600'}">
                         ${doc.required ? 'Required' : 'Optional'}
                     </span>
                 </div>
@@ -1066,7 +1109,7 @@ function displayImportantNotes(notes) {
         return;
     }
     
-    const notesHtml = notes.map(note => {
+    container.innerHTML = notes.map(note => {
         const noteContent = typeof note === 'string' ? note : note.content;
         const noteType = note.type || 'tip';
         const priority = note.priority || 'medium';
@@ -1079,7 +1122,7 @@ function displayImportantNotes(notes) {
             colorClass = 'bg-yellow-50 border-yellow-200 text-yellow-800';
         } else if (noteType === 'requirement') {
             iconClass = 'fas fa-clipboard-check';
-            colorClass = 'bg-sky-50 border-sky-200 text-sky-800';
+            colorClass = 'bg-red-50 border-red-200 text-red-800';
         }
         
         return `
@@ -1094,9 +1137,6 @@ function displayImportantNotes(notes) {
             </div>
         `;
     }).join('');
-    
-    // Wrap the notes in a container with proper spacing
-    container.innerHTML = `<div class="space-y-4">${notesHtml}</div>`;
 }
 
 function displayQuickFacts(country) {
@@ -1251,10 +1291,10 @@ function showVietnamHero(country) {
     
     if (vietnamVisaStatus) {
         if (country.visa_required) {
-            vietnamVisaStatus.textContent = 'Visa Required';
+            vietnamVisaStatus.innerHTML = '<i class="fas fa-passport mr-2"></i>Visa Required';
             vietnamVisaStatus.className = 'inline-flex items-center px-6 py-3 rounded-full text-lg font-bold bg-yellow-400 text-yellow-900 shadow-lg';
         } else {
-            vietnamVisaStatus.textContent = 'Visa Free';
+            vietnamVisaStatus.innerHTML = '<i class="fas fa-check-circle mr-2"></i>Visa Free';
             vietnamVisaStatus.className = 'inline-flex items-center px-6 py-3 rounded-full text-lg font-bold bg-green-400 text-green-900 shadow-lg';
         }
     }
@@ -1295,11 +1335,11 @@ function showUAEHero(country) {
     const uaeCardStatus = document.getElementById('uaeCardStatus');
     
     if (country.visa_required) {
-        uaeVisaStatus.textContent = 'Visa Required';
+        uaeVisaStatus.innerHTML = '<i class="fas fa-passport mr-2"></i>Visa Required';
         uaeVisaStatus.className = 'inline-flex items-center px-6 py-3 rounded-full text-lg font-bold bg-yellow-400 text-yellow-900 shadow-lg';
         uaeCardStatus.textContent = 'VISA REQUIRED';
     } else {
-        uaeVisaStatus.textContent = 'Visa Free';
+        uaeVisaStatus.innerHTML = '<i class="fas fa-check-circle mr-2"></i>Visa Free';
         uaeVisaStatus.className = 'inline-flex items-center px-6 py-3 rounded-full text-lg font-bold bg-green-400 text-green-900 shadow-lg';
         uaeCardStatus.textContent = 'VISA FREE';
     }
@@ -1331,10 +1371,10 @@ function showDefaultHero(country) {
     const visaStatus = document.getElementById('visaStatus');
     if (country.visa_required) {
         visaStatus.className = 'inline-flex items-center px-4 py-2 rounded-full text-lg font-medium bg-yellow-100 text-yellow-800';
-        visaStatus.textContent = 'Visa Required';
+        visaStatus.innerHTML = '<i class="fas fa-passport mr-2"></i>Visa Required';
     } else {
         visaStatus.className = 'inline-flex items-center px-4 py-2 rounded-full text-lg font-medium bg-green-100 text-green-800';
-        visaStatus.textContent = 'Visa Free';
+        visaStatus.innerHTML = '<i class="fas fa-check-circle mr-2"></i>Visa Free';
     }
 }
 
@@ -1364,9 +1404,10 @@ function showImageHero(country, config) {
     
     // Populate hero data
     const elements = {
+        flag: document.getElementById('imageFlag'),
         countryName: document.getElementById('imageCountryName'),
+        region: document.getElementById('imageRegion'),
         summary: document.getElementById('imageSummary'),
-        description: document.getElementById('imageDescription'),
         lastUpdated: document.getElementById('imageLastUpdated'),
         visaStatus: document.getElementById('imageVisaStatus'),
         heroImage: document.getElementById('heroImage')
@@ -1378,9 +1419,10 @@ function showImageHero(country, config) {
     }, {}));
     
     // Populate content
+    if (elements.flag) elements.flag.textContent = country.flag;
     if (elements.countryName) elements.countryName.textContent = country.name;
-    if (elements.summary) elements.summary.textContent = country.summary || `Discover the beauty and culture of ${country.name}`;
-    if (elements.description) elements.description.textContent = `Experience the rich history, vibrant culture, and breathtaking beauty that ${country.name} has to offer.`;
+    if (elements.region) elements.region.textContent = `${country.region} • Tropical Paradise`;
+    if (elements.summary) elements.summary.textContent = country.summary || `Experience the beauty and culture of ${country.name}`;
     if (elements.lastUpdated) elements.lastUpdated.textContent = new Date(country.last_updated).toLocaleDateString();
     
     // Set the hero image
@@ -1392,10 +1434,10 @@ function showImageHero(country, config) {
     // Visa status styling
     if (elements.visaStatus) {
         if (country.visa_required) {
-            elements.visaStatus.textContent = 'Visa Required';
+            elements.visaStatus.innerHTML = '<i class="fas fa-passport mr-2"></i>Visa Required';
             elements.visaStatus.className = 'inline-flex items-center px-6 py-3 rounded-full text-lg font-bold bg-yellow-400 text-yellow-900 shadow-lg';
         } else {
-            elements.visaStatus.textContent = 'Visa Free';
+            elements.visaStatus.innerHTML = '<i class="fas fa-check-circle mr-2"></i>Visa Free';
             elements.visaStatus.className = 'inline-flex items-center px-6 py-3 rounded-full text-lg font-bold bg-green-400 text-green-900 shadow-lg';
         }
     }
@@ -1444,10 +1486,12 @@ function applyImageCountryTheme(countrySlug, config) {
         }
         
         .${className} .bg-blue-50 {
-            background: linear-gradient(135deg, ${config.colors.secondary}05 0%, ${config.colors.accent}05 100%);
-            border-left-color: ${config.colors.secondary};
+            background: linear-gradient(135deg, ${config.colors.accent}05 0%, ${config.colors.secondary}05 100%);
+            border-left-color: ${config.colors.accent};
         }
     `;
 }
 </script>
-{% endblock %} 
+
+</body>
+</html> 
