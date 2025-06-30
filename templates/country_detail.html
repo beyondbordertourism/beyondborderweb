@@ -8,7 +8,10 @@
     <section id="unified-hero" class="unified-hero-container">
         <div class="unified-hero-left-panel">
             <div class="unified-hero-text-content">
-                <h1 id="unified-hero-country-name" class="unified-hero-country-name"></h1>
+                <div class="flex items-center gap-4">
+                    <span id="unified-hero-country-flag" class="text-5xl"></span>
+                    <h1 id="unified-hero-country-name" class="unified-hero-country-name mb-0"></h1>
+                </div>
                 <p id="unified-hero-summary" class="unified-hero-subtitle"></p>
                 <p id="unified-hero-description" class="unified-hero-description"></p>
                 <a href="#visaTypes" class="unified-hero-cta-button">
@@ -261,6 +264,7 @@ function showUnifiedHero(country, config) {
     if (!heroSection) return;
 
     // Populate the hero with dynamic content
+    document.getElementById('unified-hero-country-flag').textContent = country.flag;
     document.getElementById('unified-hero-country-name').textContent = country.name;
     document.getElementById('unified-hero-summary').textContent = country.summary || `Discover the cultural heritage and stunning landscapes of ${country.name}.`;
     document.getElementById('unified-hero-description').textContent = `Experience the rich history, vibrant culture, and breathtaking beauty that ${country.name} has to offer.`;
