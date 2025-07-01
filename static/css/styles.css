@@ -199,25 +199,6 @@ html {
     border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-/* Custom Scrollbar */
-::-webkit-scrollbar {
-    width: 8px;
-}
-
-::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb {
-    background: linear-gradient(135deg, #3B82F6, #1D4ED8);
-    border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(135deg, #1D4ED8, #1E3A8A);
-}
-
 .card-hover:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
 
 /* Font Classes */
@@ -2746,7 +2727,7 @@ footer {
 }
 
 .unified-hero-left-panel {
-    width: 65%;
+    width: 58%; /* Give more space to image */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -2768,6 +2749,10 @@ footer {
     text-transform: uppercase;
     line-height: 1.1;
     margin-bottom: 1.5rem;
+}
+
+.unified-hero-country-name.long-country-name {
+    font-size: 3.8rem;
 }
 
 .unified-hero-subtitle { /* This is now the main summary */
@@ -2803,22 +2788,38 @@ footer {
 }
 
 .unified-hero-cta-button:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    background-color: #2563EB; /* darker indigo */
 }
 
 .unified-hero-right-panel {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 50%;
-    height: 100%;
+    position: relative;
+    flex: 1.2;
     background-size: cover;
     background-position: center;
-    z-index: 1; /* Image below text */
-    clip-path: ellipse(100% 100% at 100% 50%);
-    mask-image: linear-gradient(to right, transparent 2%, black 30%);
-    -webkit-mask-image: linear-gradient(to right, transparent 2%, black 30%);
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.unified-hero-right-panel::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        linear-gradient(to right, 
+            rgba(26, 44, 74, 1) 0%, 
+            rgba(26, 44, 74, 0.95) 10%,
+            rgba(26, 44, 74, 0.7) 30%,  
+            rgba(26, 44, 74, 0.2) 55%, 
+            rgba(26, 44, 74, 0) 70%
+        ),
+        linear-gradient(to top, 
+            rgba(0,0,0,0.4) 0%, 
+            rgba(0,0,0,0) 40%
+        );
+    pointer-events: none; /* Allows clicking through the overlay */
 }
 
 @media (max-width: 1024px) {
@@ -2830,14 +2831,22 @@ footer {
         width: 100%;
     }
     .unified-hero-right-panel {
-        position: relative;
-        min-height: 280px;
-        clip-path: none;
-        mask-image: linear-gradient(to top, transparent 0%, black 40%);
-        -webkit-mask-image: linear-gradient(to top, transparent 0%, black 40%);
+        border-radius: 0;
+        min-height: 300px;
     }
+
+    .unified-hero-right-panel::after {
+        border-radius: 0;
+        background: 
+            linear-gradient(to bottom, 
+                rgba(26, 44, 74, 0.9) 0%, 
+                rgba(26, 44, 74, 0.5) 40%, 
+                rgba(26, 44, 74, 0) 80%
+            );
+    }
+
     .unified-hero-left-panel {
-        padding: 3rem 2rem;
+        padding: 2rem;
         align-items: center;
         text-align: center;
         margin-top: -80px;
@@ -2846,11 +2855,17 @@ footer {
     .unified-hero-country-name {
         font-size: 4rem;
     }
+    .unified-hero-country-name.long-country-name {
+        font-size: 3.2rem;
+    }
 }
 
 @media (max-width: 768px) {
     .unified-hero-country-name {
         font-size: 3rem;
+    }
+    .unified-hero-country-name.long-country-name {
+        font-size: 2.5rem;
     }
     .unified-hero-cta-button {
         padding: 0.7rem 1.4rem;

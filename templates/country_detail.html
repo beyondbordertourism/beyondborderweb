@@ -8,7 +8,7 @@
     <section id="unified-hero" class="unified-hero-container">
         <div class="unified-hero-left-panel">
             <div class="unified-hero-text-content">
-                <div class="flex items-center gap-4">
+                <div id="unified-hero-title-container" class="flex items-center gap-4">
                     <span id="unified-hero-country-flag" class="text-5xl"></span>
                     <h1 id="unified-hero-country-name" class="unified-hero-country-name mb-0"></h1>
                 </div>
@@ -266,6 +266,16 @@ function showUnifiedHero(country, config) {
     // Populate the hero with dynamic content
     document.getElementById('unified-hero-country-flag').textContent = country.flag;
     document.getElementById('unified-hero-country-name').textContent = country.name;
+
+    const titleContainer = document.getElementById('unified-hero-title-container');
+
+    // Adjust layout for long country names
+    if (country.name.length > 15) {
+        titleContainer.classList.add('long-name-layout');
+    } else {
+        titleContainer.classList.remove('long-name-layout');
+    }
+    
     document.getElementById('unified-hero-summary').textContent = country.summary || `Discover the cultural heritage and stunning landscapes of ${country.name}.`;
     document.getElementById('unified-hero-description').textContent = `Experience the rich history, vibrant culture, and breathtaking beauty that ${country.name} has to offer.`;
 
