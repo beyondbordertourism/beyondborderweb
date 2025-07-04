@@ -3211,3 +3211,40 @@ h1, h2, h3, h4, h5, h6 {
 .vietnam-hero-subtitle {
     font-family: 'Roboto', sans-serif;
 }
+
+.unified-hero-subtitle,
+.unified-hero-description {
+    max-width: 55ch; /* Limit text width for readability */
+}
+
+/* FAQ Section Styles */
+.faq-item .faq-question {
+    transition: background-color 0.2s ease;
+}
+
+.faq-item .faq-question:hover {
+    background-color: #f0f4f8; /* A light blue-gray hover */
+}
+
+.faq-item .faq-question i {
+    transition: transform 0.3s ease-in-out;
+}
+
+.faq-item .faq-question .rotate-180 {
+    transform: rotate(180deg);
+}
+
+.faq-answer {
+    overflow: hidden;
+    transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out;
+    max-height: 0;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    display: block !important; /* Override inline style for transition */
+}
+
+.faq-answer.open {
+    max-height: 500px; /* Adjust as needed */
+    padding-top: 1.5rem !important;
+    padding-bottom: 1.5rem !important;
+}

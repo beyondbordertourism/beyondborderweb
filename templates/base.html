@@ -56,10 +56,52 @@
         {% block content %}{% endblock %}
     </main>
 
-    <!-- Footer -->
-    <footer class="py-12 mt-20 text-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-400">
-            <p>&copy; 2024 Cloud & Compass. All rights reserved.</p>
+    <!-- Enhanced Footer -->
+    <footer class="bg-gray-800 text-white pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- About Section -->
+                <div class="md:col-span-1">
+                    <h3 class="text-xl font-bold mb-4">Cloud & Compass</h3>
+                    <p class="text-gray-400">Your trusted partner in navigating the complexities of global travel. We simplify visa processes, making your journey seamless.</p>
+                </div>
+                
+                <!-- Quick Links -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="/" class="text-gray-400 hover:text-white transition-colors">Home</a></li>
+                        <li><a href="/countries" class="text-gray-400 hover:text-white transition-colors">All Countries</a></li>
+                        <li><a href="/#faq" class="text-gray-400 hover:text-white transition-colors">FAQ</a></li>
+                        <li><a href="/admin" class="text-gray-400 hover:text-white transition-colors">Admin Login</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Services -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Services</h3>
+                    <ul class="space-y-2">
+                        <li><p class="text-gray-400">Visa Application</p></li>
+                        <li><p class="text-gray-400">Document Check</p></li>
+                        <li><p class="text-gray-400">E-Visa Assistance</p></li>
+                    </ul>
+                </div>
+                
+                <!-- Social Media -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Follow Us</h3>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors text-2xl"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors text-2xl"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors text-2xl"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors text-2xl"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-12 border-t border-gray-700 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 Cloud & Compass. All rights reserved. Your adventure starts here.</p>
+            </div>
         </div>
     </footer>
 

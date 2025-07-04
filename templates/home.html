@@ -54,6 +54,62 @@
         </div>
     </div>
 </section>
+
+<!-- FAQ Section -->
+<section id="faq" class="py-16 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold text-gray-900 sm:text-4xl">Frequently Asked Questions</h2>
+            <p class="mt-4 text-lg text-gray-600">Find quick answers to common questions about our visa services.</p>
+        </div>
+        
+        <div class="space-y-4">
+            <!-- FAQ Item 1 -->
+            <div class="faq-item bg-gray-50 rounded-lg shadow-sm">
+                <button class="faq-question w-full text-left flex justify-between items-center p-6">
+                    <span class="text-lg font-semibold text-gray-800">What documents do I need for a tourist visa?</span>
+                    <i class="fas fa-chevron-down transform transition-transform"></i>
+                </button>
+                <div class="faq-answer p-6 pt-0">
+                    <p class="text-gray-600">Required documents typically include a valid passport, application form, recent photographs, flight itinerary, hotel reservations, and proof of financial means. However, requirements vary by country, so please check the specific country's page for exact details.</p>
+                </div>
+            </div>
+            
+            <!-- FAQ Item 2 -->
+            <div class="faq-item bg-gray-50 rounded-lg shadow-sm">
+                <button class="faq-question w-full text-left flex justify-between items-center p-6">
+                    <span class="text-lg font-semibold text-gray-800">How long does the visa application process take?</span>
+                    <i class="fas fa-chevron-down transform transition-transform"></i>
+                </button>
+                <div class="faq-answer p-6 pt-0">
+                    <p class="text-gray-600">Processing times vary greatly depending on the embassy or consulate. Standard processing can take anywhere from a few days to several weeks. We recommend applying well in advance of your planned travel dates. Expedited services are available for some countries.</p>
+                </div>
+            </div>
+            
+            <!-- FAQ Item 3 -->
+            <div class="faq-item bg-gray-50 rounded-lg shadow-sm">
+                <button class="faq-question w-full text-left flex justify-between items-center p-6">
+                    <span class="text-lg font-semibold text-gray-800">Can you guarantee that my visa will be approved?</span>
+                    <i class="fas fa-chevron-down transform transition-transform"></i>
+                </button>
+                <div class="faq-answer p-6 pt-0">
+                    <p class="text-gray-600">While we ensure your application is accurate, complete, and submitted correctly to maximize your chances of success, the final decision rests with the respective government's immigration authorities. We cannot guarantee visa approval, but we have a high success rate due to our meticulous preparation.</p>
+                </div>
+            </div>
+            
+            <!-- FAQ Item 4 -->
+            <div class="faq-item bg-gray-50 rounded-lg shadow-sm">
+                <button class="faq-question w-full text-left flex justify-between items-center p-6">
+                    <span class="text-lg font-semibold text-gray-800">What are your service fees?</span>
+                    <i class="fas fa-chevron-down transform transition-transform"></i>
+                </button>
+                <div class="faq-answer p-6 pt-0">
+                    <p class="text-gray-600">Our service fees cover application assistance, document verification, and submission support. The fee does not include the visa fee charged by the embassy, which must be paid separately. Our fees are transparent and listed on each visa service page.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 {% endblock %}
 
 {% block scripts %}
@@ -126,10 +182,7 @@ function createCountryCard(country) {
                         ${country.visa_required ? 'Visa Required' : 'Visa Free'}
                     </span>
                     
-                    <span class="learn-more-button">
-                        Learn More
-                        <i class="fas fa-arrow-right learn-more-arrow"></i>
-                    </span>
+                
                 </div>
                 
                 ${country.visa_types && country.visa_types.length > 0 ? `
@@ -364,5 +417,35 @@ function initializeCarousel(config) {
         resetAutoSlide();
     });
 }
+
+// FAQ Accordion
+document.addEventListener('DOMContentLoaded', function() {
+    const faqItems = document.querySelectorAll('.faq-item');
+
+    faqItems.forEach(item => {
+        const question = item.querySelector('.faq-question');
+        const answer = item.querySelector('.faq-answer');
+        const icon = question.querySelector('i');
+
+        // Remove inline style from HTML to allow CSS transitions
+        answer.style.display = '';
+
+        question.addEventListener('click', () => {
+            const isOpen = answer.classList.contains('open');
+
+            // Close all other answers
+            document.querySelectorAll('.faq-answer').forEach(ans => {
+                if (ans !== answer) {
+                    ans.classList.remove('open');
+                    ans.previousElementSibling.querySelector('i').classList.remove('rotate-180');
+                }
+            });
+
+            // Toggle current answer
+            answer.classList.toggle('open', !isOpen);
+            icon.classList.toggle('rotate-180', !isOpen);
+        });
+    });
+});
 </script>
 {% endblock %}
