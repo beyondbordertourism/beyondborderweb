@@ -91,6 +91,7 @@ class Database:
                     GROUP BY c.id
                 )
                 SELECT 
+                    id,
                     id as slug,
                     name,
                     flag,
@@ -98,6 +99,7 @@ class Database:
                     visa_required,
                     last_updated,
                     summary,
+                    published,
                     visa_types,
                     documents,
                     processing_times,
@@ -184,6 +186,7 @@ class Database:
                     visa_required,
                     last_updated,
                     summary,
+                    published,
                     visa_types,
                     documents,
                     processing_times,
@@ -218,28 +221,36 @@ class Database:
     def update_country(self, slug, data):
         self.connect()
         try:
-            self._cursor.execute("""
+            # First get existing country data
+            self._cursor.execute("SELECT * FROM countries WHERE id = %s", (slug,))
+            existing_country = self._cursor.fetchone()
+            
+            if not existing_country:
+                return None
+                
+            # Build dynamic update query
+            fields = []
+            values = []
+            for key, value in data.items():
+                fields.append(f"{key} = %s")
+                values.append(value)
+            values.append(slug)  # Add slug for WHERE clause
+            
+            if not fields:  # No fields to update
+                return dict(existing_country)
+            
+            query = f"""
                 UPDATE countries
-                SET 
-                    name = %s,
-                    flag = %s,
-                    region = %s,
-                    visa_required = %s,
-                    last_updated = %s,
-                    summary = %s
+                SET {', '.join(fields)}
                 WHERE id = %s
                 RETURNING *
-            """, (
-                data['name'],
-                data.get('flag'),
-                data.get('region'),
-                data.get('visa_required'),
-                data.get('last_updated'),
-                data.get('summary'),
-                slug
-            ))
+            """
+            
+            self._cursor.execute(query, values)
             self._connection.commit()
-            return dict(self._cursor.fetchone())
+            updated = self._cursor.fetchone()
+            return dict(updated) if updated else None
+            
         finally:
             self.close()
 
@@ -247,8 +258,8 @@ class Database:
         self.connect()
         try:
             self._cursor.execute("""
-                INSERT INTO countries (id, name, flag, region, visa_required, last_updated, summary)
-                VALUES (%s, %s, %s, %s, %s, %s, %s)
+                INSERT INTO countries (id, name, flag, region, visa_required, last_updated, summary, published)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
                 RETURNING *
             """, (
                 data['slug'],
@@ -257,7 +268,8 @@ class Database:
                 data.get('region'),
                 data.get('visa_required'),
                 data.get('last_updated'),
-                data.get('summary')
+                data.get('summary'),
+                data.get('published', False)
             ))
             self._connection.commit()
             return dict(self._cursor.fetchone())

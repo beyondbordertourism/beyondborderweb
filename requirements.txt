@@ -15,4 +15,5 @@ pillow
 email-validator
 motor==3.3.2
 pymongo==4.6.1
-tqdm 
+tqdm
+PyJWT 

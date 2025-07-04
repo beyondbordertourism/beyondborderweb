@@ -123,14 +123,19 @@ def admin_get_stats(_: dict = Depends(admin_required)):
     
     total_countries = len(countries)
     published_countries = len([c for c in countries if c.get('published')])
-    regions = list(set(c.get('region') for c in countries if c.get('region')))
+    regions = [c.get('region') for c in countries if c.get('region')]
+    region_counts = {}
+    for region in regions:
+        if region:  # Only count non-empty regions
+            region_counts[region] = region_counts.get(region, 0) + 1
+    
     visa_required = len([c for c in countries if c.get('visa_required')])
     
     return {
         "total_countries": total_countries,
         "published_countries": published_countries,
-        "regions": len(regions),
-        "region_distribution": regions,
+        "regions": len(set(regions)),  # Count unique regions
+        "region_distribution": [{"name": k, "count": v} for k, v in region_counts.items()],
         "visa_required": visa_required,
         "visa_free": total_countries - visa_required
     }

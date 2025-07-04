@@ -155,27 +155,27 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM loaded, starting country data load');
-    const slug = '{{ slug }}';
+    const countryId = '{{ country_id }}';  // Use country_id instead of slug
     
     // Add a small delay to ensure all elements are properly rendered
     setTimeout(() => {
-        console.log('Loading country data for:', slug);
-        loadCountryData(slug);
+        console.log('Loading country data for:', countryId);
+        loadCountryData(countryId);
         loadRelatedCountries();
     }, 100);
 });
 
-async function loadCountryData(slug) {
+async function loadCountryData(countryId) {
     try {
-        console.log('Making fetch request to:', `/api/countries/${slug}`);
-        const response = await fetch(`/api/countries/${slug}`);
+        console.log('Making fetch request to:', `/api/countries/${countryId}`);
+        const response = await fetch(`/api/countries/${countryId}`);
         console.log('Response status:', response.status);
         if (!response.ok) {
             throw new Error('Country not found');
         }
         
         const country = await response.json();
-        console.log('Country data loaded:', country.name, country.slug);
+        console.log('Country data loaded:', country.name, country.id);
         displayCountryData(country);
     } catch (error) {
         console.error('Error loading country data:', error);
@@ -236,8 +236,8 @@ const countryHeroConfigs = {
 function displayCountryData(country) {
     console.log('Displaying country data for:', country.name);
     
-    const countrySlug = (country.slug || country.id || '').toLowerCase();
-    const config = countryHeroConfigs[countrySlug];
+    const countryId = (country.id || '').toLowerCase();
+    const config = countryHeroConfigs[countryId];
     
     // Always show the unified hero
     showUnifiedHero(country, config);

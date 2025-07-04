@@ -39,11 +39,6 @@
                     <label for="regionFilter" class="block text-sm font-medium text-gray-700 mb-2">Region</label>
                     <select id="regionFilter" class="w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500">
                         <option value="">All Regions</option>
-                        <option value="Asia">Asia</option>
-                        <option value="Europe">Europe</option>
-                        <option value="Africa">Africa</option>
-                        <option value="Americas">Americas</option>
-                        <option value="Oceania">Oceania</option>
                     </select>
                 </div>
                 <div>
@@ -185,6 +180,7 @@ async function logout() {
 
 document.addEventListener('DOMContentLoaded', function() {
     loadCountries();
+    loadRegionOptions();
     
     // Add event listeners for filters
     document.getElementById('searchInput').addEventListener('input', debounce(loadCountries, 300));
@@ -227,11 +223,18 @@ async function loadCountries() {
         if (published !== null) params.append('published', published);
         
         const response = await fetch(`/api/admin/countries?${params}`);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
         const data = await response.json();
         console.log("Full API response for countries:", data);
         
         // Handle new response format with countries array and total count
         const countries = data.countries || data; // Fallback for old format
+        if (!Array.isArray(countries)) {
+            throw new Error('Invalid response format: countries is not an array');
+        }
+        
         const totalCount = data.total || countries.length;
         
         currentCountries = countries;
@@ -241,7 +244,7 @@ async function loadCountries() {
     } catch (error) {
         console.error('Error loading countries:', error);
         document.getElementById('countriesTable').innerHTML = `
-            <tr><td colspan="8" class="text-center py-8 text-red-600">Error loading countries</td></tr>
+            <tr><td colspan="8" class="text-center py-8 text-red-600">Error loading countries: ${error.message}</td></tr>
         `;
     }
 }
@@ -258,23 +261,29 @@ function displayCountries(countries) {
     
     tbody.innerHTML = countries.map(country => {
         const dataQuality = calculateDataQuality(country);
+        const countryId = country.id || country.slug;  // Try id first, then slug
+        
+        if (!countryId) {
+            console.error('Country missing ID:', country);
+            return '';  // Skip this country
+        }
         
         return `
             <tr class="hover:bg-gray-50">
                 <td class="px-3 py-4 whitespace-nowrap">
                     <input type="checkbox" class="country-checkbox rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" 
-                           value="${country.slug}">
+                           value="${countryId}">
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap">
                     <div class="flex items-center">
                         <span class="text-2xl mr-3">${country.flag || '🏳️'}</span>
                         <div>
                             <div class="text-sm font-medium text-gray-900">${country.name}</div>
-                            <div class="text-sm text-gray-500">${country.slug}</div>
+                            <div class="text-sm text-gray-500">${countryId}</div>
                         </div>
                     </div>
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${country.region}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${country.region || ''}</td>
                 <td class="px-6 py-4 whitespace-nowrap">
                     <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${country.visa_required ? 'bg-yellow-100 text-yellow-800' : 'bg-green-100 text-green-800'}">
                         ${country.visa_required ? 'Required' : 'Free'}
@@ -283,46 +292,31 @@ function displayCountries(countries) {
                 <td class="px-6 py-4 whitespace-nowrap">
                     <div class="flex items-center">
                         <div class="w-16 bg-gray-200 rounded-full h-2 mr-2">
-                            <div class="bg-${dataQuality.color}-600 h-2 rounded-full" style="width: ${dataQuality.percentage}%"></div>
+                            <div class="bg-${dataQuality.color}-500 h-2 rounded-full" style="width: ${dataQuality.percentage}%"></div>
                         </div>
-                        <span class="text-sm text-gray-600">${dataQuality.percentage}%</span>
-                    </div>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="flex space-x-1">
-                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${country.published ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}">
-                            ${country.published ? 'Published' : 'Draft'}
-                        </span>
-                        ${country.featured ? '<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Featured</span>' : ''}
+                        <span class="text-sm text-gray-500">${dataQuality.percentage}%</span>
                     </div>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    ${new Date(country.last_updated).toLocaleDateString()}
+                    ${country.last_updated ? new Date(country.last_updated).toLocaleDateString() : 'Never'}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${country.published ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}">
+                        ${country.published ? 'Published' : 'Draft'}
+                    </span>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                    <div class="flex space-x-2">
-                        <a href="/countries/${country.slug}" target="_blank" class="text-blue-600 hover:text-blue-900" title="View">
-                            <i class="fas fa-eye"></i>
-                        </a>
-                        <a href="/admin/countries/${country.slug}/edit" class="text-indigo-600 hover:text-indigo-900" title="Edit">
-                            <i class="fas fa-edit"></i>
-                        </a>
-                        <button onclick="togglePublish('${country.slug}', ${!country.published})" 
-                                class="text-green-600 hover:text-green-900" title="${country.published ? 'Unpublish' : 'Publish'}">
-                            <i class="fas fa-${country.published ? 'eye-slash' : 'eye'}"></i>
-                        </button>
-                        <button onclick="toggleFeature('${country.slug}', ${!country.featured})" 
-                                class="text-yellow-600 hover:text-yellow-900" title="${country.featured ? 'Unfeature' : 'Feature'}">
-                            <i class="fas fa-star${country.featured ? '' : '-o'}"></i>
-                        </button>
-                        <button onclick="confirmDelete('${country.slug}')" class="text-red-600 hover:text-red-900" title="Delete">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </div>
+                    <a href="/admin/countries/${countryId}/edit" class="text-indigo-600 hover:text-indigo-900 mr-3">Edit</a>
+                    <button onclick="togglePublish('${countryId}', ${!country.published})" class="text-blue-600 hover:text-blue-900 mr-3">
+                        ${country.published ? 'Unpublish' : 'Publish'}
+                    </button>
+                    <button onclick="deleteCountry('${countryId}')" class="text-red-600 hover:text-red-900">
+                        Delete
+                    </button>
                 </td>
             </tr>
         `;
-    }).join('');
+    }).filter(Boolean).join('');
     
     document.getElementById('resultsCount').textContent = countries.length;
 }
@@ -377,11 +371,22 @@ async function bulkPublish(publish) {
     }
     
     try {
-        const promises = selectedIds.map(id => 
-            fetch(`/api/admin/countries/${id}/publish?published=${publish}`, { method: 'PATCH' })
-        );
+        const promises = selectedIds.map(id => {
+            if (!id || id === 'undefined') {
+                console.error('Invalid country ID:', id);
+                return Promise.reject(new Error('Invalid country ID'));
+            }
+            return fetch(`/api/admin/countries/${id}/publish?published=${publish}`, { method: 'PATCH' });
+        });
         
-        await Promise.all(promises);
+        const results = await Promise.allSettled(promises);
+        const errors = results.filter(r => r.status === 'rejected').map(r => r.reason);
+        
+        if (errors.length > 0) {
+            console.error('Some updates failed:', errors);
+            alert(`Some updates failed. Check console for details.`);
+        }
+        
         loadCountries();
         document.getElementById('selectAll').checked = false;
         
@@ -392,6 +397,12 @@ async function bulkPublish(publish) {
 }
 
 async function togglePublish(countryId, publish) {
+    if (!countryId || countryId === 'undefined') {
+        console.error('Invalid country ID:', countryId);
+        alert('Error: Invalid country ID');
+        return;
+    }
+
     try {
         const response = await fetch(`/api/admin/countries/${countryId}/publish?published=${publish}`, {
             method: 'PATCH'
@@ -400,7 +411,9 @@ async function togglePublish(countryId, publish) {
         if (response.ok) {
             loadCountries();
         } else {
-            alert('Error updating country status');
+            const error = await response.json();
+            console.error('Error updating country status:', error);
+            alert('Error updating country status: ' + (error.detail || 'Unknown error'));
         }
     } catch (error) {
         console.error('Error toggling publish status:', error);
@@ -425,7 +438,13 @@ async function toggleFeature(countryId, feature) {
     }
 }
 
-function confirmDelete(countryId) {
+async function deleteCountry(countryId) {
+    if (!countryId || countryId === 'undefined') {
+        console.error('Invalid country ID:', countryId);
+        alert('Error: Invalid country ID');
+        return;
+    }
+    
     deleteCountryId = countryId;
     document.getElementById('deleteModal').classList.remove('hidden');
     
@@ -439,7 +458,9 @@ function confirmDelete(countryId) {
                 closeDeleteModal();
                 loadCountries();
             } else {
-                alert('Error deleting country');
+                const error = await response.json();
+                console.error('Error deleting country:', error);
+                alert('Error deleting country: ' + (error.detail || 'Unknown error'));
             }
         } catch (error) {
             console.error('Error deleting country:', error);
@@ -474,6 +495,31 @@ function updatePagination(totalCount) {
     
     document.getElementById('prevPage').disabled = currentPage === 1;
     document.getElementById('nextPage').disabled = currentPage >= totalPages || totalPages === 0;
+}
+
+async function loadRegionOptions() {
+    try {
+        const response = await fetch('/api/admin/stats');
+        const data = await response.json();
+        
+        const regionFilter = document.getElementById('regionFilter');
+        const regions = data.region_distribution || [];
+        
+        // Clear existing options except the first one
+        regionFilter.innerHTML = '<option value="">All Regions</option>';
+        
+        // Add regions from the API
+        regions.forEach(region => {
+            if (region.name) {  // Only add non-empty regions
+                const option = document.createElement('option');
+                option.value = region.name;
+                option.textContent = `${region.name} (${region.count})`;
+                regionFilter.appendChild(option);
+            }
+        });
+    } catch (error) {
+        console.error('Error loading regions:', error);
+    }
 }
 </script>
 {% endblock %} 

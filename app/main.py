@@ -7,8 +7,9 @@ from typing import Optional
 import os
 
 from app.api.routes import countries, admin
-from app.core.auth import verify_token
+from app.core.auth import verify_token, get_current_admin
 import config
+from app.core.db import db
 
 # Create FastAPI app
 app = FastAPI(
@@ -56,7 +57,10 @@ async def countries_page(request: Request):
 
 @app.get("/countries/{slug}", response_class=HTMLResponse)
 async def country_detail(request: Request, slug: str):
-    return templates.TemplateResponse("country_detail.html", {"request": request, "slug": slug})
+    country = db.get_country_by_slug(slug)
+    if not country:
+        return templates.TemplateResponse("404.html", {"request": request}, status_code=404)
+    return templates.TemplateResponse("country_detail.html", {"request": request, "country": country})
 
 @app.get("/search", response_class=HTMLResponse)
 async def search_results(request: Request):
@@ -64,34 +68,35 @@ async def search_results(request: Request):
 
 # Admin routes with authentication
 @app.get("/admin/login", response_class=HTMLResponse)
-async def admin_login_page(request: Request, admin_token: Optional[str] = Cookie(None)):
-    # If already logged in, redirect to admin dashboard
-    if check_admin_auth(admin_token):
-        return RedirectResponse(url="/admin", status_code=302)
+async def admin_login_page(request: Request):
     return templates.TemplateResponse("admin/login.html", {"request": request})
 
 @app.get("/admin", response_class=HTMLResponse)
-async def admin_dashboard(request: Request, admin_token: Optional[str] = Cookie(None)):
-    if not check_admin_auth(admin_token):
-        return RedirectResponse(url="/admin/login", status_code=302)
+async def admin_dashboard(request: Request):
+    token = request.cookies.get("admin_token")
+    if not token or not await get_current_admin(request, token):
+        return RedirectResponse(url="/admin/login")
     return templates.TemplateResponse("admin/dashboard.html", {"request": request})
 
 @app.get("/admin/countries", response_class=HTMLResponse)
-async def admin_countries(request: Request, admin_token: Optional[str] = Cookie(None)):
-    if not check_admin_auth(admin_token):
-        return RedirectResponse(url="/admin/login", status_code=302)
+async def admin_countries(request: Request):
+    token = request.cookies.get("admin_token")
+    if not token or not await get_current_admin(request, token):
+        return RedirectResponse(url="/admin/login")
     return templates.TemplateResponse("admin/countries.html", {"request": request})
 
 @app.get("/admin/countries/new", response_class=HTMLResponse)
-async def admin_new_country(request: Request, admin_token: Optional[str] = Cookie(None)):
-    if not check_admin_auth(admin_token):
-        return RedirectResponse(url="/admin/login", status_code=302)
-    return templates.TemplateResponse("admin/country_form.html", {"request": request})
+async def admin_new_country(request: Request):
+    token = request.cookies.get("admin_token")
+    if not token or not await get_current_admin(request, token):
+        return RedirectResponse(url="/admin/login")
+    return templates.TemplateResponse("admin/country_form.html", {"request": request, "country_id": None})
 
 @app.get("/admin/countries/{country_id}/edit", response_class=HTMLResponse)
-async def admin_edit_country(request: Request, country_id: str, admin_token: Optional[str] = Cookie(None)):
-    if not check_admin_auth(admin_token):
-        return RedirectResponse(url="/admin/login", status_code=302)
+async def admin_edit_country(request: Request, country_id: str):
+    token = request.cookies.get("admin_token")
+    if not token or not await get_current_admin(request, token):
+        return RedirectResponse(url="/admin/login")
     return templates.TemplateResponse("admin/country_form.html", {"request": request, "country_id": country_id})
 
 # Health check
@@ -106,6 +111,21 @@ async def root():
         "version": "2.0.0",
         "database": "Supabase PostgreSQL"
     }
+
+@app.on_event("startup")
+async def startup_event():
+    # This part is tricky because the original `connect_to_mongo` is async
+    # and we are in a non-async context here. The original db setup seems
+    # to be a mix of sync and async, which is problematic.
+    # For now, we will assume the db connection is handled elsewhere or
+    # we just instantiate the DB adapter.
+    # await connect_to_mongo() # This would be ideal
+    print("Application startup complete.")
+
+@app.on_event("shutdown")
+async def shutdown_event():
+    # await close_mongo_connection() # This would be ideal
+    print("Application shutdown complete.")
 
 if __name__ == "__main__":
     import uvicorn

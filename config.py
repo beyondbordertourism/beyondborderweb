@@ -17,8 +17,8 @@ DB_PASSWORD = os.getenv("DB_PASSWORD", "S_iXJCjL@-nf7m&")
 
 # Application Settings
 SECRET_KEY = os.getenv("SECRET_KEY", "your-secret-key-for-jwt")
-ADMIN_USERNAME = os.getenv("ADMIN_USERNAME", "admin@example.com")
-ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "admin")
+ADMIN_USERNAME = os.getenv("ADMIN_USERNAME", "admin")
+ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "admin123")
 
 # File Storage Settings
 UPLOAD_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), "static/uploads")
