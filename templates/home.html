@@ -6,20 +6,7 @@
 <div class="hero-klook">
     <div class="hero-klook-left">
         <div class="city-carousel">
-            <div class="city-item active" data-city="Japan" data-bg="https://images.unsplash.com/photo-1508179499299-2643424fae56?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">Japan</div>
-
-
-            <div class="city-item" data-city="Singapore" data-bg="https://images.unsplash.com/photo-1657445003648-aa6ed5fc5d63?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">Singapore</div>
-
-
-            <div class="city-item" data-city="South Korea" data-bg="https://images.unsplash.com/photo-1551685314-8167cf1cba72?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">South Korea</div>
-
-
-            <div class="city-item" data-city="Thailand" data-bg="https://plus.unsplash.com/premium_photo-1707793862259-78c4112475d1?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">Thailand</div>
-
-
-            <div class="city-item" data-city="Vietnam" data-bg="https://images.unsplash.com/photo-1560979724-f86caa17a2ed?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">Vietnam</div>
-
+            <!-- Countries will be loaded dynamically -->
         </div>
     </div>
     <div class="hero-klook-right">
@@ -43,12 +30,85 @@
 {% block scripts %}
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const hero = document.querySelector('.hero-klook');
-    const cityItems = document.querySelectorAll('.city-item');
-    let currentIndex = 2;
+    // Load carousel config and initialize
+    fetch('/static/js/carousel-config.json')
+        .then(response => response.json())
+        .then(config => {
+            initializeCarousel(config);
+        })
+        .catch(error => {
+            console.error('Error loading carousel config:', error);
+            // Fallback to default config
+            const defaultConfig = {
+                countries: [
+                    {
+                        name: "Japan",
+                        backgroundImage: "https://images.unsplash.com/photo-1508179499299-2643424fae56?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                    },
+                    {
+                        name: "Singapore",
+                        backgroundImage: "https://images.unsplash.com/photo-1657445003648-aa6ed5fc5d63?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                    },
+                    {
+                        name: "South Korea",
+                        backgroundImage: "https://images.unsplash.com/photo-1551685314-8167cf1cba72?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                    },
+                    {
+                        name: "Thailand",
+                        backgroundImage: "https://plus.unsplash.com/premium_photo-1707793862259-78c4112475d1?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                    },
+                    {
+                        name: "Vietnam",
+                        backgroundImage: "https://images.unsplash.com/photo-1560979724-f86caa17a2ed?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                    }
+                ]
+            };
+            initializeCarousel(defaultConfig);
+        });
+});
 
+function initializeCarousel(config) {
+    const hero = document.querySelector('.hero-klook');
+    const carousel = document.querySelector('.city-carousel');
+    let currentIndex = 0;
+    let autoSlideInterval;
+    let isUserInteracting = false;
+
+    // Create city items from config
+    carousel.innerHTML = config.countries.map((country, index) => 
+        `<div class="city-item ${index === 0 ? 'active' : ''}" data-city="${country.name}" data-bg="${country.backgroundImage}">${country.name}</div>`
+    ).join('');
+
+    const cityItems = document.querySelectorAll('.city-item');
+
+    // Set initial background
     const initialBg = cityItems[currentIndex].getAttribute('data-bg');
     hero.style.backgroundImage = `url('${initialBg}')`;
+
+    // --- Auto Carousel Functionality ---
+    function startAutoSlide() {
+        autoSlideInterval = setInterval(() => {
+            if (!isUserInteracting) {
+                const nextIndex = (currentIndex + 1) % cityItems.length;
+                setActiveCity(nextIndex);
+            }
+        }, 3000); // 3 seconds
+    }
+
+    function stopAutoSlide() {
+        if (autoSlideInterval) {
+            clearInterval(autoSlideInterval);
+        }
+    }
+
+    function resetAutoSlide() {
+        stopAutoSlide();
+        setTimeout(() => {
+            if (!isUserInteracting) {
+                startAutoSlide();
+            }
+        }, 2000); // Wait 2 seconds after user interaction before resuming auto-slide
+    }
 
     // --- Live Search ---
     const searchInput = document.getElementById('search-input');
@@ -64,7 +124,6 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        // Show loading state
         searchResults.innerHTML = `
             <div class="search-result-item">
                 <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
@@ -82,7 +141,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 .then(data => {
                     searchResults.innerHTML = '';
                     if (data.length > 0) {
-                        // Show up to 4 preview results
                         data.slice(0, 4).forEach(country => {
                             const item = document.createElement('a');
                             item.href = `/countries/${country.slug}`;
@@ -97,7 +155,6 @@ document.addEventListener('DOMContentLoaded', function() {
                             searchResults.appendChild(item);
                         });
                         
-                        // Add "See all results" link if there are more results
                         if (data.length > 4) {
                             const seeAllItem = document.createElement('a');
                             seeAllItem.href = `/search?q=${encodeURIComponent(query)}`;
@@ -116,7 +173,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         
                         searchResults.style.display = 'block';
                     } else {
-                        // Show "No results found" message
                         const noResultsItem = document.createElement('div');
                         noResultsItem.classList.add('search-result-item', 'no-results');
                         noResultsItem.innerHTML = `
@@ -136,13 +192,25 @@ document.addEventListener('DOMContentLoaded', function() {
                     console.error('Search error:', error);
                     searchResults.style.display = 'none';
                 });
-        }, 300); // Debounce for 300ms
+        }, 300);
     });
 
     document.addEventListener('click', function(e) {
         if (!e.target.closest('.search-box-klook')) {
             searchResults.style.display = 'none';
         }
+    });
+
+    searchInput.addEventListener('focus', function() {
+        isUserInteracting = true;
+        stopAutoSlide();
+    });
+
+    searchInput.addEventListener('blur', function() {
+        setTimeout(() => {
+            isUserInteracting = false;
+            startAutoSlide();
+        }, 1000);
     });
 
     function updateCityStyles() {
@@ -171,11 +239,34 @@ document.addEventListener('DOMContentLoaded', function() {
 
     cityItems.forEach((item, index) => {
         item.addEventListener('click', () => {
+            isUserInteracting = true;
             setActiveCity(index);
+            resetAutoSlide();
         });
     });
 
-    updateCityStyles(); // Initial style setup
-});
+    carousel.addEventListener('mouseenter', () => {
+        isUserInteracting = true;
+        stopAutoSlide();
+    });
+
+    carousel.addEventListener('mouseleave', () => {
+        isUserInteracting = false;
+        startAutoSlide();
+    });
+
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            stopAutoSlide();
+        } else {
+            if (!isUserInteracting) {
+                startAutoSlide();
+            }
+        }
+    });
+
+    updateCityStyles();
+    startAutoSlide();
+}
 </script>
 {% endblock %}

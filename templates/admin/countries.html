@@ -228,6 +228,7 @@ async function loadCountries() {
         
         const response = await fetch(`/api/admin/countries?${params}`);
         const data = await response.json();
+        console.log("Full API response for countries:", data);
         
         // Handle new response format with countries array and total count
         const countries = data.countries || data; // Fallback for old format
@@ -262,7 +263,7 @@ function displayCountries(countries) {
             <tr class="hover:bg-gray-50">
                 <td class="px-3 py-4 whitespace-nowrap">
                     <input type="checkbox" class="country-checkbox rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" 
-                           value="${country.id}">
+                           value="${country.slug}">
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap">
                     <div class="flex items-center">
@@ -303,18 +304,18 @@ function displayCountries(countries) {
                         <a href="/countries/${country.slug}" target="_blank" class="text-blue-600 hover:text-blue-900" title="View">
                             <i class="fas fa-eye"></i>
                         </a>
-                        <a href="/admin/countries/${country.id}/edit" class="text-indigo-600 hover:text-indigo-900" title="Edit">
+                        <a href="/admin/countries/${country.slug}/edit" class="text-indigo-600 hover:text-indigo-900" title="Edit">
                             <i class="fas fa-edit"></i>
                         </a>
-                        <button onclick="togglePublish('${country.id}', ${!country.published})" 
+                        <button onclick="togglePublish('${country.slug}', ${!country.published})" 
                                 class="text-green-600 hover:text-green-900" title="${country.published ? 'Unpublish' : 'Publish'}">
                             <i class="fas fa-${country.published ? 'eye-slash' : 'eye'}"></i>
                         </button>
-                        <button onclick="toggleFeature('${country.id}', ${!country.featured})" 
+                        <button onclick="toggleFeature('${country.slug}', ${!country.featured})" 
                                 class="text-yellow-600 hover:text-yellow-900" title="${country.featured ? 'Unfeature' : 'Feature'}">
                             <i class="fas fa-star${country.featured ? '' : '-o'}"></i>
                         </button>
-                        <button onclick="confirmDelete('${country.id}')" class="text-red-600 hover:text-red-900" title="Delete">
+                        <button onclick="confirmDelete('${country.slug}')" class="text-red-600 hover:text-red-900" title="Delete">
                             <i class="fas fa-trash"></i>
                         </button>
                     </div>

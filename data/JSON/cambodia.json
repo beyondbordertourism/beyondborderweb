@@ -1,5 +1,6 @@
 {
     "country": "Cambodia",
+    "flag": "🇰🇭",
     "applicable_nationality": "India",
     "year": 2024,
     "visa_required": true,
@@ -12,7 +13,7 @@
       {
         "name": "eVisa Tourist (T)",
         "entry_type": "Single Entry",
-        "validity_months": 3,
+        "validity": "3 months",
         "max_stay_days": 30,
         "fee_inr": 2999,
         "fee_usd": 36,
@@ -21,7 +22,7 @@
       {
         "name": "eVisa Business (E)",
         "entry_type": "Single Entry",
-        "validity_months": 3,
+        "validity": "3 months",
         "max_stay_days": 30,
         "fee_inr": 3465,
         "fee_usd": 42,
@@ -30,22 +31,21 @@
       {
         "name": "Visa on Arrival",
         "entry_type": "Single Entry",
-        "validity_months": 3,
+        "validity": "3 months",
         "max_stay_days": 30,
         "fee_inr": 2498,
         "fee_usd": 30,
         "processing_time": "15–30 minutes"
       },
       {
-        "name": "Visa Extension",
-        "fee_inr": 2063,
-        "fee_usd": 25
-      },
-      {
-        "name": "Embassy Visa",
+        "name": "Embassy Visa (for extensions or long stays)",
         "entry_type": "Varies",
-        "purpose": "Stays exceeding 30 days or non-tourism/business",
-        "processing_time": "2–3 business days"
+        "purpose": "Stays exceeding 30 days or for visa extensions",
+        "processing_time": "2–3 business days",
+        "fees": [
+            {"type": "Visa Fee", "amount": "Varies"},
+            {"type": "Visa Extension Fee", "amount": 2063, "original_currency": "INR"}
+        ]
       }
     ],
     "regular_visa_process": {
@@ -133,7 +133,7 @@
     },
     "penalties_and_tips": {
       "tips": [
-        "Ensure passport has at least 6 months’ validity and blank pages",
+        "Ensure passport has at least 6 months' validity and blank pages",
         "Double-check all application information to avoid delays",
         "Carry printed copies of visa approval and supporting documents",
         "Be aware of visa extension procedures if planning longer stay"

@@ -6,17 +6,15 @@ from fastapi.responses import HTMLResponse, RedirectResponse
 from typing import Optional
 import os
 
-from app.core.database import connect_to_mongo, close_mongo_connection
 from app.api.routes import countries, admin
 from app.core.auth import verify_token
-from app.crud.admin import admin_crud
 import config
 
 # Create FastAPI app
 app = FastAPI(
-    title="Visa Guide API",
-    description="API for visa information and admin management",
-    version="1.0.0"
+    title="Visa Information API",
+    description="API for retrieving visa information for Indian passport holders",
+    version="2.0.0"
 )
 
 # CORS middleware
@@ -29,33 +27,14 @@ app.add_middleware(
 )
 
 # Include routers
-app.include_router(countries.router, prefix="/api/countries", tags=["Countries"])
-app.include_router(admin.router, prefix="/api/admin", tags=["Admin"])
+app.include_router(countries.router, prefix="/api/countries", tags=["countries"])
+app.include_router(admin.router, prefix="/api/admin", tags=["admin"])
 
 # Mount static files
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 # Templates
 templates = Jinja2Templates(directory="templates")
-
-# Database events
-@app.on_event("startup")
-async def startup_event():
-    await connect_to_mongo()
-    
-    # Initialize default admin user if none exists
-    try:
-        admin_count = await admin_crud.count()
-        if admin_count == 0:
-            print("🔧 Creating default admin user...")
-            await admin_crud.create_default_admin()
-            print("✅ Default admin user created successfully")
-    except Exception as e:
-        print(f"⚠️  Warning: Could not create default admin user: {e}")
-
-@app.on_event("shutdown")
-async def shutdown_event():
-    await close_mongo_connection()
 
 def check_admin_auth(admin_token: Optional[str] = Cookie(None)) -> bool:
     if not admin_token:
@@ -119,6 +98,14 @@ async def admin_edit_country(request: Request, country_id: str, admin_token: Opt
 @app.get("/health")
 async def health_check():
     return {"status": "healthy"}
+
+@app.get("/")
+async def root():
+    return {
+        "message": "Welcome to the Visa Information API",
+        "version": "2.0.0",
+        "database": "Supabase PostgreSQL"
+    }
 
 if __name__ == "__main__":
     import uvicorn

@@ -3,6 +3,7 @@ import json
 import uuid
 import logging
 import asyncio
+import ssl
 from typing import Optional, List, Dict, Any
 from datetime import datetime
 from motor.motor_asyncio import AsyncIOMotorClient
@@ -42,17 +43,17 @@ async def connect_to_mongo():
         
         print(f"🔄 Attempting to connect to MongoDB...")
         
-        # Configure MongoDB connection with proper SSL settings
+        # Test original connection without SSL modifications
+        print(f"🔗 Connection URL: {MONGODB_URL[:50]}...")
+        
+        # Configure MongoDB connection
         client = AsyncIOMotorClient(
             MONGODB_URL,
             serverSelectionTimeoutMS=30000,
             connectTimeoutMS=30000,
             socketTimeoutMS=30000,
             maxPoolSize=10,
-            retryWrites=True,
-            tls=True,  # Use tls instead of ssl
-            tlsAllowInvalidCertificates=True,  # Allow self-signed certificates
-            tlsAllowInvalidHostnames=True  # Allow hostname mismatches
+            retryWrites=True
         )
         
         # Test the connection with shorter timeout
@@ -68,6 +69,7 @@ async def connect_to_mongo():
         
     except Exception as e:
         print(f"⚠️  MongoDB connection failed: {e}")
+        print(f"⚠️  Error type: {type(e).__name__}")
         print(f"⚠️  Using file storage - data will be persisted in local files")
         db.adapter = FileStorageAdapter()
 

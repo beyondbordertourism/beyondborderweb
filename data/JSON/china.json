@@ -1,5 +1,6 @@
 {
     "country": "China",
+    "flag": "🇨🇳",
     "applicable_nationality": "India",
     "year": 2024,
     "visa_required": true,
@@ -10,33 +11,63 @@
     },
     "visa_types": [
       {
-        "name": "Tourist (L)",
+        "name": "Tourist Visa (L) - Single Entry",
         "purpose": "Tourism",
         "validity": "Up to 6 months",
-        "max_stay_days": 30
+        "max_stay_days": 30,
+        "fee_inr": 2900
       },
       {
-        "name": "Business (M)",
+        "name": "Business Visa (M) - Single Entry",
         "purpose": "Business meetings, trade",
         "validity": "Up to 6 months",
-        "max_stay_days": 30
+        "max_stay_days": 30,
+        "fee_inr": 2900
+      },
+      {
+        "name": "Double Entry Visa",
+        "purpose": "Tourism or Business",
+        "validity": "Up to 6 months",
+        "max_stay_days": 30,
+        "fee_inr": 4400
+      },
+      {
+        "name": "Multiple Entry Visa (6 Months)",
+        "purpose": "Frequent Travel",
+        "validity": "6 months",
+        "max_stay_days": 30,
+        "fee_inr": 5900
+      },
+      {
+        "name": "Multiple Entry Visa (12+ Months)",
+        "purpose": "Frequent Travel",
+        "validity": "12 months or longer",
+        "max_stay_days": 30,
+        "fee_inr": 8800
+      },
+      {
+        "name": "Group Visa",
+        "purpose": "Organized Tours",
+        "validity": "Varies by tour",
+        "max_stay_days": 30,
+        "fee_inr": 1800
       },
       {
         "name": "Family Visit (Q1)",
-        "purpose": "Visiting family members",
+        "purpose": "Visiting family members (long-term)",
         "validity": "Over 180 days",
         "max_stay_days": "As per invitation"
       },
       {
         "name": "Family Visit (Q2)",
-        "purpose": "Visiting family members",
+        "purpose": "Visiting family members (short-term)",
         "validity": "Up to 180 days",
         "max_stay_days": "As per invitation"
       },
       {
         "name": "Work (Z)",
         "purpose": "Employment",
-        "validity": "Up to 6 months",
+        "validity": "As per employment contract",
         "max_stay_days": "As per employment contract"
       },
       {
@@ -50,38 +81,8 @@
         "purpose": "Study (short-term)",
         "validity": "Up to 180 days",
         "max_stay_days": "As per academic program"
-      },
-      {
-        "name": "Transit (G)",
-        "purpose": "Transit through China",
-        "validity": "Up to 7 days",
-        "max_stay_days": "Short-term"
-      },
-      {
-        "name": "Journalist (J1)",
-        "purpose": "Media-related activities (long-term)",
-        "validity": "Long-term",
-        "max_stay_days": "As per assignment"
-      },
-      {
-        "name": "Journalist (J2)",
-        "purpose": "Media-related activities (short-term)",
-        "validity": "Short-term",
-        "max_stay_days": "As per assignment"
       }
     ],
-    "visa_fees": {
-      "valid_until": "December 2025",
-      "fees_in_inr": {
-        "Single Entry": 2900,
-        "Double Entry": 4400,
-        "Multiple Entry (6 months)": 5900,
-        "Multiple Entry (12 months or longer)": 8800,
-        "Group Visa": 1800,
-        "Expedited Service (additional)": 1800
-      },
-      "note": "Fees apply at Chinese Visa Application Service Center in New Delhi. May vary by location."
-    },
     "application_process": {
       "steps": [
         "Determine Visa Type based on visit purpose",
@@ -124,6 +125,7 @@
       "express_additional_fee_inr": 1800
     },
     "important_notes": [
+      "An additional fee of ₹1800 applies for expedited (express) service.",
       "Applicants aged 14–70 must provide fingerprints unless exempt.",
       "No appointment is required for submission since November 2023.",
       "Ensure passport validity of at least 6 months with blank pages.",

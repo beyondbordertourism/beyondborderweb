@@ -236,7 +236,7 @@ const countryHeroConfigs = {
 function displayCountryData(country) {
     console.log('Displaying country data for:', country.name);
     
-    const countrySlug = country.slug.toLowerCase();
+    const countrySlug = (country.slug || country.id || '').toLowerCase();
     const config = countryHeroConfigs[countrySlug];
     
     // Always show the unified hero
@@ -245,11 +245,22 @@ function displayCountryData(country) {
     // Update page title
     document.title = `${country.name} Visa Information - Complete Guide`;
     
+    // Parse photo_requirements if it's a string
+    let photoReqs = country.photo_requirements;
+    if (typeof photoReqs === 'string') {
+        try {
+            photoReqs = JSON.parse(photoReqs);
+        } catch (e) {
+            console.error('Failed to parse photo_requirements:', e);
+            photoReqs = {}; // Set to empty object on failure
+        }
+    }
+    
     // Display sections
     displayVisaTypes(country.visa_types);
     displayVisaFees(country.fees);
     displayDocuments(country.documents);
-    displayPhotoRequirements(country.photo_requirements);
+    displayPhotoRequirements(photoReqs);
     displayApplicationMethods(country.application_methods);
     displayImportantNotes(country.important_notes);
     displayQuickFacts(country);
@@ -332,7 +343,7 @@ function displayVisaTypes(visaTypes) {
             <div class="visa-card-header">
                 <div class="visa-card-title-group">
                     <h3 class="visa-card-title">${visaName}</h3>
-                    <span class="visa-card-entry-type">${visa.entry_type}</span>
+                    ${visa.entry_type ? `<span class="visa-card-entry-type">${visa.entry_type}</span>` : ''}
                 </div>
                 ${visaDescription ? `<p class="visa-card-description">${visaDescription}</p>` : ''}
                 ${visa.purpose && !visaDescription ? `<p class="visa-card-purpose">${visa.purpose}</p>` : ''}
@@ -386,21 +397,30 @@ function displayVisaTypes(visaTypes) {
                             <span>Visa Fees</span>
                         </div>
                         <div class="space-y-2">
-                            ${visa.fees.map(fee => `
-                                <div class="fee-item">
-                                    <span>${fee.type}</span>
-                                    <div class="fee-amount">
-                                        ${fee.notes && fee.notes.includes('₹') ? `
-                                            <span>${fee.notes}</span>
-                                        ` : `
-                                            <span>₹${fee.amount_inr ? fee.amount_inr.toLocaleString() : 'TBD'}</span>
-                                        `}
+                            ${visa.fees.map(fee => {
+                                if (fee.amount === null || fee.amount === undefined || fee.amount === '') {
+                                    return ''; // Don't render if amount is missing
+                                }
+
+                                let feeDisplay;
+                                if (String(fee.amount).toLowerCase() === 'free' || Number(fee.amount) === 0) {
+                                    feeDisplay = 'Free';
+                                } else if (!isNaN(Number(fee.amount))) {
+                                    feeDisplay = `₹${Number(fee.amount).toLocaleString()}`;
+                                } else {
+                                    feeDisplay = fee.amount; // Display strings like "Varies" as-is
+                                }
+
+                                return `
+                                    <div class="fee-item">
+                                        <span>${fee.type}</span>
+                                        <div class="fee-amount">
+                                            <span>${feeDisplay}</span>
+                                        </div>
                                     </div>
-                                </div>
-                                ${fee.notes && !fee.notes.includes('₹') && fee.notes.trim() !== '' ? `
-                                    <p class="fee-notes">${fee.notes}</p>
-                                ` : ''}
-                            `).join('')}
+                                    ${fee.note ? `<p class="fee-notes">${fee.note}</p>` : ''}
+                                `;
+                            }).join('')}
                         </div>
                     </div>
                 ` : ''}
@@ -522,33 +542,39 @@ function displayPhotoRequirements(photoReq) {
 
 function displayApplicationMethods(methods) {
     const container = document.getElementById('applicationMethods');
-    const section = document.getElementById('applicationMethodsSection');
-    
     if (!methods || methods.length === 0) {
-        section.style.display = 'none';
+        container.innerHTML = '<p class="text-gray-500">No application process information available.</p>';
         return;
     }
-    
-    container.innerHTML = methods.map(method => `
-        <div class="border border-gray-200 rounded-lg p-4 mb-4">
-            <h4 class="font-semibold text-gray-900 mb-2">${method.name}</h4>
-            <p class="text-gray-600 mb-3">${method.description}</p>
-            ${method.requirements && method.requirements.length > 0 ? `
-                <div class="mb-3">
-                    <span class="font-medium text-gray-700">Requirements:</span>
-                    <ul class="list-disc list-inside text-sm text-gray-600 mt-1">
-                        ${method.requirements.map(req => `<li>${req}</li>`).join('')}
-                    </ul>
-                </div>
-            ` : ''}
-            ${method.processing_time ? `
-                <p class="text-sm text-gray-600">
-                    <i class="fas fa-clock mr-1"></i>
-                    Processing Time: ${method.processing_time}
-                </p>
-            ` : ''}
-        </div>
-    `).join('');
+
+    container.innerHTML = methods.map(method => {
+        const stepsHtml = method.steps.map(step => {
+            if (typeof step === 'string') {
+                return `<li>${step}</li>`;
+            } else if (typeof step === 'object' && step.description) {
+                // Handle the more complex object structure
+                return `<li>
+                            <strong>${step.name || 'Step'}:</strong> ${step.description}
+                            ${step.requirements && step.requirements.length > 0 ? `
+                                <ul class="list-disc list-inside ml-4">
+                                    ${step.requirements.map(r => `<li>${r}</li>`).join('')}
+                                </ul>
+                            ` : ''}
+                        </li>`;
+            }
+            return ''; // Ignore invalid step formats
+        }).join('');
+
+        return `
+            <div class="mb-4">
+                <h3 class="text-lg font-semibold text-gray-800">${method.method}</h3>
+                ${method.note ? `<p class="text-sm text-gray-600 italic">${method.note}</p>` : ''}
+                <ul class="list-decimal list-inside mt-2 space-y-1 text-gray-700">
+                    ${stepsHtml}
+                </ul>
+            </div>
+        `;
+    }).join('');
 }
 
 function displayImportantNotes(notes) {
@@ -672,7 +698,7 @@ async function loadRelatedCountries() {
         
         const container = document.getElementById('relatedCountries');
         container.innerHTML = countries.slice(0, 4).map(country => `
-            <a href="/countries/${country.slug}" class="block p-3 rounded-lg hover:bg-gray-50 border border-gray-200 mb-2">
+            <a href="/countries/${country.id}" class="block p-3 rounded-lg hover:bg-gray-50 border border-gray-200 mb-2">
                 <div class="flex items-center">
                     <span class="text-2xl mr-3">${country.flag}</span>
                     <div>

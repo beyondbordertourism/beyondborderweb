@@ -1,20 +1,33 @@
 import os
+from dotenv import load_dotenv
 
-# MongoDB Atlas Configuration
-# Replace "your_password_here" with your actual MongoDB Atlas password
-MONGODB_URL = os.getenv("MONGODB_URL", "mongodb+srv://inshamanowar22:YVfCabwE81MkSY68@visa-countries.gsywcpw.mongodb.net/")
-MONGODB_PASSWORD = os.getenv("MONGODB_PASSWORD", "YVfCabwE81MkSY68")
-DATABASE_NAME = os.getenv("DATABASE_NAME", "visa_website")
+load_dotenv()
 
-# Application Configuration
-ENVIRONMENT = os.getenv("ENVIRONMENT", "development")
-DEBUG = os.getenv("DEBUG", "True").lower() == "true"
+# Supabase Configuration
+SUPABASE_URL = os.getenv("SUPABASE_URL", "https://eufiyvhigestuyhzvuxc.supabase.co")
+SUPABASE_KEY = os.getenv("SUPABASE_KEY", "")
+SUPABASE_JWT_SECRET = os.getenv("SUPABASE_JWT_SECRET", "your-jwt-secret")
 
-# Admin Authentication Configuration
-ADMIN_USERNAME = os.getenv("ADMIN_USERNAME", "admin")
-ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "admin123")
-SECRET_KEY = os.getenv("SECRET_KEY", "your-secret-key-change-in-production")
+# Database Configuration
+DB_HOST = os.getenv("DB_HOST", "db.eufiyvhigestuyhzvuxc.supabase.co")
+DB_PORT = os.getenv("DB_PORT", "5432")
+DB_NAME = os.getenv("DB_NAME", "postgres")
+DB_USER = os.getenv("DB_USER", "postgres")
+DB_PASSWORD = os.getenv("DB_PASSWORD", "S_iXJCjL@-nf7m&")
 
-# Replace password placeholder if password is provided
-if MONGODB_PASSWORD and "YVfCabwE81MkSY68" in MONGODB_URL:
-    MONGODB_URL = MONGODB_URL.replace("YVfCabwE81MkSY68", MONGODB_PASSWORD) 
+# Application Settings
+SECRET_KEY = os.getenv("SECRET_KEY", "your-secret-key-for-jwt")
+ADMIN_USERNAME = os.getenv("ADMIN_USERNAME", "admin@example.com")
+ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "admin")
+
+# File Storage Settings
+UPLOAD_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), "static/uploads")
+ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "gif", "pdf", "doc", "docx"}
+MAX_CONTENT_LENGTH = 16 * 1024 * 1024  # 16MB max file size
+
+# Email Settings (if needed)
+SMTP_SERVER = os.getenv("SMTP_SERVER", "smtp.gmail.com")
+SMTP_PORT = int(os.getenv("SMTP_PORT", "587"))
+SMTP_USERNAME = os.getenv("SMTP_USERNAME", "")
+SMTP_PASSWORD = os.getenv("SMTP_PASSWORD", "")
+MAIL_FROM = os.getenv("MAIL_FROM", "noreply@example.com") 

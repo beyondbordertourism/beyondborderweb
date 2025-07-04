@@ -1,0 +1,28 @@
+{
+  "countries": [
+    {
+      "name": "Japan",
+      "backgroundImage": "https://images.unsplash.com/photo-1508179499299-2643424fae56?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+      "name": "Singapore",
+      "backgroundImage": "https://images.unsplash.com/photo-1657445003648-aa6ed5fc5d63?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+      "name": "South Korea",
+      "backgroundImage": "https://images.unsplash.com/photo-1551685314-8167cf1cba72?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+      "name": "Thailand",
+      "backgroundImage": "https://plus.unsplash.com/premium_photo-1707793862259-78c4112475d1?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+      "name": "Vietnam",
+      "backgroundImage": "https://images.unsplash.com/photo-1560979724-f86caa17a2ed?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+      "name": "UAE",
+      "backgroundImage": "https://plus.unsplash.com/premium_photo-1694475187704-de2d1602b36b?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    }
+  ]
+} 
