@@ -25,6 +25,35 @@
         </div>
     </div>
 </div>
+
+<!-- Featured Countries Section -->
+<section class="py-16 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold text-gray-900 sm:text-4xl">Popular Destinations</h2>
+            <p class="mt-4 text-lg text-gray-600">Discover visa requirements for the most sought-after travel destinations</p>
+        </div>
+        
+        <!-- Loading State -->
+        <div id="featuredLoadingState" class="text-center py-8">
+            <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
+            <p class="mt-4 text-gray-600">Loading destinations...</p>
+        </div>
+        
+        <!-- Featured Countries Grid -->
+        <div id="featuredCountriesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" style="display: none;">
+            <!-- Featured countries will be loaded here -->
+        </div>
+        
+        <!-- View All Button -->
+        <div class="text-center mt-12">
+            <a href="/countries" class="inline-flex items-center gap-2 bg-indigo-600 text-white px-8 py-3 rounded-lg hover:bg-indigo-700 transition-colors font-medium">
+                View All Countries
+                <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+</section>
 {% endblock %}
 
 {% block scripts %}
@@ -65,7 +94,93 @@ document.addEventListener('DOMContentLoaded', function() {
             };
             initializeCarousel(defaultConfig);
         });
+    
+    // Load featured countries
+    loadFeaturedCountries();
 });
+
+// Enhanced Country Card Function (same as countries.html)
+function createCountryCard(country) {
+    const countryId = country.id;  // Always use id
+    
+    if (!countryId) {
+        console.error('Country missing ID:', country);
+        return '';  // Skip this country
+    }
+    
+    return `
+        <a href="/countries/${countryId}" class="country-card">
+            <div class="country-card-content">
+                <div class="country-flag-container">
+                    <span class="country-flag">${country.flag}</span>
+                </div>
+                
+                <h3 class="country-title">${country.name}</h3>
+                <p class="country-region">${country.region}</p>
+                
+                <p class="country-summary">${country.summary}</p>
+                
+                <div class="country-card-footer">
+                    <span class="visa-status-badge ${country.visa_required ? 'visa-status-required' : 'visa-status-free'}">
+                        <i class="fas ${country.visa_required ? 'fa-passport' : 'fa-check-circle'}"></i>
+                        ${country.visa_required ? 'Visa Required' : 'Visa Free'}
+                    </span>
+                    
+                    <span class="learn-more-button">
+                        Learn More
+                        <i class="fas fa-arrow-right learn-more-arrow"></i>
+                    </span>
+                </div>
+                
+                ${country.visa_types && country.visa_types.length > 0 ? `
+                    <div class="visa-types-preview">
+                        ${country.visa_types.slice(0, 2).map(visa => `
+                            <span class="visa-type-tag">${visa.name}</span>
+                        `).join('')}
+                        ${country.visa_types.length > 2 ? `
+                            <span class="more-types-indicator">+${country.visa_types.length - 2} more</span>
+                        ` : ''}
+                    </div>
+                ` : ''}
+            </div>
+        </a>
+    `;
+}
+
+// Load Featured Countries
+async function loadFeaturedCountries() {
+    try {
+        const response = await fetch('/api/countries/featured?limit=6');
+        const featuredCountries = await response.json();
+        
+        const loadingState = document.getElementById('featuredLoadingState');
+        const gridContainer = document.getElementById('featuredCountriesGrid');
+        
+        loadingState.style.display = 'none';
+        
+        if (featuredCountries.length > 0) {
+            gridContainer.innerHTML = featuredCountries.map(country => createCountryCard(country)).join('');
+            gridContainer.style.display = 'grid';
+        } else {
+            // Fallback to regular countries if no featured countries
+            const fallbackResponse = await fetch('/api/countries/?limit=6');
+            const fallbackCountries = await fallbackResponse.json();
+            gridContainer.innerHTML = fallbackCountries.map(country => createCountryCard(country)).join('');
+            gridContainer.style.display = 'grid';
+        }
+        
+    } catch (error) {
+        console.error('Error loading featured countries:', error);
+        const loadingState = document.getElementById('featuredLoadingState');
+        loadingState.innerHTML = `
+            <div class="text-center">
+                <i class="fas fa-exclamation-triangle text-4xl text-red-400 mb-4"></i>
+                <h3 class="text-xl font-semibold text-gray-900 mb-2">Error Loading Countries</h3>
+                <p class="text-gray-600">Please try refreshing the page.</p>
+            </div>
+        `;
+    }
+}
 
 function initializeCarousel(config) {
     const hero = document.querySelector('.hero-klook');
@@ -201,25 +316,33 @@ function initializeCarousel(config) {
         }
     });
 
-    searchInput.addEventListener('focus', function() {
-        isUserInteracting = true;
-        stopAutoSlide();
+    // --- City click functionality ---
+    cityItems.forEach((item, index) => {
+        item.addEventListener('click', function() {
+            isUserInteracting = true;
+            setActiveCity(index);
+            resetAutoSlide();
+            setTimeout(() => {
+                isUserInteracting = false;
+            }, 1000);
+        });
     });
 
-    searchInput.addEventListener('blur', function() {
-        setTimeout(() => {
-            isUserInteracting = false;
-            startAutoSlide();
-        }, 1000);
-    });
+    function setActiveCity(index) {
+        cityItems[currentIndex].classList.remove('active');
+        cityItems[currentIndex].classList.add('distant');
 
-    function updateCityStyles() {
-        cityItems.forEach((item, index) => {
+        currentIndex = index;
+        const targetBg = cityItems[currentIndex].getAttribute('data-bg');
+        hero.style.backgroundImage = `url('${targetBg}')`;
+
+        cityItems.forEach((item, i) => {
             item.classList.remove('active', 'semi-active', 'distant');
-            const diff = Math.abs(index - currentIndex);
-            if (diff === 0) {
+            if (i === currentIndex) {
                 item.classList.add('active');
-            } else if (diff === 1) {
+            } else if (Math.abs(i - currentIndex) === 1 || 
+                       (currentIndex === 0 && i === cityItems.length - 1) ||
+                       (currentIndex === cityItems.length - 1 && i === 0)) {
                 item.classList.add('semi-active');
             } else {
                 item.classList.add('distant');
@@ -227,24 +350,10 @@ function initializeCarousel(config) {
         });
     }
 
-    function setActiveCity(newIndex) {
-        if (currentIndex === newIndex) return;
-        currentIndex = newIndex;
-        
-        const newBg = cityItems[currentIndex].getAttribute('data-bg');
-        hero.style.backgroundImage = `url('${newBg}')`;
-        
-        updateCityStyles();
-    }
+    // Start auto-slide
+    startAutoSlide();
 
-    cityItems.forEach((item, index) => {
-        item.addEventListener('click', () => {
-            isUserInteracting = true;
-            setActiveCity(index);
-            resetAutoSlide();
-        });
-    });
-
+    // Handle hover interactions
     carousel.addEventListener('mouseenter', () => {
         isUserInteracting = true;
         stopAutoSlide();
@@ -252,21 +361,8 @@ function initializeCarousel(config) {
 
     carousel.addEventListener('mouseleave', () => {
         isUserInteracting = false;
-        startAutoSlide();
+        resetAutoSlide();
     });
-
-    document.addEventListener('visibilitychange', function() {
-        if (document.hidden) {
-            stopAutoSlide();
-        } else {
-            if (!isUserInteracting) {
-                startAutoSlide();
-            }
-        }
-    });
-
-    updateCityStyles();
-    startAutoSlide();
 }
 </script>
 {% endblock %}

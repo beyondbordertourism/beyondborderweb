@@ -145,25 +145,28 @@ document.addEventListener('DOMContentLoaded', function() {
             return '';  // Skip this country
         }
         
-        const visaStatus = country.visa_required ? 'Visa Required' : 'Visa Free';
-        const visaStatusClass = country.visa_required ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800';
-        
         return `
-            <a href="/countries/${countryId}" class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
-                <div class="p-6">
-                    <div class="flex items-center gap-3 mb-3">
-                        <span class="text-3xl">${country.flag}</span>
-                        <div>
-                            <h3 class="text-lg font-semibold text-gray-900">${country.name}</h3>
-                            <span class="inline-block px-2 py-1 rounded-full text-xs font-medium ${visaStatusClass}">
-                                ${visaStatus}
-                            </span>
-                        </div>
+            <a href="/countries/${countryId}" class="country-card">
+                <div class="country-card-content">
+                    <div class="country-flag-container">
+                        <span class="country-flag">${country.flag}</span>
                     </div>
-                    <p class="text-gray-600 text-sm line-clamp-3">${country.summary}</p>
-                    <div class="mt-4 flex items-center justify-between">
-                        <span class="text-sm text-gray-500">${country.region}</span>
-                        <span class="text-blue-600 text-sm font-medium">Learn more →</span>
+                    
+                    <h3 class="country-title">${country.name}</h3>
+                    <p class="country-region">${country.region}</p>
+                    
+                    <p class="country-summary">${country.summary}</p>
+                    
+                    <div class="country-card-footer">
+                        <span class="visa-status-badge ${country.visa_required ? 'visa-status-required' : 'visa-status-free'}">
+                            <i class="fas ${country.visa_required ? 'fa-passport' : 'fa-check-circle'}"></i>
+                            ${country.visa_required ? 'Visa Required' : 'Visa Free'}
+                        </span>
+                        
+                        <span class="learn-more-button">
+                            Learn More
+                            <i class="fas fa-arrow-right learn-more-arrow"></i>
+                        </span>
                     </div>
                 </div>
             </a>

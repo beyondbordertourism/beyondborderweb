@@ -286,50 +286,38 @@ function createCountryCard(country) {
     }
     
     return `
-        <div class="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden">
-            <div class="p-6">
-                <div class="flex items-center mb-4">
-                    <span class="text-4xl mr-3">${country.flag}</span>
-                    <div class="flex-1">
-                        <h3 class="text-lg font-semibold text-gray-900">${country.name}</h3>
-                        <p class="text-sm text-gray-600">${country.region}</p>
-                    </div>
+        <a href="/countries/${countryId}" class="country-card">
+            <div class="country-card-content">
+                <div class="country-flag-container">
+                    <span class="country-flag">${country.flag}</span>
                 </div>
                 
-                <p class="text-gray-700 text-sm mb-4 line-clamp-3">${country.summary}</p>
+                <h3 class="country-title">${country.name}</h3>
+                <p class="country-region">${country.region}</p>
                 
-                <div class="flex items-center justify-between">
-                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
-                        country.visa_required 
-                        ? 'bg-yellow-100 text-yellow-800' 
-                        : 'bg-green-100 text-green-800'
-                    }">
-                        <i class="fas ${country.visa_required ? 'fa-passport' : 'fa-check-circle'} mr-1"></i>
+                <p class="country-summary">${country.summary}</p>
+                
+                <div class="country-card-footer">
+                    <span class="visa-status-badge ${country.visa_required ? 'visa-status-required' : 'visa-status-free'}">
+                        <i class="fas ${country.visa_required ? 'fa-passport' : 'fa-check-circle'}"></i>
                         ${country.visa_required ? 'Visa Required' : 'Visa Free'}
                     </span>
                     
-                    <a href="/countries/${countryId}" class="text-indigo-600 hover:text-indigo-800 font-medium text-sm">
-                        View Details <i class="fas fa-arrow-right ml-1"></i>
-                    </a>
+                 
                 </div>
                 
                 ${country.visa_types && country.visa_types.length > 0 ? `
-                    <div class="mt-3 pt-3 border-t border-gray-100">
-                        <div class="text-xs text-gray-500 mb-1">Available Visa Types:</div>
-                        <div class="flex flex-wrap gap-1">
-                            ${country.visa_types.slice(0, 2).map(visa => `
-                                <span class="inline-block bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded">
-                                    ${visa.name}
-                                </span>
-                            `).join('')}
-                            ${country.visa_types.length > 2 ? `
-                                <span class="text-xs text-gray-500">+${country.visa_types.length - 2} more</span>
-                            ` : ''}
-                        </div>
+                    <div class="visa-types-preview">
+                        ${country.visa_types.slice(0, 2).map(visa => `
+                            <span class="visa-type-tag">${visa.name}</span>
+                        `).join('')}
+                        ${country.visa_types.length > 2 ? `
+                            <span class="more-types-indicator">+${country.visa_types.length - 2} more</span>
+                        ` : ''}
                     </div>
                 ` : ''}
             </div>
-        </div>
+        </a>
     `;
 }
 </script>
