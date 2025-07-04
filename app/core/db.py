@@ -4,6 +4,7 @@ from psycopg2 import pool
 from urllib.parse import quote_plus
 import json
 import logging
+import socket # Import the socket library
 from config import DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD
 
 logger = logging.getLogger(__name__)
@@ -15,8 +16,20 @@ class Database:
         if not all([DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD]):
             raise ValueError("Missing required database configuration. Please check your .env file.")
         
+        # Resolve hostname to force IPv4 connection, as suggested by the user's Stack Overflow link.
+        # This is to fix "Network is unreachable" errors in environments that default to IPv6 (like Render).
+        try:
+            ipv4_address = None
+            addr_info = socket.getaddrinfo(DB_HOST, DB_PORT, socket.AF_INET)
+            if addr_info:
+                ipv4_address = addr_info[0][4][0]
+                logger.info(f"Resolved {DB_HOST} to IPv4 address: {ipv4_address}")
+        except socket.gaierror:
+            logger.warning(f"Could not resolve {DB_HOST} to an IPv4 address. Will try connecting with the original hostname.")
+            ipv4_address = DB_HOST
+
         self.conn_params = {
-            'host': DB_HOST,
+            'host': ipv4_address or DB_HOST, # Use IPv4 address if found
             'port': DB_PORT,
             'dbname': DB_NAME,
             'user': DB_USER,
