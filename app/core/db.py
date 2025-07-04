@@ -3,46 +3,64 @@ from psycopg2.extras import RealDictCursor
 from psycopg2 import pool
 from urllib.parse import quote_plus
 import json
+import logging
 from config import DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD
 
+logger = logging.getLogger(__name__)
+
 class Database:
+    _instance = None
+    
     def __init__(self):
         if not all([DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD]):
             raise ValueError("Missing required database configuration. Please check your .env file.")
         
-        try:
-            password = str(DB_PASSWORD)  # Ensure password is a string
-            self.conn_params = {
-                'host': DB_HOST,
-                'port': DB_PORT,
-                'dbname': DB_NAME,
-                'user': DB_USER,
-                'password': password,
-                'sslmode': 'require'
-            }
-            
-            # Initialize the connection pool
-            self.pool = psycopg2.pool.SimpleConnectionPool(
-                minconn=1,
-                maxconn=10,
-                **self.conn_params
-            )
-            
-        except Exception as e:
-            raise ValueError(f"Failed to create database connection pool: {str(e)}")
+        self.conn_params = {
+            'host': DB_HOST,
+            'port': DB_PORT,
+            'dbname': DB_NAME,
+            'user': DB_USER,
+            'password': str(DB_PASSWORD),
+            'sslmode': 'require'
+        }
         
+        self._pool = None
         self._connection = None
         self._cursor = None
+
+    @property
+    def pool(self):
+        if self._pool is None:
+            try:
+                logger.info("Initializing database connection pool...")
+                self._pool = psycopg2.pool.SimpleConnectionPool(
+                    minconn=1,
+                    maxconn=10,
+                    **self.conn_params
+                )
+                logger.info("Database connection pool initialized successfully")
+            except Exception as e:
+                logger.error(f"Failed to create database connection pool: {str(e)}")
+                self._pool = None
+                raise
+        return self._pool
 
     def connect(self):
         if not self._connection:
             try:
+                logger.info("Attempting to get database connection from pool...")
                 self._connection = self.pool.getconn()
                 self._cursor = self._connection.cursor(cursor_factory=RealDictCursor)
+                logger.info("Successfully obtained database connection")
             except Exception as e:
-                print(f"Database connection error: {str(e)}")
+                logger.error(f"Database connection error: {str(e)}")
                 if self._connection:
-                    self.pool.putconn(self._connection)
+                    try:
+                        self.pool.putconn(self._connection)
+                    except:
+                        pass
+                self._connection = None
+                self._cursor = None
                 raise
         return self._connection
 
@@ -50,9 +68,21 @@ class Database:
         if self._cursor:
             self._cursor.close()
         if self._connection:
-            self.pool.putconn(self._connection)
+            try:
+                self.pool.putconn(self._connection)
+            except Exception as e:
+                logger.error(f"Error returning connection to pool: {str(e)}")
             self._connection = None
             self._cursor = None
+
+    def __del__(self):
+        self.close()
+        if self._pool:
+            try:
+                self._pool.closeall()
+                logger.info("Closed all database connections")
+            except Exception as e:
+                logger.error(f"Error closing connection pool: {str(e)}")
 
     def get_all_countries(self):
         self.connect()
@@ -444,4 +474,5 @@ class Database:
         finally:
             self.close()
 
+# Create a single instance of Database
 db = Database() 

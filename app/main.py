@@ -48,7 +48,8 @@ def check_admin_auth(admin_token: Optional[str] = Cookie(None)) -> bool:
 
 # Basic routes for the website
 @app.get("/", response_class=HTMLResponse)
-async def home(request: Request):
+async def serve_home(request: Request):
+    """Serves the home.html page."""
     return templates.TemplateResponse("home.html", {"request": request})
 
 @app.get("/countries", response_class=HTMLResponse)
@@ -56,11 +57,11 @@ async def countries_page(request: Request):
     return templates.TemplateResponse("countries.html", {"request": request})
 
 @app.get("/countries/{country_id}", response_class=HTMLResponse)
-async def country_detail(request: Request, country_id: str):
-    country = db.get_country_by_id(country_id)
-    if not country:
-        return templates.TemplateResponse("404.html", {"request": request}, status_code=404)
-    return templates.TemplateResponse("country_detail.html", {"request": request, "country": country, "country_id": country_id})
+async def serve_country_page(request: Request, country_id: str):
+    """Serves the country_detail.html page."""
+    # This route will render the HTML page,
+    # and the page itself will fetch data from the /api/countries/{country_id} endpoint.
+    return templates.TemplateResponse("country_detail.html", {"request": request, "country_id": country_id})
 
 @app.get("/search", response_class=HTMLResponse)
 async def search_results(request: Request):
@@ -106,11 +107,7 @@ async def health_check():
 
 @app.get("/")
 async def root():
-    return {
-        "message": "Welcome to the Visa Information API",
-        "version": "2.0.0",
-        "database": "Supabase PostgreSQL"
-    }
+    return {"message": "Welcome to Cloud & Compass"}
 
 @app.on_event("startup")
 async def startup_event():
