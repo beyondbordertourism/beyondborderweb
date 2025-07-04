@@ -126,8 +126,7 @@
 .country-card {
     background: white;
     border-radius: 24px;
-    overflow: hidden;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 0.3s ease, border-color 0.3s ease;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     border: 1px solid rgba(0, 0, 0, 0.04);
     cursor: pointer;
@@ -135,12 +134,30 @@
     display: block;
     text-decoration: none;
     color: inherit;
+    will-change: transform;
+}
+
+.country-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 24px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: -1;
 }
 
 .country-card:hover {
     transform: translateY(-12px) scale(1.02);
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
     border-color: rgba(59, 130, 246, 0.2);
+}
+
+.country-card:hover::after {
+    opacity: 1;
 }
 
 .country-card::before {
@@ -154,10 +171,7 @@
     opacity: 0;
     transition: opacity 0.3s ease;
     pointer-events: none;
-}
-
-.country-card:hover::before {
-    opacity: 1;
+    border-radius: 24px; /* Match parent */
 }
 
 .country-card-content {
