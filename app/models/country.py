@@ -104,7 +104,7 @@ class Country(BaseModel):
         from_attributes=True
     )
     
-    id: str = Field(..., alias='slug')  # This is the slug in Supabase
+    id: str  # Use id directly from database
     name: str
     flag: Optional[str] = None
     region: Optional[str] = None
@@ -123,7 +123,7 @@ class Country(BaseModel):
     important_notes: Optional[List[ImportantNote]] = []
 
 class CountryCreate(BaseModel):
-    id: str = Field(..., alias='slug')
+    id: str  # Use id directly
     name: str
     flag: Optional[str] = None
     region: Optional[str] = None

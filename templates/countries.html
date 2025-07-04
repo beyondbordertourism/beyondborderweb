@@ -278,6 +278,13 @@ function displayCountries(clearExisting = true) {
 }
 
 function createCountryCard(country) {
+    const countryId = country.id;  // Always use id
+    
+    if (!countryId) {
+        console.error('Country missing ID:', country);
+        return '';  // Skip this country
+    }
+    
     return `
         <div class="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden">
             <div class="p-6">
@@ -301,7 +308,7 @@ function createCountryCard(country) {
                         ${country.visa_required ? 'Visa Required' : 'Visa Free'}
                     </span>
                     
-                    <a href="/countries/${country.id}" class="text-indigo-600 hover:text-indigo-800 font-medium text-sm">
+                    <a href="/countries/${countryId}" class="text-indigo-600 hover:text-indigo-800 font-medium text-sm">
                         View Details <i class="fas fa-arrow-right ml-1"></i>
                     </a>
                 </div>

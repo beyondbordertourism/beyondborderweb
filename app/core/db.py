@@ -30,7 +30,17 @@ class Database:
             self._cursor.execute("""
                 WITH country_data AS (
                     SELECT 
-                        c.*,
+                        c.id,
+                        c.name,
+                        c.flag,
+                        c.region,
+                        c.visa_required,
+                        c.last_updated,
+                        c.summary,
+                        c.photo_requirements,
+                        c.embassies,
+                        c.important_notes,
+                        c.published,
                         COALESCE(json_agg(
                             DISTINCT jsonb_build_object(
                                 'id', vt.id,
@@ -88,17 +98,19 @@ class Database:
                     LEFT JOIN documents d ON c.id = d.country_id
                     LEFT JOIN processing_times pt ON c.id = pt.country_id
                     LEFT JOIN application_processes ap ON c.id = ap.country_id
-                    GROUP BY c.id
+                    GROUP BY c.id, c.name, c.flag, c.region, c.visa_required, c.last_updated, c.summary, c.photo_requirements, c.embassies, c.important_notes, c.published
                 )
                 SELECT 
                     id,
-                    id as slug,
                     name,
                     flag,
                     region,
                     visa_required,
                     last_updated,
                     summary,
+                    photo_requirements,
+                    embassies,
+                    important_notes,
                     published,
                     visa_types,
                     documents,
@@ -111,13 +123,23 @@ class Database:
         finally:
             self.close()
 
-    def get_country_by_slug(self, slug):
+    def get_country_by_id(self, id):
         self.connect()
         try:
             self._cursor.execute("""
                 WITH country_data AS (
                     SELECT 
-                        c.*,
+                        c.id,
+                        c.name,
+                        c.flag,
+                        c.region,
+                        c.visa_required,
+                        c.last_updated,
+                        c.summary,
+                        c.photo_requirements,
+                        c.embassies,
+                        c.important_notes,
+                        c.published,
                         COALESCE(json_agg(
                             DISTINCT jsonb_build_object(
                                 'id', vt.id,
@@ -176,23 +198,26 @@ class Database:
                     LEFT JOIN processing_times pt ON c.id = pt.country_id
                     LEFT JOIN application_processes ap ON c.id = ap.country_id
                     WHERE c.id = %s
-                    GROUP BY c.id
+                    GROUP BY c.id, c.name, c.flag, c.region, c.visa_required, c.last_updated, c.summary, c.photo_requirements, c.embassies, c.important_notes, c.published
                 )
                 SELECT 
-                    id as slug,
+                    id,
                     name,
                     flag,
                     region,
                     visa_required,
                     last_updated,
                     summary,
+                    photo_requirements,
+                    embassies,
+                    important_notes,
                     published,
                     visa_types,
                     documents,
                     processing_times,
                     application_methods
                 FROM country_data
-            """, (slug,))
+            """, (id,))
             country = self._cursor.fetchone()
             return dict(country) if country else None
         finally:
@@ -202,7 +227,7 @@ class Database:
         self.connect()
         try:
             self._cursor.execute("""
-                SELECT c.*, 
+                SELECT c.id, c.name, c.flag, c.region, c.visa_required, c.summary, c.published,
                     json_agg(DISTINCT vt.*) FILTER (WHERE vt.id IS NOT NULL) as visa_types
                 FROM countries c
                 LEFT JOIN visa_types vt ON c.id = vt.country_id
@@ -210,7 +235,7 @@ class Database:
                     c.name ILIKE %s OR
                     c.region ILIKE %s OR
                     c.summary ILIKE %s
-                GROUP BY c.id
+                GROUP BY c.id, c.name, c.flag, c.region, c.visa_required, c.summary, c.published
                 LIMIT 10
             """, (f"%{query}%", f"%{query}%", f"%{query}%"))
             countries = self._cursor.fetchall()
@@ -218,11 +243,11 @@ class Database:
         finally:
             self.close()
 
-    def update_country(self, slug, data):
+    def update_country(self, id, data):
         self.connect()
         try:
             # First get existing country data
-            self._cursor.execute("SELECT * FROM countries WHERE id = %s", (slug,))
+            self._cursor.execute("SELECT * FROM countries WHERE id = %s", (id,))
             existing_country = self._cursor.fetchone()
             
             if not existing_country:
@@ -234,7 +259,7 @@ class Database:
             for key, value in data.items():
                 fields.append(f"{key} = %s")
                 values.append(value)
-            values.append(slug)  # Add slug for WHERE clause
+            values.append(id)  # Add id for WHERE clause
             
             if not fields:  # No fields to update
                 return dict(existing_country)
@@ -262,7 +287,7 @@ class Database:
                 VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
                 RETURNING *
             """, (
-                data['slug'],
+                data['id'],
                 data['name'],
                 data.get('flag'),
                 data.get('region'),
@@ -276,31 +301,31 @@ class Database:
         finally:
             self.close()
 
-    def delete_country(self, slug):
+    def delete_country(self, id):
         self.connect()
         try:
-            self._cursor.execute("DELETE FROM countries WHERE id = %s", (slug,))
+            self._cursor.execute("DELETE FROM countries WHERE id = %s", (id,))
             self._connection.commit()
             return True
         finally:
             self.close()
 
-    def update_country_raw(self, slug, data):
+    def update_country_raw(self, id, data):
         """Updates a country with raw data, useful for scripts."""
         self.connect()
         
         # Check if country exists
-        self._cursor.execute("SELECT id FROM countries WHERE id = %s", (slug,))
+        self._cursor.execute("SELECT id FROM countries WHERE id = %s", (id,))
         exists = self._cursor.fetchone()
         
         # Remove id from data for update/insert
-        id_val = data.pop("id", slug)
+        id_val = data.pop("id", id)
 
         try:
             if exists:
                 # Update existing country
                 set_clause = ", ".join([f"{key} = %s" for key in data.keys()])
-                values = list(data.values()) + [slug]
+                values = list(data.values()) + [id]
                 query = f"UPDATE countries SET {set_clause} WHERE id = %s"
                 self._cursor.execute(query, values)
             else:

@@ -261,7 +261,7 @@ function displayCountries(countries) {
     
     tbody.innerHTML = countries.map(country => {
         const dataQuality = calculateDataQuality(country);
-        const countryId = country.id || country.slug;  // Try id first, then slug
+        const countryId = country.id;  // Always use id
         
         if (!countryId) {
             console.error('Country missing ID:', country);

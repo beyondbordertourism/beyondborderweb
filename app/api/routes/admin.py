@@ -65,7 +65,7 @@ def admin_get_countries(
 @router.get("/countries/{country_id}")
 def admin_get_country(country_id: str, _: dict = Depends(admin_required)):
     """Admin: Get country by ID"""
-    country = country_crud.get_by_slug(country_id)
+    country = country_crud.get_by_id(country_id)
     if not country:
         raise HTTPException(status_code=404, detail="Country not found")
     return country

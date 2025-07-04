@@ -174,7 +174,7 @@ async function loadDashboardData() {
         const regionChart = document.getElementById('regionChart');
         regionChart.innerHTML = stats.region_distribution.map(region => `
             <div class="flex justify-between items-center">
-                <span class="text-sm text-gray-600">${region._id}</span>
+                <span class="text-sm text-gray-600">${region.name}</span>
                 <div class="flex items-center">
                     <div class="w-24 bg-gray-200 rounded-full h-2 mr-2">
                         <div class="bg-indigo-600 h-2 rounded-full" style="width: ${(region.count / stats.published_countries) * 100}%"></div>
@@ -192,39 +192,48 @@ async function loadDashboardData() {
         const countries = countriesData.countries || countriesData; // Fallback for old format
         
         const recentCountries = document.getElementById('recentCountries');
-        recentCountries.innerHTML = countries.map(country => `
-            <tr>
-                <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="flex items-center">
-                        <span class="text-2xl mr-3">${country.flag}</span>
-                        <div>
-                            <div class="text-sm font-medium text-gray-900">${country.name}</div>
-                            <div class="text-sm text-gray-500">${country.id}</div>
+        recentCountries.innerHTML = countries.map(country => {
+            const countryId = country.id;  // Always use id
+            
+            if (!countryId) {
+                console.error('Country missing ID:', country);
+                return '';  // Skip this country
+            }
+            
+            return `
+                <tr>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="flex items-center">
+                            <span class="text-2xl mr-3">${country.flag}</span>
+                            <div>
+                                <div class="text-sm font-medium text-gray-900">${country.name}</div>
+                                <div class="text-sm text-gray-500">${countryId}</div>
+                            </div>
                         </div>
-                    </div>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${country.region}</td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${country.visa_required ? 'bg-yellow-100 text-yellow-800' : 'bg-green-100 text-green-800'}">
-                        ${country.visa_required ? 'Required' : 'Not Required'}
-                    </span>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="flex space-x-2">
-                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${country.published ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}">
-                            ${country.published ? 'Published' : 'Draft'}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${country.region}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${country.visa_required ? 'bg-yellow-100 text-yellow-800' : 'bg-green-100 text-green-800'}">
+                            ${country.visa_required ? 'Required' : 'Not Required'}
                         </span>
-                        ${country.featured ? '<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Featured</span>' : ''}
-                    </div>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                    <a href="/admin/countries/${country.id}/edit" class="text-indigo-600 hover:text-indigo-900 mr-3">Edit</a>
-                    <button onclick="togglePublish('${country.id}', ${!country.published})" class="text-blue-600 hover:text-blue-900 mr-3">
-                        ${country.published ? 'Unpublish' : 'Publish'}
-                    </button>
-                </td>
-            </tr>
-        `).join('');
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="flex space-x-2">
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${country.published ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}">
+                                ${country.published ? 'Published' : 'Draft'}
+                            </span>
+                            ${country.featured ? '<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Featured</span>' : ''}
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                        <a href="/admin/countries/${countryId}/edit" class="text-indigo-600 hover:text-indigo-900 mr-3">Edit</a>
+                        <button onclick="togglePublish('${countryId}', ${!country.published})" class="text-blue-600 hover:text-blue-900 mr-3">
+                            ${country.published ? 'Unpublish' : 'Publish'}
+                        </button>
+                    </td>
+                </tr>
+            `;
+        }).filter(Boolean).join('');
         
     } catch (error) {
         console.error('Error loading dashboard data:', error);

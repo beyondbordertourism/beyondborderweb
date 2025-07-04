@@ -15,7 +15,10 @@ async def get_countries(
     """Get all published countries with optional filtering"""
     countries = db.get_all_countries()
     
-    # Apply filters
+    # Filter to only published countries
+    countries = [c for c in countries if c.get('published') == True]
+    
+    # Apply additional filters
     if region:
         countries = [c for c in countries if c.get('region') == region]
     if visa_required is not None:
@@ -31,14 +34,17 @@ async def get_countries(
 async def get_featured_countries(limit: int = Query(6, ge=1, le=20)):
     """Get featured countries for homepage"""
     countries = db.get_all_countries()
-    featured = [c for c in countries if c.get('featured', False)][:limit]
+    # Filter to only published and featured countries
+    featured = [c for c in countries if c.get('published') == True and c.get('featured', False)][:limit]
     return featured
 
 @router.get("/regions")
 async def get_regions():
     """Get all available regions"""
     countries = db.get_all_countries()
-    regions = list(set(c.get('region') for c in countries if c.get('region')))
+    # Filter to only published countries
+    published_countries = [c for c in countries if c.get('published') == True]
+    regions = list(set(c.get('region') for c in published_countries if c.get('region')))
     return {"regions": regions}
 
 @router.get("/search", response_model=List[Country])
@@ -47,17 +53,22 @@ async def search_countries(
     limit: int = Query(20, ge=1, le=50)
 ):
     """Search countries by name or content"""
-    return db.search_countries(q)
+    all_results = db.search_countries(q)
+    # Filter to only published countries
+    published_results = [c for c in all_results if c.get('published') == True]
+    return published_results[:limit]
 
 @router.get("/stats")
 async def get_stats():
     """Get public statistics about countries"""
     countries = db.get_all_countries()
+    # Filter to only published countries
+    published_countries = [c for c in countries if c.get('published') == True]
     
     # Calculate stats
-    total_countries = len(countries)
-    regions = list(set(c.get('region') for c in countries if c.get('region')))
-    visa_required = len([c for c in countries if c.get('visa_required')])
+    total_countries = len(published_countries)
+    regions = list(set(c.get('region') for c in published_countries if c.get('region')))
+    visa_required = len([c for c in published_countries if c.get('visa_required')])
     visa_free = total_countries - visa_required
     
     return {
@@ -74,10 +85,15 @@ async def get_stats():
         }
     }
 
-@router.get("/{slug}", response_model=Country)
-async def get_country_by_slug(slug: str):
-    """Get a specific country by its slug"""
-    country = db.get_country_by_slug(slug)
+@router.get("/{country_id}", response_model=Country)
+async def get_country_by_id(country_id: str):
+    """Get a specific country by its ID"""
+    country = db.get_country_by_id(country_id)
     if not country:
         raise HTTPException(status_code=404, detail="Country not found")
-    return country 
+    
+    # Check if country is published
+    if not country.get('published'):
+        raise HTTPException(status_code=404, detail="Country not found")
+    
+    return country

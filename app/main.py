@@ -55,12 +55,12 @@ async def home(request: Request):
 async def countries_page(request: Request):
     return templates.TemplateResponse("countries.html", {"request": request})
 
-@app.get("/countries/{slug}", response_class=HTMLResponse)
-async def country_detail(request: Request, slug: str):
-    country = db.get_country_by_slug(slug)
+@app.get("/countries/{country_id}", response_class=HTMLResponse)
+async def country_detail(request: Request, country_id: str):
+    country = db.get_country_by_id(country_id)
     if not country:
         return templates.TemplateResponse("404.html", {"request": request}, status_code=404)
-    return templates.TemplateResponse("country_detail.html", {"request": request, "country": country})
+    return templates.TemplateResponse("country_detail.html", {"request": request, "country": country, "country_id": country_id})
 
 @app.get("/search", response_class=HTMLResponse)
 async def search_results(request: Request):

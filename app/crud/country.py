@@ -9,8 +9,8 @@ class CountryCRUD:
     def create(self, country_data: CountryCreate) -> Dict:
         return self.db.add_country(country_data.model_dump())
 
-    def get_by_slug(self, slug: str) -> Optional[Dict]:
-        return self.db.get_country_by_slug(slug)
+    def get_by_id(self, id: str) -> Optional[Dict]:
+        return self.db.get_country_by_id(id)
 
     def get_all(
         self,
@@ -42,11 +42,11 @@ class CountryCRUD:
 
         return countries[skip:skip + limit]
         
-    def update(self, slug: str, country_data: CountryUpdate) -> Optional[Dict]:
-        return self.db.update_country(slug, country_data.model_dump(exclude_unset=True))
+    def update(self, id: str, country_data: CountryUpdate) -> Optional[Dict]:
+        return self.db.update_country(id, country_data.model_dump(exclude_unset=True))
 
-    def delete(self, slug: str) -> bool:
-        return self.db.delete_country(slug)
+    def delete(self, id: str) -> bool:
+        return self.db.delete_country(id)
 
     def search(self, query: str) -> List[Dict]:
         return self.db.search_countries(query)
