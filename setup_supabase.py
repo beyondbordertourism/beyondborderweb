@@ -1,10 +1,19 @@
 import psycopg2
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 from urllib.parse import quote_plus
+import os
+from dotenv import load_dotenv
 
 def create_tables():
-    password = quote_plus("S_iXJCjL@-nf7m&")
-    conn_string = f"postgresql://postgres:{password}@db.eufiyvhigestuyhzvuxc.supabase.co:5432/postgres"
+    load_dotenv()
+    
+    password = quote_plus(os.getenv('DB_PASSWORD'))
+    host = os.getenv('DB_HOST')
+    port = os.getenv('DB_PORT')
+    dbname = os.getenv('DB_NAME')
+    user = os.getenv('DB_USER')
+    
+    conn_string = f"postgresql://{user}:{password}@{host}:{port}/{dbname}"
     conn = None
     
     try:

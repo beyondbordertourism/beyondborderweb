@@ -6,7 +6,15 @@ from config import DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD
 
 class Database:
     def __init__(self):
-        self.conn_string = f"postgresql://{DB_USER}:{quote_plus(DB_PASSWORD)}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+        if not all([DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD]):
+            raise ValueError("Missing required database configuration. Please check your .env file.")
+        
+        try:
+            password = str(DB_PASSWORD)  # Ensure password is a string
+            self.conn_string = f"postgresql://{DB_USER}:{quote_plus(password)}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+        except Exception as e:
+            raise ValueError(f"Failed to create database connection string: {str(e)}")
+        
         self._connection = None
         self._cursor = None
 

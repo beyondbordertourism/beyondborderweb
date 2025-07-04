@@ -3248,3 +3248,65 @@ h1, h2, h3, h4, h5, h6 {
     padding-top: 1.5rem !important;
     padding-bottom: 1.5rem !important;
 }
+
+/* About Us Section Styles from Dribbble */
+.eyebrow-text {
+    font-size: 0.875rem; /* 14px */
+    font-weight: 400; /* Changed from 600 to 400 */
+    text-transform: uppercase;
+    color: #4B5563; /* gray-600 */
+    margin-bottom: 1rem;
+    letter-spacing: 0.05em;
+}
+
+.main-headline {
+    font-family: 'Poppins', sans-serif;
+    font-size: 2.5rem; /* 40px */
+    font-weight: 500; /* Changed from 700 to 500 */
+    line-height: 1.3;
+    color: #1F2937; /* gray-800 */
+    margin-bottom: 2rem;
+}
+
+.main-headline .highlight-text {
+    font-weight: 600; /* Changed from bolder/700 to 600 */
+    color: #0B3D34;
+}
+
+.read-more-btn {
+    display: inline-block;
+    border: 1px solid #D1D5DB; /* gray-300 */
+    padding: 0.75rem 1.5rem;
+    border-radius: 9999px; /* pill shape */
+    font-weight: 500;
+    color: #374151; /* gray-700 */
+    text-decoration: none;
+    transition: all 0.2s ease-in-out;
+}
+
+.read-more-btn:hover {
+    background-color: #F3F4F6; /* gray-100 */
+    border-color: #9CA3AF; /* gray-400 */
+    color: #1F2937; /* gray-800 */
+}
+
+/* What We Do Section Styles */
+.what-we-do-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: 4rem; /* 64px */
+    font-weight: 700;
+    color: #1F2937; /* gray-800 */
+    letter-spacing: 0.025em;
+}
+
+.image-card img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 1.5rem; /* 24px */
+    transition: transform 0.3s ease;
+}
+
+.image-card img:hover {
+    transform: scale(1.05);
+}
