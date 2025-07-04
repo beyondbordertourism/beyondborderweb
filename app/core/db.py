@@ -1,5 +1,6 @@
 import psycopg2
 from psycopg2.extras import RealDictCursor
+from psycopg2 import pool
 from urllib.parse import quote_plus
 import json
 from config import DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD
@@ -11,24 +12,45 @@ class Database:
         
         try:
             password = str(DB_PASSWORD)  # Ensure password is a string
-            self.conn_string = f"postgresql://{DB_USER}:{quote_plus(password)}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+            self.conn_params = {
+                'host': DB_HOST,
+                'port': DB_PORT,
+                'dbname': DB_NAME,
+                'user': DB_USER,
+                'password': password,
+                'sslmode': 'require'
+            }
+            
+            # Initialize the connection pool
+            self.pool = psycopg2.pool.SimpleConnectionPool(
+                minconn=1,
+                maxconn=10,
+                **self.conn_params
+            )
+            
         except Exception as e:
-            raise ValueError(f"Failed to create database connection string: {str(e)}")
+            raise ValueError(f"Failed to create database connection pool: {str(e)}")
         
         self._connection = None
         self._cursor = None
 
     def connect(self):
         if not self._connection:
-            self._connection = psycopg2.connect(self.conn_string)
-            self._cursor = self._connection.cursor(cursor_factory=RealDictCursor)
+            try:
+                self._connection = self.pool.getconn()
+                self._cursor = self._connection.cursor(cursor_factory=RealDictCursor)
+            except Exception as e:
+                print(f"Database connection error: {str(e)}")
+                if self._connection:
+                    self.pool.putconn(self._connection)
+                raise
         return self._connection
 
     def close(self):
         if self._cursor:
             self._cursor.close()
         if self._connection:
-            self._connection.close()
+            self.pool.putconn(self._connection)
             self._connection = None
             self._cursor = None
 
