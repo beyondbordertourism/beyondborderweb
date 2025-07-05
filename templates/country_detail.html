@@ -2,6 +2,114 @@
 
 {% block title %}Visa Information Guide{% endblock %}
 
+{% block head_styles %}
+<style>
+/* Keep Original Dark Header */
+.unified-hero-container {
+    background-color: #1A2C4A !important;
+}
+
+.unified-hero-text-content {
+    color: white !important;
+}
+
+.unified-hero-country-name {
+    color: white !important;
+}
+
+.unified-hero-subtitle {
+    color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.unified-hero-description {
+    color: rgba(255, 255, 255, 0.7) !important;
+}
+
+.unified-hero-right-panel::after {
+    background: 
+        linear-gradient(to right, 
+            rgba(26, 44, 74, 1) 0%, 
+            rgba(26, 44, 74, 0.95) 10%,
+            rgba(26, 44, 74, 0.7) 30%,  
+            rgba(26, 44, 74, 0.2) 55%, 
+            rgba(26, 44, 74, 0) 70%
+        ),
+        linear-gradient(to top, 
+            rgba(0,0,0,0.4) 0%, 
+            rgba(0,0,0,0) 40%
+        ) !important;
+}
+
+/* Morph Navigation Buttons */
+.morph-nav-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+}
+
+.morph-nav-button {
+    position: relative;
+    padding: 0.75rem 1.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50px;
+    color: white;
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    backdrop-filter: blur(10px);
+    overflow: hidden;
+}
+
+.morph-nav-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.morph-nav-button:hover::before {
+    left: 100%;
+}
+
+.morph-nav-button:hover {
+    transform: translateY(-2px) scale(1.05);
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.morph-nav-button i {
+    margin-right: 0.5rem;
+    font-size: 0.875rem;
+}
+
+/* Stats Card Morph Effect */
+.stats-card {
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 0.75rem;
+}
+
+.stats-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.15), 0 5px 10px rgba(0,0,0,0.05);
+    border-radius: 1rem;
+}
+
+/* Smooth scroll behavior */
+html {
+    scroll-behavior: smooth;
+}
+</style>
+{% endblock %}
+
 {% block content %}
 <div class="min-h-screen bg-gray-50 navbar-spaced">
     <!-- Unified Hero Section -->
@@ -14,10 +122,24 @@
                 </div>
                 <p id="unified-hero-summary" class="unified-hero-subtitle"></p>
                 <p id="unified-hero-description" class="unified-hero-description"></p>
-                <a href="#visaTypes" class="unified-hero-cta-button">
-                    <i class="fas fa-ticket-alt"></i>
-                    <span>View Visa Types</span>
-                </a>
+                <div class="morph-nav-buttons">
+                    <a href="#visaTypesSection" class="morph-nav-button">
+                        <i class="fas fa-passport"></i>
+                        <span>Visa Types</span>
+                    </a>
+                    <a href="#documents" class="morph-nav-button">
+                        <i class="fas fa-file-alt"></i>
+                        <span>Documents</span>
+                    </a>
+                    <a href="#embassiesSection" class="morph-nav-button">
+                        <i class="fas fa-building"></i>
+                        <span>Embassies</span>
+                    </a>
+                    <a href="#applicationMethodsSection" class="morph-nav-button">
+                        <i class="fas fa-laptop"></i>
+                        <span>Apply</span>
+                    </a>
+                </div>
             </div>
         </div>
         <div id="unified-hero-right-panel" class="unified-hero-right-panel"></div>
@@ -98,7 +220,7 @@
             <div class="space-y-6">
                 
                 <!-- Important Notes -->
-                <section class="bg-white rounded-lg shadow-sm p-6" id="importantNotesSection">
+                <section class="bg-white rounded-lg shadow-sm p-6 stats-card" id="importantNotesSection">
                     <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center">
                         <i class="fas fa-exclamation-triangle mr-3 text-yellow-600"></i>
                         Important Information
@@ -109,7 +231,7 @@
                 </section>
 
                 <!-- Quick Facts -->
-                <div class="bg-white rounded-lg shadow-sm p-6">
+                <div class="bg-white rounded-lg shadow-sm p-6 stats-card">
                     <h3 class="text-lg font-bold text-gray-900 mb-4">Quick Facts</h3>
                     <div class="space-y-3" id="quickFacts">
                         <!-- Quick facts will be loaded here -->
@@ -117,7 +239,7 @@
                 </div>
 
                 <!-- Embassies -->
-                <div class="bg-white rounded-lg shadow-sm p-6" id="embassiesSection">
+                <div class="bg-white rounded-lg shadow-sm p-6 stats-card" id="embassiesSection">
                     <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center">
                         <i class="fas fa-building mr-2 text-gray-600"></i>
                         Embassies & Consulates
@@ -128,7 +250,7 @@
                 </div>
 
                 <!-- Visa Free Transit -->
-                <div class="bg-white rounded-lg shadow-sm p-6" id="transitSection" style="display: none;">
+                <div class="bg-white rounded-lg shadow-sm p-6 stats-card" id="transitSection" style="display: none;">
                     <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center">
                         <i class="fas fa-plane mr-2 text-blue-600"></i>
                         Visa Free Transit
@@ -139,7 +261,7 @@
                 </div>
 
                 <!-- Related Countries -->
-                <div class="bg-white rounded-lg shadow-sm p-6">
+                <div class="bg-white rounded-lg shadow-sm p-6 stats-card">
                     <h3 class="text-lg font-bold text-gray-900 mb-4">Other Countries in Region</h3>
                     <div id="relatedCountries">
                         <!-- Related countries will be loaded here -->

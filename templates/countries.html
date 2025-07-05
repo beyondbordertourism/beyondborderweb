@@ -2,96 +2,386 @@
 
 {% block title %}All Countries - Visa Information Guide{% endblock %}
 
+{% block head_styles %}
+<style>
+/* Enhanced Header Styles */
+.hero-header {
+    /* The gradient is replaced by a video background */
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 0;
+}
+
+.hero-video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+}
+
+.hero-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(84, 108, 175, 0.292) 0%, rgba(21, 21, 22, 0.461) 100%); /* Lighter gradient overlay */
+    z-index: 1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2; /* Ensures content is on top */
+    width: 100%;
+    padding: 1rem 0;
+}
+
+.hero-title {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    font-size: 2.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.hero-subtitle {
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Enhanced Search Bar */
+.search-container {
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: none;
+}
+
+.search-input {
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid transparent;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    padding: 0.75rem 1rem 0.75rem 2.5rem;
+}
+
+.search-input:focus {
+    background: rgba(255, 255, 255, 1);
+    border-color: #1e40af;
+    box-shadow: 0 0 0 4px rgba(30, 64, 175, 0.1);
+    transform: translateY(-2px);
+}
+
+.filter-select {
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid transparent;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    padding: 0.75rem 1rem;
+}
+
+.filter-select:focus {
+    background: rgba(255, 255, 255, 1);
+    border-color: #1e40af;
+    box-shadow: 0 0 0 4px rgba(30, 64, 175, 0.1);
+    transform: translateY(-2px);
+}
+
+/* Morph Stats Buttons - Dark Blue Color Scheme */
+.stats-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-top: 1rem;
+    width: 100%;
+}
+
+.morph-stat-button {
+    position: relative;
+    padding: 1rem;
+    border-radius: 16px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    overflow: hidden;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+    text-decoration: none;
+    display: block;
+    min-height: 100px;
+}
+
+.morph-stat-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.6s;
+}
+
+.morph-stat-button:hover::before {
+    left: 100%;
+}
+
+.morph-stat-button:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 12px 28px rgba(0,0,0,0.15);
+}
+
+.morph-stat-button:active {
+    transform: translateY(-2px) scale(1.01);
+}
+
+/* Dark Blue Color Themes */
+.stat-total, .stat-regions {
+    background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+    color: white;
+}
+
+.stat-visa-free, .stat-visa-required {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.stat-number {
+    font-size: 1.75rem;
+    font-weight: 800;
+    margin-bottom: 0.25rem;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.stat-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    opacity: 0.9;
+}
+
+.stat-icon {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    font-size: 1.1rem;
+    opacity: 0.3;
+}
+
+/* Floating animation for icons */
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-6px); }
+}
+
+.morph-stat-button:hover .stat-icon {
+    animation: float 2s ease-in-out infinite;
+    opacity: 0.6;
+}
+
+/* Enhanced grid section */
+.countries-section {
+    background: linear-gradient(to bottom, #f8fafc 0%, #ffffff 100%);
+    padding-top: 2rem;
+    padding-bottom: 3rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .hero-header {
+        padding: 2.5rem 0;
+    }
+    
+    .hero-title {
+        font-size: 2rem !important;
+    }
+    
+    .hero-subtitle {
+        font-size: 0.9rem !important;
+    }
+    
+    .search-container {
+        padding: 0.75rem;
+    }
+    
+    .stats-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
+    }
+    
+    .morph-stat-button {
+        padding: 0.875rem;
+        min-height: 80px;
+    }
+    
+    .stat-number {
+        font-size: 1.5rem;
+    }
+    
+    .stat-label {
+        font-size: 0.7rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-header {
+        padding: 2rem 0;
+    }
+    
+    .hero-title {
+        font-size: 1.75rem !important;
+        height: auto;
+        min-height: 0;
+    }
+    
+    .stats-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.5rem;
+    }
+    
+    .morph-stat-button {
+        padding: 0.75rem;
+        min-height: 70px;
+    }
+    
+    .stat-number {
+        font-size: 1.25rem;
+    }
+    
+    .stat-label {
+        font-size: 0.65rem;
+    }
+}
+</style>
+{% endblock %}
+
 {% block content %}
 <div class="min-h-screen bg-gray-50 navbar-spaced">
-    <!-- Header Section -->
-    <section class="bg-white shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <div class="text-center">
-                <h1 class="text-4xl font-bold text-gray-900 mb-4">Countries & Visa Information</h1>
-                <p class="text-xl text-gray-600 mb-8">Complete visa requirements for Indian citizens traveling worldwide</p>
-                
-                <!-- Search and Filter Bar -->
-                <div class="max-w-4xl mx-auto">
-                    <div class="flex flex-col md:flex-row gap-4 mb-6">
+    <!-- Enhanced Header Section -->
+    <section class="hero-header">
+        <video autoplay muted loop playsinline class="hero-video">
+            <source src="https://videos.pexels.com/video-files/29292639/12632753_2560_1440_60fps.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="hero-content w-full flex flex-col items-center">
+            <!-- Title Section -->
+            <div class="text-center px-4 sm:px-6 lg:px-8 mb-6">
+                <h1 class="hero-title text-4xl md:text-5xl font-bold mb-4">
+                    Explore the World
+                </h1>
+                <p class="hero-subtitle text-lg md:text-xl mb-6 max-w-2xl mx-auto">
+                    Complete visa requirements and travel information for Indian citizens exploring every corner of the globe
+                </p>
+            </div>
+            
+            <!-- Search Bar Section -->
+            <div class="w-full px-4 sm:px-6 lg:px-8 mb-6">
+                <div class="search-container max-w-4xl mx-auto">
+                    <div class="flex flex-col md:flex-row gap-3">
                         <!-- Search Input -->
                         <div class="flex-1 relative">
                             <input 
                                 type="text" 
                                 id="searchInput"
-                                placeholder="Search countries..."
-                                class="w-full px-4 py-3 pl-10 text-lg rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                                placeholder="Search your dream destination..."
+                                class="search-input w-full px-5 py-3 pl-10 text-base font-medium"
                             >
-                            <i class="fas fa-search absolute left-3 top-4 text-gray-400"></i>
+                            <i class="fas fa-search absolute left-3 top-3.5 text-gray-500"></i>
                         </div>
                         
                         <!-- Region Filter -->
-                        <select id="regionFilter" class="px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        <select id="regionFilter" class="filter-select px-5 py-3 text-base font-medium">
                             <option value="">All Regions</option>
                         </select>
                         
                         <!-- Visa Status Filter -->
-                        <select id="visaFilter" class="px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        <select id="visaFilter" class="filter-select px-5 py-3 text-base font-medium">
                             <option value="">All Countries</option>
                             <option value="true">Visa Required</option>
                             <option value="false">Visa Free</option>
                         </select>
                     </div>
-                    
-                    <!-- Stats -->
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-                        <div class="bg-indigo-50 rounded-lg p-4">
-                            <div class="text-2xl font-bold text-indigo-600" id="totalCountries">0</div>
-                            <div class="text-sm text-gray-600">Total Countries</div>
-                        </div>
-                        <div class="bg-green-50 rounded-lg p-4">
-                            <div class="text-2xl font-bold text-green-600" id="visaFreeCount">0</div>
-                            <div class="text-sm text-gray-600">Visa Free</div>
-                        </div>
-                        <div class="bg-yellow-50 rounded-lg p-4">
-                            <div class="text-2xl font-bold text-yellow-600" id="visaRequiredCount">0</div>
-                            <div class="text-sm text-gray-600">Visa Required</div>
-                        </div>
-                        <div class="bg-blue-50 rounded-lg p-4">
-                            <div class="text-2xl font-bold text-blue-600" id="regionsCount">0</div>
-                            <div class="text-sm text-gray-600">Regions</div>
-                        </div>
+                </div>
+            </div>
+            
+            <!-- Stats Section - Full Width -->
+            <div class="w-full px-4 sm:px-6 lg:px-8">
+                <div class="stats-container">
+                    <div class="morph-stat-button stat-total" onclick="filterByAll()">
+                        <i class="fas fa-globe-americas stat-icon"></i>
+                        <div class="stat-number" id="totalCountries">0</div>
+                        <div class="stat-label">Total Countries</div>
+                    </div>
+                    <div class="morph-stat-button stat-visa-free" onclick="filterByVisaFree()">
+                        <i class="fas fa-plane-departure stat-icon"></i>
+                        <div class="stat-number" id="visaFreeCount">0</div>
+                        <div class="stat-label">Visa Free</div>
+                    </div>
+                    <div class="morph-stat-button stat-visa-required" onclick="filterByVisaRequired()">
+                        <i class="fas fa-passport stat-icon"></i>
+                        <div class="stat-number" id="visaRequiredCount">0</div>
+                        <div class="stat-label">Visa Required</div>
+                    </div>
+                    <div class="morph-stat-button stat-regions" onclick="showRegionBreakdown()">
+                        <i class="fas fa-map-marked-alt stat-icon"></i>
+                        <div class="stat-number" id="regionsCount">0</div>
+                        <div class="stat-label">Regions</div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Countries Grid -->
-    <section class="py-8">
+    <!-- Countries Grid Section -->
+    <section class="countries-section py-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             
             <!-- Loading State -->
-            <div id="loadingState" class="text-center py-12">
-                <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
-                <p class="mt-4 text-gray-600">Loading countries...</p>
+            <div id="loadingState" class="text-center py-16">
+                <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+                <p class="mt-6 text-gray-600 text-lg">Loading countries...</p>
             </div>
             
             <!-- Results Info -->
-            <div id="resultsInfo" class="mb-6 text-gray-600" style="display: none;">
+            <div id="resultsInfo" class="mb-8 text-gray-600 text-lg font-medium" style="display: none;">
                 Showing <span id="resultCount">0</span> countries
             </div>
             
             <!-- Countries Grid -->
-            <div id="countriesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" style="display: none;">
+            <div id="countriesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8" style="display: none;">
                 <!-- Countries will be loaded here -->
             </div>
             
             <!-- No Results -->
-            <div id="noResults" class="text-center py-12" style="display: none;">
-                <i class="fas fa-search text-4xl text-gray-400 mb-4"></i>
-                <h3 class="text-xl font-semibold text-gray-900 mb-2">No countries found</h3>
-                <p class="text-gray-600">Try adjusting your search or filter criteria.</p>
+            <div id="noResults" class="text-center py-16" style="display: none;">
+                <i class="fas fa-search text-6xl text-gray-400 mb-6"></i>
+                <h3 class="text-2xl font-semibold text-gray-900 mb-4">No countries found</h3>
+                <p class="text-gray-600 text-lg">Try adjusting your search or filter criteria.</p>
             </div>
             
             <!-- Load More Button -->
-            <div id="loadMoreContainer" class="text-center mt-8" style="display: none;">
-                <button id="loadMoreBtn" class="bg-indigo-600 text-white px-8 py-3 rounded-lg hover:bg-indigo-700 transition-colors">
+            <div id="loadMoreContainer" class="text-center mt-12" style="display: none;">
+                <button id="loadMoreBtn" class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-12 py-4 rounded-full hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 shadow-lg text-lg font-semibold">
                     Load More Countries
                 </button>
             </div>
@@ -319,6 +609,30 @@ function createCountryCard(country) {
             </div>
         </a>
     `;
+}
+
+// Enhanced filter functions for morph buttons
+function filterByAll() {
+    document.getElementById('visaFilter').value = '';
+    currentPage = 1;
+    filterAndDisplayCountries();
+}
+
+function filterByVisaFree() {
+    document.getElementById('visaFilter').value = 'false';
+    currentPage = 1;
+    filterAndDisplayCountries();
+}
+
+function filterByVisaRequired() {
+    document.getElementById('visaFilter').value = 'true';
+    currentPage = 1;
+    filterAndDisplayCountries();
+}
+
+function showRegionBreakdown() {
+    // Could implement a modal or dropdown showing region breakdown
+    console.log('Region breakdown clicked');
 }
 </script>
 

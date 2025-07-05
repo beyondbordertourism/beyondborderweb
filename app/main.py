@@ -67,6 +67,17 @@ async def serve_country_page(request: Request, country_id: str):
 async def search_results(request: Request):
     return templates.TemplateResponse("search_results.html", {"request": request})
 
+@app.get("/contact", response_class=HTMLResponse)
+async def contact_page(request: Request):
+    return templates.TemplateResponse("contact.html", {"request": request})
+
+@app.post("/contact")
+async def handle_contact_form(request: Request):
+    # Here you would handle the form submission, e.g., send an email
+    # For now, we'll just return a success message or redirect.
+    # You can get form data like this: form_data = await request.form()
+    return templates.TemplateResponse("contact.html", {"request": request, "message": "Your message has been sent successfully!"})
+
 # Admin routes with authentication
 @app.get("/admin/login", response_class=HTMLResponse)
 async def admin_login_page(request: Request):
