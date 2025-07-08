@@ -3245,8 +3245,8 @@ h1, h2, h3, h4, h5, h6 {
 
 .main-headline {
     font-family: 'Poppins', sans-serif;
-    font-size: 2.5rem; /* 40px */
-    font-weight: 500; /* Changed from 700 to 500 */
+    font-size: 2rem !important; 
+    font-weight: 300; /* Reduced from 500 to 400 (normal weight) */
     line-height: 1.3;
     color: #1F2937; /* gray-800 */
     margin-bottom: 2rem;
