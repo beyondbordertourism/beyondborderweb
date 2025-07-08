@@ -3371,3 +3371,484 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ===== END NEW STYLES ===== */
+
+/* Enhanced Stats Section Styles */
+.stats-card-enhanced {
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.stats-card-enhanced:hover {
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+    border-color: rgba(20, 184, 166, 0.3);
+}
+
+.stats-card-enhanced::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(20, 184, 166, 0.05) 0%, rgba(59, 130, 246, 0.05) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    border-radius: inherit;
+    z-index: -1;
+}
+
+.stats-card-enhanced:hover::before {
+    opacity: 1;
+}
+
+.counter-number {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    background: linear-gradient(135deg, #0f172a 0%, #334155 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Pulse animation for status indicators */
+@keyframes statsCardPulse {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.7;
+        transform: scale(1.1);
+    }
+}
+
+.stats-card-enhanced .animate-pulse {
+    animation: statsCardPulse 2s infinite;
+}
+
+/* Enhanced floating animations */
+@keyframes floatGentle {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.stats-card-enhanced .group-hover\:animate-float:hover {
+    animation: floatGentle 3s ease-in-out infinite;
+}
+
+/* Responsive adjustments for stats section */
+@media (max-width: 768px) {
+    .stats-card-enhanced {
+        padding: 1.5rem;
+    }
+    
+    .counter-number {
+        font-size: 2.5rem;
+    }
+    
+    .stats-card-enhanced h3 {
+        font-size: 1rem;
+    }
+    
+    .stats-card-enhanced p {
+        font-size: 0.875rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .stats-card-enhanced {
+        padding: 1.25rem;
+    }
+    
+    .counter-number {
+        font-size: 2rem;
+    }
+}
+
+/* Enhanced About Us Section Styles */
+.highlight-text {
+    position: relative;
+    display: inline-block;
+}
+
+.highlight-text .absolute {
+    animation: highlightSlide 0.8s ease-out forwards;
+    animation-delay: 0.5s;
+    transform: translateX(-100%) skewX(-12deg);
+}
+
+@keyframes highlightSlide {
+    to {
+        transform: translateX(0) skewX(-12deg);
+    }
+}
+
+/* Feature Point Cards */
+.feature-point-card {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.feature-point-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Enhanced CTA Button */
+.read-more-btn {
+    position: relative;
+    overflow: hidden;
+}
+
+.read-more-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.read-more-btn:hover::before {
+    left: 100%;
+}
+
+/* Floating Cards Animation */
+@keyframes floatUp {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+.floating-stat-card {
+    animation: floatUp 4s ease-in-out infinite;
+}
+
+.floating-rating-card {
+    animation: floatUp 4s ease-in-out infinite;
+    animation-delay: 2s;
+}
+
+/* Image Container Enhancements */
+.image-container-enhanced {
+    position: relative;
+}
+
+.image-container-enhanced::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    background: linear-gradient(45deg, rgba(20, 184, 166, 0.1), rgba(59, 130, 246, 0.1));
+    border-radius: 2rem;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.image-container-enhanced:hover::before {
+    opacity: 1;
+}
+
+/* Responsive Adjustments for About Section */
+@media (max-width: 768px) {
+    .highlight-text .absolute {
+        display: none;
+    }
+    
+    .highlight-text {
+        background: linear-gradient(135deg, #14b8a6, #3b82f6);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    
+    .floating-stat-card,
+    .floating-rating-card {
+        position: relative;
+        margin: 1rem auto;
+        max-width: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .feature-point-card {
+        flex-direction: column;
+        text-align: center;
+        padding: 1.5rem;
+    }
+    
+    .read-more-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* Enhanced FAQ Section Styles */
+/* Custom animations for FAQ */
+@keyframes animate-spin-slow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes animate-bounce-slow {
+    0%, 100% {
+        transform: translateY(0);
+        animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+    }
+    50% {
+        transform: translateY(-10px);
+        animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+    }
+}
+
+.animate-spin-slow {
+    animation: animate-spin-slow 8s linear infinite;
+}
+
+.animate-bounce-slow {
+    animation: animate-bounce-slow 3s infinite;
+}
+
+/* FAQ Category Pills */
+.faq-category-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.75rem 1.5rem;
+    background: white;
+    border: 2px solid #e5e7eb;
+    border-radius: 1.5rem;
+    font-weight: 600;
+    color: #6b7280;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.faq-category-pill:hover {
+    border-color: #14b8a6;
+    color: #14b8a6;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 15px rgba(20, 184, 166, 0.15);
+}
+
+.faq-category-pill.active {
+    background: linear-gradient(135deg, #14b8a6, #3b82f6);
+    border-color: #14b8a6;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(20, 184, 166, 0.3);
+}
+
+.faq-category-pill i {
+    font-size: 0.875rem;
+}
+
+/* Enhanced FAQ Items */
+.faq-item-enhanced {
+    opacity: 1;
+    transform: translateY(0);
+    transition: all 0.5s ease;
+}
+
+.faq-item-enhanced.hidden {
+    opacity: 0;
+    transform: translateY(20px);
+    pointer-events: none;
+    height: 0;
+    margin: 0;
+    overflow: hidden;
+}
+
+.faq-card {
+    background: white;
+    border-radius: 1.5rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(229, 231, 235, 0.8);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+    position: relative;
+}
+
+.faq-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #14b8a6, #3b82f6, #6366f1, #64748b);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.faq-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+    border-color: rgba(20, 184, 166, 0.2);
+}
+
+.faq-card:hover::before {
+    opacity: 1;
+}
+
+.faq-question-enhanced {
+    transition: all 0.3s ease;
+}
+
+.faq-icon-container {
+    width: 3rem;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f8fafc;
+    border-radius: 1rem;
+    transition: all 0.3s ease;
+}
+
+.faq-card:hover .faq-icon-container {
+    background: #f0f9ff;
+}
+
+.faq-chevron {
+    font-size: 1.25rem;
+    transition: all 0.3s ease;
+}
+
+.faq-answer-enhanced {
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0;
+}
+
+.faq-answer-enhanced.open {
+    max-height: 500px;
+    opacity: 1;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.faq-item-enhanced.active .faq-chevron {
+    transform: rotate(180deg);
+}
+
+.faq-item-enhanced.active .faq-card {
+    background: linear-gradient(135deg, rgba(20, 184, 166, 0.02), rgba(59, 130, 246, 0.02));
+}
+
+/* Search Input Enhancement */
+#faq-search {
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+#faq-search:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.1);
+}
+
+#search-clear.visible {
+    opacity: 1;
+}
+
+/* Enhanced Visual Elements */
+.tag-style {
+    background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+    border: 1px solid #bae6fd;
+}
+
+/* Progress Bar Animation */
+@keyframes progressFill {
+    from { width: 0%; }
+    to { width: 98.5%; }
+}
+
+.progress-bar-animated {
+    animation: progressFill 2s ease-out forwards;
+    animation-delay: 0.5s;
+}
+
+/* Responsive FAQ Adjustments */
+@media (max-width: 768px) {
+    .faq-category-pill {
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
+    }
+    
+    .faq-card {
+        border-radius: 1rem;
+    }
+    
+    .faq-question-enhanced .flex {
+        padding: 1.5rem;
+    }
+    
+    .faq-question-enhanced h3 {
+        font-size: 1.125rem;
+    }
+    
+    .faq-answer-enhanced .px-8 {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+    
+    .grid.grid-cols-1.md\\:grid-cols-3 {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .faq-category-pill {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.8rem;
+    }
+    
+    .faq-question-enhanced .flex {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    
+    .faq-icon-container {
+        align-self: flex-end;
+    }
+    
+    #faq-search {
+        font-size: 0.875rem;
+        padding: 0.75rem 1rem 0.75rem 3rem;
+    }
+}
+
+/* Stagger Animation for FAQ Items */
+.faq-item-enhanced:nth-child(1) { animation-delay: 0.1s; }
+.faq-item-enhanced:nth-child(2) { animation-delay: 0.2s; }
+.faq-item-enhanced:nth-child(3) { animation-delay: 0.3s; }
+.faq-item-enhanced:nth-child(4) { animation-delay: 0.4s; }
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.faq-item-enhanced {
+    animation: slideInUp 0.6s ease forwards;
+}
