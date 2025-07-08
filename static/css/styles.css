@@ -3852,3 +3852,352 @@ h1, h2, h3, h4, h5, h6 {
 .faq-item-enhanced {
     animation: slideInUp 0.6s ease forwards;
 }
+
+/* Enhanced mobile responsiveness for all sections */
+
+/* Stats Section Mobile Improvements */
+@media (max-width: 768px) {
+    .stats-card-enhanced {
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+    }
+    
+    .counter-number {
+        font-size: 2.5rem;
+    }
+    
+    .stats-card-enhanced h3 {
+        font-size: 1rem;
+    }
+    
+    .stats-card-enhanced p {
+        font-size: 0.875rem;
+    }
+    
+    /* Stats section header text adjustments */
+    .stats-section h2 {
+        font-size: 2.5rem !important;
+        line-height: 1.2;
+    }
+    
+    .stats-section p {
+        font-size: 1rem !important;
+        padding: 0 1rem;
+    }
+    
+    /* Achievement cards mobile optimization */
+    .stats-section .grid.grid-cols-1.md\\:grid-cols-3 {
+        gap: 1rem;
+        margin-top: 2rem;
+    }
+    
+    .stats-section .grid.grid-cols-1.md\\:grid-cols-3 > div {
+        padding: 1.5rem !important;
+    }
+    
+    .stats-section .grid.grid-cols-1.md\\:grid-cols-3 h3 {
+        font-size: 1.25rem !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .stats-card-enhanced {
+        padding: 1.25rem;
+    }
+    
+    .counter-number {
+        font-size: 2rem;
+    }
+    
+    /* Very small screens - stack everything */
+    .stats-section h2 {
+        font-size: 2rem !important;
+        padding: 0 0.5rem;
+    }
+    
+    .stats-section .max-w-7xl {
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+    }
+    
+    /* Achievement cards very small screens */
+    .stats-section .grid.grid-cols-1.md\\:grid-cols-3 > div {
+        padding: 1rem !important;
+    }
+    
+    .stats-section .grid.grid-cols-1.md\\:grid-cols-3 h3 {
+        font-size: 1.125rem !important;
+    }
+    
+    .stats-section .grid.grid-cols-1.md\\:grid-cols-3 p {
+        font-size: 0.875rem !important;
+    }
+}
+
+/* About Section Mobile Improvements */
+@media (max-width: 768px) {
+    .highlight-text .absolute {
+        display: none;
+    }
+    
+    .highlight-text {
+        background: linear-gradient(135deg, #14b8a6, #3b82f6);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    
+    .floating-stat-card,
+    .floating-rating-card {
+        position: relative !important;
+        margin: 1rem auto;
+        max-width: none;
+        left: auto !important;
+        right: auto !important;
+        top: auto !important;
+        bottom: auto !important;
+        transform: none !important;
+    }
+    
+    /* About section main headline mobile */
+    .main-headline {
+        font-size: 2rem !important;
+        line-height: 1.3;
+    }
+    
+    /* Feature point cards mobile */
+    .feature-point-card {
+        flex-direction: row !important;
+        justify-content: flex-start !important;
+        text-align: left !important;
+    }
+    
+    /* About section grid adjustments */
+    .about-section .grid.md\\:grid-cols-2 {
+        gap: 2rem;
+    }
+    
+    /* Image container mobile adjustments */
+    .about-section .relative .absolute {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .feature-point-card {
+        flex-direction: column !important;
+        text-align: center !important;
+        padding: 1.5rem;
+    }
+    
+    .read-more-btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .main-headline {
+        font-size: 1.75rem !important;
+    }
+    
+    /* Very small screens - simplify about section */
+    .about-section .grid.grid-cols-1.sm\\:grid-cols-2 {
+        grid-template-columns: 1fr !important;
+        gap: 0.75rem;
+    }
+}
+
+/* FAQ Section Mobile Improvements */
+@media (max-width: 768px) {
+    .faq-category-pill {
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
+        margin: 0.25rem;
+    }
+    
+    .faq-card {
+        border-radius: 1rem;
+        margin-bottom: 1rem;
+    }
+    
+    .faq-question-enhanced .flex {
+        padding: 1.5rem;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    
+    .faq-question-enhanced h3 {
+        font-size: 1.125rem;
+    }
+    
+    .faq-answer-enhanced .px-8 {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+    
+    .grid.grid-cols-1.md\\:grid-cols-3 {
+        grid-template-columns: 1fr !important;
+        gap: 0.75rem;
+    }
+    
+    /* FAQ section header mobile */
+    .faq-section h2 {
+        font-size: 2.5rem !important;
+        line-height: 1.2;
+    }
+    
+    .faq-section p {
+        font-size: 1rem !important;
+        padding: 0 1rem;
+    }
+    
+    /* FAQ search bar mobile */
+    #faq-search {
+        padding: 0.875rem 1rem 0.875rem 3rem;
+        font-size: 0.875rem;
+    }
+    
+    /* FAQ categories mobile - wrap better */
+    .faq-categories {
+        justify-content: center;
+        gap: 0.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .faq-category-pill {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.8rem;
+    }
+    
+    .faq-question-enhanced .flex {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+        padding: 1rem;
+    }
+    
+    .faq-icon-container {
+        align-self: flex-end;
+        margin-top: -2rem;
+    }
+    
+    #faq-search {
+        font-size: 0.875rem;
+        padding: 0.75rem 1rem 0.75rem 3rem;
+    }
+    
+    /* FAQ very small screens */
+    .faq-section h2 {
+        font-size: 2rem !important;
+        padding: 0 0.5rem;
+    }
+    
+    .faq-section .max-w-6xl {
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+    }
+    
+    /* FAQ item content adjustments */
+    .faq-answer-enhanced .px-8 {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    
+    .faq-answer-enhanced .p-6 {
+        padding: 1rem !important;
+    }
+    
+    .faq-question-enhanced h3 {
+        font-size: 1rem;
+        line-height: 1.4;
+    }
+}
+
+/* General mobile improvements for all enhanced sections */
+@media (max-width: 768px) {
+    /* Ensure all sections have proper mobile padding */
+    .py-20 {
+        padding-top: 3rem !important;
+        padding-bottom: 3rem !important;
+    }
+    
+    /* Max width containers on mobile */
+    .max-w-7xl, .max-w-6xl {
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+    }
+    
+    /* Background elements mobile optimization */
+    .absolute.top-0, .absolute.bottom-0 {
+        display: none;
+    }
+    
+    /* Gradient text readability on mobile */
+    .bg-gradient-to-r.from-teal-600.to-blue-600.bg-clip-text {
+        background: linear-gradient(135deg, #14b8a6, #3b82f6);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Very small screens global adjustments */
+    .py-20 {
+        padding-top: 2rem !important;
+        padding-bottom: 2rem !important;
+    }
+    
+    .max-w-7xl, .max-w-6xl {
+        padding-left: 0.75rem !important;
+        padding-right: 0.75rem !important;
+    }
+    
+    /* Text size adjustments for very small screens */
+    .text-4xl, .text-5xl {
+        font-size: 1.875rem !important;
+    }
+    
+    .text-3xl {
+        font-size: 1.5rem !important;
+    }
+    
+    .text-xl {
+        font-size: 1rem !important;
+    }
+    
+    /* Button adjustments for very small screens */
+    .px-8 {
+        padding-left: 1.5rem !important;
+        padding-right: 1.5rem !important;
+    }
+    
+    .py-4 {
+        padding-top: 0.75rem !important;
+        padding-bottom: 0.75rem !important;
+    }
+}
+
+/* Touch-friendly adjustments for mobile */
+@media (hover: none) and (pointer: coarse) {
+    /* Remove hover effects on touch devices */
+    .stats-card-enhanced:hover,
+    .faq-card:hover,
+    .feature-point-card:hover {
+        transform: none !important;
+        box-shadow: inherit !important;
+    }
+    
+    /* Increase touch targets */
+    .faq-question-enhanced,
+    .faq-category-pill {
+        min-height: 48px;
+        padding: 1rem;
+    }
+    
+    /* Better spacing for touch */
+    .faq-item-enhanced {
+        margin-bottom: 1rem;
+    }
+}
