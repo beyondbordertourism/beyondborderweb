@@ -261,8 +261,8 @@
                     <div class="flex items-center space-x-4">
                         <div class="w-12 h-12 bg-gradient-to-br from-teal-500 to-blue-600 rounded-xl flex items-center justify-center">
                             <i class="fas fa-users text-white"></i>
-                        </div>
-                        <div>
+        </div>
+        <div>
                             <div class="text-2xl font-bold text-gray-900">50K+</div>
                             <div class="text-sm text-gray-600">Happy Travelers</div>
                         </div>
@@ -379,7 +379,7 @@
                                 <i class="fas fa-chevron-down faq-chevron text-gray-400 group-hover:text-teal-600 transition-all duration-300"></i>
                             </div>
                         </div>
-                    </button>
+                </button>
                     <div class="faq-answer-enhanced">
                         <div class="px-8 pb-8">
                             <div class="bg-gradient-to-r from-teal-50 to-blue-50 rounded-2xl p-6 border border-teal-100">
@@ -421,7 +421,7 @@
                                 <i class="fas fa-chevron-down faq-chevron text-gray-400 group-hover:text-blue-600 transition-all duration-300"></i>
                             </div>
                         </div>
-                    </button>
+                </button>
                     <div class="faq-answer-enhanced">
                         <div class="px-8 pb-8">
                             <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-6 border border-blue-100">
@@ -466,7 +466,7 @@
                                 <i class="fas fa-chevron-down faq-chevron text-gray-400 group-hover:text-indigo-600 transition-all duration-300"></i>
                             </div>
                         </div>
-                    </button>
+                </button>
                     <div class="faq-answer-enhanced">
                         <div class="px-8 pb-8">
                             <div class="bg-gradient-to-r from-indigo-50 to-slate-50 rounded-2xl p-6 border border-indigo-100">
@@ -506,7 +506,7 @@
                                 <i class="fas fa-chevron-down faq-chevron text-gray-400 group-hover:text-slate-600 transition-all duration-300"></i>
                             </div>
                         </div>
-                    </button>
+                </button>
                     <div class="faq-answer-enhanced">
                         <div class="px-8 pb-8">
                             <div class="bg-gradient-to-r from-slate-50 to-teal-50 rounded-2xl p-6 border border-slate-100">
@@ -557,131 +557,232 @@
 
 {% block scripts %}
 <script>
-// Search functionality for the hero section
-document.getElementById('search-input').addEventListener('input', function() {
-    const query = this.value.toLowerCase();
-    const resultsContainer = document.getElementById('search-results-klook');
+document.addEventListener('DOMContentLoaded', function() {
+    // Load carousel config and initialize
+    fetch('/static/js/carousel-config.json')
+        .then(response => response.json())
+        .then(config => {
+            initializeCarousel(config);
+        })
+        .catch(error => {
+            console.error('Error loading carousel config:', error);
+            // Fallback to default config
+            const defaultConfig = {
+                countries: [
+                    {
+                        name: "Japan",
+                        backgroundImage: "https://images.unsplash.com/photo-1508179499299-2643424fae56?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                    },
+                    {
+                        name: "Singapore",
+                        backgroundImage: "https://images.unsplash.com/photo-1657445003648-aa6ed5fc5d63?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                    },
+                    {
+                        name: "South Korea",
+                        backgroundImage: "https://images.unsplash.com/photo-1551685314-8167cf1cba72?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                    },
+                    {
+                        name: "Thailand",
+                        backgroundImage: "https://plus.unsplash.com/premium_photo-1707793862259-78c4112475d1?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                    },
+                    {
+                        name: "Vietnam",
+                        backgroundImage: "https://images.unsplash.com/photo-1560979724-f86caa17a2ed?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                    }
+                ]
+            };
+            initializeCarousel(defaultConfig);
+        });
     
-    if (query.length > 0) {
-        fetch(`/api/search?q=${encodeURIComponent(query)}`)
-            .then(response => response.json())
-            .then(data => {
-                displaySearchResults(data, resultsContainer);
-            })
-            .catch(error => {
-                console.error('Search error:', error);
-                resultsContainer.innerHTML = '';
-            });
-    } else {
-        resultsContainer.innerHTML = '';
-    }
+    // Load featured countries - This is now removed
+    // loadFeaturedCountries();
 });
 
-function displaySearchResults(results, container) {
-    if (results.length === 0) {
-        container.innerHTML = `
-            <div class="search-result-item no-results">
-                <div class="no-results-icon">
-                    <i class="fas fa-search"></i>
-                </div>
-                <strong>No countries found</strong>
-                <p>Try a different search term</p>
-            </div>
-        `;
-        return;
-    }
-
-    const maxResults = 4;
-    const displayResults = results.slice(0, maxResults);
-    
-    let html = displayResults.map(country => `
-        <div class="search-result-item" onclick="window.location.href='/country/${country.code.toLowerCase()}'">
-            <img src="${country.flag_url}" alt="${country.name} flag" class="flag">
-            <div>
-                <strong>${country.name}</strong>
-                <p>Visa required: ${country.visa_required ? 'Yes' : 'No'}</p>
-            </div>
-        </div>
-    `).join('');
-
-    if (results.length > maxResults) {
-        html += `
-            <div class="search-result-item see-all-results" onclick="performFullSearch()">
-                <div class="see-all-icon">
-                    <i class="fas fa-arrow-right"></i>
-                </div>
-                <div>
-                    <strong>See all ${results.length} results</strong>
-                    <p>View complete search results</p>
-                </div>
-            </div>
-        `;
-    }
-
-    container.innerHTML = html;
-}
-
-function performFullSearch() {
-    const query = document.getElementById('search-input').value;
-    if (query) {
-        window.location.href = `/search?q=${encodeURIComponent(query)}`;
-    }
-}
-
-// City carousel functionality
-let currentCityIndex = 0;
-const cities = [];
-
-function loadCities() {
-    fetch('/api/countries')
-        .then(response => response.json())
-        .then(data => {
-            cities.push(...data.slice(0, 10));
-            displayCityCarousel();
-            startCityCarousel();
-        })
-        .catch(error => console.error('Error loading cities:', error));
-}
-
-function displayCityCarousel() {
+function initializeCarousel(config) {
+    const hero = document.querySelector('.hero-klook');
     const carousel = document.querySelector('.city-carousel');
-    carousel.innerHTML = cities.map((city, index) => `
-        <div class="city-item ${index === 0 ? 'active' : index === 1 || index === cities.length - 1 ? 'semi-active' : 'distant'}" 
-             data-index="${index}">
-            <img src="${city.flag_url}" alt="${city.name}">
-            <span>${city.name}</span>
-        </div>
-    `).join('');
-}
+    let currentIndex = 0;
+    let autoSlideInterval;
+    let isUserInteracting = false;
 
-function updateCityCarousel() {
+    // Create city items from config
+    carousel.innerHTML = config.countries.map((country, index) => 
+        `<div class="city-item ${index === 0 ? 'active' : ''}" data-city="${country.name}" data-bg="${country.backgroundImage}">${country.name}</div>`
+    ).join('');
+
     const cityItems = document.querySelectorAll('.city-item');
-    cityItems.forEach((item, index) => {
-        item.classList.remove('active', 'semi-active', 'distant');
-        
-        if (index === currentCityIndex) {
-            item.classList.add('active');
-        } else if (index === (currentCityIndex + 1) % cities.length || 
-                   index === (currentCityIndex - 1 + cities.length) % cities.length) {
-            item.classList.add('semi-active');
-        } else {
-            item.classList.add('distant');
+
+    // Set initial background
+    const initialBg = cityItems[currentIndex].getAttribute('data-bg');
+    hero.style.backgroundImage = `url('${initialBg}')`;
+
+    // --- Auto Carousel Functionality ---
+    function startAutoSlide() {
+        autoSlideInterval = setInterval(() => {
+            if (!isUserInteracting) {
+                const nextIndex = (currentIndex + 1) % cityItems.length;
+                setActiveCity(nextIndex);
+            }
+        }, 3000); // 3 seconds
+    }
+
+    function stopAutoSlide() {
+        if (autoSlideInterval) {
+            clearInterval(autoSlideInterval);
         }
+    }
+
+    function resetAutoSlide() {
+        stopAutoSlide();
+        setTimeout(() => {
+            if (!isUserInteracting) {
+                startAutoSlide();
+            }
+        }, 2000); // Wait 2 seconds after user interaction before resuming auto-slide
+    }
+
+    // --- Live Search ---
+    const searchInput = document.getElementById('search-input');
+    const searchResults = document.getElementById('search-results-klook');
+    let debounceTimer;
+
+    searchInput.addEventListener('input', function() {
+        clearTimeout(debounceTimer);
+        const query = this.value;
+
+        if (query.length < 2) {
+            searchResults.style.display = 'none';
+            return;
+        }
+
+        searchResults.innerHTML = `
+            <div class="search-result-item">
+                <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
+                <div>
+                    <strong>Searching...</strong>
+                    <p>Finding countries matching "${query}"</p>
+                </div>
+            </div>
+        `;
+        searchResults.style.display = 'block';
+
+        debounceTimer = setTimeout(() => {
+            fetch(`/api/countries/search?q=${query}&limit=20`)
+                .then(response => response.json())
+                .then(data => {
+                    searchResults.innerHTML = '';
+                    if (data.length > 0) {
+                        data.slice(0, 4).forEach(country => {
+                            const item = document.createElement('a');
+                            item.href = `/countries/${country.id}`;
+                            item.classList.add('search-result-item');
+                            item.innerHTML = `
+                                <div class="flag">${country.flag}</div>
+                                <div>
+                                    <strong>${country.name}</strong>
+                                    <p>${country.summary.length > 80 ? country.summary.substring(0, 80) + '...' : country.summary}</p>
+                                </div>
+                            `;
+                            searchResults.appendChild(item);
+                        });
+                        
+                        if (data.length > 4) {
+                            const seeAllItem = document.createElement('a');
+                            seeAllItem.href = `/search?q=${encodeURIComponent(query)}`;
+                            seeAllItem.classList.add('search-result-item', 'see-all-results');
+                            seeAllItem.innerHTML = `
+                                <div class="see-all-icon">
+                                    <i class="fas fa-search"></i>
+                                </div>
+                                <div>
+                                    <strong>See all results for "${query}"</strong>
+                                    <p>View all ${data.length}+ countries matching your search</p>
+                                </div>
+                            `;
+                            searchResults.appendChild(seeAllItem);
+                        }
+                        
+                        searchResults.style.display = 'block';
+                    } else {
+                        const noResultsItem = document.createElement('div');
+                        noResultsItem.classList.add('search-result-item', 'no-results');
+                        noResultsItem.innerHTML = `
+                            <div class="no-results-icon">
+                                <i class="fas fa-search"></i>
+                            </div>
+                            <div>
+                                <strong>No countries found</strong>
+                                <p>Try adjusting your search terms</p>
+                            </div>
+                        `;
+                        searchResults.appendChild(noResultsItem);
+                        searchResults.style.display = 'block';
+                    }
+                })
+                .catch(error => {
+                    console.error('Search error:', error);
+                    searchResults.style.display = 'none';
+                });
+        }, 300);
+    });
+
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.search-box-klook')) {
+            searchResults.style.display = 'none';
+        }
+    });
+
+    // --- City click functionality ---
+    cityItems.forEach((item, index) => {
+        item.addEventListener('click', function() {
+            isUserInteracting = true;
+            setActiveCity(index);
+            resetAutoSlide();
+            setTimeout(() => {
+                isUserInteracting = false;
+            }, 1000);
+        });
+    });
+
+    function setActiveCity(index) {
+        cityItems[currentIndex].classList.remove('active');
+        cityItems[currentIndex].classList.add('distant');
+
+        currentIndex = index;
+        const targetBg = cityItems[currentIndex].getAttribute('data-bg');
+        hero.style.backgroundImage = `url('${targetBg}')`;
+
+        cityItems.forEach((item, i) => {
+            item.classList.remove('active', 'semi-active', 'distant');
+            if (i === currentIndex) {
+                item.classList.add('active');
+            } else if (Math.abs(i - currentIndex) === 1 || 
+                       (currentIndex === 0 && i === cityItems.length - 1) ||
+                       (currentIndex === cityItems.length - 1 && i === 0)) {
+                item.classList.add('semi-active');
+            } else {
+                item.classList.add('distant');
+            }
+        });
+    }
+
+    // Start auto-slide
+    startAutoSlide();
+
+    // Handle hover interactions
+    carousel.addEventListener('mouseenter', () => {
+        isUserInteracting = true;
+        stopAutoSlide();
+    });
+
+    carousel.addEventListener('mouseleave', () => {
+        isUserInteracting = false;
+        resetAutoSlide();
     });
 }
 
-function startCityCarousel() {
-    setInterval(() => {
-        currentCityIndex = (currentCityIndex + 1) % cities.length;
-        updateCityCarousel();
-    }, 3000);
-}
-
-// Main initialization
+// FAQ Accordion
 document.addEventListener('DOMContentLoaded', function() {
-    // Load cities for carousel
-    loadCities();
-
     // Stats Counter Animation
     function animateCounters() {
         const counters = document.querySelectorAll('.counter-number');
@@ -740,7 +841,7 @@ function initializeFAQ() {
 
     // FAQ Accordion functionality
     faqQuestions.forEach((question, index) => {
-        question.addEventListener('click', (event) => {
+        question.addEventListener('click', () => {
             const faqItem = question.closest('.faq-item-enhanced');
             const answer = faqItem.querySelector('.faq-answer-enhanced');
             const isOpen = answer.classList.contains('open');
@@ -763,28 +864,24 @@ function initializeFAQ() {
     });
 
     // Search functionality
-    if (searchInput) {
-        searchInput.addEventListener('input', function() {
-            const query = this.value.toLowerCase().trim();
-            
-            if (query.length > 0) {
-                searchClear.classList.add('visible');
-            } else {
-                searchClear.classList.remove('visible');
-            }
+    searchInput.addEventListener('input', function() {
+        const query = this.value.toLowerCase().trim();
+        
+        if (query.length > 0) {
+            searchClear.classList.add('visible');
+        } else {
+            searchClear.classList.remove('visible');
+        }
 
-            filterFAQs(query);
-        });
-    }
+        filterFAQs(query);
+    });
 
     // Clear search
-    if (searchClear) {
-        searchClear.addEventListener('click', function() {
-            searchInput.value = '';
-            searchClear.classList.remove('visible');
-            filterFAQs('');
-        });
-    }
+    searchClear.addEventListener('click', function() {
+        searchInput.value = '';
+        searchClear.classList.remove('visible');
+        filterFAQs('');
+    });
 
     // Category filtering
     categoryPills.forEach(pill => {
@@ -808,11 +905,11 @@ function initializeFAQ() {
         let visibleCount = 0;
 
         faqItems.forEach((item, index) => {
-            const keywords = item.getAttribute('data-keywords') || '';
-            const title = item.querySelector('h3') ? item.querySelector('h3').textContent.toLowerCase() : '';
-            const content = item.querySelector('.faq-answer-enhanced p') ? item.querySelector('.faq-answer-enhanced p').textContent.toLowerCase() : '';
+            const keywords = item.getAttribute('data-keywords').toLowerCase();
+            const title = item.querySelector('h3').textContent.toLowerCase();
+            const content = item.querySelector('.faq-answer-enhanced p').textContent.toLowerCase();
             
-            const matches = keywords.toLowerCase().includes(query) || 
+            const matches = keywords.includes(query) || 
                           title.includes(query) || 
                           content.includes(query);
 
@@ -830,11 +927,11 @@ function initializeFAQ() {
         // Show/hide no results
         setTimeout(() => {
             if (visibleCount === 0 && query !== '') {
-                if (noResults) noResults.classList.remove('hidden');
-                if (faqContainer) faqContainer.style.display = 'none';
+                noResults.classList.remove('hidden');
+                faqContainer.style.display = 'none';
             } else {
-                if (noResults) noResults.classList.add('hidden');
-                if (faqContainer) faqContainer.style.display = 'block';
+                noResults.classList.add('hidden');
+                faqContainer.style.display = 'block';
             }
         }, 300);
     }
@@ -858,19 +955,17 @@ function initializeFAQ() {
         });
 
         // Clear search when filtering by category
-        if (searchInput) {
-            searchInput.value = '';
-            searchClear.classList.remove('visible');
-        }
+        searchInput.value = '';
+        searchClear.classList.remove('visible');
 
         // Update results display
         setTimeout(() => {
             if (visibleCount === 0) {
-                if (noResults) noResults.classList.remove('hidden');
-                if (faqContainer) faqContainer.style.display = 'none';
+                noResults.classList.remove('hidden');
+                faqContainer.style.display = 'none';
             } else {
-                if (noResults) noResults.classList.add('hidden');
-                if (faqContainer) faqContainer.style.display = 'block';
+                noResults.classList.add('hidden');
+                faqContainer.style.display = 'block';
             }
         }, 300);
     }
