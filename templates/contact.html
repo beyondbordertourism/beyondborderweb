@@ -4,94 +4,512 @@
 
 {% block head_styles %}
 <style>
-    .contact-bg {
-        background-image: linear-gradient(rgba(2, 58, 86, 0.6), rgba(20, 11, 95, 0.6)), url('https://images.unsplash.com/photo-1587560699334-cc426240169f?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
-        background-size: cover;
-        background-position: center;
-        background-attachment: fixed;
+    .contact-hero-bg {
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 25%, #334155 50%, #475569 75%, #64748b 100%);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .contact-hero-particles {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0.1;
+    }
+    
+    .contact-method-card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .contact-method-card:hover {
+        transform: translateY(-10px) scale(1.02);
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        border-color: rgba(20, 184, 166, 0.3);
+    }
+    
+    .enhanced-form-input {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border: 2px solid rgba(209, 213, 219, 0.3);
+        transition: all 0.3s ease;
+        position: relative;
+    }
+    
+    .enhanced-form-input:focus {
+        border-color: #14b8a6;
+        box-shadow: 0 0 0 4px rgba(20, 184, 166, 0.1);
+        background: rgba(255, 255, 255, 1);
+    }
+    
+    .form-floating-label {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: white;
+        padding: 0 8px;
+        color: #6b7280;
+        transition: all 0.3s ease;
+        pointer-events: none;
+    }
+    
+    .enhanced-form-input:focus + .form-floating-label,
+    .enhanced-form-input:not(:placeholder-shown) + .form-floating-label {
+        top: 0;
+        font-size: 0.75rem;
+        color: #14b8a6;
+        font-weight: 500;
+    }
+    
+    .submit-button-enhanced {
+        background: linear-gradient(135deg, #14b8a6 0%, #0891b2 100%);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .submit-button-enhanced::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: left 0.5s;
+    }
+    
+    .submit-button-enhanced:hover::before {
+        left: 100%;
+    }
+    
+    .contact-stats-card {
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .contact-stats-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
     }
 </style>
 {% endblock %}
 
 {% block content %}
-<div class="contact-bg text-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 pt-48 text-center">
-        <h1 class="text-5xl md:text-6xl font-extrabold tracking-tight">Get in Touch</h1>
-        <p class="mt-4 text-sm md:text-xl text-gray-300 max-w-3xl mx-auto">We're here to help you navigate your next journey. Whether you have a question about our services, need visa assistance, or just want to say hello, we'd love to hear from you.</p>
+<!-- Enhanced Hero Section -->
+<section class="contact-hero-bg text-white relative overflow-hidden">
+    <!-- Animated Background Particles -->
+    <div class="contact-hero-particles">
+        <div class="absolute top-20 left-20 w-2 h-2 bg-teal-400 rounded-full animate-pulse"></div>
+        <div class="absolute top-40 right-32 w-3 h-3 bg-blue-400 rounded-full animate-pulse" style="animation-delay: 1s;"></div>
+        <div class="absolute bottom-32 left-40 w-1 h-1 bg-white rounded-full animate-pulse" style="animation-delay: 2s;"></div>
+        <div class="absolute bottom-20 right-20 w-2 h-2 bg-teal-300 rounded-full animate-pulse" style="animation-delay: 3s;"></div>
+        <div class="absolute top-1/2 left-1/4 w-1 h-1 bg-blue-300 rounded-full animate-pulse" style="animation-delay: 4s;"></div>
     </div>
-</div>
+    
+    <!-- Floating Geometric Shapes -->
+    <div class="absolute top-16 right-16 w-20 h-20 border-2 border-teal-300 rotate-45 animate-spin-slow opacity-20"></div>
+    <div class="absolute bottom-24 left-24 w-16 h-16 border-2 border-blue-300 opacity-30 animate-bounce-slow"></div>
+    
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 pt-48 relative z-10">
+        <div class="text-center">
+            <!-- Eyebrow Text -->
+            <div class="flex items-center justify-center space-x-4 mb-8">
+                <div class="w-16 h-0.5 bg-gradient-to-r from-transparent to-teal-400"></div>
+                <span class="text-teal-300 font-semibold tracking-wide uppercase text-sm">Contact Us</span>
+                <div class="w-16 h-0.5 bg-gradient-to-l from-transparent to-blue-400"></div>
+            </div>
+            
+            <!-- Main Headline -->
+            <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-8 leading-tight">
+                Let's Start Your
+                <span class="relative">
+                    <span class="bg-gradient-to-r from-teal-400 to-blue-400 bg-clip-text text-transparent">Journey</span>
+                    <div class="absolute inset-0 bg-gradient-to-r from-teal-400 to-blue-400 opacity-20 blur-lg"></div>
+                </span>
+                Together
+            </h1>
+            
+            <!-- Subtitle -->
+            <p class="text-xl md:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed mb-12">
+                Ready to explore the world? Our expert team is here to guide you through every step of your visa journey. 
+                <span class="text-teal-300 font-medium">Get personalized assistance today.</span>
+            </p>
+            
+            <!-- Quick Action Buttons -->
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <a href="#contact-form" class="group inline-flex items-center px-8 py-4 bg-gradient-to-r from-teal-500 to-blue-600 text-white font-semibold rounded-2xl shadow-xl hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300">
+                    <i class="fas fa-envelope mr-3"></i>
+                    <span>Send a Message</span>
+                    <i class="fas fa-arrow-down ml-3 group-hover:translate-y-1 transition-transform duration-300"></i>
+                </a>
+                <a href="tel:+1234567890" class="group inline-flex items-center px-8 py-4 bg-white/10 backdrop-blur text-white font-semibold rounded-2xl border border-white/20 hover:bg-white/20 transition-all duration-300">
+                    <i class="fas fa-phone mr-3"></i>
+                    <span>Call Now</span>
+                    <i class="fas fa-phone-volume ml-3 group-hover:scale-110 transition-transform duration-300"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
 
-<section class="py-20 bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid md:grid-cols-2 gap-16">
-            <!-- Contact Form -->
-            <div class="bg-gray-50 p-8 rounded-2xl shadow-lg">
-                <h2 class="text-3xl font-bold text-gray-900 mb-6">Send us a Message</h2>
-                <form action="/contact" method="POST">
+
+
+<!-- Contact Methods Showcase -->
+<section class="py-20 bg-white relative overflow-hidden">
+    <!-- Background Decorations -->
+    <div class="absolute top-10 left-10 w-32 h-32 bg-teal-100 rounded-full opacity-50 animate-pulse"></div>
+    <div class="absolute bottom-10 right-10 w-24 h-24 bg-blue-100 rounded-full opacity-50 animate-pulse" style="animation-delay: 2s;"></div>
+    
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+                Multiple Ways to 
+                <span class="bg-gradient-to-r from-teal-600 to-blue-600 bg-clip-text text-transparent">Connect</span>
+            </h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                Choose your preferred method to get in touch with our expert team
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+            <!-- Email Method -->
+            <div class="contact-method-card p-8 rounded-2xl text-center group">
+                <div class="w-20 h-20 bg-gradient-to-br from-teal-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <i class="fas fa-envelope text-white text-3xl"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-900 mb-4">Email Support</h3>
+                <p class="text-gray-600 mb-6">Get detailed responses to your visa questions via email</p>
+                <div class="space-y-2 mb-6">
+                    <p class="text-lg font-semibold text-teal-600">contact@cloudandcompass.com</p>
+                    <p class="text-sm text-gray-500">Response within 2 hours</p>
+                </div>
+                <a href="mailto:contact@cloudandcompass.com" class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-teal-500 to-blue-600 text-white font-semibold rounded-xl hover:shadow-lg transition-all duration-300">
+                    <i class="fas fa-paper-plane mr-2"></i>
+                    Send Email
+                </a>
+            </div>
+            
+            <!-- Phone Method -->
+            <div class="contact-method-card p-8 rounded-2xl text-center group">
+                <div class="w-20 h-20 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <i class="fas fa-phone text-white text-3xl"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-900 mb-4">Phone Support</h3>
+                <p class="text-gray-600 mb-6">Speak directly with our visa experts for immediate assistance</p>
+                <div class="space-y-2 mb-6">
+                    <p class="text-lg font-semibold text-blue-600">+1 (234) 567-890</p>
+                    <p class="text-sm text-gray-500">Available 24/7</p>
+                </div>
+                <a href="tel:+1234567890" class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-semibold rounded-xl hover:shadow-lg transition-all duration-300">
+                    <i class="fas fa-phone-alt mr-2"></i>
+                    Call Now
+                </a>
+            </div>
+            
+            <!-- Live Chat Method -->
+            <div class="contact-method-card p-8 rounded-2xl text-center group">
+                <div class="w-20 h-20 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <i class="fas fa-comments text-white text-3xl"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-900 mb-4">Live Chat</h3>
+                <p class="text-gray-600 mb-6">Quick answers through our instant messaging system</p>
+                <div class="space-y-2 mb-6">
+                    <p class="text-lg font-semibold text-indigo-600">Instant Messaging</p>
+                    <p class="text-sm text-gray-500">Online now</p>
+                </div>
+                <button class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold rounded-xl hover:shadow-lg transition-all duration-300">
+                    <i class="fas fa-comment-dots mr-2"></i>
+                    Start Chat
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Enhanced Contact Form Section -->
+<section id="contact-form" class="py-16 bg-gradient-to-br from-gray-50 via-blue-50 to-indigo-50 relative overflow-hidden">
+    <!-- Animated Background Elements -->
+    <div class="absolute top-0 left-0 w-full h-full opacity-5">
+        <div class="absolute top-20 left-20 w-32 h-32 bg-teal-300 rounded-full animate-pulse"></div>
+        <div class="absolute top-40 right-32 w-24 h-24 bg-blue-300 rounded-full animate-pulse" style="animation-delay: 1s;"></div>
+        <div class="absolute bottom-32 left-40 w-28 h-28 bg-indigo-300 rounded-full animate-pulse" style="animation-delay: 2s;"></div>
+    </div>
+    
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="grid md:grid-cols-5 gap-12 items-start">
+            <!-- Enhanced Contact Form -->
+            <div class="md:col-span-3 contact-method-card p-8 rounded-3xl shadow-2xl">
+                <div class="text-center mb-8">
+                    <div class="w-16 h-16 bg-gradient-to-br from-teal-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-paper-plane text-white text-2xl"></i>
+                    </div>
+                    <h2 class="text-3xl font-bold text-gray-900 mb-4">Send us a Message</h2>
+                    <p class="text-gray-600">Fill out the form below and we'll get back to you within 2 hours</p>
+                </div>
+                
+                <form action="/contact" method="POST" class="space-y-6">
                     {% if message %}
-                    <div class="mb-6 p-4 bg-green-100 text-green-800 border border-green-200 rounded-lg">
+                    <div class="p-4 bg-gradient-to-r from-green-50 to-emerald-50 text-green-800 border border-green-200 rounded-xl flex items-center">
+                        <i class="fas fa-check-circle mr-3 text-green-600"></i>
                         {{ message }}
                     </div>
                     {% endif %}
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                        <div>
-                            <label for="name" class="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
-                            <input type="text" name="name" id="name" required class="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition">
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="relative">
+                            <input type="text" name="name" id="name" required placeholder=" " class="enhanced-form-input w-full px-4 py-4 rounded-xl">
+                            <label for="name" class="form-floating-label">Full Name</label>
                         </div>
-                        <div>
-                            <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
-                            <input type="email" name="email" id="email" required class="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition">
+                        <div class="relative">
+                            <input type="email" name="email" id="email" required placeholder=" " class="enhanced-form-input w-full px-4 py-4 rounded-xl">
+                            <label for="email" class="form-floating-label">Email Address</label>
                         </div>
                     </div>
-                    <div class="mb-6">
-                        <label for="subject" class="block text-sm font-medium text-gray-700 mb-2">Subject</label>
-                        <input type="text" name="subject" id="subject" required class="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition">
+                    
+                    <div class="relative">
+                        <input type="text" name="subject" id="subject" required placeholder=" " class="enhanced-form-input w-full px-4 py-4 rounded-xl">
+                        <label for="subject" class="form-floating-label">Subject</label>
                     </div>
-                    <div class="mb-6">
-                        <label for="message" class="block text-sm font-medium text-gray-700 mb-2">Message</label>
-                        <textarea name="message" id="message" rows="5" required class="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition"></textarea>
+                    
+                    <div class="relative">
+                        <textarea name="message" id="message" rows="5" required placeholder=" " class="enhanced-form-input w-full px-4 py-4 rounded-xl resize-none"></textarea>
+                        <label for="message" class="form-floating-label">Your Message</label>
                     </div>
-                    <div>
-                        <button type="submit" class="w-full bg-teal-600 text-white font-bold py-4 px-6 rounded-lg hover:bg-teal-700 transition-transform transform hover:scale-105 shadow-md">
+                    
+                    <button type="submit" class="submit-button-enhanced w-full text-white font-bold py-4 px-6 rounded-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+                        <span class="relative z-10 flex items-center justify-center">
+                            <i class="fas fa-paper-plane mr-3"></i>
                             Send Message
-                        </button>
-                    </div>
+                            <i class="fas fa-arrow-right ml-3"></i>
+                        </span>
+                    </button>
                 </form>
             </div>
             
-            <!-- Contact Info & Map -->
-            <div class="space-y-8">
-                <div class="bg-gray-50 p-8 rounded-2xl shadow-lg">
-                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Contact Information</h3>
-                    <div class="space-y-4 text-gray-700">
-                        <div class="flex items-start space-x-4">
-                            <i class="fas fa-map-marker-alt text-teal-600 text-2xl mt-1"></i>
+            <!-- Contact Info & Features -->
+            <div class="md:col-span-2 space-y-6">
+                <!-- Contact Information -->
+                <div class="contact-method-card p-6 rounded-2xl">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4 flex items-center">
+                        <i class="fas fa-info-circle mr-3 text-teal-600"></i>
+                        Contact Information
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="flex items-start space-x-3 p-3 bg-gradient-to-r from-gray-50 to-blue-50 rounded-xl">
+                            <div class="w-10 h-10 bg-gradient-to-br from-teal-500 to-blue-600 rounded-xl flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-map-marker-alt text-white text-sm"></i>
+                            </div>
                             <div>
-                                <h4 class="font-semibold">Our Office</h4>
-                                <p>123 Adventure Avenue, Suite 100<br>Metropolis, Global 12345</p>
+                                <h4 class="font-semibold text-gray-900 mb-1 text-sm">Our Office</h4>
+                                <p class="text-gray-600 text-sm">123 Adventure Avenue, Suite 100<br>Metropolis, Global 12345</p>
                             </div>
                         </div>
-                        <div class="flex items-start space-x-4">
-                            <i class="fas fa-envelope text-teal-600 text-2xl mt-1"></i>
-                            <div>
-                                <h4 class="font-semibold">Email Us</h4>
-                                <a href="mailto:contact@cloudandcompass.com" class="hover:text-teal-600">contact@cloudandcompass.com</a>
+                        
+                        <div class="flex items-start space-x-3 p-3 bg-gradient-to-r from-gray-50 to-green-50 rounded-xl">
+                            <div class="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-clock text-white text-sm"></i>
                             </div>
-                        </div>
-                        <div class="flex items-start space-x-4">
-                            <i class="fas fa-phone-alt text-teal-600 text-2xl mt-1"></i>
                             <div>
-                                <h4 class="font-semibold">Call Us</h4>
-                                <a href="tel:+1234567890" class="hover:text-teal-600">+1 (234) 567-890</a>
+                                <h4 class="font-semibold text-gray-900 mb-1 text-sm">Business Hours</h4>
+                                <p class="text-gray-600 text-sm">Monday - Friday: 9:00 AM - 6:00 PM<br>Weekend: 10:00 AM - 4:00 PM</p>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="rounded-2xl shadow-lg overflow-hidden">
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.086314336065!2d-122.4194154846813!3d37.77492957975876!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80858064d7b8895b%3A0x1c37b34f6d34e9d!2sSan%20Francisco%20City%20Hall!5e0!3m2!1sen!2sus!4v1620152485553!5m2!1sen!2sus" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                
+                <!-- Why Choose Us -->
+                <div class="contact-method-card p-6 rounded-2xl">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4 flex items-center">
+                        <i class="fas fa-star mr-3 text-yellow-500"></i>
+                        Why Choose Us
+                    </h3>
+                    <div class="space-y-3">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-7 h-7 bg-green-100 rounded-full flex items-center justify-center">
+                                <i class="fas fa-check text-green-600 text-xs"></i>
+                            </div>
+                            <span class="text-gray-700 font-medium text-sm">Expert visa consultation</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <div class="w-7 h-7 bg-blue-100 rounded-full flex items-center justify-center">
+                                <i class="fas fa-shield-alt text-blue-600 text-xs"></i>
+                            </div>
+                            <span class="text-gray-700 font-medium text-sm">100% secure processing</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <div class="w-7 h-7 bg-purple-100 rounded-full flex items-center justify-center">
+                                <i class="fas fa-bolt text-purple-600 text-xs"></i>
+                            </div>
+                            <span class="text-gray-700 font-medium text-sm">Fast turnaround time</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <div class="w-7 h-7 bg-teal-100 rounded-full flex items-center justify-center">
+                                <i class="fas fa-headset text-teal-600 text-xs"></i>
+                            </div>
+                            <span class="text-gray-700 font-medium text-sm">24/7 customer support</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Interactive Map -->
+                <div class="contact-method-card rounded-2xl overflow-hidden shadow-2xl">
+                    <div class="p-4 bg-gradient-to-r from-teal-500 to-blue-600 text-white">
+                        <h3 class="text-lg font-bold flex items-center">
+                            <i class="fas fa-map-marked-alt mr-3"></i>
+                            Find Our Office
+                        </h3>
+                        <p class="text-teal-100 mt-1 text-sm">Visit us for in-person consultation</p>
+                    </div>
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.086314336065!2d-122.4194154846813!3d37.77492957975876!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80858064d7b8895b%3A0x1c37b34f6d34e9d!2sSan%20Francisco%20City%20Hall!5e0!3m2!1sen!2sus!4v1620152485553!5m2!1sen!2sus" width="100%" height="200" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
                 </div>
             </div>
         </div>
     </div>
 </section>
+
+<!-- Call-to-Action Section -->
+<section class="py-20 bg-gradient-to-r from-teal-600 to-blue-600 text-white relative overflow-hidden">
+    <div class="absolute inset-0 bg-black opacity-10"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+        <h2 class="text-4xl md:text-5xl font-bold mb-6">
+            Ready to Start Your Journey?
+        </h2>
+        <p class="text-xl md:text-2xl text-teal-100 mb-8 max-w-3xl mx-auto">
+            Don't let visa requirements hold you back. Contact us today and take the first step towards your next adventure.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="#contact-form" class="inline-flex items-center px-8 py-4 bg-white text-teal-600 font-bold rounded-xl hover:bg-gray-100 transition-all duration-300 transform hover:-translate-y-1">
+                <i class="fas fa-envelope mr-3"></i>
+                Get Started Now
+            </a>
+            <a href="tel:+1234567890" class="inline-flex items-center px-8 py-4 border-2 border-white text-white font-bold rounded-xl hover:bg-white hover:text-teal-600 transition-all duration-300">
+                <i class="fas fa-phone mr-3"></i>
+                Call for Urgent Cases
+            </a>
+        </div>
+    </div>
+</section>
+
+<script>
+// Enhanced form interactions
+document.addEventListener('DOMContentLoaded', function() {
+    // Counter animation for stats
+    const counters = document.querySelectorAll('.counter-number');
+    const observerOptions = {
+        threshold: 0.7
+    };
+    
+    const counterObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const counter = entry.target;
+                const target = counter.textContent.replace(/[^0-9]/g, '');
+                const increment = target / 100;
+                let current = 0;
+                
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        current = target;
+                        clearInterval(timer);
+                    }
+                    
+                    if (counter.textContent.includes('K+')) {
+                        counter.textContent = Math.floor(current) + 'K+';
+                    } else if (counter.textContent.includes('h')) {
+                        counter.textContent = '<' + Math.floor(current) + 'h';
+                    } else if (counter.textContent.includes('/')) {
+                        counter.textContent = Math.floor(current) + '/7';
+                    } else {
+                        counter.textContent = Math.floor(current);
+                    }
+                }, 20);
+                
+                counterObserver.unobserve(counter);
+            }
+        });
+    }, observerOptions);
+    
+    counters.forEach(counter => {
+        counterObserver.observe(counter);
+    });
+    
+    // Form validation and enhancement
+    const form = document.querySelector('form');
+    const inputs = form.querySelectorAll('input, textarea');
+    
+    inputs.forEach(input => {
+        input.addEventListener('focus', function() {
+            this.parentElement.style.transform = 'scale(1.02)';
+        });
+        
+        input.addEventListener('blur', function() {
+            this.parentElement.style.transform = 'scale(1)';
+        });
+    });
+    
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+    
+    // Add ripple effect to buttons
+    const buttons = document.querySelectorAll('button, .submit-button-enhanced');
+    buttons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            const ripple = document.createElement('span');
+            const rect = this.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            const x = e.clientX - rect.left - size / 2;
+            const y = e.clientY - rect.top - size / 2;
+            
+            ripple.style.width = ripple.style.height = size + 'px';
+            ripple.style.left = x + 'px';
+            ripple.style.top = y + 'px';
+            ripple.style.position = 'absolute';
+            ripple.style.borderRadius = '50%';
+            ripple.style.background = 'rgba(255, 255, 255, 0.3)';
+            ripple.style.transform = 'scale(0)';
+            ripple.style.animation = 'ripple 0.6s ease-out';
+            ripple.style.pointerEvents = 'none';
+            
+            this.style.position = 'relative';
+            this.style.overflow = 'hidden';
+            this.appendChild(ripple);
+            
+            setTimeout(() => {
+                ripple.remove();
+            }, 600);
+        });
+    });
+});
+
+// CSS for ripple animation
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes ripple {
+        to {
+            transform: scale(2);
+            opacity: 0;
+        }
+    }
+`;
+document.head.appendChild(style);
+</script>
 {% endblock %} 
