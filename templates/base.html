@@ -42,19 +42,120 @@
                 </div>
                 <div class="flex items-center space-x-4">
                     <a href="/contact" class="nav-contact-button hidden md:inline-block">Contact Us</a>
-                    <!-- Mobile Menu Button -->
-                    <button id="mobile-menu-button" class="md:hidden text-2xl">
-                        <i class="fas fa-bars"></i>
+                    <!-- Enhanced Mobile Menu Button -->
+                    <button id="mobile-menu-button" class="md:hidden relative w-8 h-8 flex flex-col justify-center items-center transition-all duration-300 z-60">
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
                     </button>
                 </div>
             </div>
         </div>
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden md:hidden">
-            <a href="/" class="block py-2 px-4 text-sm hover:bg-gray-700">Home</a>
-            <a href="/countries" class="block py-2 px-4 text-sm hover:bg-gray-700">All Countries</a>
-            <a href="/admin" class="block py-2 px-4 text-sm hover:bg-gray-700">Admin</a>
-            <a href="/contact" class="block py-2 px-4 text-sm hover:bg-gray-700">Contact Us</a>
+        
+        <!-- Enhanced Mobile Menu Overlay -->
+        <div id="mobile-menu-overlay" class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm transition-opacity duration-300 opacity-0 pointer-events-none z-40 md:hidden"></div>
+        
+        <!-- Enhanced Mobile Menu -->
+        <div id="mobile-menu" class="fixed top-0 right-0 h-full w-80 max-w-sm bg-white shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out z-50 md:hidden">
+            <!-- Mobile Menu Header -->
+            <div class="flex items-center justify-between p-6 border-b border-gray-200">
+                <div class="flex items-center space-x-3">
+                    <img src="/static/images/logo.png" alt="Cloud & Compass Logo" class="h-8 w-auto">
+                    <span class="text-xl font-bold text-gray-800">Cloud & Compass</span>
+                </div>
+                <button id="mobile-menu-close" class="p-2 rounded-full hover:bg-gray-100 transition-colors duration-200">
+                    <i class="fas fa-times text-gray-600 text-lg"></i>
+                </button>
+            </div>
+            
+            <!-- Mobile Menu Content -->
+            <div class="flex flex-col h-full">
+                <!-- Navigation Links -->
+                <nav class="flex-1 px-6 py-6">
+                    <div class="space-y-2">
+                        <a href="/" class="mobile-nav-item group">
+                            <div class="flex items-center space-x-4">
+                                <div class="mobile-nav-icon">
+                                    <i class="fas fa-home"></i>
+                                </div>
+                                <span class="mobile-nav-text">Home</span>
+                            </div>
+                            <div class="mobile-nav-arrow">
+                                <i class="fas fa-chevron-right"></i>
+                            </div>
+                        </a>
+                        
+                        <a href="/countries" class="mobile-nav-item group">
+                            <div class="flex items-center space-x-4">
+                                <div class="mobile-nav-icon">
+                                    <i class="fas fa-globe-americas"></i>
+                                </div>
+                                <span class="mobile-nav-text">All Countries</span>
+                            </div>
+                            <div class="mobile-nav-arrow">
+                                <i class="fas fa-chevron-right"></i>
+                            </div>
+                        </a>
+                        
+                        <a href="/admin" class="mobile-nav-item group">
+                            <div class="flex items-center space-x-4">
+                                <div class="mobile-nav-icon">
+                                    <i class="fas fa-cog"></i>
+                                </div>
+                                <span class="mobile-nav-text">Admin</span>
+                            </div>
+                            <div class="mobile-nav-arrow">
+                                <i class="fas fa-chevron-right"></i>
+                            </div>
+                        </a>
+                    </div>
+                    
+                    <!-- Mobile Menu Divider -->
+                    <div class="my-8 border-t border-gray-200"></div>
+                    
+                    <!-- Secondary Actions -->
+                    <div class="space-y-3">
+                        <a href="/contact" class="mobile-cta-button">
+                            <i class="fas fa-envelope mr-3"></i>
+                            Contact Us
+                        </a>
+                        
+                        <!-- Quick Links -->
+                        <div class="mt-6">
+                            <h4 class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">Quick Access</h4>
+                            <div class="space-y-2">
+                                <a href="/#faq" class="mobile-quick-link">
+                                    <i class="fas fa-question-circle mr-3 text-gray-400"></i>
+                                    FAQ
+                                </a>
+                                <a href="/#about" class="mobile-quick-link">
+                                    <i class="fas fa-info-circle mr-3 text-gray-400"></i>
+                                    About Us
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+                
+                <!-- Mobile Menu Footer -->
+                <div class="px-6 py-4 border-t border-gray-200 bg-gray-50">
+                    <div class="flex items-center justify-center space-x-4">
+                        <a href="#" class="mobile-social-link">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="mobile-social-link">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="mobile-social-link">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="mobile-social-link">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                    <p class="text-xs text-gray-500 text-center mt-3">© 2024 Cloud & Compass</p>
+                </div>
+            </div>
         </div>
     </nav>
 
@@ -126,9 +227,68 @@
         // Mobile Menu Toggle
         const mobileMenuButton = document.getElementById('mobile-menu-button');
         const mobileMenu = document.getElementById('mobile-menu');
+        const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+        const mobileMenuCloseButton = document.getElementById('mobile-menu-close');
+
+        function openMobileMenu() {
+            mobileMenu.classList.remove('translate-x-full');
+            mobileMenuOverlay.classList.remove('opacity-0');
+            mobileMenuOverlay.classList.add('pointer-events-auto');
+            mobileMenuButton.classList.add('active');
+            document.body.classList.add('mobile-menu-open');
+            
+            // Add staggered animation to menu items
+            setTimeout(() => {
+                mobileMenu.classList.add('show');
+            }, 100);
+        }
+
+        function closeMobileMenu() {
+            mobileMenu.classList.add('translate-x-full');
+            mobileMenuOverlay.classList.add('opacity-0');
+            mobileMenuOverlay.classList.remove('pointer-events-auto');
+            mobileMenuButton.classList.remove('active');
+            document.body.classList.remove('mobile-menu-open');
+            mobileMenu.classList.remove('show');
+        }
 
         mobileMenuButton.addEventListener('click', function() {
-            mobileMenu.classList.toggle('hidden');
+            if (mobileMenu.classList.contains('translate-x-full')) {
+                openMobileMenu();
+            } else {
+                closeMobileMenu();
+            }
+        });
+
+        mobileMenuCloseButton.addEventListener('click', closeMobileMenu);
+
+        mobileMenuOverlay.addEventListener('click', function(event) {
+            if (event.target === mobileMenuOverlay) {
+                closeMobileMenu();
+            }
+        });
+
+        // Close mobile menu when clicking on navigation links
+        const mobileNavItems = document.querySelectorAll('.mobile-nav-item, .mobile-cta-button, .mobile-quick-link');
+        mobileNavItems.forEach(item => {
+            item.addEventListener('click', function() {
+                // Small delay to allow navigation before closing
+                setTimeout(closeMobileMenu, 150);
+            });
+        });
+
+        // Handle escape key to close mobile menu
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape' && !mobileMenu.classList.contains('translate-x-full')) {
+                closeMobileMenu();
+            }
+        });
+
+        // Handle window resize to close mobile menu on larger screens
+        window.addEventListener('resize', function() {
+            if (window.innerWidth >= 768 && !mobileMenu.classList.contains('translate-x-full')) {
+                closeMobileMenu();
+            }
         });
     </script>
     {% block scripts %}{% endblock %}
