@@ -4541,3 +4541,33 @@ body.mobile-menu-open {
     width: 100%;
 }
 
+.morph-stat-button {
+    background: #2563eb;
+    color: #fff;
+    box-shadow: 0 8px 32px rgba(37, 99, 235, 0.12);
+    border: none;
+}
+
+.stat-total, .stat-visa-free, .stat-visa-required, .stat-regions {
+    background: #2563eb;
+    color: #fff;
+    border: none;
+}
+
+.morph-stat-button .stat-number {
+    color: #fff;
+}
+
+.morph-stat-button .stat-label {
+    color: #e0e7ff;
+}
+
+.morph-stat-button .stat-icon {
+    color: #93c5fd;
+}
+
+.morph-stat-button:hover {
+    background: #1e40af;
+    box-shadow: 0 12px 28px rgba(30, 64, 175, 0.18);
+}
+

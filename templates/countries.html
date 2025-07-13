@@ -33,7 +33,6 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(135deg, rgba(84, 108, 175, 0.292) 0%, rgba(21, 21, 22, 0.461) 100%); /* Lighter gradient overlay */
     z-index: 1;
 }
 
@@ -155,14 +154,13 @@
 
 /* Dark Blue Color Themes */
 .stat-total, .stat-regions {
-    background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+    background: #2f7cb6;
     color: white;
 }
 
 .stat-visa-free, .stat-visa-required {
-    background: rgba(255, 255, 255, 0.2);
+    background: #2f7cb6;
     color: white;
-    border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .stat-number {
@@ -206,7 +204,7 @@
     padding-bottom: 3rem;
 }
 
-/* Responsive adjustments */
+/* Responsive adjustments */class="hero-title text-4xl md:text-5xl font-bold mb-4"
 @media (max-width: 768px) {
     .hero-header {
         padding: 2.5rem 0;
@@ -285,13 +283,11 @@
         </video>
         <div class="hero-content w-full flex flex-col items-center">
             <!-- Title Section -->
-            <div class="text-center px-4 sm:px-6 lg:px-8 mb-6">
-                <h1 class="hero-title text-4xl md:text-5xl font-bold mb-4">
+            <div class="text-center px-5 sm:px-6 lg:px-8 mb-6">
+                <h1 class="hero-title text-4xl md:text-5xl font-bold mb-4" style="line-height: 1.2; font-size: 5rem;">
                     Explore the World
                 </h1>
-                <p class="hero-subtitle text-lg md:text-xl mb-6 max-w-2xl mx-auto">
-                    Complete visa requirements and travel information for Indian citizens exploring every corner of the globe
-                </p>
+               
             </div>
             
             <!-- Search Bar Section -->
