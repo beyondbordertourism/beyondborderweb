@@ -377,7 +377,7 @@
             
             <!-- Load More Button -->
             <div id="loadMoreContainer" class="text-center mt-12" style="display: none;">
-                <button id="loadMoreBtn" class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-12 py-4 rounded-full hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 shadow-lg text-lg font-semibold">
+                <button id="loadMoreBtn" class="bg-gradient-to-r from-teal-600 to-blue-600 text-white px-12 py-4 rounded-full hover:from-teal-700 hover:to-blue-700 transition-all duration-300 transform hover:scale-105 shadow-lg text-lg font-semibold">
                     Load More Countries
                 </button>
             </div>
@@ -527,26 +527,26 @@ function displayCountries(clearExisting = true) {
         return;
     }
     
-    // Calculate items to display
-    const startIndex = clearExisting ? 0 : displayedCountries.length;
-    const endIndex = currentPage * itemsPerPage;
-    const newCountries = filteredCountries.slice(startIndex, endIndex);
-    
     if (clearExisting) {
-        displayedCountries = newCountries;
+        // Reset everything for new search/filter
+        displayedCountries = [];
+        currentPage = 1;
         container.innerHTML = '';
-    } else {
-        displayedCountries = displayedCountries.concat(newCountries.slice(displayedCountries.length));
     }
     
-    // Add new country cards
-    const newCardsHTML = newCountries.slice(clearExisting ? 0 : newCountries.length - (endIndex - startIndex)).map(country => createCountryCard(country)).join('');
+    // Calculate items to display
+    const startIndex = displayedCountries.length;
+    const endIndex = currentPage * itemsPerPage;
+    const countriesToAdd = filteredCountries.slice(startIndex, endIndex);
     
-    if (clearExisting) {
-        container.innerHTML = newCardsHTML;
-    } else {
-        container.insertAdjacentHTML('beforeend', newCardsHTML);
-    }
+    // Add new countries to displayed array
+    displayedCountries = displayedCountries.concat(countriesToAdd);
+    
+    // Create HTML for new cards only
+    const newCardsHTML = countriesToAdd.map(country => createCountryCard(country)).join('');
+    
+    // Add new cards to container
+    container.insertAdjacentHTML('beforeend', newCardsHTML);
     
     // Update UI states
     container.style.display = 'grid';

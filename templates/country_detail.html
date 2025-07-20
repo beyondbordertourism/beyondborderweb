@@ -606,23 +606,288 @@ function displayDocuments(documents) {
         return;
     }
     
+    // Deduplicate documents
+    const uniqueDocuments = deduplicateDocuments(documents);
+    
+    // Debug: Log the deduplication results
+    console.log('Original documents count:', documents.length);
+    console.log('Unique documents count:', uniqueDocuments.length);
+    console.log('Removed duplicates:', documents.length - uniqueDocuments.length);
+    
     container.innerHTML = `
-        <div class="space-y-2">
-            ${documents.map(doc => `
-                <div class="flex items-center py-2 px-3 border-l-4 ${doc.required ? 'border-sky-500 bg-sky-50' : 'border-gray-300 bg-gray-50'} rounded-r">
-                    <i class="fas fa-file-alt ${doc.required ? 'text-sky-600' : 'text-gray-500'} mr-3 text-sm"></i>
-                    <div class="flex-1">
-                        <span class="font-medium text-gray-900">${doc.name}</span>
-                        ${doc.category ? `<span class="text-xs text-gray-500 ml-2">(${doc.category})</span>` : ''}
-                        ${doc.details ? `<p class="text-sm text-gray-600 mt-1">${doc.details}</p>` : ''}
+        <div class="space-y-4">
+            <!-- Progress Bar -->
+            <div class="bg-gray-200 rounded-full h-2 mb-4">
+                <div id="documentProgress" class="bg-green-500 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+            </div>
+            
+            <!-- Progress Text -->
+            <div class="flex justify-between items-center mb-4">
+                <span class="text-sm text-gray-600">Document Checklist</span>
+                <span id="progressText" class="text-sm font-medium text-gray-900">0 of ${uniqueDocuments.length} completed</span>
+            </div>
+            
+            <!-- Documents List -->
+            <div class="space-y-2">
+                ${uniqueDocuments.map((doc, index) => `
+                    <div class="document-item flex items-center py-3 px-4 border-l-4 ${doc.required ? 'border-sky-500 bg-sky-50' : 'border-gray-300 bg-gray-50'} rounded-r transition-all duration-200 hover:shadow-sm" data-index="${index}">
+                        <div class="flex items-center flex-1 cursor-pointer" onclick="toggleDocument(${index})">
+                            <div class="checkbox-container mr-3">
+                                <input type="checkbox" id="doc-${index}" class="document-checkbox sr-only" data-index="${index}">
+                                <label for="doc-${index}" class="checkbox-label w-5 h-5 border-2 border-gray-300 rounded flex items-center justify-center cursor-pointer transition-all duration-200 hover:border-sky-400">
+                                    <i class="fas fa-check text-white text-xs opacity-0 transition-opacity duration-200"></i>
+                                </label>
+                            </div>
+                            <div class="flex-1">
+                                <span class="document-name font-medium text-gray-900 transition-all duration-200">${doc.name}</span>
+                                ${doc.category ? `<span class="text-xs text-gray-500 ml-2">(${doc.category})</span>` : ''}
+                                ${doc.details ? `<p class="document-details text-sm text-gray-600 mt-1 transition-all duration-200">${doc.details}</p>` : ''}
+                            </div>
+                        </div>
+                        <span class="text-xs font-medium px-2 py-1 rounded ${doc.required ? 'bg-sky-100 text-sky-700' : 'bg-gray-100 text-gray-600'}">
+                            ${doc.required ? 'Required' : 'Optional'}
+                        </span>
                     </div>
-                    <span class="text-xs font-medium px-2 py-1 rounded ${doc.required ? 'bg-sky-100 text-sky-700' : 'bg-gray-100 text-gray-600'}">
-                        ${doc.required ? 'Required' : 'Optional'}
-                    </span>
-                </div>
-            `).join('')}
+                `).join('')}
+            </div>
+            
+            <!-- Reset Button -->
+            <div class="flex justify-center mt-6">
+                <button onclick="resetDocumentChecklist()" class="reset-checklist-btn text-sm text-gray-500 hover:text-gray-700 transition-colors duration-200 flex items-center">
+                    <i class="fas fa-redo mr-1"></i>
+                    Reset Checklist
+                </button>
+            </div>
         </div>
     `;
+    
+    // Initialize the checklist
+    initializeDocumentChecklist();
+}
+
+// Deduplicate documents function
+function deduplicateDocuments(documents) {
+    const seen = new Map(); // Use Map to store normalized name -> best document
+    const uniqueDocs = [];
+    
+    for (const doc of documents) {
+        // Normalize the document name for comparison
+        const normalizedName = normalizeDocumentName(doc.name);
+        
+        if (!seen.has(normalizedName)) {
+            seen.set(normalizedName, doc);
+        } else {
+            // If we have a duplicate, keep the more descriptive version
+            const existingDoc = seen.get(normalizedName);
+            const existingLength = existingDoc.name.length;
+            const currentLength = doc.name.length;
+            
+            // Keep the longer/more descriptive version
+            if (currentLength > existingLength) {
+                seen.set(normalizedName, doc);
+            }
+        }
+    }
+    
+    // Convert Map values back to array
+    return Array.from(seen.values());
+}
+
+// Normalize document name for deduplication
+function normalizeDocumentName(name) {
+    return name
+        .toLowerCase()
+        .replace(/\([^)]*\)/g, '') // Remove parentheses and their content
+        .replace(/uploaded online|online/i, '') // Remove "uploaded online" or "online"
+        .replace(/scanned copy of/i, '') // Remove "scanned copy of"
+        .replace(/original/i, '') // Remove "original"
+        .replace(/via credit\/debit card/i, '') // Remove payment method
+        .replace(/~₹[0-9,]+ or equivalent/i, '') // Remove currency amounts
+        .replace(/sufficient funds for the duration of stay/i, 'funds') // Normalize funds
+        .replace(/proof of onward\/return travel/i, 'travel proof') // Normalize travel proof
+        .replace(/proof of onward or return travel/i, 'travel proof') // Normalize travel proof
+        .replace(/hotel reservation details/i, 'hotel reservation') // Normalize hotel reservation
+        .replace(/application form/i, 'application form') // Keep consistent
+        .replace(/visa fee/i, 'visa fee') // Keep consistent
+        .replace(/passport/i, 'passport') // Keep consistent
+        .replace(/photograph/i, 'photograph') // Keep consistent
+        .replace(/photographs/i, 'photograph') // Plural to singular
+        .replace(/cash funds.*equivalent/i, 'funds') // Normalize cash funds
+        .replace(/valid passport.*validity/i, 'passport') // Normalize passport with validity
+        .replace(/minimum.*months/i, '') // Remove validity periods
+        .replace(/at least.*months/i, '') // Remove validity periods
+        .replace(/for the duration of stay/i, '') // Remove duration qualifiers
+        .replace(/confirmed.*tickets/i, '') // Remove ticket qualifiers
+        .replace(/round.*trip/i, '') // Remove trip qualifiers
+        .replace(/return.*ticket/i, '') // Remove return qualifiers
+        .replace(/booking.*proof/i, '') // Remove booking qualifiers
+        .replace(/reservation.*details/i, '') // Remove reservation qualifiers
+        .replace(/invitation.*letter/i, '') // Remove invitation qualifiers
+        .replace(/friend.*family/i, '') // Remove relationship qualifiers
+        .replace(/bank.*statement/i, 'bank statement') // Normalize bank statement
+        .replace(/employment.*proof/i, 'employment proof') // Normalize employment proof
+        .replace(/noc.*employer/i, '') // Remove NOC qualifiers
+        .replace(/company.*id/i, '') // Remove company qualifiers
+        .replace(/business.*registration/i, '') // Remove business qualifiers
+        .replace(/cover.*letter/i, 'cover letter') // Normalize cover letter
+        .replace(/explaining.*visit/i, '') // Remove explanation qualifiers
+        .replace(/purpose.*duration/i, '') // Remove purpose qualifiers
+        .replace(/flight.*itinerary/i, 'flight itinerary') // Normalize flight itinerary
+        .replace(/confirmed.*tickets/i, '') // Remove confirmed qualifiers
+        .replace(/hotel.*booking/i, 'hotel booking') // Normalize hotel booking
+        .replace(/or.*invitation.*letter/i, '') // Remove alternative qualifiers
+        .replace(/bank.*statement.*months/i, 'bank statement') // Normalize bank statement with months
+        .replace(/balance.*₹[0-9,]+/i, '') // Remove balance amounts
+        .replace(/employment.*certificate/i, 'employment certificate') // Normalize employment certificate
+        .replace(/noc.*employer/i, '') // Remove NOC qualifiers
+        .trim()
+        .replace(/\s+/g, ' '); // Normalize whitespace
+}
+
+// Initialize document checklist functionality
+function initializeDocumentChecklist() {
+    const checkboxes = document.querySelectorAll('.document-checkbox');
+    const progressBar = document.getElementById('documentProgress');
+    const progressText = document.getElementById('progressText');
+    
+    // Get country name from page title or URL for country-specific storage
+    const countryName = getCountryNameFromPage();
+    const storageKey = `documentChecklist_${countryName}`;
+    
+    // Load saved state from localStorage
+    const savedState = localStorage.getItem(storageKey);
+    let checkedItems = [];
+    
+    if (savedState) {
+        try {
+            checkedItems = JSON.parse(savedState);
+        } catch (e) {
+            console.error('Failed to parse saved checklist state:', e);
+        }
+    }
+    
+    // Apply saved state
+    checkboxes.forEach((checkbox, index) => {
+        if (checkedItems.includes(index)) {
+            checkbox.checked = true;
+            updateDocumentItem(index, true);
+        }
+    });
+    
+    updateProgress();
+    
+    // Add event listeners
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            const index = parseInt(this.dataset.index);
+            const isChecked = this.checked;
+            
+            updateDocumentItem(index, isChecked);
+            updateProgress();
+            saveChecklistState();
+        });
+    });
+}
+
+// Get country name from page for storage key
+function getCountryNameFromPage() {
+    // Try to get from page title first
+    const title = document.title;
+    if (title.includes('Visa Information')) {
+        const countryName = title.split(' Visa Information')[0];
+        return countryName.toLowerCase().replace(/\s+/g, '_');
+    }
+    
+    // Fallback to URL path
+    const path = window.location.pathname;
+    const countrySlug = path.split('/').pop();
+    return countrySlug || 'default';
+}
+
+// Toggle document checkbox
+function toggleDocument(index) {
+    const checkbox = document.getElementById(`doc-${index}`);
+    checkbox.checked = !checkbox.checked;
+    checkbox.dispatchEvent(new Event('change'));
+}
+
+// Update individual document item appearance
+function updateDocumentItem(index, isChecked) {
+    const item = document.querySelector(`[data-index="${index}"]`);
+    const checkbox = document.getElementById(`doc-${index}`);
+    const label = checkbox.nextElementSibling;
+    const icon = label.querySelector('i');
+    const name = item.querySelector('.document-name');
+    const details = item.querySelector('.document-details');
+    
+    if (isChecked) {
+        label.classList.add('bg-green-500', 'border-green-500');
+        label.classList.remove('border-gray-300');
+        icon.classList.remove('opacity-0');
+        name.classList.add('line-through', 'text-gray-500');
+        if (details) details.classList.add('line-through', 'text-gray-400');
+        item.classList.add('opacity-75');
+    } else {
+        label.classList.remove('bg-green-500', 'border-green-500');
+        label.classList.add('border-gray-300');
+        icon.classList.add('opacity-0');
+        name.classList.remove('line-through', 'text-gray-500');
+        if (details) details.classList.remove('line-through', 'text-gray-400');
+        item.classList.remove('opacity-75');
+    }
+}
+
+// Update progress bar and text
+function updateProgress() {
+    const checkboxes = document.querySelectorAll('.document-checkbox');
+    const progressBar = document.getElementById('documentProgress');
+    const progressText = document.getElementById('progressText');
+    
+    const total = checkboxes.length;
+    const completed = Array.from(checkboxes).filter(cb => cb.checked).length;
+    const percentage = total > 0 ? (completed / total) * 100 : 0;
+    
+    progressBar.style.width = `${percentage}%`;
+    progressText.textContent = `${completed} of ${total} completed`;
+    
+    // Update progress bar color based on completion
+    if (percentage === 100) {
+        progressBar.classList.remove('bg-green-500', 'bg-yellow-500');
+        progressBar.classList.add('bg-green-600');
+    } else if (percentage >= 50) {
+        progressBar.classList.remove('bg-green-500', 'bg-green-600');
+        progressBar.classList.add('bg-yellow-500');
+    } else {
+        progressBar.classList.remove('bg-yellow-500', 'bg-green-600');
+        progressBar.classList.add('bg-green-500');
+    }
+}
+
+// Save checklist state to localStorage
+function saveChecklistState() {
+    const checkboxes = document.querySelectorAll('.document-checkbox');
+    const countryName = getCountryNameFromPage();
+    const storageKey = `documentChecklist_${countryName}`;
+    
+    const checkedItems = Array.from(checkboxes)
+        .map((cb, index) => cb.checked ? index : null)
+        .filter(index => index !== null);
+    
+    localStorage.setItem(storageKey, JSON.stringify(checkedItems));
+}
+
+// Reset document checklist
+function resetDocumentChecklist() {
+    const checkboxes = document.querySelectorAll('.document-checkbox');
+    
+    checkboxes.forEach(checkbox => {
+        checkbox.checked = false;
+        const index = parseInt(checkbox.dataset.index);
+        updateDocumentItem(index, false);
+    });
+    
+    updateProgress();
+    saveChecklistState();
 }
 
 function displayPhotoRequirements(photoReq) {
