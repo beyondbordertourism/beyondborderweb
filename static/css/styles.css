@@ -422,6 +422,9 @@
         gap: 1rem;
     }
     
+    #visaTypes { grid-template-columns: 1fr; }
+    .visa-info-grid { grid-template-columns: 1fr; }
+    
     .country-card-content {
         padding: 1.5rem;
     }
@@ -947,7 +950,7 @@ body, html {
 .search-and-filter-klook {
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
+    align-items: center;
     gap: 1.5rem;
     position: relative;
     width: 100%;
@@ -960,7 +963,7 @@ body, html {
     display: flex;
     align-items: center;
     width: 100%;
-    max-width: 500px;
+    max-width: 640px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.15), 0 0 0 1px rgba(20, 184, 166, 0.1);
     text-shadow: none;
     border: 2px solid transparent;
@@ -1012,6 +1015,9 @@ body, html {
     display: flex;
     gap: 1rem;
     width: 100%;
+    max-width: 640px;
+    align-self: center;
+    justify-content: center;
 }
 
 .filter-buttons-klook button {
@@ -1295,7 +1301,7 @@ body, html {
         order: 1; /* Move search above carousel */
         padding-left: 0;
         width: 100%;
-        max-width: 600px;
+        max-width: 640px;
         align-items: center;
     }
 
@@ -2709,7 +2715,7 @@ body, html {
     background-color: #ffffff;
     border: 1px solid #e5e7eb;
     border-radius: 12px;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
     transition: box-shadow 0.3s ease;
 }
@@ -2731,7 +2737,7 @@ body, html {
 }
 
 .visa-card-title {
-    font-size: 1.25rem;
+    font-size: 1.125rem;
     font-weight: 600;
     color: #111827;
 }
@@ -2775,9 +2781,9 @@ span.visa-card-entry-type,
 
 .visa-info-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1.5rem;
-    margin-bottom: 1.5rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    margin-bottom: 1rem;
 }
 
 .info-item {
@@ -4259,10 +4265,11 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Enhanced Mobile Menu Styles */
 #mobile-menu {
-    background: #ffffff !important;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    box-shadow: -10px 0 40px rgba(0, 0, 0, 0.15);
+    background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: -12px 0 40px rgba(0, 0, 0, 0.18);
+    border-left: 1px solid rgba(0, 0, 0, 0.06);
 }
 
 /* Hamburger Menu Animation */
@@ -4296,13 +4303,15 @@ h1, h2, h3, h4, h5, h6 {
     justify-content: space-between;
     padding: 1rem 1.25rem;
     margin: 0.25rem 0;
-    border-radius: 12px;
+    border-radius: 14px;
     text-decoration: none;
-    color: #374151;
-    font-weight: 500;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    color: #0f172a;
+    font-weight: 600;
+    transition: all 0.25s ease;
     position: relative;
     overflow: hidden;
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(0, 0, 0, 0.06);
 }
 
 .mobile-nav-item::before {
@@ -4313,7 +4322,7 @@ h1, h2, h3, h4, h5, h6 {
     width: 0;
     height: 100%;
     background: linear-gradient(135deg, #14b8a6 0%, #0891b2 100%);
-    transition: width 0.3s ease;
+    transition: width 0.25s ease;
     z-index: -1;
 }
 
@@ -4431,6 +4440,18 @@ h1, h2, h3, h4, h5, h6 {
     -webkit-backdrop-filter: blur(8px);
 }
 
+/* Solid navbar when mobile menu is open */
+body.mobile-menu-open #navbar {
+    background: #ffffff !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12);
+}
+body.mobile-menu-open #navbar .nav-link { color: #1f2937 !important; }
+body.mobile-menu-open #mobile-menu-button { color: #1f2937 !important; }
+body.mobile-menu-open #navbar .text-2xl { color: #1f2937 !important; }
+
 /* Scrolled navbar mobile button color */
 #navbar.scrolled #mobile-menu-button {
     color: #333;
@@ -4516,6 +4537,12 @@ h1, h2, h3, h4, h5, h6 {
 /* Enhanced Mobile Menu Header */
 #mobile-menu .border-b {
     border-color: rgba(229, 231, 235, 0.8);
+}
+
+/* Header area inside mobile menu */
+#mobile-menu .menu-header {
+    background: linear-gradient(135deg, rgba(20,184,166,0.08), rgba(59,130,246,0.08));
+    border-bottom: 1px solid rgba(0,0,0,0.06);
 }
 
 /* Mobile Menu Footer Enhancement */
@@ -4677,5 +4704,50 @@ body.mobile-menu-open {
     .document-details {
         font-size: 0.7rem;
     }
+}
+
+/* Compact grid layout for visa type cards on country detail page */
+#visaTypes {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.25rem;
+    align-items: stretch;
+    grid-auto-rows: 1fr;
+}
+
+#visaTypes .visa-type-card {
+    margin-bottom: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+#visaTypes .visa-card-header {
+    padding: 1rem;
+}
+
+#visaTypes .visa-card-body {
+    padding: 1rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+#visaTypes .visa-info-grid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+}
+
+@media (max-width: 1024px) {
+    #visaTypes {
+        grid-template-columns: 1fr;
+        grid-auto-rows: auto;
+    }
+}
+
+#visaTypes .visa-type-card { min-height: 0; display: flex; flex-direction: column; }
+
+@media (max-width: 1024px) {
+    #visaTypes .visa-type-card { min-height: initial; }
 }
 
