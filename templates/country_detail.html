@@ -414,7 +414,10 @@ function showUnifiedHero(country, config) {
 
     // Set the background image
     const rightPanel = document.getElementById('unified-hero-right-panel');
-    if (rightPanel && config && config.heroImageUrl) {
+    const dbHero = country.hero_image_url;
+    if (rightPanel && dbHero && dbHero.trim() !== '') {
+        rightPanel.style.backgroundImage = `url('${dbHero}')`;
+    } else if (rightPanel && config && config.heroImageUrl) {
         rightPanel.style.backgroundImage = `url('${config.heroImageUrl}')`;
     } else if (rightPanel) {
         // Fallback image if none is configured

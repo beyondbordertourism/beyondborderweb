@@ -112,6 +112,8 @@ class Country(BaseModel):
     last_updated: Optional[str] = None
     summary: Optional[str] = None
     published: Optional[bool] = False
+    featured: Optional[bool] = False
+    hero_image_url: Optional[str] = None
     
     # Related data
     visa_types: List[VisaType] = []
@@ -131,6 +133,11 @@ class CountryCreate(BaseModel):
     last_updated: Optional[str] = None
     summary: Optional[str] = None
     published: Optional[bool] = False
+    featured: Optional[bool] = False
+    hero_image_url: Optional[str] = None
+    photo_requirements: Optional[Dict[str, Any]] = None
+    embassies: Optional[List[Embassy]] = []
+    important_notes: Optional[List[ImportantNote]] = []
 
 class CountryUpdate(BaseModel):
     name: Optional[str] = None
@@ -140,6 +147,12 @@ class CountryUpdate(BaseModel):
     last_updated: Optional[str] = None
     summary: Optional[str] = None
     published: Optional[bool] = None
+    featured: Optional[bool] = None
+    hero_image_url: Optional[str] = None
+    photo_requirements: Optional[Dict[str, Any]] = None
+    embassies: Optional[List[Embassy]] = []
+    important_notes: Optional[List[ImportantNote]] = []
+    visa_types: Optional[List[VisaType]] = None
 
     def model_dump(self, **kwargs):
         """Override model_dump to ensure ID is converted to string"""

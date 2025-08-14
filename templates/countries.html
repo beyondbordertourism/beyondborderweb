@@ -5,36 +5,27 @@
 {% block head_styles %}
 <style>
 /* Enhanced Header Styles */
-.hero-header {
-    /* The gradient is replaced by a video background */
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 3rem 0;
-}
+    .hero-header {
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 3rem 0;
+        background: linear-gradient(135deg, #0B3D34 0%, #1A2C4A 100%);
+    }
 
-.hero-video {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transform: translate(-50%, -50%);
-    z-index: 0;
-}
+    /* Removed video background */
 
-.hero-header::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 1;
-}
+    .hero-header::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(1200px 400px at 50% -100px, rgba(255,255,255,0.15), transparent 60%),
+                    radial-gradient(800px 300px at 80% -80px, rgba(255,255,255,0.08), transparent 60%);
+        z-index: 1;
+        pointer-events: none;
+    }
 
 .hero-content {
     position: relative;
@@ -43,15 +34,13 @@
     padding: 1rem 0;
 }
 
-.hero-title {
-    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    text-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    font-size: 2.5rem;
-    margin-bottom: 0.75rem;
-}
+    .hero-title {
+        color: #fff;
+        letter-spacing: 1px;
+        text-shadow: 0 8px 20px rgba(0,0,0,0.25);
+        font-size: 2.5rem;
+        margin-bottom: 0.75rem;
+    }
 
 .hero-subtitle {
     color: rgba(255, 255, 255, 0.9);
@@ -152,15 +141,19 @@
     transform: translateY(-2px) scale(1.01);
 }
 
-/* Dark Blue Color Themes */
+/* Simple glass stats theme */
 .stat-total, .stat-regions {
-    background: #2f7cb6;
-    color: white;
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: #fff;
 }
 
 .stat-visa-free, .stat-visa-required {
-    background: #2f7cb6;
-    color: white;
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: #fff;
 }
 
 .stat-number {
@@ -204,38 +197,104 @@
     padding-bottom: 3rem;
 }
 
+/* Modern compact country cards (scoped to this page) */
+.countries-section .country-card {
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.country-media {
+    height: 140px;
+    position: relative;
+    background-size: cover;
+    background-position: center;
+}
+
+.country-media-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom right, rgba(0,0,0,0.15), rgba(0,0,0,0.05));
+}
+
+.country-flag-bubble {
+    position: absolute;
+    left: 14px;
+    bottom: -18px;
+    width: 56px;
+    height: 56px;
+    border-radius: 14px;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+
+/* Compact badge in media area */
+.country-media .visa-status-badge {
+    position: absolute;
+    right: 12px;
+    bottom: 12px;
+    padding: 0.5rem 0.9rem;
+    font-size: 0.75rem;
+}
+
+/* Compact content */
+.countries-section .country-card-content {
+    padding: 1.25rem 1.25rem 1.25rem 1.25rem;
+    padding-top: 2.25rem; /* space for flag bubble */
+}
+
+.country-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+}
+
+.country-region-chip {
+    background: #f1f5f9;
+    color: #475569;
+    padding: 0.25rem 0.6rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* Footer divider tightened */
+.countries-section .country-card-footer {
+    margin-top: 1rem;
+    padding-top: 1rem;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .hero-header {
         padding: 2.5rem 0;
     }
-    
     .hero-title {
         font-size: 2rem !important;
     }
-    
     .hero-subtitle {
         font-size: 0.9rem !important;
     }
-    
     .search-container {
         padding: 0.75rem;
     }
-    
     .stats-container {
         grid-template-columns: repeat(2, 1fr);
         gap: 0.75rem;
     }
-    
     .morph-stat-button {
         padding: 0.875rem;
         min-height: 80px;
     }
-    
     .stat-number {
         font-size: 1.5rem;
     }
-    
     .stat-label {
         font-size: 0.7rem;
     }
@@ -245,27 +304,22 @@
     .hero-header {
         padding: 2rem 0;
     }
-    
     .hero-title {
         font-size: 1.75rem !important;
         height: auto;
         min-height: 0;
     }
-    
     .stats-container {
         grid-template-columns: repeat(2, 1fr);
         gap: 0.5rem;
     }
-    
     .morph-stat-button {
         padding: 0.75rem;
         min-height: 70px;
     }
-    
     .stat-number {
         font-size: 1.25rem;
     }
-    
     .stat-label {
         font-size: 0.65rem;
     }
@@ -277,22 +331,18 @@
 <div class="min-h-screen bg-gray-50 navbar-spaced">
     <!-- Enhanced Header Section -->
     <section class="hero-header">
-        <video autoplay muted loop playsinline class="hero-video">
-            <source src="https://videos.pexels.com/video-files/29292639/12632753_2560_1440_60fps.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
         <div class="hero-content w-full flex flex-col items-center">
             <!-- Title Section -->
             <div class="text-center px-5 sm:px-6 lg:px-8 mb-6">
-                <h1 class="hero-title text-4xl md:text-5xl font-bold mb-4" style="line-height: 1.2; font-size: 5rem;">
+                <h1 class="hero-title text-4xl md:text-5xl font-bold mb-3" style="line-height: 1.1; font-size: 4rem;">
                     Explore the World
                 </h1>
-               
+                <p class="text-white/80 text-base md:text-lg">Browse visa information and plan your next trip effortlessly</p>
             </div>
             
             <!-- Search Bar Section -->
             <div class="w-full px-4 sm:px-6 lg:px-8 mb-6">
-                <div class="search-container max-w-4xl mx-auto">
+                <div class="search-container max-w-5xl mx-auto" style="background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.18);">
                     <div class="flex flex-col md:flex-row gap-3">
                         <!-- Search Input -->
                         <div class="flex-1 relative">
@@ -301,6 +351,7 @@
                                 id="searchInput"
                                 placeholder="Search your dream destination..."
                                 class="search-input w-full px-5 py-3 pl-10 text-base font-medium"
+                                style="background: rgba(255,255,255,0.9);"
                             >
                             <i class="fas fa-search absolute left-3 top-3.5 text-gray-500"></i>
                         </div>
@@ -364,7 +415,7 @@
             </div>
             
             <!-- Countries Grid -->
-            <div id="countriesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8" style="display: none;">
+            <div id="countriesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" style="display: none;">
                 <!-- Countries will be loaded here -->
             </div>
             
@@ -571,37 +622,24 @@ function createCountryCard(country) {
         return '';  // Skip this country
     }
     
+    const fallbackHero = 'https://images.unsplash.com/photo-1534067783941-51c9c23ecefd?auto=format&fit=crop&w=1350&q=80';
+    const hero = (country.hero_image_url && country.hero_image_url.trim() !== '') ? country.hero_image_url : fallbackHero;
+    
     return `
         <a href="/countries/${countryId}" class="country-card">
+            <div class="country-media" style="background-image: url('${hero}')">
+                <div class="country-media-overlay"></div>
+                <div class="country-flag-bubble">${country.flag}</div>
+                <span class="visa-status-badge ${country.visa_required ? 'visa-status-required' : 'visa-status-free'}">
+                    <i class="fas ${country.visa_required ? 'fa-passport' : 'fa-check-circle'}"></i>
+                    ${country.visa_required ? 'Visa Required' : 'Visa Free'}
+                </span>
+            </div>
             <div class="country-card-content">
-                <div class="country-flag-container">
-                    <span class="country-flag">${country.flag}</span>
+                <div class="country-meta">
+                    <h3 class="country-title">${country.name}</h3>
+                    <span class="country-region-chip">${country.region}</span>
                 </div>
-                
-                <h3 class="country-title">${country.name}</h3>
-                <p class="country-region">${country.region}</p>
-                
-                <p class="country-summary">${country.summary}</p>
-                
-                <div class="country-card-footer">
-                    <span class="visa-status-badge ${country.visa_required ? 'visa-status-required' : 'visa-status-free'}">
-                        <i class="fas ${country.visa_required ? 'fa-passport' : 'fa-check-circle'}"></i>
-                        ${country.visa_required ? 'Visa Required' : 'Visa Free'}
-                    </span>
-                    
-                 
-                </div>
-                
-                ${country.visa_types && country.visa_types.length > 0 ? `
-                    <div class="visa-types-preview">
-                        ${country.visa_types.slice(0, 2).map(visa => `
-                            <span class="visa-type-tag">${visa.name}</span>
-                        `).join('')}
-                        ${country.visa_types.length > 2 ? `
-                            <span class="more-types-indicator">+${country.visa_types.length - 2} more</span>
-                        ` : ''}
-                    </div>
-                ` : ''}
             </div>
         </a>
     `;

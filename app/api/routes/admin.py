@@ -51,9 +51,8 @@ def admin_get_countries(
 ):
     """Admin: Get all countries with filters"""
     countries = country_crud.get_all(skip=skip, limit=limit, published=published, region=region, search=search, sort=sort)
-    # This is inefficient, but it's a quick fix.
-    # A better solution would be to have a count method in the CRUD layer.
-    total = len(country_crud.get_all()) 
+    # Compute total using same filters (without pagination) to preserve pagination behavior
+    total = len(country_crud.get_all(skip=0, limit=1000000, published=published, region=region, search=search, sort=sort))
     
     return {
         "countries": countries,
@@ -84,11 +83,27 @@ def admin_update_country(
     country_data: CountryUpdate,
     _: dict = Depends(admin_required)
 ):
-    """Admin: Update country"""
     updated_country = country_crud.update(country_id, country_data)
     if not updated_country:
         raise HTTPException(status_code=404, detail="Country not found")
-    return updated_country
+
+    from app.core.db import db
+    payload = country_data.model_dump(exclude_unset=True)
+
+    if payload.get("visa_types") is not None:
+        db.update_visa_types(country_id, payload["visa_types"])
+
+    if payload.get("documents") is not None:
+        db.update_documents(country_id, payload["documents"])
+
+    if payload.get("processing_times") is not None:
+        db.update_processing_times(country_id, payload["processing_times"])
+
+    if payload.get("application_methods") is not None:
+        db.update_application_methods(country_id, payload["application_methods"])
+
+    refreshed = db.get_country_by_id(country_id)
+    return refreshed
 
 @router.delete("/countries/{country_id}")
 def admin_delete_country(country_id: str, _: dict = Depends(admin_required)):

@@ -43,7 +43,15 @@ class CountryCRUD:
         return countries[skip:skip + limit]
         
     def update(self, id: str, country_data: CountryUpdate) -> Optional[Dict]:
-        return self.db.update_country(id, country_data.model_dump(exclude_unset=True))
+        # Only allow scalar fields that map to columns in countries table
+        allowed_fields = {
+            'name', 'flag', 'region', 'visa_required', 'last_updated',
+            'summary', 'published', 'featured', 'photo_requirements',
+            'embassies', 'important_notes', 'hero_image_url'
+        }
+        raw = country_data.model_dump(exclude_unset=True)
+        filtered = {k: v for k, v in raw.items() if k in allowed_fields}
+        return self.db.update_country(id, filtered)
 
     def delete(self, id: str) -> bool:
         return self.db.delete_country(id)
