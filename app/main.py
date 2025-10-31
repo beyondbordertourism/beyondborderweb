@@ -118,7 +118,7 @@ async def health_check():
 
 @app.get("/")
 async def root():
-    return {"message": "Welcome to Cloud & Compass"}
+    return {"message": "Welcome to Beyond Borders"}
 
 @app.on_event("startup")
 async def startup_event():
