@@ -20,6 +20,7 @@ class DatabaseConnection:
     def __init__(self):
         self.client = None
         self.adapter = None
+        self.loop = None
 
 db = DatabaseConnection()
 
@@ -67,6 +68,11 @@ async def connect_to_mongo():
         database = client[DATABASE_NAME]
         db.client = client
         db.adapter = DatabaseAdapter(database)
+        # Capture the running event loop so sync contexts can schedule DB work safely
+        try:
+            db.loop = asyncio.get_running_loop()
+        except RuntimeError:
+            db.loop = None
         
         # Create indexes for better performance
         await create_indexes()

@@ -5,15 +5,18 @@ import os
 if __name__ == "__main__":
     # Get port from environment variable or use Render's default.
     port = int(os.environ.get("PORT", 10000))
-    
-    # Use Uvicorn to run the FastAPI application.
-    # It looks for the 'app' variable in the 'app.main' module.
+    environment = os.environ.get("ENVIRONMENT", "development").lower()
+    debug = os.environ.get("DEBUG", "false").lower() in {"1", "true", "yes"}
+
+    # Disable autoreload in production to avoid event loop/lifespan cancellation churn
+    reload = debug and environment != "production"
+
     uvicorn.run(
         "app.main:app",
         host="0.0.0.0",
         port=port,
-        reload=True,
-        log_level="info"
+        reload=reload,
+        log_level="info",
     )
 
 

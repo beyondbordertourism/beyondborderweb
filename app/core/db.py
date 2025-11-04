@@ -5,6 +5,7 @@ import asyncio
 from typing import List, Optional, Dict, Any
 from bson import ObjectId
 from app.core.database import get_database
+from app.core.database import db as core_db
 
 logger = logging.getLogger(__name__)
 
@@ -28,9 +29,10 @@ class Database:
         if country is None:
             return None
         
-        # Convert _id to id if present
+        # Use the slug 'id' field if present, otherwise fall back to _id
         if '_id' in country:
-            country['id'] = str(country.get('_id', country.get('id')))
+            if 'id' not in country or not country['id']:
+                country['id'] = str(country['_id'])
             del country['_id']
         
         # Ensure all nested fields exist
@@ -51,13 +53,11 @@ class Database:
     
     def get_all_countries(self) -> List[Dict]:
         """Get all countries from MongoDB (synchronous wrapper)"""
-        try:
-            loop = asyncio.get_event_loop()
-        except RuntimeError:
-            loop = asyncio.new_event_loop()
-            asyncio.set_event_loop(loop)
-        
-        return loop.run_until_complete(self._get_all_countries_async())
+        loop = getattr(core_db, 'loop', None)
+        if not loop or loop.is_closed():
+            raise RuntimeError("Database event loop is not available")
+        future = asyncio.run_coroutine_threadsafe(self._get_all_countries_async(), loop)
+        return future.result()
     
     async def _get_all_countries_async(self) -> List[Dict]:
         """Get all countries from MongoDB (async implementation)"""
@@ -76,13 +76,11 @@ class Database:
     
     def get_country_by_id(self, id: str) -> Optional[Dict]:
         """Get a country by ID (synchronous wrapper)"""
-        try:
-            loop = asyncio.get_event_loop()
-        except RuntimeError:
-            loop = asyncio.new_event_loop()
-            asyncio.set_event_loop(loop)
-        
-        return loop.run_until_complete(self._get_country_by_id_async(id))
+        loop = getattr(core_db, 'loop', None)
+        if not loop or loop.is_closed():
+            raise RuntimeError("Database event loop is not available")
+        future = asyncio.run_coroutine_threadsafe(self._get_country_by_id_async(id), loop)
+        return future.result()
     
     async def _get_country_by_id_async(self, id: str) -> Optional[Dict]:
         """Get a country by ID (async implementation)"""
@@ -90,10 +88,13 @@ class Database:
             db_adapter = self._get_db()
             collection = db_adapter['countries']
             
-            # Try to find by id field first
+            # Try to find by id field (slug) first
             country = await collection.find_one({"id": id})
             if not country:
-                # Try to find by _id if id looks like ObjectId
+                # Try to find by _id as string (UUID)
+                country = await collection.find_one({"_id": id})
+            if not country:
+                # Try to find by _id as ObjectId (if applicable)
                 try:
                     country = await collection.find_one({"_id": ObjectId(id)})
                 except Exception:
@@ -108,13 +109,11 @@ class Database:
     
     def search_countries(self, query: str) -> List[Dict]:
         """Search countries by name, region, or summary (synchronous wrapper)"""
-        try:
-            loop = asyncio.get_event_loop()
-        except RuntimeError:
-            loop = asyncio.new_event_loop()
-            asyncio.set_event_loop(loop)
-        
-        return loop.run_until_complete(self._search_countries_async(query))
+        loop = getattr(core_db, 'loop', None)
+        if not loop or loop.is_closed():
+            raise RuntimeError("Database event loop is not available")
+        future = asyncio.run_coroutine_threadsafe(self._search_countries_async(query), loop)
+        return future.result()
     
     async def _search_countries_async(self, query: str) -> List[Dict]:
         """Search countries by name, region, or summary (async implementation)"""
@@ -140,13 +139,11 @@ class Database:
     
     def add_country(self, data: Dict) -> Dict:
         """Add a new country (synchronous wrapper)"""
-        try:
-            loop = asyncio.get_event_loop()
-        except RuntimeError:
-            loop = asyncio.new_event_loop()
-            asyncio.set_event_loop(loop)
-        
-        return loop.run_until_complete(self._add_country_async(data))
+        loop = getattr(core_db, 'loop', None)
+        if not loop or loop.is_closed():
+            raise RuntimeError("Database event loop is not available")
+        future = asyncio.run_coroutine_threadsafe(self._add_country_async(data), loop)
+        return future.result()
     
     async def _add_country_async(self, data: Dict) -> Dict:
         """Add a new country (async implementation)"""
@@ -183,13 +180,11 @@ class Database:
     
     def update_country(self, id: str, data: Dict) -> Optional[Dict]:
         """Update a country (synchronous wrapper)"""
-        try:
-            loop = asyncio.get_event_loop()
-        except RuntimeError:
-            loop = asyncio.new_event_loop()
-            asyncio.set_event_loop(loop)
-        
-        return loop.run_until_complete(self._update_country_async(id, data))
+        loop = getattr(core_db, 'loop', None)
+        if not loop or loop.is_closed():
+            raise RuntimeError("Database event loop is not available")
+        future = asyncio.run_coroutine_threadsafe(self._update_country_async(id, data), loop)
+        return future.result()
     
     async def _update_country_async(self, id: str, data: Dict) -> Optional[Dict]:
         """Update a country (async implementation)"""
@@ -222,13 +217,11 @@ class Database:
     
     def delete_country(self, id: str) -> bool:
         """Delete a country (synchronous wrapper)"""
-        try:
-            loop = asyncio.get_event_loop()
-        except RuntimeError:
-            loop = asyncio.new_event_loop()
-            asyncio.set_event_loop(loop)
-        
-        return loop.run_until_complete(self._delete_country_async(id))
+        loop = getattr(core_db, 'loop', None)
+        if not loop or loop.is_closed():
+            raise RuntimeError("Database event loop is not available")
+        future = asyncio.run_coroutine_threadsafe(self._delete_country_async(id), loop)
+        return future.result()
     
     async def _delete_country_async(self, id: str) -> bool:
         """Delete a country (async implementation)"""
@@ -243,13 +236,11 @@ class Database:
     
     def update_visa_types(self, country_id: str, visa_types: List[Dict]):
         """Update visa types for a country (synchronous wrapper)"""
-        try:
-            loop = asyncio.get_event_loop()
-        except RuntimeError:
-            loop = asyncio.new_event_loop()
-            asyncio.set_event_loop(loop)
-        
-        return loop.run_until_complete(self._update_visa_types_async(country_id, visa_types))
+        loop = getattr(core_db, 'loop', None)
+        if not loop or loop.is_closed():
+            raise RuntimeError("Database event loop is not available")
+        future = asyncio.run_coroutine_threadsafe(self._update_visa_types_async(country_id, visa_types), loop)
+        return future.result()
     
     async def _update_visa_types_async(self, country_id: str, visa_types: List[Dict]):
         """Update visa types for a country (async implementation)"""
@@ -284,13 +275,11 @@ class Database:
     
     def update_documents(self, country_id: str, documents: List[Dict]):
         """Update documents for a country (synchronous wrapper)"""
-        try:
-            loop = asyncio.get_event_loop()
-        except RuntimeError:
-            loop = asyncio.new_event_loop()
-            asyncio.set_event_loop(loop)
-        
-        return loop.run_until_complete(self._update_documents_async(country_id, documents))
+        loop = getattr(core_db, 'loop', None)
+        if not loop or loop.is_closed():
+            raise RuntimeError("Database event loop is not available")
+        future = asyncio.run_coroutine_threadsafe(self._update_documents_async(country_id, documents), loop)
+        return future.result()
     
     async def _update_documents_async(self, country_id: str, documents: List[Dict]):
         """Update documents for a country (async implementation)"""
@@ -316,13 +305,11 @@ class Database:
     
     def update_processing_times(self, country_id: str, times: List[Dict]):
         """Update processing times for a country (synchronous wrapper)"""
-        try:
-            loop = asyncio.get_event_loop()
-        except RuntimeError:
-            loop = asyncio.new_event_loop()
-            asyncio.set_event_loop(loop)
-        
-        return loop.run_until_complete(self._update_processing_times_async(country_id, times))
+        loop = getattr(core_db, 'loop', None)
+        if not loop or loop.is_closed():
+            raise RuntimeError("Database event loop is not available")
+        future = asyncio.run_coroutine_threadsafe(self._update_processing_times_async(country_id, times), loop)
+        return future.result()
     
     async def _update_processing_times_async(self, country_id: str, times: List[Dict]):
         """Update processing times for a country (async implementation)"""
@@ -348,13 +335,11 @@ class Database:
     
     def update_application_methods(self, country_id: str, methods: List[Dict]):
         """Update application methods for a country (synchronous wrapper)"""
-        try:
-            loop = asyncio.get_event_loop()
-        except RuntimeError:
-            loop = asyncio.new_event_loop()
-            asyncio.set_event_loop(loop)
-        
-        return loop.run_until_complete(self._update_application_methods_async(country_id, methods))
+        loop = getattr(core_db, 'loop', None)
+        if not loop or loop.is_closed():
+            raise RuntimeError("Database event loop is not available")
+        future = asyncio.run_coroutine_threadsafe(self._update_application_methods_async(country_id, methods), loop)
+        return future.result()
     
     async def _update_application_methods_async(self, country_id: str, methods: List[Dict]):
         """Update application methods for a country (async implementation)"""

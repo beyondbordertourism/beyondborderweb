@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field, ConfigDict, field_validator
+from pydantic import BaseModel, Field, ConfigDict, field_validator, model_validator
 from typing import Optional, List, Dict, Any, Union
 from datetime import datetime
 from uuid import UUID
@@ -28,6 +28,24 @@ class Document(BaseModel):
     type: str
     specifications: Union[List[Dict[str, Any]], Dict[str, Any]] = Field(default_factory=list)
     required: bool = True
+
+    @model_validator(mode='before')
+    def _coerce_legacy_document(cls, v):
+        if isinstance(v, dict) and 'type' not in v and 'category' in v:
+            specs = {}
+            if 'details' in v and v['details']:
+                specs['details'] = v['details']
+            if 'format' in v and v['format']:
+                specs['format'] = v['format']
+            return {
+                'id': v.get('id'),
+                'country_id': v.get('country_id'),
+                'name': v.get('name'),
+                'type': v.get('category', 'general'),
+                'specifications': specs if specs else {},
+                'required': v.get('required', True),
+            }
+        return v
 
     @field_validator('specifications', mode='before')
     def parse_specifications(cls, v):
@@ -68,6 +86,21 @@ class ApplicationProcess(BaseModel):
     note: Optional[str] = None
     steps: List[Union[str, ApplicationMethod]] = []
     alternative_method: Dict[str, Any] = {}
+
+    @model_validator(mode='before')
+    def _coerce_legacy_application_method(cls, v):
+        # Accept legacy shape: { name, description, requirements, processing_time, available }
+        # and convert to the new ApplicationProcess shape
+        if isinstance(v, dict) and 'method' not in v and 'name' in v:
+            return {
+                'id': v.get('id'),
+                'country_id': v.get('country_id'),
+                'method': v.get('name'),
+                'note': v.get('description'),
+                'steps': v.get('requirements', []),
+                'alternative_method': v.get('alternative_method', {}),
+            }
+        return v
 
     @field_validator('steps', mode='before')
     def parse_steps(cls, v):
