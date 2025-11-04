@@ -1,867 +1,382 @@
-import psycopg2
-from psycopg2.extras import RealDictCursor
-from psycopg2 import pool
-from urllib.parse import quote_plus
+import os
 import json
 import logging
-import socket # Import the socket library
-import threading
-from config import DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD
+import asyncio
+from typing import List, Optional, Dict, Any
+from bson import ObjectId
+from app.core.database import get_database
 
 logger = logging.getLogger(__name__)
 
 class Database:
-    _instance = None
+    """MongoDB database operations for countries"""
     
     def __init__(self):
-        if not all([DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD]):
-            raise ValueError("Missing required database configuration. Please check your .env file.")
+        self.db = None
+    
+    def _get_db(self):
+        """Get database adapter"""
+        if self.db is None:
+            from app.core.database import db
+            if db.adapter is None:
+                raise RuntimeError("Database not connected. Please ensure MongoDB connection is established.")
+            self.db = db.adapter
+        return self.db
+    
+    def _normalize_country(self, country: Dict) -> Dict:
+        """Normalize country document from MongoDB to match expected format"""
+        if country is None:
+            return None
         
-        # Resolve hostname to force IPv4 connection, as suggested by the user's Stack Overflow link.
-        # This is to fix "Network is unreachable" errors in environments that default to IPv6 (like Render).
-        try:
-            ipv4_address = None
-            addr_info = socket.getaddrinfo(DB_HOST, DB_PORT, socket.AF_INET)
-            if addr_info:
-                ipv4_address = addr_info[0][4][0]
-                logger.info(f"Resolved {DB_HOST} to IPv4 address: {ipv4_address}")
-        except socket.gaierror:
-            logger.warning(f"Could not resolve {DB_HOST} to an IPv4 address. Will try connecting with the original hostname.")
-            ipv4_address = DB_HOST
-
-        self.conn_params = {
-            'host': ipv4_address or DB_HOST, # Use IPv4 address if found
-            'port': DB_PORT,
-            'dbname': DB_NAME,
-            'user': DB_USER,
-            'password': str(DB_PASSWORD),
-            'sslmode': 'require'
-        }
+        # Convert _id to id if present
+        if '_id' in country:
+            country['id'] = str(country.get('_id', country.get('id')))
+            del country['_id']
         
-        self._pool = None
-        self._local = threading.local()
-
-    @property
-    def _connection(self):
-        return getattr(self._local, 'connection', None)
-
-    @_connection.setter
-    def _connection(self, value):
-        self._local.connection = value
-
-    @property
-    def _cursor(self):
-        return getattr(self._local, 'cursor', None)
-
-    @_cursor.setter
-    def _cursor(self, value):
-        self._local.cursor = value
-
-    def _ensure_connection_and_cursor(self):
-        # Ensure we have a valid connection and cursor after errors/rollbacks
-        if self._connection is None:
-            self._connection = self.pool.getconn()
-        if self._cursor is None or getattr(self._cursor, 'closed', False):
-            self._cursor = self._connection.cursor(cursor_factory=RealDictCursor)
-
-    @property
-    def pool(self):
-        if self._pool is None:
-            try:
-                logger.info("Initializing database connection pool...")
-                # Use ThreadedConnectionPool for thread safety
-                self._pool = psycopg2.pool.ThreadedConnectionPool(
-                    minconn=1,
-                    maxconn=10,
-                    **self.conn_params
-                )
-                logger.info("Database connection pool initialized successfully")
-            except Exception as e:
-                logger.error(f"Failed to create database connection pool: {str(e)}")
-                self._pool = None
-                raise
-        return self._pool
-
-    def connect(self):
-        if not self._connection:
-            try:
-                logger.info("Attempting to get database connection from pool...")
-                self._connection = self.pool.getconn()
-                self._cursor = self._connection.cursor(cursor_factory=RealDictCursor)
-                logger.info("Successfully obtained database connection")
-            except Exception as e:
-                logger.error(f"Database connection error: {str(e)}")
-                if self._connection:
-                    try:
-                        self.pool.putconn(self._connection)
-                    except:
-                        pass
-                self._connection = None
-                self._cursor = None
-                raise
-        else:
-            # Refresh connection/cursor if closed
-            try:
-                if getattr(self._connection, 'closed', False):
-                    self._connection = self.pool.getconn()
-                if (self._cursor is None) or getattr(self._cursor, 'closed', False):
-                    self._cursor = self._connection.cursor(cursor_factory=RealDictCursor)
-            except Exception as e:
-                logger.error(f"Database connection refresh error: {str(e)}")
-                self._connection = self.pool.getconn()
-                self._cursor = self._connection.cursor(cursor_factory=RealDictCursor)
-        return self._connection
-
-    def close(self):
-        if self._cursor:
-            try:
-                if not getattr(self._cursor, 'closed', False):
-                    self._cursor.close()
-            except Exception as _:
-                pass
-            finally:
-                self._cursor = None
-        if self._connection:
-            try:
-                # Only return healthy connections to the pool
-                self.pool.putconn(self._connection)
-            except Exception as e:
-                logger.error(f"Error returning connection to pool: {str(e)}")
-            finally:
-                self._connection = None
-
-    def __del__(self):
-        self.close()
-        if self._pool:
-            try:
-                self._pool.closeall()
-                logger.info("Closed all database connections")
-            except Exception as e:
-                logger.error(f"Error closing connection pool: {str(e)}")
-
-    def get_all_countries(self):
-        self.connect()
+        # Ensure all nested fields exist
+        if 'visa_types' not in country:
+            country['visa_types'] = []
+        if 'documents' not in country:
+            country['documents'] = []
+        if 'processing_times' not in country:
+            country['processing_times'] = []
+        if 'application_methods' not in country:
+            country['application_methods'] = []
+        if 'embassies' not in country:
+            country['embassies'] = []
+        if 'important_notes' not in country:
+            country['important_notes'] = []
+        
+        return country
+    
+    def get_all_countries(self) -> List[Dict]:
+        """Get all countries from MongoDB (synchronous wrapper)"""
         try:
-            try:
-                self._cursor.execute("""
-                    WITH country_data AS (
-                        SELECT 
-                            c.id,
-                            c.name,
-                            c.flag,
-                            c.region,
-                            c.visa_required,
-                            c.last_updated,
-                            c.summary,
-                            c.hero_image_url,
-                            c.photo_requirements,
-                            c.embassies,
-                            c.important_notes,
-                            c.published,
-                            c.featured,
-                            COALESCE(json_agg(
-                                DISTINCT jsonb_build_object(
-                                    'id', vt.id,
-                                    'country_id', vt.country_id,
-                                    'name', vt.name,
-                                    'purpose', vt.purpose,
-                                    'entry_type', vt.entry_type,
-                                    'validity', vt.validity,
-                                    'stay_duration', vt.stay_duration,
-                                    'extendable', vt.extendable,
-                                    'fees', COALESCE((
-                                        SELECT json_agg(jsonb_build_object(
-                                            'id', f.id,
-                                            'visa_type_id', f.visa_type_id,
-                                            'type', f.type,
-                                            'amount', f.amount,
-                                            'original_currency', f.original_currency,
-                                            'note', f.note
-                                        ))
-                                        FROM fees f
-                                        WHERE f.visa_type_id = vt.id
-                                    ), '[]'::json)
-                                )
-                            ) FILTER (WHERE vt.id IS NOT NULL), '[]') as visa_types,
-                            COALESCE(json_agg(
-                                DISTINCT jsonb_build_object(
-                                    'id', d.id,
-                                    'country_id', d.country_id,
-                                    'name', d.name,
-                                    'type', d.type,
-                                    'specifications', COALESCE(d.specifications, '{}'::jsonb)
-                                )
-                            ) FILTER (WHERE d.id IS NOT NULL), '[]') as documents,
-                            COALESCE(json_agg(
-                                DISTINCT jsonb_build_object(
-                                    'id', pt.id,
-                                    'country_id', pt.country_id,
-                                    'type', pt.type,
-                                    'duration', pt.duration,
-                                    'notes', pt.notes
-                                )
-                            ) FILTER (WHERE pt.id IS NOT NULL), '[]') as processing_times,
-                            COALESCE(json_agg(
-                                DISTINCT jsonb_build_object(
-                                    'id', ap.id,
-                                    'country_id', ap.country_id,
-                                    'method', ap.method,
-                                    'note', ap.note,
-                                    'steps', COALESCE(ap.steps, '[]'::jsonb),
-                                    'alternative_method', COALESCE(ap.alternative_method, '{}'::jsonb)
-                                )
-                            ) FILTER (WHERE ap.id IS NOT NULL), '[]') as application_methods
-                        FROM countries c
-                        LEFT JOIN visa_types vt ON c.id = vt.country_id
-                        LEFT JOIN documents d ON c.id = d.country_id
-                        LEFT JOIN processing_times pt ON c.id = pt.country_id
-                        LEFT JOIN application_processes ap ON c.id = ap.country_id
-                        GROUP BY c.id, c.name, c.flag, c.region, c.visa_required, c.last_updated, c.summary, c.hero_image_url, c.photo_requirements, c.embassies, c.important_notes, c.published, c.featured
-                    )
-                    SELECT 
-                        id,
-                        name,
-                        flag,
-                        region,
-                        visa_required,
-                        last_updated,
-                        summary,
-                        hero_image_url,
-                        photo_requirements,
-                        embassies,
-                        important_notes,
-                        published,
-                        featured,
-                        visa_types,
-                        documents,
-                        processing_times,
-                        application_methods
-                    FROM country_data
-                """)
-            except Exception as e:
-                logger.warning(f"Falling back get_all_countries without 'featured': {e}")
-                if self._connection:
-                    self._connection.rollback()
-                self._ensure_connection_and_cursor()
-                self._cursor.execute("""
-                    WITH country_data AS (
-                        SELECT 
-                            c.id,
-                            c.name,
-                            c.flag,
-                            c.region,
-                            c.visa_required,
-                            c.last_updated,
-                            c.summary,
-                            c.hero_image_url,
-                            c.photo_requirements,
-                            c.embassies,
-                            c.important_notes,
-                            c.published,
-                            COALESCE(json_agg(
-                                DISTINCT jsonb_build_object(
-                                    'id', vt.id,
-                                    'country_id', vt.country_id,
-                                    'name', vt.name,
-                                    'purpose', vt.purpose,
-                                    'entry_type', vt.entry_type,
-                                    'validity', vt.validity,
-                                    'stay_duration', vt.stay_duration,
-                                    'extendable', vt.extendable,
-                                    'fees', COALESCE((
-                                        SELECT json_agg(jsonb_build_object(
-                                            'id', f.id,
-                                            'visa_type_id', f.visa_type_id,
-                                            'type', f.type,
-                                            'amount', f.amount,
-                                            'original_currency', f.original_currency,
-                                            'note', f.note
-                                        ))
-                                        FROM fees f
-                                        WHERE f.visa_type_id = vt.id
-                                    ), '[]'::json)
-                                )
-                            ) FILTER (WHERE vt.id IS NOT NULL), '[]') as visa_types,
-                            COALESCE(json_agg(
-                                DISTINCT jsonb_build_object(
-                                    'id', d.id,
-                                    'country_id', d.country_id,
-                                    'name', d.name,
-                                    'type', d.type,
-                                    'specifications', COALESCE(d.specifications, '{}'::jsonb)
-                                )
-                            ) FILTER (WHERE d.id IS NOT NULL), '[]') as documents,
-                            COALESCE(json_agg(
-                                DISTINCT jsonb_build_object(
-                                    'id', pt.id,
-                                    'country_id', pt.country_id,
-                                    'type', pt.type,
-                                    'duration', pt.duration,
-                                    'notes', pt.notes
-                                )
-                            ) FILTER (WHERE pt.id IS NOT NULL), '[]') as processing_times,
-                            COALESCE(json_agg(
-                                DISTINCT jsonb_build_object(
-                                    'id', ap.id,
-                                    'country_id', ap.country_id,
-                                    'method', ap.method,
-                                    'note', ap.note,
-                                    'steps', COALESCE(ap.steps, '[]'::jsonb),
-                                    'alternative_method', COALESCE(ap.alternative_method, '{}'::jsonb)
-                                )
-                            ) FILTER (WHERE ap.id IS NOT NULL), '[]') as application_methods
-                        FROM countries c
-                        LEFT JOIN visa_types vt ON c.id = vt.country_id
-                        LEFT JOIN documents d ON c.id = d.country_id
-                        LEFT JOIN processing_times pt ON c.id = pt.country_id
-                        LEFT JOIN application_processes ap ON c.id = ap.country_id
-                        GROUP BY c.id, c.name, c.flag, c.region, c.visa_required, c.last_updated, c.summary, c.hero_image_url, c.photo_requirements, c.embassies, c.important_notes, c.published
-                    )
-                    SELECT 
-                        id,
-                        name,
-                        flag,
-                        region,
-                        visa_required,
-                        last_updated,
-                        summary,
-                        hero_image_url,
-                        photo_requirements,
-                        embassies,
-                        important_notes,
-                        published,
-                        false as featured,
-                        visa_types,
-                        documents,
-                        processing_times,
-                        application_methods
-                    FROM country_data
-                """)
-            countries = self._cursor.fetchall()
-            return [dict(country) for country in countries]
-        finally:
-            self.close()
-
-    def get_country_by_id(self, id):
-        self.connect()
+            loop = asyncio.get_event_loop()
+        except RuntimeError:
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+        
+        return loop.run_until_complete(self._get_all_countries_async())
+    
+    async def _get_all_countries_async(self) -> List[Dict]:
+        """Get all countries from MongoDB (async implementation)"""
         try:
-            try:
-                self._cursor.execute("""
-                    WITH country_data AS (
-                        SELECT 
-                            c.id,
-                            c.name,
-                            c.flag,
-                            c.region,
-                            c.visa_required,
-                            c.last_updated,
-                            c.summary,
-                            c.hero_image_url,
-                            c.photo_requirements,
-                            c.embassies,
-                            c.important_notes,
-                            c.published,
-                            c.featured,
-                            COALESCE(json_agg(
-                                DISTINCT jsonb_build_object(
-                                    'id', vt.id,
-                                    'country_id', vt.country_id,
-                                    'name', vt.name,
-                                    'purpose', vt.purpose,
-                                    'entry_type', vt.entry_type,
-                                    'validity', vt.validity,
-                                    'stay_duration', vt.stay_duration,
-                                    'extendable', vt.extendable,
-                                    'fees', COALESCE((
-                                        SELECT json_agg(jsonb_build_object(
-                                            'id', f.id,
-                                            'visa_type_id', f.visa_type_id,
-                                            'type', f.type,
-                                            'amount', f.amount,
-                                            'original_currency', f.original_currency,
-                                            'note', f.note
-                                        ))
-                                        FROM fees f
-                                        WHERE f.visa_type_id = vt.id
-                                    ), '[]'::json)
-                                )
-                            ) FILTER (WHERE vt.id IS NOT NULL), '[]') as visa_types,
-                            COALESCE(json_agg(
-                                DISTINCT jsonb_build_object(
-                                    'id', d.id,
-                                    'country_id', d.country_id,
-                                    'name', d.name,
-                                    'type', d.type,
-                                    'specifications', COALESCE(d.specifications, '{}'::jsonb)
-                                )
-                            ) FILTER (WHERE d.id IS NOT NULL), '[]') as documents,
-                            COALESCE(json_agg(
-                                DISTINCT jsonb_build_object(
-                                    'id', pt.id,
-                                    'country_id', pt.country_id,
-                                    'type', pt.type,
-                                    'duration', pt.duration,
-                                    'notes', pt.notes
-                                )
-                            ) FILTER (WHERE pt.id IS NOT NULL), '[]') as processing_times,
-                            COALESCE(json_agg(
-                                DISTINCT jsonb_build_object(
-                                    'id', ap.id,
-                                    'country_id', ap.country_id,
-                                    'method', ap.method,
-                                    'note', ap.note,
-                                    'steps', COALESCE(ap.steps, '[]'::jsonb),
-                                    'alternative_method', COALESCE(ap.alternative_method, '{}'::jsonb)
-                                )
-                            ) FILTER (WHERE ap.id IS NOT NULL), '[]') as application_methods
-                        FROM countries c
-                        LEFT JOIN visa_types vt ON c.id = vt.country_id
-                        LEFT JOIN documents d ON c.id = d.country_id
-                        LEFT JOIN processing_times pt ON c.id = pt.country_id
-                        LEFT JOIN application_processes ap ON c.id = ap.country_id
-                        WHERE c.id = %s
-                        GROUP BY c.id, c.name, c.flag, c.region, c.visa_required, c.last_updated, c.summary, c.photo_requirements, c.embassies, c.important_notes, c.published, c.featured
-                    )
-                    SELECT 
-                        id,
-                        name,
-                        flag,
-                        region,
-                        visa_required,
-                        last_updated,
-                        summary,
-                        hero_image_url,
-                        photo_requirements,
-                        embassies,
-                        important_notes,
-                        published,
-                        featured,
-                        visa_types,
-                        documents,
-                        processing_times,
-                        application_methods
-                    FROM country_data
-                """, (id,))
-            except Exception as e:
-                logger.warning(f"Falling back get_country_by_id without 'featured': {e}")
-                if self._connection:
-                    self._connection.rollback()
-                self._ensure_connection_and_cursor()
-                self._cursor.execute("""
-                    WITH country_data AS (
-                        SELECT 
-                            c.id,
-                            c.name,
-                            c.flag,
-                            c.region,
-                            c.visa_required,
-                            c.last_updated,
-                            c.summary,
-                            c.hero_image_url,
-                            c.photo_requirements,
-                            c.embassies,
-                            c.important_notes,
-                            c.published,
-                            COALESCE(json_agg(
-                                DISTINCT jsonb_build_object(
-                                    'id', vt.id,
-                                    'country_id', vt.country_id,
-                                    'name', vt.name,
-                                    'purpose', vt.purpose,
-                                    'entry_type', vt.entry_type,
-                                    'validity', vt.validity,
-                                    'stay_duration', vt.stay_duration,
-                                    'extendable', vt.extendable,
-                                    'fees', COALESCE((
-                                        SELECT json_agg(jsonb_build_object(
-                                            'id', f.id,
-                                            'visa_type_id', f.visa_type_id,
-                                            'type', f.type,
-                                            'amount', f.amount,
-                                            'original_currency', f.original_currency,
-                                            'note', f.note
-                                        ))
-                                        FROM fees f
-                                        WHERE f.visa_type_id = vt.id
-                                    ), '[]'::json)
-                                )
-                            ) FILTER (WHERE vt.id IS NOT NULL), '[]') as visa_types,
-                            COALESCE(json_agg(
-                                DISTINCT jsonb_build_object(
-                                                                    'id', d.id,
-                                'country_id', d.country_id,
-                                'name', d.name,
-                                'type', d.type,
-                                'category', d.type,
-                                'required', d.required,
-                                'specifications', COALESCE(d.specifications, '{}'::jsonb)
-                            )
-                            ) FILTER (WHERE d.id IS NOT NULL), '[]') as documents,
-                            COALESCE(json_agg(
-                                DISTINCT jsonb_build_object(
-                                    'id', pt.id,
-                                    'country_id', pt.country_id,
-                                    'type', pt.type,
-                                    'duration', pt.duration,
-                                    'notes', pt.notes
-                                )
-                            ) FILTER (WHERE pt.id IS NOT NULL), '[]') as processing_times,
-                            COALESCE(json_agg(
-                                DISTINCT jsonb_build_object(
-                                    'id', ap.id,
-                                    'country_id', ap.country_id,
-                                    'method', ap.method,
-                                    'note', ap.note,
-                                    'steps', COALESCE(ap.steps, '[]'::jsonb),
-                                    'alternative_method', COALESCE(ap.alternative_method, '{}'::jsonb)
-                                )
-                            ) FILTER (WHERE ap.id IS NOT NULL), '[]') as application_methods
-                        FROM countries c
-                        LEFT JOIN visa_types vt ON c.id = vt.country_id
-                        LEFT JOIN documents d ON c.id = d.country_id
-                        LEFT JOIN processing_times pt ON c.id = pt.country_id
-                        LEFT JOIN application_processes ap ON c.id = ap.country_id
-                        WHERE c.id = %s
-                        GROUP BY c.id, c.name, c.flag, c.region, c.visa_required, c.last_updated, c.summary, c.photo_requirements, c.embassies, c.important_notes, c.published
-                    )
-                    SELECT 
-                        id,
-                        name,
-                        flag,
-                        region,
-                        visa_required,
-                        last_updated,
-                        summary,
-                        hero_image_url,
-                        photo_requirements,
-                        embassies,
-                        important_notes,
-                        published,
-                        false as featured,
-                        visa_types,
-                        documents,
-                        processing_times,
-                        application_methods
-                    FROM country_data
-                """, (id,))
-            country = self._cursor.fetchone()
-            return dict(country) if country else None
-        finally:
-            self.close()
-
-    def search_countries(self, query):
-        self.connect()
+            db_adapter = self._get_db()
+            # Access collection through adapter's __getitem__
+            collection = db_adapter['countries']
+            cursor = collection.find({})
+            countries = await cursor.to_list(length=1000)
+            return [self._normalize_country(c) for c in countries]
+        except Exception as e:
+            logger.error(f"Error getting all countries: {e}")
+            import traceback
+            logger.error(traceback.format_exc())
+            return []
+    
+    def get_country_by_id(self, id: str) -> Optional[Dict]:
+        """Get a country by ID (synchronous wrapper)"""
         try:
-            self._cursor.execute("""
-                SELECT c.id, c.name, c.flag, c.region, c.visa_required, c.summary, c.published,
-                    json_agg(DISTINCT vt.*) FILTER (WHERE vt.id IS NOT NULL) as visa_types
-                FROM countries c
-                LEFT JOIN visa_types vt ON c.id = vt.country_id
-                WHERE 
-                    c.name ILIKE %s OR
-                    c.region ILIKE %s OR
-                    c.summary ILIKE %s
-                GROUP BY c.id, c.name, c.flag, c.region, c.visa_required, c.summary, c.published
-                LIMIT 10
-            """, (f"%{query}%", f"%{query}%", f"%{query}%"))
-            countries = self._cursor.fetchall()
-            return [dict(country) for country in countries]
-        finally:
-            self.close()
-
-    def update_country(self, id, data):
-        self.connect()
+            loop = asyncio.get_event_loop()
+        except RuntimeError:
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+        
+        return loop.run_until_complete(self._get_country_by_id_async(id))
+    
+    async def _get_country_by_id_async(self, id: str) -> Optional[Dict]:
+        """Get a country by ID (async implementation)"""
         try:
-            # First get existing country data
-            self._cursor.execute("SELECT * FROM countries WHERE id = %s", (id,))
-            existing_country = self._cursor.fetchone()
+            db_adapter = self._get_db()
+            collection = db_adapter['countries']
             
-            if not existing_country:
-                return None
-                
-            # Prepare data with JSON dumps for complex fields
-            prepared = {}
+            # Try to find by id field first
+            country = await collection.find_one({"id": id})
+            if not country:
+                # Try to find by _id if id looks like ObjectId
+                try:
+                    country = await collection.find_one({"_id": ObjectId(id)})
+                except Exception:
+                    pass
+            
+            return self._normalize_country(country) if country else None
+        except Exception as e:
+            logger.error(f"Error getting country by id {id}: {e}")
+            import traceback
+            logger.error(traceback.format_exc())
+            return None
+    
+    def search_countries(self, query: str) -> List[Dict]:
+        """Search countries by name, region, or summary (synchronous wrapper)"""
+        try:
+            loop = asyncio.get_event_loop()
+        except RuntimeError:
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+        
+        return loop.run_until_complete(self._search_countries_async(query))
+    
+    async def _search_countries_async(self, query: str) -> List[Dict]:
+        """Search countries by name, region, or summary (async implementation)"""
+        try:
+            db_adapter = self._get_db()
+            collection = db_adapter['countries']
+            
+            # Create text search query
+            search_query = {
+                "$or": [
+                    {"name": {"$regex": query, "$options": "i"}},
+                    {"region": {"$regex": query, "$options": "i"}},
+                    {"summary": {"$regex": query, "$options": "i"}}
+                ]
+            }
+            
+            cursor = collection.find(search_query).limit(10)
+            countries = await cursor.to_list(length=10)
+            return [self._normalize_country(c) for c in countries]
+        except Exception as e:
+            logger.error(f"Error searching countries: {e}")
+            return []
+    
+    def add_country(self, data: Dict) -> Dict:
+        """Add a new country (synchronous wrapper)"""
+        try:
+            loop = asyncio.get_event_loop()
+        except RuntimeError:
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+        
+        return loop.run_until_complete(self._add_country_async(data))
+    
+    async def _add_country_async(self, data: Dict) -> Dict:
+        """Add a new country (async implementation)"""
+        try:
+            db_adapter = self._get_db()
+            collection = db_adapter['countries']
+            
+            # Ensure required fields
+            country_doc = {
+                "id": data.get('id'),
+                "name": data.get('name'),
+                "flag": data.get('flag'),
+                "region": data.get('region'),
+                "visa_required": data.get('visa_required'),
+                "last_updated": data.get('last_updated'),
+                "summary": data.get('summary'),
+                "published": data.get('published', False),
+                "featured": data.get('featured', False),
+                "hero_image_url": data.get('hero_image_url'),
+                "photo_requirements": data.get('photo_requirements') or {},
+                "embassies": data.get('embassies') or [],
+                "important_notes": data.get('important_notes') or [],
+                "visa_types": data.get('visa_types') or [],
+                "documents": data.get('documents') or [],
+                "processing_times": data.get('processing_times') or [],
+                "application_methods": data.get('application_methods') or []
+            }
+            
+            await collection.insert_one(country_doc)
+            return self._normalize_country(country_doc)
+        except Exception as e:
+            logger.error(f"Error adding country: {e}")
+            raise
+    
+    def update_country(self, id: str, data: Dict) -> Optional[Dict]:
+        """Update a country (synchronous wrapper)"""
+        try:
+            loop = asyncio.get_event_loop()
+        except RuntimeError:
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+        
+        return loop.run_until_complete(self._update_country_async(id, data))
+    
+    async def _update_country_async(self, id: str, data: Dict) -> Optional[Dict]:
+        """Update a country (async implementation)"""
+        try:
+            db_adapter = self._get_db()
+            collection = db_adapter['countries']
+            
+            # Build update document
+            update_doc = {}
             for key, value in data.items():
-                if key in ("photo_requirements", "embassies", "important_notes") and value is not None:
-                    prepared[key] = json.dumps(value)
-                else:
-                    prepared[key] = value
+                if value is not None:
+                    update_doc[key] = value
             
-            # Build dynamic update query
-            fields = []
-            values = []
-            for key, value in prepared.items():
-                fields.append(f"{key} = %s")
-                values.append(value)
-            values.append(id)  # Add id for WHERE clause
+            if not update_doc:
+                # No fields to update, return existing
+                return await self._get_country_by_id_async(id)
             
-            if not fields:  # No fields to update
-                return dict(existing_country)
+            # Update the country
+            result = await collection.update_one(
+                {"id": id},
+                {"$set": update_doc}
+            )
             
-            query = f"""
-                UPDATE countries
-                SET {', '.join(fields)}
-                WHERE id = %s
-                RETURNING *
-            """
-            try:
-                self._cursor.execute(query, values)
-            except Exception as e:
-                # Retry without 'featured' if column doesn't exist
-                if 'featured' in prepared:
-                    logger.warning(f"Retrying update_country without 'featured': {e}")
-                    if self._connection:
-                        self._connection.rollback()
-                    prepared.pop('featured', None)
-                    fields = []
-                    values = []
-                    for key, value in prepared.items():
-                        fields.append(f"{key} = %s")
-                        values.append(value)
-                    values.append(id)
-                    if fields:
-                        query = f"""
-                            UPDATE countries
-                            SET {', '.join(fields)}
-                            WHERE id = %s
-                            RETURNING *
-                        """
-                        self._cursor.execute(query, values)
-                    else:
-                        return dict(existing_country)
-                else:
-                    raise
-            
-            self._connection.commit()
-            updated = self._cursor.fetchone()
-            return dict(updated) if updated else None
-            
-        finally:
-            self.close()
-
-    def add_country(self, data):
-        self.connect()
+            if result.modified_count > 0 or result.matched_count > 0:
+                return await self._get_country_by_id_async(id)
+            return None
+        except Exception as e:
+            logger.error(f"Error updating country {id}: {e}")
+            return None
+    
+    def delete_country(self, id: str) -> bool:
+        """Delete a country (synchronous wrapper)"""
         try:
-            try:
-                self._cursor.execute("""
-                    INSERT INTO countries (id, name, flag, region, visa_required, last_updated, summary, published, featured, photo_requirements, embassies, important_notes)
-                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-                    RETURNING *
-                """, (
-                    data['id'],
-                    data['name'],
-                    data.get('flag'),
-                    data.get('region'),
-                    data.get('visa_required'),
-                    data.get('last_updated'),
-                    data.get('summary'),
-                    data.get('published', False),
-                    data.get('featured', False),
-                    json.dumps(data.get('photo_requirements') or {}),
-                    json.dumps(data.get('embassies') or []),
-                    json.dumps(data.get('important_notes') or [])
-                ))
-            except Exception as e:
-                logger.warning(f"Falling back add_country without 'featured': {e}")
-                if self._connection:
-                    self._connection.rollback()
-                self._cursor.execute("""
-                    INSERT INTO countries (id, name, flag, region, visa_required, last_updated, summary, published, photo_requirements, embassies, important_notes)
-                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-                    RETURNING *
-                """, (
-                    data['id'],
-                    data['name'],
-                    data.get('flag'),
-                    data.get('region'),
-                    data.get('visa_required'),
-                    data.get('last_updated'),
-                    data.get('summary'),
-                    data.get('published', False),
-                    json.dumps(data.get('photo_requirements') or {}),
-                    json.dumps(data.get('embassies') or []),
-                    json.dumps(data.get('important_notes') or [])
-                ))
-            self._connection.commit()
-            return dict(self._cursor.fetchone())
-        finally:
-            self.close()
-
-    def delete_country(self, id):
-        self.connect()
-        try:
-            self._cursor.execute("DELETE FROM countries WHERE id = %s", (id,))
-            self._connection.commit()
-            return True
-        finally:
-            self.close()
-
-    def update_country_raw(self, id, data):
-        """Updates a country with raw data, useful for scripts."""
-        self.connect()
+            loop = asyncio.get_event_loop()
+        except RuntimeError:
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
         
-        # Check if country exists
-        self._cursor.execute("SELECT id FROM countries WHERE id = %s", (id,))
-        exists = self._cursor.fetchone()
+        return loop.run_until_complete(self._delete_country_async(id))
+    
+    async def _delete_country_async(self, id: str) -> bool:
+        """Delete a country (async implementation)"""
+        try:
+            db_adapter = self._get_db()
+            collection = db_adapter['countries']
+            result = await collection.delete_one({"id": id})
+            return result.deleted_count > 0
+        except Exception as e:
+            logger.error(f"Error deleting country {id}: {e}")
+            return False
+    
+    def update_visa_types(self, country_id: str, visa_types: List[Dict]):
+        """Update visa types for a country (synchronous wrapper)"""
+        try:
+            loop = asyncio.get_event_loop()
+        except RuntimeError:
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
         
-        # Remove id from data for update/insert
-        id_val = data.pop("id", id)
-
+        return loop.run_until_complete(self._update_visa_types_async(country_id, visa_types))
+    
+    async def _update_visa_types_async(self, country_id: str, visa_types: List[Dict]):
+        """Update visa types for a country (async implementation)"""
         try:
-            if exists:
-                # Update existing country
-                set_clause = ", ".join([f"{key} = %s" for key in data.keys()])
-                values = list(data.values()) + [id]
-                query = f"UPDATE countries SET {set_clause} WHERE id = %s"
-                self._cursor.execute(query, values)
-            else:
-                # Insert new country
-                columns = ", ".join(data.keys())
-                placeholders = ", ".join(["%s"] * len(data))
-                query = f"INSERT INTO countries (id, {columns}) VALUES (%s, {placeholders})"
-                self._cursor.execute(query, [id_val] + list(data.values()))
-
-            self._connection.commit()
-        finally:
-            self.close()
-
-    def update_visa_types(self, country_id, visa_types):
-        """Deletes existing visa types and inserts new ones for a country.
-        Accepts client payload (may include string/UUID ids); ids are ignored and
-        new rows are inserted fresh each time.
-        """
-        self.connect()
-        try:
-            # Get all visa_type_ids for the country to purge related rows
-            self._cursor.execute("SELECT id FROM visa_types WHERE country_id = %s", (country_id,))
-            visa_type_ids = [row['id'] for row in self._cursor.fetchall()]
-
-            if visa_type_ids:
-                # Delete associated fees first
-                self._cursor.execute("DELETE FROM fees WHERE visa_type_id IN %s", (tuple(visa_type_ids),))
-                # Then delete old visa types
-                self._cursor.execute("DELETE FROM visa_types WHERE id IN %s", (tuple(visa_type_ids),))
+            db_adapter = self._get_db()
+            collection = db_adapter['countries']
             
-            # Insert the new ones
+            # Clean up visa types (remove ids and country_id)
+            cleaned_visa_types = []
             for vt in visa_types or []:
-                # Drop any incoming id fields and sanitize
-                vt = dict(vt or {})
-                vt.pop('id', None)
-                vt.pop('country_id', None)
-                incoming_fees = vt.pop('fees', []) or []
-
-                self._cursor.execute(
-                    """
-                    INSERT INTO visa_types (country_id, name, purpose, entry_type, validity, stay_duration, extendable, processing_time)
-                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
-                    RETURNING id
-                    """,
-                    (
-                        country_id,
-                        vt.get("name"),
-                        vt.get("purpose"),
-                        vt.get("entry_type"),
-                        vt.get("validity"),
-                        vt.get("stay_duration"),
-                        vt.get("extendable"),
-                        vt.get("processing_time"),
-                    ),
-                )
-                visa_type_id = self._cursor.fetchone()['id']
-
-                # Insert fees (ignore any incoming ids / foreign keys)
-                for fee in incoming_fees:
-                    fee_dict = dict(fee or {})
-                    self._cursor.execute(
-                        """
-                        INSERT INTO fees (visa_type_id, type, amount, original_currency, note)
-                        VALUES (%s, %s, %s, %s, %s)
-                        """,
-                        (
-                            visa_type_id,
-                            fee_dict.get("type"),
-                            fee_dict.get("amount"),
-                            fee_dict.get("original_currency"),
-                            fee_dict.get("note"),
-                        ),
-                    )
-
-            self._connection.commit()
-        finally:
-            self.close()
-
-    def update_documents(self, country_id, documents):
-        """Deletes existing documents and inserts new ones for a country."""
-        self.connect()
-        try:
-            # First, delete old documents for this country
-            self._cursor.execute("DELETE FROM documents WHERE country_id = %s", (country_id,))
+                vt_clean = dict(vt)
+                vt_clean.pop('id', None)
+                vt_clean.pop('country_id', None)
+                # Clean fees within visa types
+                if 'fees' in vt_clean:
+                    cleaned_fees = []
+                    for fee in vt_clean['fees'] or []:
+                        fee_clean = dict(fee)
+                        fee_clean.pop('id', None)
+                        fee_clean.pop('visa_type_id', None)
+                        cleaned_fees.append(fee_clean)
+                    vt_clean['fees'] = cleaned_fees
+                cleaned_visa_types.append(vt_clean)
             
-            # Then, insert the new ones
-            for doc in documents:
-                self._cursor.execute("""
-                    INSERT INTO documents (country_id, name, type, specifications, required)
-                    VALUES (%s, %s, %s, %s, %s)
-                """, (
-                    country_id,
-                    doc.get("name"),
-                    doc.get("type"),
-                    json.dumps(doc.get("specifications") if isinstance(doc.get("specifications"), (dict, list)) else (doc.get("details") or {})),
-                    doc.get("required", True)
-                ))
-
-            self._connection.commit()
-        finally:
-            self.close()
-
-    def update_processing_times(self, country_id, times):
-        """Deletes existing processing_times and inserts new ones for a country."""
-        self.connect()
+            await collection.update_one(
+                {"id": country_id},
+                {"$set": {"visa_types": cleaned_visa_types}}
+            )
+        except Exception as e:
+            logger.error(f"Error updating visa types for country {country_id}: {e}")
+            raise
+    
+    def update_documents(self, country_id: str, documents: List[Dict]):
+        """Update documents for a country (synchronous wrapper)"""
         try:
-            # Delete old
-            self._cursor.execute("DELETE FROM processing_times WHERE country_id = %s", (country_id,))
-            # Insert new
+            loop = asyncio.get_event_loop()
+        except RuntimeError:
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+        
+        return loop.run_until_complete(self._update_documents_async(country_id, documents))
+    
+    async def _update_documents_async(self, country_id: str, documents: List[Dict]):
+        """Update documents for a country (async implementation)"""
+        try:
+            db_adapter = self._get_db()
+            collection = db_adapter['countries']
+            
+            # Clean up documents
+            cleaned_docs = []
+            for doc in documents or []:
+                doc_clean = dict(doc)
+                doc_clean.pop('id', None)
+                doc_clean.pop('country_id', None)
+                cleaned_docs.append(doc_clean)
+            
+            await collection.update_one(
+                {"id": country_id},
+                {"$set": {"documents": cleaned_docs}}
+            )
+        except Exception as e:
+            logger.error(f"Error updating documents for country {country_id}: {e}")
+            raise
+    
+    def update_processing_times(self, country_id: str, times: List[Dict]):
+        """Update processing times for a country (synchronous wrapper)"""
+        try:
+            loop = asyncio.get_event_loop()
+        except RuntimeError:
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+        
+        return loop.run_until_complete(self._update_processing_times_async(country_id, times))
+    
+    async def _update_processing_times_async(self, country_id: str, times: List[Dict]):
+        """Update processing times for a country (async implementation)"""
+        try:
+            db_adapter = self._get_db()
+            collection = db_adapter['countries']
+            
+            # Clean up processing times
+            cleaned_times = []
             for pt in times or []:
-                self._cursor.execute(
-                    """
-                    INSERT INTO processing_times (country_id, type, duration, notes)
-                    VALUES (%s, %s, %s, %s)
-                    """,
-                    (
-                        country_id,
-                        pt.get("type"),
-                        pt.get("duration"),
-                        pt.get("notes"),
-                    ),
-                )
-            self._connection.commit()
-        finally:
-            self.close()
-
-    def update_application_methods(self, country_id, methods):
-        """Deletes existing application_processes and inserts new ones for a country."""
-        self.connect()
+                pt_clean = dict(pt)
+                pt_clean.pop('id', None)
+                pt_clean.pop('country_id', None)
+                cleaned_times.append(pt_clean)
+            
+            await collection.update_one(
+                {"id": country_id},
+                {"$set": {"processing_times": cleaned_times}}
+            )
+        except Exception as e:
+            logger.error(f"Error updating processing times for country {country_id}: {e}")
+            raise
+    
+    def update_application_methods(self, country_id: str, methods: List[Dict]):
+        """Update application methods for a country (synchronous wrapper)"""
         try:
-            # Delete old
-            self._cursor.execute("DELETE FROM application_processes WHERE country_id = %s", (country_id,))
-            # Insert new
+            loop = asyncio.get_event_loop()
+        except RuntimeError:
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+        
+        return loop.run_until_complete(self._update_application_methods_async(country_id, methods))
+    
+    async def _update_application_methods_async(self, country_id: str, methods: List[Dict]):
+        """Update application methods for a country (async implementation)"""
+        try:
+            db_adapter = self._get_db()
+            collection = db_adapter['countries']
+            
+            # Clean up application methods
+            cleaned_methods = []
             for am in methods or []:
-                self._cursor.execute(
-                    """
-                    INSERT INTO application_processes (country_id, method, note, steps, alternative_method)
-                    VALUES (%s, %s, %s, %s, %s)
-                    """,
-                    (
-                        country_id,
-                        am.get("method"),
-                        am.get("note"),
-                        json.dumps(am.get("steps") or []),
-                        json.dumps(am.get("alternative_method") or {}),
-                    ),
-                )
-            self._connection.commit()
-        finally:
-            self.close()
+                am_clean = dict(am)
+                am_clean.pop('id', None)
+                am_clean.pop('country_id', None)
+                cleaned_methods.append(am_clean)
+            
+            await collection.update_one(
+                {"id": country_id},
+                {"$set": {"application_methods": cleaned_methods}}
+            )
+        except Exception as e:
+            logger.error(f"Error updating application methods for country {country_id}: {e}")
+            raise
 
-# Create a single instance of Database
+# Create a singleton instance
 db = Database() 

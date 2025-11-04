@@ -13,4 +13,8 @@ services:
         value: production
       - key: DEBUG
         value: false
+      - key: MONGODB_URL
+        value: mongodb+srv://inshamanowar22_db_user:gCHLC03QnvtTtdLP@beyondborders.pmw8pvm.mongodb.net/
+      - key: DATABASE_NAME
+        value: beyondborder
     healthCheckPath: /health 

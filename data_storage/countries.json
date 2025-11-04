@@ -2033,5 +2033,777 @@
     "keywords": [],
     "published": true,
     "featured": false
+  },
+  {
+    "id": "japan",
+    "name": "Japan",
+    "flag": "🇯🇵",
+    "region": "Asia",
+    "visa_required": true,
+    "last_updated": "2025-11-04T05:03:09.747509",
+    "summary": "All Indian passport holders must obtain a pre-approved visa before entering Japan, including for tourism or business visits.",
+    "published": true,
+    "featured": false,
+    "visa_types": [
+      {
+        "name": "Tourist Visa (Single Entry)",
+        "entry_type": "Single Entry",
+        "validity_months": 3,
+        "max_stay_days": 90,
+        "fee_inr": 2500,
+        "fee_jpy": 3000,
+        "fee_usd": 20,
+        "processing_time": "4–7 working days",
+        "purpose": "Tourism, visiting friends/family"
+      },
+      {
+        "name": "Tourist Visa (Multiple Entry)",
+        "entry_type": "Multiple Entry",
+        "validity_years": "1–5",
+        "max_stay_days_per_visit": "15–90",
+        "fee_inr": 4000,
+        "fee_jpy": 6000,
+        "fee_usd": 40,
+        "processing_time": "4–7 working days",
+        "purpose": "Frequent travelers (conditions apply)"
+      },
+      {
+        "name": "Business Visa",
+        "entry_type": "Single Entry",
+        "validity_months": 3,
+        "max_stay_days": 90,
+        "fee_inr": 2500,
+        "fee_jpy": 3000,
+        "fee_usd": 20,
+        "processing_time": "4–7 working days",
+        "purpose": "Meetings, conferences"
+      },
+      {
+        "name": "Transit Visa",
+        "entry_type": "Single Entry",
+        "validity_days": 15,
+        "max_stay_hours": 72,
+        "fee_inr": 1100,
+        "fee_jpy": 700,
+        "fee_usd": 5,
+        "processing_time": "4–7 working days",
+        "purpose": "For layovers in Japan"
+      }
+    ],
+    "documents": [],
+    "processing_times": [],
+    "application_methods": [],
+    "embassies": [],
+    "important_notes": [],
+    "photo_requirements": {},
+    "_id": "5147134d-3529-4cd0-9bbe-82dad642ac0b"
+  },
+  {
+    "id": "singapore",
+    "name": "Singapore",
+    "flag": "🇸🇬",
+    "region": "Asia",
+    "visa_required": true,
+    "last_updated": "2025-11-04T05:03:09.756528",
+    "summary": "Indian passport holders must obtain a Singapore visa before traveling. For regular visits (tourism, business, or family), a pre-approved visa is mandatory.",
+    "published": true,
+    "featured": false,
+    "visa_types": [
+      {
+        "name": "Tourist Visa (Visit Visa)",
+        "entry_type": "Single/Multiple",
+        "validity": "30 days to 2 years",
+        "max_stay_days_per_visit": 30,
+        "fee_inr": 2000,
+        "fee_sgd": 30,
+        "processing_time": "3–5 working days",
+        "purpose": "Tourism, visiting friends/family",
+        "note": "Validity period decided by ICA Singapore based on travel history"
+      },
+      {
+        "name": "Business Visa",
+        "entry_type": "Single/Multiple",
+        "validity": "30 days to 2 years",
+        "max_stay_days_per_visit": 30,
+        "fee_inr": 2000,
+        "fee_sgd": 30,
+        "processing_time": "3–5 working days",
+        "purpose": "Business meetings, conferences",
+        "note": "Validity period decided by ICA Singapore based on travel history"
+      },
+      {
+        "name": "Student Visa",
+        "entry_type": "Long-term",
+        "validity": "As per course duration",
+        "max_stay": "As per pass validity",
+        "purpose": "Education and study programs"
+      }
+    ],
+    "documents": [],
+    "processing_times": [],
+    "application_methods": [],
+    "embassies": [],
+    "important_notes": [],
+    "photo_requirements": {},
+    "_id": "37282244-d108-4348-b4bd-d4c8a6f1d5ed"
+  },
+  {
+    "id": "philippines",
+    "name": "Philippines",
+    "flag": "🇵🇭",
+    "region": "Asia",
+    "visa_required": true,
+    "last_updated": "2025-11-04T05:03:09.759234",
+    "summary": "Indian passport holders require a visa to enter the Philippines unless they meet conditions for visa-free entry under certain international visas.",
+    "published": true,
+    "featured": false,
+    "visa_types": [
+      {
+        "name": "Tourist Visa (9A)",
+        "entry_type": "Single/Multiple",
+        "validity": "3–6 months",
+        "max_stay_days_per_visit": "30–90",
+        "fee_single_inr": "3500–4000",
+        "fee_multiple_inr": "7000–8000",
+        "processing_time": "5–7 working days",
+        "purpose": "Tourism, leisure travel",
+        "extension_possible": true,
+        "extension_duration": "Up to 59 days"
+      },
+      {
+        "name": "Business Visa (9A)",
+        "entry_type": "Single/Multiple",
+        "validity": "3–6 months",
+        "max_stay_days_per_visit": "30–90",
+        "fee_single_inr": "3500–4000",
+        "fee_multiple_inr": "7000–8000",
+        "processing_time": "5–7 working days",
+        "purpose": "Business meetings, conferences",
+        "extension_possible": true
+      },
+      {
+        "name": "Transit Visa (9B)",
+        "entry_type": "Single",
+        "validity": "For layovers",
+        "max_stay_hours": 72,
+        "fee_inr": "2000–3000",
+        "processing_time": "3–5 working days",
+        "purpose": "Airport transit with city exit"
+      },
+      {
+        "name": "Long Stay (9G, 13A)",
+        "entry_type": "Work/Family",
+        "validity": "6 months–1 year",
+        "purpose": "Employment, family reunification",
+        "note": "Immigration approval required"
+      },
+      {
+        "name": "Visa-Free Entry (14-day rule)",
+        "entry_type": "Single",
+        "validity": "14 days",
+        "max_stay_days_per_visit": 14,
+        "fee_inr": 0,
+        "processing_time": "Immediate",
+        "purpose": "Tourism only",
+        "note": "Requires valid visa from US, UK, Canada, Schengen, Japan, or Australia"
+      }
+    ],
+    "documents": [],
+    "processing_times": [],
+    "application_methods": [],
+    "embassies": [],
+    "important_notes": [],
+    "photo_requirements": {},
+    "_id": "44ef6b39-ee1a-4552-82e3-59f80d359c56"
+  },
+  {
+    "id": "thailand",
+    "name": "Thailand",
+    "flag": "🏳️",
+    "region": "Asia",
+    "visa_required": false,
+    "last_updated": "2025-11-04T05:03:09.765736",
+    "summary": "Indian citizens can enter visa-free to enter Thailand.",
+    "published": true,
+    "featured": false,
+    "visa_types": [
+      {
+        "name": "Tourist Visa",
+        "entry_type": "Single Entry",
+        "max_stay_days": 30,
+        "validity_months": 3,
+        "fee_inr": {
+          "min": 2000,
+          "max": 3000
+        }
+      }
+    ],
+    "documents": [],
+    "processing_times": [],
+    "application_methods": [],
+    "embassies": [],
+    "important_notes": [],
+    "photo_requirements": {},
+    "_id": "6ed10920-9e35-4087-acc2-e602fb3aa8fb"
+  },
+  {
+    "id": "united-arab-emirates",
+    "name": "United Arab Emirates",
+    "flag": "🇦🇪",
+    "region": "Asia",
+    "visa_required": true,
+    "last_updated": "2025-11-04T05:03:09.774856",
+    "summary": "Indian citizens require a visa to enter Dubai (UAE), unless they qualify for visa-on-arrival under special exemptions.",
+    "published": true,
+    "featured": false,
+    "visa_types": [
+      {
+        "name": "Tourist Visa (30 Days)",
+        "validity_days": 60,
+        "max_stay_days": 30,
+        "extendable": true,
+        "purpose": "Leisure, tourism",
+        "fee_inr_range": [
+          6500,
+          9000
+        ],
+        "processing_time": "3–5 working days"
+      },
+      {
+        "name": "Tourist Visa (60 Days)",
+        "validity_days": 60,
+        "max_stay_days": 60,
+        "extendable": true,
+        "purpose": "Longer stays",
+        "fee_inr_range": [
+          10000,
+          14000
+        ],
+        "processing_time": "3–5 working days"
+      },
+      {
+        "name": "Express Tourist Visa",
+        "validity_days": 60,
+        "max_stay_days": 30,
+        "extendable": true,
+        "purpose": "Faster approval for tourism",
+        "additional_fee_inr": [
+          2000,
+          4000
+        ],
+        "processing_time": "24–48 hours"
+      },
+      {
+        "name": "Transit Visa (48 Hours)",
+        "validity_days": 14,
+        "max_stay_days": 2,
+        "purpose": "Short layover",
+        "fee_inr_range": [
+          1000,
+          1500
+        ],
+        "processing_time": "1–2 working days"
+      },
+      {
+        "name": "Transit Visa (96 Hours)",
+        "validity_days": 14,
+        "max_stay_days": 4,
+        "purpose": "Short layover",
+        "fee_inr_range": [
+          2000,
+          2500
+        ],
+        "processing_time": "1–2 working days"
+      },
+      {
+        "name": "Multi-Entry Tourist Visa",
+        "validity_days": 60,
+        "max_stay_days": 60,
+        "purpose": "Frequent travelers",
+        "fee_inr_range": [
+          18000,
+          25000
+        ],
+        "processing_time": "3–5 working days"
+      },
+      {
+        "name": "Visit Visa (Family/Friends)",
+        "validity_days": 60,
+        "max_stay_days": 60,
+        "purpose": "Visit UAE residents",
+        "processing_time": "4–7 working days"
+      },
+      {
+        "name": "Business Visa",
+        "validity_days": 60,
+        "max_stay_days": "Varies",
+        "purpose": "Meetings, investments",
+        "processing_time": "4–7 working days"
+      },
+      {
+        "name": "Visa on Arrival",
+        "eligibility_criteria": [
+          "Valid US visa (B1/B2, H1B, etc.)",
+          "Valid US Green Card",
+          "Valid UK or EU residence visa"
+        ],
+        "validity_days": 14,
+        "extendable": true,
+        "extension_days": 14,
+        "entry_mode": "Air travel only",
+        "fee_inr_range": [
+          2700,
+          3200
+        ],
+        "fee_aed_range": [
+          120,
+          140
+        ],
+        "extension_fee_aed": 250,
+        "note": "Passport and visa/residency must be valid for at least 6 months from entry date"
+      }
+    ],
+    "documents": [
+      "Scanned copy of passport (valid for at least 6 months)",
+      "Recent passport-size photo (white background)",
+      "Confirmed return flight tickets",
+      "Completed visa application form",
+      "Visa fee payment receipt"
+    ],
+    "processing_times": [],
+    "application_methods": [],
+    "embassies": [],
+    "important_notes": [],
+    "photo_requirements": {},
+    "_id": "2b09dd78-b88c-4875-bd88-877c47ef254e"
+  },
+  {
+    "id": "cambodia",
+    "name": "Cambodia",
+    "flag": "🇰🇭",
+    "region": "Asia",
+    "visa_required": true,
+    "last_updated": "2025-11-04T05:03:09.777837",
+    "summary": "Indian passport holders require a visa to enter Cambodia. Options include eVisa, Visa on Arrival, or Embassy Visa.",
+    "published": true,
+    "featured": false,
+    "visa_types": [
+      {
+        "name": "eVisa Tourist (T)",
+        "entry_type": "Single Entry",
+        "validity": "3 months",
+        "max_stay_days": 30,
+        "fee_inr": 2999,
+        "fee_usd": 36,
+        "processing_time": "3–5 working days"
+      },
+      {
+        "name": "eVisa Business (E)",
+        "entry_type": "Single Entry",
+        "validity": "3 months",
+        "max_stay_days": 30,
+        "fee_inr": 3465,
+        "fee_usd": 42,
+        "processing_time": "3–5 working days"
+      },
+      {
+        "name": "Visa on Arrival",
+        "entry_type": "Single Entry",
+        "validity": "3 months",
+        "max_stay_days": 30,
+        "fee_inr": 2498,
+        "fee_usd": 30,
+        "processing_time": "15–30 minutes"
+      },
+      {
+        "name": "Embassy Visa (for extensions or long stays)",
+        "entry_type": "Varies",
+        "purpose": "Stays exceeding 30 days or for visa extensions",
+        "processing_time": "2–3 business days",
+        "fees": [
+          {
+            "type": "Visa Fee",
+            "amount": "Varies"
+          },
+          {
+            "type": "Visa Extension Fee",
+            "amount": 2063,
+            "original_currency": "INR"
+          }
+        ]
+      }
+    ],
+    "documents": [],
+    "processing_times": [],
+    "application_methods": [],
+    "embassies": [],
+    "important_notes": [],
+    "photo_requirements": {},
+    "_id": "fbfea73b-3708-41c1-8ebb-57da4b3e9629"
+  },
+  {
+    "id": "china",
+    "name": "China",
+    "flag": "🇨🇳",
+    "region": "Asia",
+    "visa_required": true,
+    "last_updated": "2025-11-04T05:03:09.780764",
+    "summary": "All Indian passport holders require a visa to enter China. The type of visa depends on the purpose of visit.",
+    "published": true,
+    "featured": false,
+    "visa_types": [
+      {
+        "name": "Tourist Visa (L) - Single Entry",
+        "purpose": "Tourism",
+        "validity": "Up to 6 months",
+        "max_stay_days": 30,
+        "fee_inr": 2900
+      },
+      {
+        "name": "Business Visa (M) - Single Entry",
+        "purpose": "Business meetings, trade",
+        "validity": "Up to 6 months",
+        "max_stay_days": 30,
+        "fee_inr": 2900
+      },
+      {
+        "name": "Double Entry Visa",
+        "purpose": "Tourism or Business",
+        "validity": "Up to 6 months",
+        "max_stay_days": 30,
+        "fee_inr": 4400
+      },
+      {
+        "name": "Multiple Entry Visa (6 Months)",
+        "purpose": "Frequent Travel",
+        "validity": "6 months",
+        "max_stay_days": 30,
+        "fee_inr": 5900
+      },
+      {
+        "name": "Multiple Entry Visa (12+ Months)",
+        "purpose": "Frequent Travel",
+        "validity": "12 months or longer",
+        "max_stay_days": 30,
+        "fee_inr": 8800
+      },
+      {
+        "name": "Group Visa",
+        "purpose": "Organized Tours",
+        "validity": "Varies by tour",
+        "max_stay_days": 30,
+        "fee_inr": 1800
+      },
+      {
+        "name": "Family Visit (Q1)",
+        "purpose": "Visiting family members (long-term)",
+        "validity": "Over 180 days",
+        "max_stay_days": "As per invitation"
+      },
+      {
+        "name": "Family Visit (Q2)",
+        "purpose": "Visiting family members (short-term)",
+        "validity": "Up to 180 days",
+        "max_stay_days": "As per invitation"
+      },
+      {
+        "name": "Work (Z)",
+        "purpose": "Employment",
+        "validity": "As per employment contract",
+        "max_stay_days": "As per employment contract"
+      },
+      {
+        "name": "Student (X1)",
+        "purpose": "Study (long-term)",
+        "validity": "Over 180 days",
+        "max_stay_days": "As per academic program"
+      },
+      {
+        "name": "Student (X2)",
+        "purpose": "Study (short-term)",
+        "validity": "Up to 180 days",
+        "max_stay_days": "As per academic program"
+      }
+    ],
+    "documents": [],
+    "processing_times": [],
+    "application_methods": [],
+    "embassies": [],
+    "important_notes": [],
+    "photo_requirements": {},
+    "_id": "8b52559d-5d12-459f-a456-09948f0d39aa"
+  },
+  {
+    "id": "indonesia",
+    "name": "Indonesia",
+    "flag": "🇮🇩",
+    "region": "Asia",
+    "visa_required": false,
+    "last_updated": "2025-11-04T05:03:09.783967",
+    "summary": "",
+    "published": true,
+    "featured": false,
+    "visa_types": [
+      {
+        "name": "Visa-Free Entry",
+        "entry_type": "Single",
+        "validity": "30 days",
+        "max_stay_days_per_visit": 30,
+        "fee_inr": 0,
+        "processing_time": "Immediate on arrival",
+        "purpose": "Tourism only",
+        "note": "Not extendable, enter via designated airports/seaports only"
+      },
+      {
+        "name": "Visa on Arrival (VoA)",
+        "entry_type": "Single",
+        "validity": "30 days",
+        "max_stay_days_per_visit": 30,
+        "fee_idr": 500000,
+        "fee_inr": 2600,
+        "processing_time": "15–30 minutes",
+        "purpose": "Tourism, social visit",
+        "note": "Can be extended once for another 30 days"
+      },
+      {
+        "name": "e-Visa B211A (Tourist/Business)",
+        "entry_type": "Single",
+        "validity": "60 days",
+        "max_stay_days_per_visit": 60,
+        "fee_idr": 2000000,
+        "fee_inr": 10000,
+        "processing_time": "3–5 working days",
+        "purpose": "Tourism, business meetings",
+        "note": "Extendable 2x (up to 180 days total)"
+      },
+      {
+        "name": "Business Visa (Multiple Entry)",
+        "entry_type": "Multiple",
+        "validity": "1 year",
+        "max_stay_days_per_visit": 60,
+        "processing_time": "7–10 working days",
+        "purpose": "Frequent business trips",
+        "note": "Cannot work or earn income, requires company invitation"
+      },
+      {
+        "name": "Work Visa (KITAS)",
+        "entry_type": "Long-term",
+        "validity": "6–12 months",
+        "purpose": "Employment"
+      },
+      {
+        "name": "Student Visa",
+        "entry_type": "Long-term",
+        "validity": "As per course",
+        "purpose": "Education"
+      }
+    ],
+    "documents": [],
+    "processing_times": [],
+    "application_methods": [],
+    "embassies": [],
+    "important_notes": [],
+    "photo_requirements": {},
+    "_id": "c2f991c4-46d8-40eb-87d1-ee51cb2334c9"
+  },
+  {
+    "id": "vietnam",
+    "name": "Vietnam",
+    "flag": "🇻🇳",
+    "region": "Asia",
+    "visa_required": true,
+    "last_updated": "2025-11-04T05:03:09.788128",
+    "summary": "Indian nationals require a visa to enter Vietnam, unless they hold a valid visa exemption or enter under specific e-visa rules.",
+    "published": true,
+    "featured": false,
+    "visa_types": [
+      {
+        "name": "E-Visa (Tourist)",
+        "entry_type": "Single",
+        "validity": "30 days",
+        "max_stay_days_per_visit": 30,
+        "fee_usd": 25,
+        "fee_inr": "2000–2200",
+        "processing_time": "3–5 working days",
+        "purpose": "Tourism, family visits",
+        "note": "Easiest and most cost-effective method"
+      },
+      {
+        "name": "E-Visa (Business)",
+        "entry_type": "Single",
+        "validity": "30 days",
+        "max_stay_days_per_visit": 30,
+        "fee_usd": 25,
+        "fee_inr": "2000–2200",
+        "processing_time": "3–5 working days",
+        "purpose": "Business meetings, conferences"
+      },
+      {
+        "name": "E-Visa (Tourist – Multiple)",
+        "entry_type": "Multiple",
+        "validity": "90 days",
+        "max_stay_days_per_visit": 90,
+        "fee_usd": 50,
+        "fee_inr": "4000–4200",
+        "processing_time": "3–5 working days",
+        "purpose": "Multiple visits within validity period"
+      },
+      {
+        "name": "Visa on Arrival (VOA)",
+        "entry_type": "Single/Multiple",
+        "validity": "1–3 months",
+        "max_stay_days_per_visit": "30–90",
+        "approval_letter_fee_inr": "1200–2000",
+        "stamping_fee_usd": "25 (single), 50 (multiple)",
+        "processing_time": "2–3 days (approval) + 30–60 mins (airport)",
+        "purpose": "Tourism, business",
+        "note": "Only available by air with pre-approval letter"
+      },
+      {
+        "name": "Embassy Visa (Sticker Visa)",
+        "entry_type": "Single/Multiple",
+        "validity": "Up to 6 months",
+        "max_stay_days_per_visit": "30–90",
+        "fee_inr": "2500–6000",
+        "processing_time": "3–7 working days",
+        "purpose": "Longer stays, work permits, multi-entry business"
+      },
+      {
+        "name": "Transit Visa",
+        "entry_type": "Transit",
+        "validity": "24 hours",
+        "max_stay_hours": 24,
+        "purpose": "Airport transit only"
+      }
+    ],
+    "documents": [],
+    "processing_times": [],
+    "application_methods": [],
+    "embassies": [],
+    "important_notes": [],
+    "photo_requirements": {},
+    "_id": "47ac5ec6-7d9e-4eba-8eca-dab81cf71ee7"
+  },
+  {
+    "id": "malaysia",
+    "name": "Malaysia",
+    "flag": "🇲🇾",
+    "region": "Asia",
+    "visa_required": true,
+    "last_updated": "2025-11-04T05:03:09.794113",
+    "summary": "Indian citizens require a visa to enter Malaysia for tourism, business, or family visits, except for transit stays under 120 hours in certain cases.",
+    "published": true,
+    "featured": false,
+    "visa_types": [
+      {
+        "name": "e-Visa (Tourist/Business)",
+        "entry_type": "Single/Multiple",
+        "validity": "3 months from date of issue",
+        "max_stay_days_per_visit": 30,
+        "fee_inr": "2300–3000",
+        "processing_time": "2–4 working days",
+        "purpose": "Tourism, short business visits, family travel",
+        "note": "Most popular visa type for Indian citizens"
+      },
+      {
+        "name": "eNTRI (Electronic Travel Registration & Information)",
+        "entry_type": "Single",
+        "validity": "3 months",
+        "max_stay_days_per_visit": 15,
+        "fee_inr": "1700–2000",
+        "processing_time": "Same day or 24 hours",
+        "purpose": "Tourism only",
+        "note": "For Indians only, must enter via direct flights from India"
+      },
+      {
+        "name": "Sticker Visa (Embassy)",
+        "entry_type": "Single/Multiple",
+        "validity": "3–12 months",
+        "max_stay_days_per_visit": "30–90",
+        "fee_inr": "3500–5000",
+        "processing_time": "5–7 working days",
+        "purpose": "Tourism, business, longer stays",
+        "note": "Applied through embassy or consulates"
+      },
+      {
+        "name": "Transit Without Visa",
+        "entry_type": "Transit",
+        "validity": "Max 120 hours",
+        "max_stay_hours": 120,
+        "purpose": "Airport transit only",
+        "note": "Special cases only"
+      }
+    ],
+    "documents": [],
+    "processing_times": [],
+    "application_methods": [],
+    "embassies": [],
+    "important_notes": [],
+    "photo_requirements": {},
+    "_id": "09c25428-e474-4a49-9a2c-dc50613f8a5e"
+  },
+  {
+    "id": "south-korea",
+    "name": "South Korea",
+    "flag": "🇰🇷",
+    "region": "Asia",
+    "visa_required": true,
+    "last_updated": "2025-11-04T05:03:09.797405",
+    "summary": "All Indian citizens need to apply for a visa in advance. South Korea currently does not offer e-visa or visa on arrival for Indian citizens.",
+    "published": true,
+    "featured": false,
+    "visa_types": [
+      {
+        "name": "C-3 Tourist Visa",
+        "entry_type": "Single/Multiple",
+        "validity": "Single or multiple entry",
+        "max_stay_days_per_visit": 90,
+        "fee_krw": 40000,
+        "fee_inr": 2500,
+        "processing_time": "7–10 working days",
+        "purpose": "Tourism, family/friend visit",
+        "note": "Most common visa for Indian tourists"
+      },
+      {
+        "name": "Business Visa (C-3-4)",
+        "entry_type": "Single/Multiple",
+        "validity": "As per invitation",
+        "max_stay_days_per_visit": 90,
+        "fee_krw": 40000,
+        "fee_inr": 2500,
+        "processing_time": "3–5 days (priority)",
+        "purpose": "Meetings, short-term business",
+        "note": "Priority processing available for business visas"
+      },
+      {
+        "name": "Student Visa (D-2)",
+        "entry_type": "Long-term",
+        "validity": "As per course duration",
+        "max_stay": "As per course",
+        "purpose": "Long-term education programs"
+      },
+      {
+        "name": "Work Visa (E Series)",
+        "entry_type": "Long-term",
+        "validity": "1+ year",
+        "max_stay": "Contract-based",
+        "purpose": "Employment in Korea"
+      },
+      {
+        "name": "Transit Visa",
+        "entry_type": "Transit",
+        "validity": "Max 72 hours",
+        "max_stay_hours": 72,
+        "purpose": "For long layovers with city exit",
+        "note": "Not commonly issued"
+      }
+    ],
+    "documents": [],
+    "processing_times": [],
+    "application_methods": [],
+    "embassies": [],
+    "important_notes": [],
+    "photo_requirements": {},
+    "_id": "30acc345-458a-4197-9e1f-25cb612fc654"
   }
 ]

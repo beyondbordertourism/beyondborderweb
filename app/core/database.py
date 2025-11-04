@@ -29,12 +29,16 @@ async def connect_to_mongo():
         # Try to import config, fallback to environment variables
         try:
             import config
-            MONGODB_URL = config.MONGODB_URL
-            DATABASE_NAME = config.DATABASE_NAME
-        except ImportError:
+            MONGODB_URL = getattr(config, 'MONGODB_URL', None)
+            DATABASE_NAME = getattr(config, 'DATABASE_NAME', None)
+            if not MONGODB_URL:
+                MONGODB_URL = os.getenv("MONGODB_URL", "mongodb+srv://inshamanowar22_db_user:gCHLC03QnvtTtdLP@beyondborders.pmw8pvm.mongodb.net/")
+            if not DATABASE_NAME:
+                DATABASE_NAME = os.getenv("DATABASE_NAME", "beyondborder")
+        except (ImportError, AttributeError):
             # Fallback to environment variables
-            MONGODB_URL = os.getenv("MONGODB_URL", "mongodb+srv://inshamanowar22:YVfCabwE81MkSY68@visa-countries.gsywcpw.mongodb.net/")
-            DATABASE_NAME = os.getenv("DATABASE_NAME", "visa_website")
+            MONGODB_URL = os.getenv("MONGODB_URL", "mongodb+srv://inshamanowar22_db_user:gCHLC03QnvtTtdLP@beyondborders.pmw8pvm.mongodb.net/")
+            DATABASE_NAME = os.getenv("DATABASE_NAME", "beyondborder")
             
             # Replace placeholder with actual password from environment variable
             db_password = os.getenv("MONGODB_PASSWORD", "")

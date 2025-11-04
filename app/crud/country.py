@@ -1,10 +1,10 @@
 from typing import List, Optional, Dict, Any
-from app.core.db import Database
+from app.core.db import db
 from app.models.country import Country, CountryCreate, CountryUpdate
 
 class CountryCRUD:
     def __init__(self):
-        self.db = Database()
+        self.db = db
 
     def create(self, country_data: CountryCreate) -> Dict:
         return self.db.add_country(country_data.model_dump())

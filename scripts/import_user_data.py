@@ -15,15 +15,14 @@ def extract_flag_and_name(content):
     """Extract country flag and name from the first line"""
     first_line = content.split('\n')[0].strip()
     
-    # Extract flag emoji
+ 
     flag_match = re.search(r'([🇦-🇿]{2})', first_line)
     flag = flag_match.group(1) if flag_match else "🏳️"
     
-    # Extract country name
     name_match = re.search(r'🇦-🇿]{2}\s*([^–\-]+)', first_line)
     if name_match:
         name = name_match.group(1).strip()
-        # Clean up common patterns
+ 
         name = re.sub(r'\s+Visa.*', '', name)
         name = re.sub(r'\s+for Indians.*', '', name)
     else:

@@ -9,7 +9,6 @@ import os
 from app.api.routes import countries, admin
 from app.core.auth import verify_token, get_current_admin
 import config
-from app.core.db import db
 
 # Create FastAPI app
 app = FastAPI(
@@ -122,17 +121,14 @@ async def root():
 
 @app.on_event("startup")
 async def startup_event():
-    # This part is tricky because the original `connect_to_mongo` is async
-    # and we are in a non-async context here. The original db setup seems
-    # to be a mix of sync and async, which is problematic.
-    # For now, we will assume the db connection is handled elsewhere or
-    # we just instantiate the DB adapter.
-    # await connect_to_mongo() # This would be ideal
+    from app.core.database import connect_to_mongo
+    await connect_to_mongo()
     print("Application startup complete.")
 
 @app.on_event("shutdown")
 async def shutdown_event():
-    # await close_mongo_connection() # This would be ideal
+    from app.core.database import close_mongo_connection
+    await close_mongo_connection()
     print("Application shutdown complete.")
 
 if __name__ == "__main__":

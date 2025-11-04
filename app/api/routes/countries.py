@@ -77,7 +77,7 @@ async def get_stats():
         "visa_required": visa_required,
         "visa_free": visa_free,
         "debug": {
-            "database_type": "Supabase PostgreSQL",
+            "database_type": "MongoDB",
             "raw_stats": {
                 "region_distribution": regions,
                 "published_countries": total_countries
