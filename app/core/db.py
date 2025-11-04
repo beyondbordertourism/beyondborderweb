@@ -100,7 +100,7 @@ class Database:
                     pass
             
             return self._normalize_country(country) if country else None
-            except Exception as e:
+        except Exception as e:
             logger.error(f"Error getting country by id {id}: {e}")
             import traceback
             logger.error(traceback.format_exc())
@@ -134,7 +134,7 @@ class Database:
             cursor = collection.find(search_query).limit(10)
             countries = await cursor.to_list(length=10)
             return [self._normalize_country(c) for c in countries]
-            except Exception as e:
+        except Exception as e:
             logger.error(f"Error searching countries: {e}")
             return []
     
@@ -177,7 +177,7 @@ class Database:
             
             await collection.insert_one(country_doc)
             return self._normalize_country(country_doc)
-            except Exception as e:
+        except Exception as e:
             logger.error(f"Error adding country: {e}")
             raise
     
@@ -216,7 +216,7 @@ class Database:
             if result.modified_count > 0 or result.matched_count > 0:
                 return await self._get_country_by_id_async(id)
             return None
-            except Exception as e:
+        except Exception as e:
             logger.error(f"Error updating country {id}: {e}")
             return None
     
@@ -237,7 +237,7 @@ class Database:
             collection = db_adapter['countries']
             result = await collection.delete_one({"id": id})
             return result.deleted_count > 0
-            except Exception as e:
+        except Exception as e:
             logger.error(f"Error deleting country {id}: {e}")
             return False
     
