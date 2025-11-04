@@ -6,7 +6,7 @@ from app.core.db import db
 router = APIRouter()
 
 @router.get("/", response_model=List[Country])
-async def get_countries(
+def get_countries(
     skip: int = Query(0, ge=0),
     limit: int = Query(20, ge=1, le=100),
     region: Optional[str] = None,
@@ -31,7 +31,7 @@ async def get_countries(
     return countries
 
 @router.get("/featured", response_model=List[Country])
-async def get_featured_countries(limit: int = Query(6, ge=1, le=20)):
+def get_featured_countries(limit: int = Query(6, ge=1, le=20)):
     """Get featured countries for homepage"""
     countries = db.get_all_countries()
     # Filter to only published and featured countries
@@ -39,7 +39,7 @@ async def get_featured_countries(limit: int = Query(6, ge=1, le=20)):
     return featured
 
 @router.get("/regions")
-async def get_regions():
+def get_regions():
     """Get all available regions"""
     countries = db.get_all_countries()
     # Filter to only published countries
@@ -48,7 +48,7 @@ async def get_regions():
     return {"regions": regions}
 
 @router.get("/search", response_model=List[Country])
-async def search_countries(
+def search_countries(
     q: str = Query(..., min_length=2),
     limit: int = Query(20, ge=1, le=50)
 ):
@@ -59,7 +59,7 @@ async def search_countries(
     return published_results[:limit]
 
 @router.get("/stats")
-async def get_stats():
+def get_stats():
     """Get public statistics about countries"""
     countries = db.get_all_countries()
     # Filter to only published countries
@@ -86,7 +86,7 @@ async def get_stats():
     }
 
 @router.get("/{country_id}", response_model=Country)
-async def get_country_by_id(country_id: str):
+def get_country_by_id(country_id: str):
     """Get a specific country by its ID"""
     country = db.get_country_by_id(country_id)
     if not country:
