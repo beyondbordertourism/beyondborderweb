@@ -70,6 +70,10 @@ async def search_results(request: Request):
 async def contact_page(request: Request):
     return templates.TemplateResponse("contact.html", {"request": request})
 
+@app.get("/about", response_class=HTMLResponse)
+async def about_page(request: Request):
+    return templates.TemplateResponse("about.html", {"request": request})
+
 @app.post("/contact")
 async def handle_contact_form(request: Request):
     # Here you would handle the form submission, e.g., send an email

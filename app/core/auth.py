@@ -29,17 +29,36 @@ def verify_token(token: str):
         return None
 
 async def authenticate_admin(username: str, password: str):
-    """Authenticate admin using config."""
-    if username == config.ADMIN_USERNAME and password == config.ADMIN_PASSWORD:
+    """Authenticate admin using MongoDB."""
+    from app.crud.admin import admin_crud
+    
+    try:
+        admin = admin_crud.get_by_username(username)
+        if not admin:
+            return None
+        
+        if not admin.get('is_active'):
+            return None
+        
+        if not admin_crud.verify_password(password, admin['password_hash']):
+            return None
+        
+        admin_crud.update_last_login(username)
+        
         return {
-            "username": username,
-            "email": "admin@visaguide.com",
-            "full_name": "System Administrator",
-            "is_super_admin": True
+            "id": admin['id'],
+            "username": admin['username'],
+            "email": admin['email'],
+            "full_name": admin.get('full_name'),
+            "is_super_admin": admin.get('is_super_admin', False)
         }
-    return None
+    except Exception as e:
+        print(f"Auth error: {e}")
+        return None
 
 async def get_current_admin(request: Request, admin_token: Optional[str] = Cookie(None)):
+    from app.crud.admin import admin_crud
+    
     if not admin_token:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -56,18 +75,25 @@ async def get_current_admin(request: Request, admin_token: Optional[str] = Cooki
         )
     
     username = payload.get("sub")
-    if not username or username != config.ADMIN_USERNAME:
+    if not username:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid authentication credentials",
+        )
+    
+    admin = admin_crud.get_by_username(username)
+    if not admin or not admin.get('is_active'):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid authentication credentials",
         )
     
     return {
-        "username": username,
-        "email": "admin@visaguide.com",
-        "full_name": "System Administrator",
-        "is_super_admin": True,
-        "id": "config_admin"
+        "id": admin['id'],
+        "username": admin['username'],
+        "email": admin['email'],
+        "full_name": admin.get('full_name'),
+        "is_super_admin": admin.get('is_super_admin', False)
     }
 
 async def admin_required(current_admin: dict = Depends(get_current_admin)):

@@ -1,12 +1,12 @@
 from pydantic import BaseModel, Field, EmailStr
 from typing import Optional
 from datetime import datetime
-from uuid import UUID
 
 class AdminUser(BaseModel):
-    id: UUID
-    user_id: str  # Supabase user ID
+    id: str  # MongoDB _id or username
+    username: str
     email: EmailStr
+    password_hash: str  # Hashed password
     full_name: Optional[str] = None
     is_active: bool = True
     is_super_admin: bool = False
@@ -16,6 +16,7 @@ class AdminUser(BaseModel):
     updated_at: datetime
 
 class AdminUserCreate(BaseModel):
+    username: str
     email: EmailStr
     password: str
     full_name: Optional[str] = None
@@ -28,7 +29,8 @@ class AdminUserUpdate(BaseModel):
     is_super_admin: Optional[bool] = None
 
 class AdminUserResponse(BaseModel):
-    id: UUID
+    id: str
+    username: str
     email: EmailStr
     full_name: Optional[str] = None
     is_active: bool
