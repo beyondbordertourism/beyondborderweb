@@ -1399,11 +1399,69 @@ html {
     }
 
     .hero-klook {
-        padding: 3rem 1rem;
+        padding: 2rem 1rem;
+        gap: 2rem;
+        min-height: 100vh;
+    }
+
+    .hero-klook-right {
+        gap: 1.25rem;
+    }
+
+    /* Enhanced search box for mobile */
+    .search-box-klook {
+        padding: 0.75rem 1rem;
+        border-radius: 16px;
+        max-width: 100%;
+    }
+
+    .search-box-klook i {
+        margin: 0 0.75rem;
+        font-size: 1.1rem;
+    }
+
+    .search-box-klook input {
+        font-size: 1rem;
+        padding: 0.5rem 0;
+    }
+
+    .search-box-klook button {
+        padding: 0.875rem 1.75rem;
+        font-size: 1rem;
+        border-radius: 12px;
+    }
+
+    /* Better filter buttons for mobile */
+    .filter-buttons-klook {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.75rem;
+    }
+
+    .filter-buttons-klook button {
+        padding: 1rem 1.25rem;
+        font-size: 1rem;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        min-height: 48px;
+    }
+
+    .filter-buttons-klook button i {
+        font-size: 1.1rem;
+    }
+
+    /* Carousel optimizations */
+    .city-carousel {
+        margin-top: 1rem;
+        min-height: 200px;
     }
 
     .city-item.active {
-        font-size: 3.5rem;
+        font-size: 3rem;
+        text-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     }
 
     .city-item.semi-active {
@@ -1411,18 +1469,14 @@ html {
     }
 
     .city-item.distant {
-        font-size: 1.1rem;
-    }
-
-    .filter-buttons-klook {
-        flex-direction: column;
-        align-items: stretch;
+        font-size: 1rem;
     }
 
     /* Mobile search results styling */
     .search-results-klook {
         max-height: 300px;
         margin-top: 8px;
+        border-radius: 16px;
     }
 
     .search-result-item {
@@ -1444,6 +1498,32 @@ html {
         font-size: 0.9rem;
     }
 }
+
+/* Extra small screens (phones < 480px) */
+@media (max-width: 480px) {
+    .hero-klook {
+        padding: 1.5rem 0.75rem;
+    }
+
+    .search-box-klook {
+        padding: 0.625rem 0.875rem;
+    }
+
+    .search-box-klook button {
+        padding: 0.75rem 1.5rem;
+        font-size: 0.95rem;
+    }
+
+    .filter-buttons-klook button {
+        padding: 0.875rem 1rem;
+        font-size: 0.95rem;
+    }
+
+    .city-item.active {
+        font-size: 2.5rem;
+    }
+}
+
 
 /* Navbar spacing fix for pages that need top padding */
 .navbar-spaced {
