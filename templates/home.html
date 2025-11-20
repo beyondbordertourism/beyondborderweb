@@ -79,95 +79,6 @@
         margin-top: 1rem;
         padding-top: 1rem;
     }
-
-    /* Mobile Carousel Styles */
-    .countries-carousel-mobile {
-        position: relative;
-        width: 100%;
-        overflow: hidden;
-    }
-
-    .carousel-container {
-        overflow-x: auto;
-        overflow-y: hidden;
-        -webkit-overflow-scrolling: touch;
-        scroll-behavior: smooth;
-        scrollbar-width: none;
-        -ms-overflow-style: none;
-    }
-
-    .carousel-container::-webkit-scrollbar {
-        display: none;
-    }
-
-    .carousel-track {
-        display: flex;
-        gap: 1rem;
-        padding: 0.5rem;
-        scroll-snap-type: x mandatory;
-    }
-
-    .carousel-track .country-card {
-        flex: 0 0 85%;
-        max-width: 85%;
-        scroll-snap-align: center;
-    }
-
-    .carousel-dots {
-        display: flex;
-        justify-content: center;
-        gap: 0.5rem;
-        margin-top: 1.5rem;
-        padding: 0 1rem;
-    }
-
-    .carousel-dot {
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        background: #cbd5e1;
-        transition: all 0.3s ease;
-        cursor: pointer;
-    }
-
-    .carousel-dot.active {
-        background: linear-gradient(135deg, #14b8a6, #0891b2);
-        width: 24px;
-        border-radius: 4px;
-    }
-
-    /* Show grid on desktop, carousel on mobile */
-    @media (min-width: 769px) {
-        .countries-carousel-mobile {
-            display: none !important;
-        }
-
-        .countries-grid-desktop {
-            display: grid !important;
-        }
-    }
-
-    @media (max-width: 768px) {
-        .countries-grid-desktop {
-            display: none !important;
-        }
-
-        .countries-carousel-mobile {
-            display: block !important;
-        }
-
-        .carousel-track .country-card {
-            flex: 0 0 90%;
-            max-width: 90%;
-        }
-    }
-
-    @media (max-width: 480px) {
-        .carousel-track .country-card {
-            flex: 0 0 95%;
-            max-width: 95%;
-        }
-    }
 </style>
 {% endblock %}
 
@@ -203,19 +114,9 @@
             <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
             <p class="mt-6 text-gray-600 text-lg">Loading countries...</p>
         </div>
-
-        <!-- Desktop Grid View -->
-        <div id="homeCountriesGrid"
-            class="countries-grid-desktop grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+        <!-- Countries Grid -->
+        <div id="homeCountriesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
             style="display: none;"></div>
-
-        <!-- Mobile Carousel View -->
-        <div id="homeCountriesCarousel" class="countries-carousel-mobile" style="display: none;">
-            <div class="carousel-container">
-                <div class="carousel-track" id="carouselTrack"></div>
-            </div>
-            <div class="carousel-dots" id="carouselDots"></div>
-        </div>
     </div>
 
 </section>
@@ -1425,76 +1326,19 @@
     // --- Home Countries rendering (compact, no filters) ---
     async function loadHomeCountries() {
         const grid = document.getElementById('homeCountriesGrid');
-        const carouselTrack = document.getElementById('carouselTrack');
-        const carouselDots = document.getElementById('carouselDots');
-        const carousel = document.getElementById('homeCountriesCarousel');
         const loader = document.getElementById('homeCountriesLoading');
-
         try {
             const response = await fetch('/api/countries/?limit=100');
             const countries = await response.json();
             const html = (countries || []).map(createCountryCardHome).join('');
-
-            // Populate desktop grid
             grid.innerHTML = html;
-
-            // Populate mobile carousel
-            carouselTrack.innerHTML = html;
-
-            // Create carousel dots
-            const dotsHtml = (countries || []).map((_, index) =>
-                `<div class="carousel-dot ${index === 0 ? 'active' : ''}" data-index="${index}"></div>`
-            ).join('');
-            carouselDots.innerHTML = dotsHtml;
-
-            // Hide loader and show content
             loader.style.display = 'none';
             grid.style.display = 'grid';
-            carousel.style.display = 'block';
-
-            // Initialize carousel functionality
-            initializeCarousel(carouselTrack, carouselDots);
-
         } catch (e) {
             console.error('Error loading home countries', e);
             if (loader) loader.innerHTML = '<div class="text-center"><i class="fas fa-exclamation-triangle text-4xl text-red-400 mb-4"></i><h3 class="text-xl font-semibold text-gray-900 mb-2">Error Loading Countries</h3><p class="text-gray-600">Please try refreshing the page.</p></div>';
         }
     }
-
-    function initializeCarousel(track, dotsContainer) {
-        const container = track.parentElement;
-        const dots = dotsContainer.querySelectorAll('.carousel-dot');
-        const cards = track.querySelectorAll('.country-card');
-
-        if (cards.length === 0) return;
-
-        // Update active dot based on scroll position
-        let scrollTimeout;
-        container.addEventListener('scroll', () => {
-            clearTimeout(scrollTimeout);
-            scrollTimeout = setTimeout(() => {
-                const scrollLeft = container.scrollLeft;
-                const cardWidth = cards[0].offsetWidth + 16; // card width + gap
-                const activeIndex = Math.round(scrollLeft / cardWidth);
-
-                dots.forEach((dot, index) => {
-                    dot.classList.toggle('active', index === activeIndex);
-                });
-            }, 100);
-        });
-
-        // Click on dots to scroll
-        dots.forEach((dot, index) => {
-            dot.addEventListener('click', () => {
-                const cardWidth = cards[0].offsetWidth + 16;
-                container.scrollTo({
-                    left: cardWidth * index,
-                    behavior: 'smooth'
-                });
-            });
-        });
-    }
-
 
     function createCountryCardHome(country) {
         const countryId = country.id;
