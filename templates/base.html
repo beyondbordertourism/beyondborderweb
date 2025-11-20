@@ -26,26 +26,28 @@
 </head>
 <body>
     <!-- Navigation -->
-    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 py-4 transition-all duration-300 text-white">
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 py-4 transition-all duration-500 text-white backdrop-blur-sm bg-black/10 border-b border-white/5">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center">
                 <div class="flex items-center space-x-2">
-                    <a href="/" class="flex items-center">
-                        <img src="/static/images/13.png" alt="Beyond Borders Logo" class="logo">
+                    <a href="/" class="flex items-center group">
+                        <img src="/static/images/13.png" alt="Beyond Borders Logo" class="logo transition-transform duration-300 group-hover:scale-105">
                     </a>
                 </div>
-                <div class="hidden md:flex items-center space-x-8">
-                    <a href="/" class="nav-link">Home</a>
-                    <a href="/countries" class="nav-link">All Countries</a>
-                    <a href="/about" class="nav-link">About Us</a>
+                <div class="hidden md:flex items-center space-x-10">
+                    <a href="/" class="nav-link relative font-medium tracking-wide hover:text-green-300 transition-colors">Home</a>
+                    <a href="/countries" class="nav-link relative font-medium tracking-wide hover:text-green-300 transition-colors">All Countries</a>
+                    <a href="/about" class="nav-link relative font-medium tracking-wide hover:text-green-300 transition-colors">About Us</a>
                 </div>
                 <div class="flex items-center space-x-4">
-                    <a href="/contact" class="nav-contact-button hidden md:inline-block">Contact Us</a>
+                    <a href="/contact" class="nav-contact-button hidden md:inline-flex items-center justify-center px-6 py-2.5 border border-transparent text-sm font-medium rounded-full text-white bg-gradient-to-r from-green-600 to-teal-600 hover:from-green-700 hover:to-teal-700 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5">
+                        Contact Us
+                    </a>
                     <!-- Enhanced Mobile Menu Button -->
-                    <button id="mobile-menu-button" class="md:hidden relative w-8 h-8 flex flex-col justify-center items-center transition-all duration-300 z-60">
-                        <span class="hamburger-line"></span>
-                        <span class="hamburger-line"></span>
-                        <span class="hamburger-line"></span>
+                    <button id="mobile-menu-button" class="md:hidden relative w-10 h-10 flex flex-col justify-center items-center transition-all duration-300 z-60 focus:outline-none">
+                        <span class="hamburger-line w-6 h-0.5 bg-white mb-1.5 rounded-full transition-all duration-300"></span>
+                        <span class="hamburger-line w-6 h-0.5 bg-white mb-1.5 rounded-full transition-all duration-300"></span>
+                        <span class="hamburger-line w-6 h-0.5 bg-white rounded-full transition-all duration-300"></span>
                     </button>
                 </div>
             </div>
