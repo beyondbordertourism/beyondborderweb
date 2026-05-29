@@ -11,7 +11,7 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Poppins:wght@400;500;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -20,13 +20,19 @@
     <style>
         body {
             background-color: #0B3D34;
-            font-family: 'Roboto', sans-serif;
+            font-family: 'Inter', sans-serif;
+        }
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif;
+        }
+        .nav-link, .nav-contact-button, .mobile-nav-text, .filter-buttons-klook button, .search-box-klook {
+            font-family: 'Inter', sans-serif;
         }
     </style>
 </head>
-<body>
+<body class="{% block body_class %}{% endblock %}">
     <!-- Navigation -->
-    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 py-4 transition-all duration-500 text-white backdrop-blur-sm bg-black/10 border-b border-white/5">
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 py-4 transition-all duration-500 text-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center">
                 <div class="flex items-center space-x-2">
@@ -164,82 +170,52 @@
         {% block content %}{% endblock %}
     </main>
 
-    <!-- Enhanced Footer -->
-    <footer class="bg-gray-800 text-white pt-16 pb-8">
+    <!-- Footer -->
+    <footer style="background:#0f172a; border-top: 1px solid rgba(255,255,255,0.06); padding: 3rem 0 2rem;">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-                <!-- About Section -->
-                <div class="md:col-span-1">
-                    <img src="/static/images/13.png" alt="Beyond Borders Logo" class="logo mb-4">
-                    <p class="text-gray-400">Your trusted partner in navigating the complexities of global travel. We simplify visa processes, making your journey seamless.</p>
+            <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:2rem; flex-wrap:wrap;">
+                <!-- Brand -->
+                <div style="flex:1; min-width:200px;">
+                    <img src="/static/images/13.png" alt="Beyond Borders Logo" class="logo" style="margin-bottom:0.75rem;">
+                    <p style="font-family:'Inter',sans-serif; font-size:0.825rem; color:#64748b; line-height:1.6; max-width:220px;">Simplifying visas so you can focus on the journey.</p>
                 </div>
-                
-                <!-- Quick Links -->
-                <div>
-                    <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
-                    <ul class="space-y-2">
-                        <li><a href="/" class="text-gray-400 hover:text-white transition-colors">Home</a></li>
-                        <li><a href="/countries" class="text-gray-400 hover:text-white transition-colors">All Countries</a></li>
-                        <li><a href="/#faq" class="text-gray-400 hover:text-white transition-colors">FAQ</a></li>
-                        <li><a href="/admin" class="text-gray-400 hover:text-white transition-colors">Admin Login</a></li>
-                    </ul>
+
+                <!-- Links -->
+                <div style="display:flex; gap:3rem; flex-wrap:wrap;">
+                    <div>
+                        <p style="font-family:'Inter',sans-serif; font-size:0.7rem; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:#475569; margin-bottom:0.85rem;">Navigate</p>
+                        <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:0.5rem;">
+                            <li><a href="/" style="font-family:'Inter',sans-serif; font-size:0.85rem; color:#94a3b8; text-decoration:none; transition:color 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">Home</a></li>
+                            <li><a href="/countries" style="font-family:'Inter',sans-serif; font-size:0.85rem; color:#94a3b8; text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">All Countries</a></li>
+                            <li><a href="/about" style="font-family:'Inter',sans-serif; font-size:0.85rem; color:#94a3b8; text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">About Us</a></li>
+                            <li><a href="/contact" style="font-family:'Inter',sans-serif; font-size:0.85rem; color:#94a3b8; text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">Contact</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <p style="font-family:'Inter',sans-serif; font-size:0.7rem; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:#475569; margin-bottom:0.85rem;">Services</p>
+                        <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:0.5rem;">
+                            <li><span style="font-family:'Inter',sans-serif; font-size:0.85rem; color:#64748b;">Visa Application</span></li>
+                            <li><span style="font-family:'Inter',sans-serif; font-size:0.85rem; color:#64748b;">Document Check</span></li>
+                            <li><span style="font-family:'Inter',sans-serif; font-size:0.85rem; color:#64748b;">E-Visa Assistance</span></li>
+                        </ul>
+                    </div>
                 </div>
-                
-                <!-- Services -->
+
+                <!-- Social -->
                 <div>
-                    <h3 class="text-lg font-semibold mb-4">Services</h3>
-                    <ul class="space-y-2">
-                        <li><p class="text-gray-400">Visa Application</p></li>
-                        <li><p class="text-gray-400">Document Check</p></li>
-                        <li><p class="text-gray-400">E-Visa Assistance</p></li>
-                    </ul>
-                </div>
-                
-                <!-- Social Media -->
-                <div>
-                    <h3 class="text-lg font-semibold mb-4">Follow Us</h3>
-                    <div class="flex space-x-4">
-                        <a href="#" class="text-gray-400 hover:text-white transition-colors text-2xl"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="text-gray-400 hover:text-white transition-colors text-2xl"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="text-gray-400 hover:text-white transition-colors text-2xl"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="text-gray-400 hover:text-white transition-colors text-2xl"><i class="fab fa-linkedin-in"></i></a>
+                    <p style="font-family:'Inter',sans-serif; font-size:0.7rem; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:#475569; margin-bottom:0.85rem;">Follow</p>
+                    <div style="display:flex; gap:0.75rem;">
+                        <a href="#" style="width:34px; height:34px; border-radius:50%; border:1px solid rgba(255,255,255,0.1); display:flex; align-items:center; justify-content:center; color:#64748b; text-decoration:none; transition:all 0.2s;" onmouseover="this.style.borderColor='#0d9488';this.style.color='#0d9488'" onmouseout="this.style.borderColor='rgba(255,255,255,0.1)';this.style.color='#64748b'"><i class="fab fa-instagram" style="font-size:0.8rem;"></i></a>
+                        <a href="#" style="width:34px; height:34px; border-radius:50%; border:1px solid rgba(255,255,255,0.1); display:flex; align-items:center; justify-content:center; color:#64748b; text-decoration:none; transition:all 0.2s;" onmouseover="this.style.borderColor='#0d9488';this.style.color='#0d9488'" onmouseout="this.style.borderColor='rgba(255,255,255,0.1)';this.style.color='#64748b'"><i class="fab fa-facebook-f" style="font-size:0.8rem;"></i></a>
+                        <a href="#" style="width:34px; height:34px; border-radius:50%; border:1px solid rgba(255,255,255,0.1); display:flex; align-items:center; justify-content:center; color:#64748b; text-decoration:none; transition:all 0.2s;" onmouseover="this.style.borderColor='#0d9488';this.style.color='#0d9488'" onmouseout="this.style.borderColor='rgba(255,255,255,0.1)';this.style.color='#64748b'"><i class="fab fa-linkedin-in" style="font-size:0.8rem;"></i></a>
                     </div>
                 </div>
             </div>
-            
-            <!-- SEO Keywords Section -->
-            <div class="mt-12 border-t border-gray-700 pt-8">
-                <div class="text-center text-gray-400 mb-4">
-                    <h4 class="text-sm font-semibold mb-3">Popular Visa Services & Destinations</h4>
-                    <div class="flex flex-wrap justify-center gap-2 text-xs">
-                        <span class="px-2 py-1 bg-gray-700 rounded">USA Visa</span>
-                        <span class="px-2 py-1 bg-gray-700 rounded">UK Visa</span>
-                        <span class="px-2 py-1 bg-gray-700 rounded">Canada Visa</span>
-                        <span class="px-2 py-1 bg-gray-700 rounded">Schengen Visa</span>
-                        <span class="px-2 py-1 bg-gray-700 rounded">Australia Visa</span>
-                        <span class="px-2 py-1 bg-gray-700 rounded">New Zealand Visa</span>
-                        <span class="px-2 py-1 bg-gray-700 rounded">UAE Visa</span>
-                        <span class="px-2 py-1 bg-gray-700 rounded">Tourist Visa</span>
-                        <span class="px-2 py-1 bg-gray-700 rounded">Business Visa</span>
-                        <span class="px-2 py-1 bg-gray-700 rounded">Student Visa</span>
-                        <span class="px-2 py-1 bg-gray-700 rounded">Work Visa</span>
-                        <span class="px-2 py-1 bg-gray-700 rounded">Transit Visa</span>
-                        <span class="px-2 py-1 bg-gray-700 rounded">E-Visa</span>
-                        <span class="px-2 py-1 bg-gray-700 rounded">Visa Application</span>
-                        <span class="px-2 py-1 bg-gray-700 rounded">Document Preparation</span>
-                        <span class="px-2 py-1 bg-gray-700 rounded">Immigration Consulting</span>
-                        <span class="px-2 py-1 bg-gray-700 rounded">Travel Insurance</span>
-                        <span class="px-2 py-1 bg-gray-700 rounded">Visa Reapplication</span>
-                        <span class="px-2 py-1 bg-gray-700 rounded">Corporate Travel</span>
-                        <span class="px-2 py-1 bg-gray-700 rounded">Group Travel</span>
-                        <span class="px-2 py-1 bg-gray-700 rounded">Beyond Borders Visa</span>
-                        <span class="px-2 py-1 bg-gray-700 rounded">Beyond Borders Travel</span>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="mt-8 border-t border-gray-700 pt-8 text-center text-gray-400">
-                <p>&copy; 2024 Beyond Borders. All rights reserved. Your adventure starts here.</p>
+
+            <!-- Bottom bar -->
+            <div style="margin-top:2.5rem; padding-top:1.5rem; border-top:1px solid rgba(255,255,255,0.06); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1rem;">
+                <p style="font-family:'Inter',sans-serif; font-size:0.78rem; color:#475569; margin:0;">&copy; 2024 Beyond Borders. All rights reserved.</p>
+                <p style="font-family:'Inter',sans-serif; font-size:0.78rem; color:#334155; margin:0;">Visa information for Indian passport holders.</p>
             </div>
         </div>
     </footer>

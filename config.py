@@ -5,7 +5,7 @@ from urllib.parse import quote_plus
 load_dotenv()
 
 # MongoDB Configuration
-MONGODB_URL = os.getenv("MONGODB_URL", "mongodb+srv://inshamanowar22_db_user:gCHLC03QnvtTtdLP@beyondborders.pmw8pvm.mongodb.net/")
+MONGODB_URL = os.getenv("MONGODB_URL", "mongodb+srv://inshamanowar22_db_user:gCHLC03QnvtTtdLP@beyondborders.pmw8pvm.mongodb.net/?appName=beyondborders")
 DATABASE_NAME = os.getenv("DATABASE_NAME", "beyondborder")
 
 # Application Settings

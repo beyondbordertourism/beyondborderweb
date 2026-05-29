@@ -107,6 +107,80 @@
 html {
     scroll-behavior: smooth;
 }
+
+/* ── Font overrides to match site typography ── */
+
+/* Hero: keep Oswald for the big country name, upgrade subtitle/desc to Inter */
+.unified-hero-subtitle,
+.unified-hero-description {
+    font-family: 'Inter', sans-serif !important;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+}
+
+/* Section headings → Playfair Display */
+.lg\:col-span-2 section h2,
+.space-y-6 h2,
+.space-y-6 h3 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+/* Sidebar quick-fact headings */
+#quickFacts,
+#embassies h4,
+.stats-card h3 {
+    font-family: 'Inter', sans-serif;
+}
+
+/* Visa card title → Playfair */
+.visa-card-title {
+    font-family: 'Playfair Display', serif !important;
+    font-size: 1.15rem !important;
+    font-weight: 600 !important;
+    letter-spacing: -0.01em;
+}
+
+/* Visa card body text → Inter */
+.visa-card-purpose,
+.visa-card-description,
+.info-item-header span,
+.info-item-value,
+.fee-item,
+.visa-conditions-list li,
+.visa-notes-text {
+    font-family: 'Inter', sans-serif !important;
+}
+
+/* Info item labels → Inter medium */
+.info-item-header span {
+    font-weight: 500;
+    font-size: 0.8rem;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: #94a3b8;
+}
+
+/* Morph nav buttons → Inter */
+.morph-nav-button {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.82rem;
+    letter-spacing: 0.02em;
+}
+
+/* Document checklist names → Inter */
+.document-name {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+}
+
+/* General body text in sections */
+.min-h-screen p,
+.min-h-screen li,
+.min-h-screen span:not(.visa-card-entry-type) {
+    font-family: 'Inter', sans-serif;
+}
 </style>
 {% endblock %}
 
