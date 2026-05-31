@@ -1312,7 +1312,7 @@
 
         // Create city items from config
         carousel.innerHTML = config.countries.map((country, index) =>
-            `<a href="${country.url}" class="city-item ${index === 0 ? 'active' : ''}" data-city="${country.name}" data-bg="${country.backgroundImage}" style="text-decoration: none; color: inherit;">${country.name}</a>`
+            `<span class="city-item ${index === 0 ? 'active' : ''}" data-city="${country.name}" data-bg="${country.backgroundImage}" style="cursor: default;">${country.name}</span>`
         ).join('');
 
         const cityItems = document.querySelectorAll('.city-item');
@@ -1439,22 +1439,11 @@
 
         // --- City click functionality ---
         cityItems.forEach((item, index) => {
-            item.addEventListener('click', function (e) {
-                // Prevent immediate navigation for carousel interaction
-                e.preventDefault();
-
+            item.addEventListener('click', function () {
                 isUserInteracting = true;
                 setActiveCity(index);
                 resetAutoSlide();
-
-                // Navigate to country page after a short delay
-                setTimeout(() => {
-                    window.location.href = this.href;
-                }, 500); // 500ms delay to allow carousel interaction
-
-                setTimeout(() => {
-                    isUserInteracting = false;
-                }, 1000);
+                setTimeout(() => { isUserInteracting = false; }, 1000);
             });
         });
 
