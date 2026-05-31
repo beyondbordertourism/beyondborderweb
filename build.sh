@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Build script for Render deployment
+# Build script for deployment
 echo "Starting build process..."
 
 # Upgrade pip
