@@ -399,17 +399,29 @@
         </div>
     </div>
     <div class="hero-klook-right">
-        <div class="search-and-filter-klook">
-            <form action="/search" method="GET" class="search-box-klook" autocomplete="off">
-                <i class="fas fa-search"></i>
-                <input type="text" name="q" id="search-input" placeholder="Search for a country...">
-                <button type="submit" class="search-button-klook">Search</button>
-            </form>
-            <div id="search-results-klook" class="search-results-klook"></div>
-            <div class="filter-buttons-klook">
-                <button><i class="fas fa-file-alt"></i> Visa Application</button>
-                <button><i class="fas fa-check-circle"></i> Document Check</button>
-                <button><i class="fas fa-globe-americas"></i> E-Visa Services</button>
+        <div class="hero-editorial">
+            <p class="hero-eyebrow">Visa Specialists &nbsp;·&nbsp; Indian Passport Holders</p>
+            <h1 class="hero-headline">Every Journey<br>Deserves a<br><em>Seamless Start</em></h1>
+            <p class="hero-subline">From application to approval — we handle the complexity so you can focus on the adventure.</p>
+            <div class="hero-ctas">
+                <a href="/countries" class="hero-cta-primary">Explore Destinations</a>
+                <a href="/contact" class="hero-cta-secondary">Book a Consultation</a>
+            </div>
+            <div class="hero-trust-bar">
+                <div class="hero-trust-item">
+                    <span class="hero-trust-number">50+</span>
+                    <span class="hero-trust-label">Countries</span>
+                </div>
+                <div class="hero-trust-divider"></div>
+                <div class="hero-trust-item">
+                    <span class="hero-trust-number">2000+</span>
+                    <span class="hero-trust-label">Applications</span>
+                </div>
+                <div class="hero-trust-divider"></div>
+                <div class="hero-trust-item">
+                    <span class="hero-trust-number">98%</span>
+                    <span class="hero-trust-label">Success Rate</span>
+                </div>
             </div>
         </div>
     </div>
@@ -1257,6 +1269,7 @@
         // Scroll reveal + counters
         initScrollReveal();
         initCounters();
+        // Remove search listener (search bar removed from hero)
     });
 
     async function loadTrendingVisas() {
@@ -1345,97 +1358,6 @@
                 }
             }, 2000); // Wait 2 seconds after user interaction before resuming auto-slide
         }
-
-        // --- Live Search ---
-        const searchInput = document.getElementById('search-input');
-        const searchResults = document.getElementById('search-results-klook');
-        let debounceTimer;
-
-        searchInput.addEventListener('input', function () {
-            clearTimeout(debounceTimer);
-            const query = this.value;
-
-            if (query.length < 2) {
-                searchResults.style.display = 'none';
-                return;
-            }
-
-            searchResults.innerHTML = `
-            <div class="search-result-item">
-                <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
-                <div>
-                    <strong>Searching...</strong>
-                    <p>Finding countries matching "${query}"</p>
-                </div>
-            </div>
-        `;
-            searchResults.style.display = 'block';
-
-            debounceTimer = setTimeout(() => {
-                fetch(`/api/countries/search?q=${query}&limit=20`)
-                    .then(response => response.json())
-                    .then(data => {
-                        searchResults.innerHTML = '';
-                        if (data.length > 0) {
-                            data.slice(0, 4).forEach(country => {
-                                const item = document.createElement('a');
-                                item.href = `/countries/${country.id}`;
-                                item.classList.add('search-result-item');
-                                item.innerHTML = `
-                                <div class="flag">${country.flag}</div>
-                                <div>
-                                    <strong>${country.name}</strong>
-                                    <p>${country.summary.length > 80 ? country.summary.substring(0, 80) + '...' : country.summary}</p>
-                                </div>
-                            `;
-                                searchResults.appendChild(item);
-                            });
-
-                            if (data.length > 4) {
-                                const seeAllItem = document.createElement('a');
-                                seeAllItem.href = `/search?q=${encodeURIComponent(query)}`;
-                                seeAllItem.classList.add('search-result-item', 'see-all-results');
-                                seeAllItem.innerHTML = `
-                                <div class="see-all-icon">
-                                    <i class="fas fa-search"></i>
-                                </div>
-                                <div>
-                                    <strong>See all results for "${query}"</strong>
-                                    <p>View all ${data.length}+ countries matching your search</p>
-                                </div>
-                            `;
-                                searchResults.appendChild(seeAllItem);
-                            }
-
-                            searchResults.style.display = 'block';
-                        } else {
-                            const noResultsItem = document.createElement('div');
-                            noResultsItem.classList.add('search-result-item', 'no-results');
-                            noResultsItem.innerHTML = `
-                            <div class="no-results-icon">
-                                <i class="fas fa-search"></i>
-                            </div>
-                            <div>
-                                <strong>No countries found</strong>
-                                <p>Try adjusting your search terms</p>
-                            </div>
-                        `;
-                            searchResults.appendChild(noResultsItem);
-                            searchResults.style.display = 'block';
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Search error:', error);
-                        searchResults.style.display = 'none';
-                    });
-            }, 300);
-        });
-
-        document.addEventListener('click', function (e) {
-            if (!e.target.closest('.search-box-klook')) {
-                searchResults.style.display = 'none';
-            }
-        });
 
         // --- City click functionality ---
         cityItems.forEach((item, index) => {
