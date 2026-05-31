@@ -3,7 +3,238 @@
 {% block title %}Beyond Borders - Your Next Destination Awaits{% endblock %}
 
 {% block head_styles %}
+<link rel="stylesheet" href="https://unpkg.com/splitting/dist/splitting.css">
 <style>
+    /* ─── HERO V2 ─────────────────────────────────────── */
+    .hero-v2 {
+        position: relative;
+        width: 100%;
+        height: 100vh;
+        min-height: 640px;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        background: #000;
+    }
+
+    .hero-video-bg { display: none; }
+
+    .hero-overlay { display: none; }
+
+    .hero-body {
+        position: absolute;
+        z-index: 2;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        padding: 0 3rem 0 5rem;
+        gap: 0;
+    }
+
+    .hero-left {
+        flex: 1;
+        max-width: 500px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .hero-right {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .globe-wrap {
+        width: 520px;
+        height: 520px;
+        position: relative;
+    }
+
+    #globeCanvas {
+        width: 100% !important;
+        height: 100% !important;
+        opacity: 0.92;
+        cursor: grab;
+    }
+
+    #globeCanvas:active { cursor: grabbing; }
+
+    /* Globe country card — positioned dynamically at the marker */
+    .globe-card {
+        position: absolute;
+        width: 152px;
+        border-radius: 6px;
+        overflow: hidden;
+        opacity: 0;
+        visibility: hidden;
+        transform: scale(0.88);
+        transition: opacity 0.35s ease, visibility 0.35s ease, transform 0.35s ease;
+        box-shadow: 0 12px 40px rgba(0,0,0,0.7), 0 0 0 1px rgba(94,234,212,0.18);
+        z-index: 10;
+        pointer-events: none;
+    }
+    .globe-card.visible {
+        opacity: 1;
+        visibility: visible;
+        transform: scale(1);
+    }
+    .globe-card img {
+        width: 168px;
+        height: 168px;
+        object-fit: cover;
+        display: block;
+    }
+    .globe-card span {
+        display: block;
+        font-family: 'Inter', sans-serif;
+        font-size: 0.58rem;
+        font-weight: 700;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: #fff;
+        background: rgba(0,0,0,0.78);
+        padding: 0.45rem 0.7rem;
+        white-space: nowrap;
+    }
+
+    /* Country pills */
+    .hero-pills {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: 1.75rem;
+    }
+
+    .hero-pill {
+        font-family: 'Inter', sans-serif;
+        font-size: 0.6rem;
+        font-weight: 600;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.45);
+        border: 1px solid rgba(255,255,255,0.1);
+        padding: 0.3rem 0.75rem;
+        border-radius: 2px;
+        cursor: pointer;
+        transition: color 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+        background: transparent;
+    }
+
+    .hero-pill:hover,
+    .hero-pill.active {
+        color: #5eead4;
+        border-color: rgba(94, 234, 212, 0.5);
+        background: rgba(94, 234, 212, 0.06);
+    }
+
+    /* Label */
+    .hero-label {
+        font-family: 'Inter', sans-serif;
+        font-size: 0.65rem;
+        font-weight: 600;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.35);
+        margin: 0 0 1.5rem;
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    /* Headline */
+    .hero-heading {
+        font-family: 'Playfair Display', serif;
+        font-size: clamp(3rem, 5.5vw, 6rem);
+        font-weight: 700;
+        line-height: 1.05;
+        color: #fff;
+        margin: 0;
+        letter-spacing: -0.02em;
+    }
+
+    /* Splitting.js wraps each char — we animate from below */
+    .hero-heading .word { display: inline-block; overflow: hidden; vertical-align: bottom; }
+    .hero-heading .char { display: inline-block; transform: translateY(105%); will-change: transform; }
+
+    .hero-heading em { font-style: italic; color: #5eead4; }
+
+    /* Thin rule */
+    .hero-hr {
+        width: 0;
+        height: 1px;
+        background: rgba(255,255,255,0.18);
+        margin: 1.75rem 0;
+        will-change: width;
+    }
+
+    /* Subline */
+    .hero-sub {
+        font-family: 'Inter', sans-serif;
+        font-size: 0.875rem;
+        font-weight: 400;
+        line-height: 1.85;
+        color: rgba(255,255,255,0.4);
+        margin: 0;
+        max-width: 300px;
+        opacity: 0;
+    }
+
+    /* Scroll cue */
+    .hero-scroll-cue {
+        position: absolute;
+        bottom: 2.5rem;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.6rem;
+        opacity: 0;
+    }
+
+    .hero-scroll-cue span {
+        font-family: 'Inter', sans-serif;
+        font-size: 0.58rem;
+        font-weight: 600;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.28);
+    }
+
+    .hero-scroll-line {
+        width: 1px;
+        height: 48px;
+        background: rgba(255,255,255,0.1);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .hero-scroll-line::after {
+        content: '';
+        position: absolute;
+        top: -100%;
+        left: 0;
+        width: 1px;
+        height: 100%;
+        background: rgba(255,255,255,0.5);
+        animation: scrollCue 2.2s cubic-bezier(0.4,0,0.6,1) infinite;
+    }
+
+    @keyframes scrollCue {
+        0%   { top: -100%; }
+        100% { top: 100%;  }
+    }
+
+    /* Mobile */
+    @media (max-width: 768px) {
+        .hero-body { flex-direction: column; padding: 5rem 1.5rem 0; gap: 2rem; overflow: hidden; }
+        .hero-left { max-width: 100%; }
+        .hero-right { display: none; }
+        .hero-heading { font-size: clamp(2.6rem, 10vw, 3.6rem); }
+        .hero-sub { max-width: 100%; }
+    }
+
     /* Countries grid styles (reused from countries page) */
     .countries-section {
         background: linear-gradient(to bottom, #f8fafc 0%, #ffffff 100%);
@@ -210,181 +441,187 @@
         transform: translateY(0);
     }
 
-    /* Stat counters */
-    .mission-stats {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 1.5rem;
-        margin-bottom: 3rem;
+    /* ── MISSION SECTION ─────────────────────────────────────────────────── */
+    .mission-section {
+        background: #070f0c;
+        padding: 0 0 6rem;
+        position: relative;
+        overflow: hidden;
     }
 
-    @media (max-width: 600px) {
-        .mission-stats { grid-template-columns: 1fr; }
+    .mission-section::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background:
+            radial-gradient(ellipse at 15% 60%, rgba(13,148,136,0.07) 0%, transparent 55%),
+            radial-gradient(ellipse at 85% 15%, rgba(13,148,136,0.04) 0%, transparent 50%);
+        pointer-events: none;
     }
 
-    .mission-stat-item {
+    /* Stat ribbon */
+    .mission-ribbon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-bottom: 1px solid rgba(255,255,255,0.06);
+        margin-bottom: 5.5rem;
+    }
+
+    .mission-ribbon-item {
+        flex: 1;
         text-align: center;
-        padding: 1.5rem 1rem;
-        background: #f8fafc;
-        border-radius: 16px;
-        border: 1px solid #e2e8f0;
+        padding: 2.75rem 1rem;
+        max-width: 340px;
+    }
+
+    .mission-ribbon-div {
+        width: 1px;
+        height: 44px;
+        background: rgba(255,255,255,0.08);
+        flex-shrink: 0;
     }
 
     .mission-stat-number {
         font-family: 'Playfair Display', serif;
-        font-size: 2.4rem;
+        font-size: clamp(2.6rem, 4.5vw, 4rem);
         font-weight: 700;
-        color: #0d9488;
+        color: #fff;
         line-height: 1;
-        margin-bottom: 0.35rem;
+        margin-bottom: 0.45rem;
+        letter-spacing: -0.02em;
     }
 
     .mission-stat-label {
         font-family: 'Inter', sans-serif;
-        font-size: 0.82rem;
+        font-size: 0.6rem;
         font-weight: 600;
-        color: #64748b;
+        color: rgba(255,255,255,0.28);
         text-transform: uppercase;
-        letter-spacing: 0.06em;
+        letter-spacing: 0.22em;
     }
 
-    /* Mission Section */
-    .mission-section {
-        background: #fff;
-        padding: 6rem 0;
-        text-align: center;
-        border-top: 1px solid #f1f5f9;
+    /* Main content: asymmetric 2-col */
+    .mission-main {
+        max-width: 1200px;
+        margin: 0 auto 5.5rem;
+        padding: 0 5rem;
+        display: grid;
+        grid-template-columns: 1fr 1.5fr;
+        gap: 5rem;
+        align-items: start;
     }
 
     .mission-eyebrow {
         font-family: 'Inter', sans-serif;
-        font-size: 0.75rem;
+        font-size: 0.6rem;
         font-weight: 600;
-        letter-spacing: 0.18em;
+        letter-spacing: 0.24em;
         text-transform: uppercase;
         color: #0d9488;
-        margin-bottom: 1rem;
+        margin-bottom: 1.25rem;
     }
 
     .mission-heading {
         font-family: 'Playfair Display', serif;
-        font-size: clamp(2.2rem, 5vw, 3.5rem);
+        font-size: clamp(3rem, 5vw, 4.8rem);
         font-weight: 700;
-        color: #0f172a;
-        line-height: 1.15;
-        margin-bottom: 1.25rem;
+        color: #fff;
+        line-height: 1.04;
+        margin-bottom: 1.5rem;
+        letter-spacing: -0.025em;
     }
 
     .mission-heading em {
         font-style: italic;
-        color: #0d9488;
+        color: #5eead4;
     }
 
     .mission-rule {
-        width: 48px;
-        height: 2px;
-        background: #0d9488;
-        margin: 0 auto 2rem;
-        border-radius: 2px;
+        width: 28px;
+        height: 1px;
+        background: rgba(94,234,212,0.45);
     }
 
     .mission-body {
         font-family: 'Inter', sans-serif;
-        font-size: 1.15rem;
-        color: #475569;
-        line-height: 1.8;
-        max-width: 680px;
-        margin: 0 auto 3rem;
-        font-weight: 400;
+        font-size: 0.975rem;
+        color: rgba(255,255,255,0.45);
+        line-height: 1.9;
+        margin-bottom: 2.5rem;
     }
 
     .mission-body strong {
-        color: #0f172a;
+        color: rgba(255,255,255,0.82);
         font-weight: 600;
     }
 
     .mission-quote {
-        position: relative;
-        max-width: 600px;
-        margin: 0 auto 4rem;
-        padding: 0 1rem;
-    }
-
-    .mission-quote-mark {
-        display: block;
-        font-family: 'Playfair Display', serif;
-        font-size: 5rem;
-        line-height: 0.6;
-        color: #e2e8f0;
-        margin-bottom: 1rem;
-        user-select: none;
+        border-left: 1px solid rgba(94,234,212,0.28);
+        padding-left: 1.5rem;
+        margin: 0;
     }
 
     .mission-quote p {
         font-family: 'Playfair Display', serif;
-        font-size: 1.15rem;
+        font-size: 1.08rem;
         font-style: italic;
-        color: #64748b;
-        line-height: 1.75;
+        color: rgba(255,255,255,0.38);
+        line-height: 1.8;
     }
 
-    .mission-cards {
+    /* Feature items */
+    .mission-features {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 5rem;
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        gap: 1.5rem;
-        margin-top: 1rem;
+        border-top: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .mission-feature {
+        padding: 2.75rem 2.5rem 0 0;
+        border-right: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .mission-feature:last-child { border-right: none; padding-right: 0; }
+    .mission-feature:not(:first-child) { padding-left: 2.5rem; }
+
+    .mission-feature-num {
+        display: block;
+        font-family: 'Inter', sans-serif;
+        font-size: 0.58rem;
+        font-weight: 700;
+        letter-spacing: 0.2em;
+        color: #0d9488;
+        margin-bottom: 1.25rem;
+    }
+
+    .mission-feature h4 {
+        font-family: 'Inter', sans-serif;
+        font-size: 0.78rem;
+        font-weight: 600;
+        color: rgba(255,255,255,0.85);
+        margin-bottom: 0.75rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+    }
+
+    .mission-feature p {
+        font-family: 'Inter', sans-serif;
+        font-size: 0.84rem;
+        color: rgba(255,255,255,0.32);
+        line-height: 1.78;
     }
 
     @media (max-width: 768px) {
-        .mission-cards { grid-template-columns: 1fr; }
-    }
-
-    .mission-card {
-        background: #f8fafc;
-        border: 1px solid #e2e8f0;
-        border-radius: 16px;
-        padding: 2rem 1.5rem;
-        text-align: center;
-        transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease, border-color 0.3s ease;
-    }
-
-    .mission-card:hover {
-        transform: translateY(-6px);
-        box-shadow: 0 12px 32px rgba(0,0,0,0.08);
-        border-color: transparent;
-    }
-
-    .mission-card-icon {
-        width: 48px;
-        height: 48px;
-        border-radius: 12px;
-        background: color-mix(in srgb, var(--icon-color) 12%, white);
-        color: var(--icon-color);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.1rem;
-        margin: 0 auto 1.25rem;
-        transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-
-    .mission-card:hover .mission-card-icon {
-        transform: scale(1.12);
-    }
-
-    .mission-card h4 {
-        font-family: 'Playfair Display', serif;
-        font-size: 1.05rem;
-        font-weight: 600;
-        color: #0f172a;
-        margin-bottom: 0.6rem;
-    }
-
-    .mission-card p {
-        font-family: 'Inter', sans-serif;
-        font-size: 0.875rem;
-        color: #64748b;
-        line-height: 1.65;
+        .mission-ribbon { flex-direction: column; }
+        .mission-ribbon-div { width: 40px; height: 1px; }
+        .mission-main { grid-template-columns: 1fr; padding: 0 1.5rem; gap: 2.5rem; margin-bottom: 3rem; }
+        .mission-features { grid-template-columns: 1fr; padding: 0 1.5rem; }
+        .mission-feature { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.06); padding: 2rem 0; }
+        .mission-feature:last-child { border-bottom: none; }
     }
 </style>
 {% endblock %}
@@ -392,16 +629,41 @@
 {% block body_class %}page-home{% endblock %}
 
 {% block content %}
-<div class="hero-klook">
-    <div class="hero-klook-left">
-        <div class="city-carousel">
-            <!-- Countries will be loaded dynamically -->
+<section class="hero-v2" id="heroV2">
+
+    <div class="hero-video-bg">
+        <video autoplay muted loop playsinline poster="/static/images/hero-bg.jpg">
+            <source src="https://videos.pexels.com/video-files/1851190/1851190-hd_1920_1080_25fps.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <div class="hero-overlay"></div>
+
+    <div class="hero-body">
+        <div class="hero-left">
+            <p class="hero-label">Visa Specialists &nbsp;·&nbsp; Indian Passport Holders</p>
+            <h1 class="hero-heading">Every Journey<br>Deserves a<br><em>Seamless&nbsp;Start</em></h1>
+            <div class="hero-hr" id="heroHr"></div>
+            <p class="hero-sub">From application to approval — we handle every detail so you can focus on the adventure.</p>
+            <div class="hero-pills" id="heroPills"></div>
+        </div>
+        <div class="hero-right">
+            <div class="globe-wrap">
+                <canvas id="globeCanvas" width="1040" height="1040"></canvas>
+                <div id="globeCard" class="globe-card">
+                    <img id="gcImg" src="" alt="">
+                    <span id="gcName"></span>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="hero-klook-right">
-        <h1 class="hero-headline">Every Journey<br>Deserves a<br><em>Seamless Start</em></h1>
+
+    <div class="hero-scroll-cue" id="heroScrollCue">
+        <span>Scroll</span>
+        <div class="hero-scroll-line"></div>
     </div>
-</div>
+
+</section>
 
 <!-- Countries Grid (moved from Countries page) -->
 <section class="countries-section py-12">
@@ -434,69 +696,62 @@
 
 <!-- Mission Statement Section -->
 <section class="mission-section">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        <!-- Eyebrow -->
-        <p class="mission-eyebrow reveal">Our Purpose</p>
-
-        <!-- Heading -->
-        <h2 class="mission-heading reveal">Our <em>Mission</em></h2>
-        <div class="mission-rule reveal"></div>
-
-        <!-- Stats -->
-        <div class="mission-stats reveal">
-            <div class="mission-stat-item">
-                <div class="mission-stat-number" data-target="50" data-suffix="+">0</div>
-                <div class="mission-stat-label">Countries Covered</div>
-            </div>
-            <div class="mission-stat-item">
-                <div class="mission-stat-number" data-target="2000" data-suffix="+">0</div>
-                <div class="mission-stat-label">Applications Processed</div>
-            </div>
-            <div class="mission-stat-item">
-                <div class="mission-stat-number" data-target="98" data-suffix="%">0</div>
-                <div class="mission-stat-label">Client Satisfaction</div>
-            </div>
+    <!-- Stat ribbon -->
+    <div class="mission-ribbon reveal">
+        <div class="mission-ribbon-item">
+            <div class="mission-stat-number" data-target="50" data-suffix="+">0</div>
+            <div class="mission-stat-label">Countries Covered</div>
         </div>
-
-        <!-- Mission Text -->
-        <p class="mission-body reveal">
-            To simplify the visa process so you can focus on what truly matters — <strong>your journey</strong>.
-            From form filling to embassy appointments, we handle the details so you don't have to.
-        </p>
-
-        <!-- Quote -->
-        <blockquote class="mission-quote reveal">
-            <span class="mission-quote-mark">&ldquo;</span>
-            <p>We don't just process visas — we build relationships, answer every question, and go the extra mile, so your journey begins with confidence.</p>
-        </blockquote>
-
-        <!-- Feature Cards -->
-        <div class="mission-cards">
-            <div class="mission-card reveal" style="transition-delay: 0.05s">
-                <div class="mission-card-icon" style="--icon-color: #0d9488;">
-                    <i class="fas fa-hands-helping"></i>
-                </div>
-                <h4>Personalized Support</h4>
-                <p>Dedicated assistance tailored to your unique travel needs and requirements.</p>
-            </div>
-            <div class="mission-card reveal" style="transition-delay: 0.15s">
-                <div class="mission-card-icon" style="--icon-color: #2563eb;">
-                    <i class="fas fa-shield-alt"></i>
-                </div>
-                <h4>Expert Guidance</h4>
-                <p>Years of experience ensuring your application is complete and professional.</p>
-            </div>
-            <div class="mission-card reveal" style="transition-delay: 0.25s">
-                <div class="mission-card-icon" style="--icon-color: #7c3aed;">
-                    <i class="fas fa-clock"></i>
-                </div>
-                <h4>Time-Saving Process</h4>
-                <p>Streamlined workflows that get you from application to approval faster.</p>
-            </div>
+        <div class="mission-ribbon-div"></div>
+        <div class="mission-ribbon-item">
+            <div class="mission-stat-number" data-target="2000" data-suffix="+">0</div>
+            <div class="mission-stat-label">Applications Processed</div>
         </div>
-
+        <div class="mission-ribbon-div"></div>
+        <div class="mission-ribbon-item">
+            <div class="mission-stat-number" data-target="98" data-suffix="%">0</div>
+            <div class="mission-stat-label">Client Satisfaction</div>
+        </div>
     </div>
+
+    <!-- Asymmetric 2-col main content -->
+    <div class="mission-main">
+        <div class="mission-left reveal">
+            <p class="mission-eyebrow">Our Purpose</p>
+            <h2 class="mission-heading">Our<br><em>Mission</em></h2>
+            <div class="mission-rule"></div>
+        </div>
+        <div class="mission-right reveal">
+            <p class="mission-body">
+                To simplify the visa process so you can focus on what truly matters — <strong>your journey</strong>.
+                From form filling to embassy appointments, we handle every detail so you don't have to.
+            </p>
+            <blockquote class="mission-quote">
+                <p>We don't just process visas — we build relationships, answer every question, and go the extra mile, so your journey begins with confidence.</p>
+            </blockquote>
+        </div>
+    </div>
+
+    <!-- Numbered feature items -->
+    <div class="mission-features">
+        <div class="mission-feature reveal" style="transition-delay:0.05s">
+            <span class="mission-feature-num">01</span>
+            <h4>Personalized Support</h4>
+            <p>Dedicated assistance tailored to your unique travel needs and requirements.</p>
+        </div>
+        <div class="mission-feature reveal" style="transition-delay:0.15s">
+            <span class="mission-feature-num">02</span>
+            <h4>Expert Guidance</h4>
+            <p>Years of experience ensuring your application is complete and professional.</p>
+        </div>
+        <div class="mission-feature reveal" style="transition-delay:0.25s">
+            <span class="mission-feature-num">03</span>
+            <h4>Time-Saving Process</h4>
+            <p>Streamlined workflows that get you from application to approval faster.</p>
+        </div>
+    </div>
+
 </section>
 
 <!-- Add custom animations -->
@@ -571,81 +826,34 @@
 </style>
 
 <!-- FAQ Section -->
-<section id="faq" class="py-20 bg-gradient-to-br from-gray-50 via-blue-50 to-indigo-50 relative overflow-hidden">
-    <!-- Animated Background Elements -->
-    <div class="absolute top-0 left-0 w-full h-full opacity-5">
-        <div class="absolute top-20 left-20 w-32 h-32 bg-teal-300 rounded-full animate-pulse"></div>
-        <div class="absolute top-40 right-32 w-24 h-24 bg-blue-300 rounded-full animate-pulse"
-            style="animation-delay: 1s;"></div>
-        <div class="absolute bottom-32 left-40 w-28 h-28 bg-indigo-300 rounded-full animate-pulse"
-            style="animation-delay: 2s;"></div>
-        <div class="absolute bottom-20 right-20 w-20 h-20 bg-slate-300 rounded-full animate-pulse"
-            style="animation-delay: 3s;"></div>
-    </div>
+<section id="faq" class="faq-premium">
+    <div class="faq-inner">
 
-    <!-- Floating Geometric Shapes -->
-    <div class="absolute top-16 right-16 w-16 h-16 border-2 border-teal-200 rotate-45 animate-spin-slow opacity-20">
-    </div>
-    <div class="absolute bottom-24 left-24 w-12 h-12 border-2 border-blue-200 opacity-30 animate-bounce-slow"></div>
-
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <!-- Enhanced Section Header -->
-        <div class="text-center mb-16">
-            <div class="flex items-center justify-center space-x-4 mb-6">
-                <div class="w-20 h-0.5 bg-gradient-to-r from-transparent to-teal-500"></div>
-                <div
-                    class="w-12 h-12 bg-gradient-to-br from-teal-500 to-blue-600 rounded-2xl flex items-center justify-center shadow-lg">
-                    <i class="fas fa-question-circle text-white text-xl"></i>
-                </div>
-                <div class="w-20 h-0.5 bg-gradient-to-l from-transparent to-blue-500"></div>
-            </div>
-
-            <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
-                Frequently Asked
-                <span class="bg-gradient-to-r from-teal-600 to-blue-600 bg-clip-text text-transparent">Questions</span>
-            </h2>
-            <p class="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed mb-8">
-                Find quick answers to common questions about Beyond Borders visa services. Can't find what you're
-                looking for? Our support team is here to help!
-            </p>
-
-            <!-- FAQ Search Bar -->
-            <div class="max-w-lg mx-auto relative">
-                <div class="relative">
-                    <input type="text" id="faq-search" placeholder="Search FAQs..."
-                        class="w-full px-6 py-4 pl-14 bg-white border-2 border-gray-200 rounded-2xl shadow-lg focus:border-teal-500 focus:ring-4 focus:ring-teal-100 transition-all duration-300 text-gray-700 placeholder-gray-400">
-                    <div class="absolute left-5 top-1/2 transform -translate-y-1/2">
-                        <i class="fas fa-search text-gray-400"></i>
-                    </div>
-                    <div id="search-clear"
-                        class="absolute right-5 top-1/2 transform -translate-y-1/2 cursor-pointer opacity-0 transition-opacity duration-300">
-                        <i class="fas fa-times text-gray-400 hover:text-gray-600"></i>
-                    </div>
+        <!-- Header -->
+        <div class="faq-header">
+            <p class="faq-eyebrow">Questions & Answers</p>
+            <h2 class="faq-heading">Frequently Asked <em>Questions</em></h2>
+            <p class="faq-desc">Find quick answers about our visa services. Can't find what you're looking for? Our support team is here to help.</p>
+            <div class="faq-search-wrap">
+                <i class="fas fa-search faq-search-icon"></i>
+                <input type="text" id="faq-search" placeholder="Search questions…" class="faq-search-input">
+                <div id="search-clear" class="faq-search-clear" style="opacity:0">
+                    <i class="fas fa-times"></i>
                 </div>
             </div>
         </div>
 
-        <!-- FAQ Categories Pills -->
-        <div class="flex flex-wrap justify-center gap-3 mb-12">
-            <button class="faq-category-pill active" data-category="all">
-                <i class="fas fa-list mr-2"></i>All Questions
-            </button>
-            <button class="faq-category-pill" data-category="general">
-                <i class="fas fa-info-circle mr-2"></i>General
-            </button>
-            <button class="faq-category-pill" data-category="documents">
-                <i class="fas fa-file-alt mr-2"></i>Documents
-            </button>
-            <button class="faq-category-pill" data-category="fees">
-                <i class="fas fa-dollar-sign mr-2"></i>Fees & Payment
-            </button>
-            <button class="faq-category-pill" data-category="support">
-                <i class="fas fa-headset mr-2"></i>Support
-            </button>
+        <!-- Category pills -->
+        <div class="faq-pills-row">
+            <button class="faq-category-pill active" data-category="all">All</button>
+            <button class="faq-category-pill" data-category="general">General</button>
+            <button class="faq-category-pill" data-category="documents">Documents</button>
+            <button class="faq-category-pill" data-category="fees">Fees & Payment</button>
+            <button class="faq-category-pill" data-category="support">Support</button>
         </div>
 
-        <!-- Enhanced FAQ Items -->
-        <div class="space-y-6" id="faq-container">
+        <!-- FAQ Items -->
+        <div id="faq-container">
             <!-- FAQ Item 1 -->
             <div class="faq-item-enhanced" data-category="general"
                 data-keywords="services visa applications immigration consulting document verification travel insurance">
@@ -1187,373 +1395,215 @@
         </div>
     </div>
 </section>
+
+<!-- Back to top -->
+<button id="backToTop" aria-label="Back to top">
+    <i class="fas fa-arrow-up"></i>
+</button>
+
 {% endblock %}
 
 {% block scripts %}
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // Load carousel config and initialize
-        fetch('/static/js/carousel-config.json')
-            .then(response => response.json())
-            .then(config => {
-                initializeCarousel(config);
-            })
-            .catch(error => {
-                console.error('Error loading carousel config:', error);
-                // Fallback to default config
-                const defaultConfig = {
-                    countries: [
-                        {
-                            name: "Japan",
-                            backgroundImage: "https://images.unsplash.com/photo-1526481280693-3bfa7568e0f3?q=80&w=1471&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                            url: "/countries/japan"
-                        },
-                        {
-                            name: "Singapore",
-                            backgroundImage: "https://images.unsplash.com/photo-1657445003648-aa6ed5fc5d63?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                            url: "/countries/singapore"
-                        },
-                        {
-                            name: "South Korea",
-                            backgroundImage: "https://images.unsplash.com/photo-1551685314-8167cf1cba72?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                            url: "/countries/south-korea"
-                        },
-                        {
-                            name: "Thailand",
-                            backgroundImage: "https://plus.unsplash.com/premium_photo-1707793862259-78c4112475d1?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                            url: "/countries/thailand"
-                        },
-                        {
-                            name: "Vietnam",
-                            backgroundImage: "https://images.unsplash.com/photo-1560979724-f86caa17a2ed?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                            url: "/countries/vietnam"
-                        },
-                        {
-                            name: "UAE",
-                            backgroundImage: "https://plus.unsplash.com/premium_photo-1694475187704-de2d1602b36b?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                            url: "/countries/united-arab-emirates"
-                        }
-                    ]
-                };
-                initializeCarousel(defaultConfig);
-            });
 
-        // Load countries onto home page
-        loadHomeCountries();
-        // Init FAQ
-        initializeFAQ();
-        // Scroll reveal + counters
-        initScrollReveal();
-        initCounters();
-        // Remove search listener (search bar removed from hero)
+<!-- Third-party libraries -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/splitting/dist/splitting.min.js"></script>
+
+<script>
+'use strict';
+
+// ─── BOOT ───────────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+    initHero();
+    initGlobePills();
+    loadHomeCountries();
+    initializeFAQ();
+    initScrollReveal();
+    initCounters();
+    initBackToTop();
+});
+
+function initBackToTop() {
+    const btn = document.getElementById('backToTop');
+    if (!btn) return;
+    window.addEventListener('scroll', () => {
+        btn.classList.toggle('visible', window.scrollY > 500);
+    }, { passive: true });
+    btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+}
+
+// ─── HERO GSAP ANIMATIONS ───────────────────────────────────────────────────
+function initHero() {
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Split headline into chars
+    Splitting({ target: '.hero-heading', by: 'chars' });
+
+    // Entrance timeline
+    gsap.timeline({ delay: 0.4 })
+        .to('.hero-label', {
+            opacity: 1, y: 0,
+            duration: 0.7, ease: 'power3.out',
+        })
+        .to('.hero-heading .char', {
+            y: 0,
+            duration: 0.85, ease: 'power4.out',
+            stagger: 0.025,
+        }, '-=0.3')
+        .to('#heroHr', {
+            width: '40px',
+            duration: 0.7, ease: 'power2.out',
+        }, '-=0.4')
+        .to('.hero-sub', {
+            opacity: 1,
+            duration: 0.7, ease: 'power2.out',
+        }, '-=0.45')
+        .to('#heroScrollCue', {
+            opacity: 1,
+            duration: 0.6, ease: 'power2.out',
+        }, '-=0.3');
+
+    // Video parallax on scroll
+    gsap.to('.hero-video-bg video', {
+        y: '20%',
+        ease: 'none',
+        scrollTrigger: {
+            trigger: '#heroV2',
+            start: 'top top',
+            end: 'bottom top',
+            scrub: true,
+        },
+    });
+}
+
+// ─── GLOBE PILLS ────────────────────────────────────────────────────────────
+const GLOBE_COUNTRIES = [
+    { name: 'Japan',       lat: 35.68,  lng: 139.65 },
+    { name: 'Singapore',   lat: 1.35,   lng: 103.82 },
+    { name: 'South Korea', lat: 37.57,  lng: 126.98 },
+    { name: 'Thailand',    lat: 13.76,  lng: 100.50 },
+    { name: 'Vietnam',     lat: 21.03,  lng: 105.85 },
+    { name: 'UAE',         lat: 25.20,  lng: 55.27  },
+    { name: 'UK',          lat: 51.51,  lng: -0.13  },
+    { name: 'France',      lat: 48.86,  lng: 2.35   },
+    { name: 'USA',         lat: 38.91,  lng: -77.04 },
+    { name: 'Australia',   lat: -33.87, lng: 151.21 },
+    { name: 'Italy',       lat: 41.90,  lng: 12.50  },
+    { name: 'Germany',     lat: 52.52,  lng: 13.41  },
+];
+
+function initGlobePills() {
+    const container = document.getElementById('heroPills');
+    if (!container) return;
+
+    container.innerHTML = GLOBE_COUNTRIES.map((c, i) =>
+        `<button class="hero-pill${i === 0 ? ' active' : ''}" data-lat="${c.lat}" data-lng="${c.lng}">${c.name}</button>`
+    ).join('');
+
+    container.querySelectorAll('.hero-pill').forEach(btn => {
+        btn.addEventListener('click', () => {
+            container.querySelectorAll('.hero-pill').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            if (window.focusGlobe) {
+                window.focusGlobe(parseFloat(btn.dataset.lat), parseFloat(btn.dataset.lng));
+            }
+        });
     });
 
-    async function loadTrendingVisas() {
-        try {
-            // Prefer featured, fallback to all
-            let res = await fetch('/api/countries/featured?limit=12');
-            let countries = [];
-            if (res.ok) {
-                countries = await res.json();
-            }
-            if (!Array.isArray(countries) || countries.length === 0) {
-                const allRes = await fetch('/api/countries/?limit=100');
-                countries = await allRes.json();
-            }
-            // Build cards
-            const track = document.getElementById('trendingTrack');
-            const items = (countries || []).slice(0, 12).map(c => {
-                const hero = (c.hero_image_url && c.hero_image_url.trim() !== '') ? c.hero_image_url : 'https://images.unsplash.com/photo-1534067783941-51c9c23ecefd?auto=format&fit=crop&w=1200&q=80';
-                const badge = c.visa_required ? '<span class="px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800 border border-yellow-300">Visa Required</span>'
-                    : '<span class="px-2 py-1 text-xs font-semibold rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300">Visa Free</span>';
-                return `
-            <a href="/countries/${c.id}" class="trending-card bg-white rounded-2xl p-4 border border-gray-100 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 snap-start">
-                <div class="flex items-center gap-3">
-                    <div class="thumb"><img src="${hero}" alt="${c.name}"></div>
-                    <div class="flex-1">
-                        <div class="flex items-center gap-2">
-                            <span class="flag">${c.flag || ''}</span>
-                            <div class="font-semibold text-gray-900">${c.name}</div>
-                        </div>
-                        <div class="mt-1 flex items-center justify-between">
-                            <div class="text-xs text-gray-500">${c.region || ''}</div>
-                            ${badge}
-                        </div>
-                    </div>
-                </div>
-            </a>`;
-            }).join('');
-            track.innerHTML = items;
-
-            // Duplicate for seamless loop (keep logic if used elsewhere)
-            track.innerHTML += track.innerHTML;
-        } catch (e) {
-            console.error('Trending visas failed', e);
+    // Auto-cycle pills every 3 seconds
+    let idx = 0;
+    setInterval(() => {
+        const pills = container.querySelectorAll('.hero-pill');
+        pills.forEach(b => b.classList.remove('active'));
+        idx = (idx + 1) % pills.length;
+        pills[idx].classList.add('active');
+        const active = pills[idx];
+        if (window.focusGlobe) {
+            window.focusGlobe(parseFloat(active.dataset.lat), parseFloat(active.dataset.lng));
         }
+    }, 3000);
+}
+
+// ─── COUNTRY CARDS ──────────────────────────────────────────────────────────
+let allCountries = [];
+let activeVisa   = 'all';
+let activeRegion = 'all';
+
+async function loadHomeCountries() {
+    const grid      = document.getElementById('homeCountriesGrid');
+    const loader    = document.getElementById('homeCountriesLoading');
+    const filterBar = document.getElementById('countriesFilterBar');
+    try {
+        const res  = await fetch('/api/countries/?limit=100');
+        allCountries = (await res.json()) || [];
+        buildRegionPills(allCountries);
+        renderCountries();
+        loader.style.display    = 'none';
+        grid.style.display      = 'grid';
+        filterBar.style.display = 'block';
+        initFilterListeners();
+    } catch (e) {
+        console.error('Error loading countries', e);
+        if (loader) loader.innerHTML = '<p class="text-gray-500 text-center py-8">Could not load countries. Please refresh.</p>';
     }
+}
 
-    function initializeCarousel(config) {
-        const hero = document.querySelector('.hero-klook');
-        const carousel = document.querySelector('.city-carousel');
-        let currentIndex = 0;
-        let autoSlideInterval;
-        let isUserInteracting = false;
+function buildRegionPills(countries) {
+    const regions   = ['All Regions', ...new Set(countries.map(c => c.region).filter(Boolean).sort())];
+    const container = document.getElementById('regionPills');
+    container.innerHTML = regions.map(r =>
+        `<button class="region-pill ${r === 'All Regions' ? 'active' : ''}" data-region="${r === 'All Regions' ? 'all' : r}">${r}</button>`
+    ).join('');
+}
 
-        // Create city items from config
-        carousel.innerHTML = config.countries.map((country, index) =>
-            `<span class="city-item ${index === 0 ? 'active' : ''}" data-city="${country.name}" data-bg="${country.backgroundImage}" style="cursor: default;">${country.name}</span>`
-        ).join('');
+function renderCountries() {
+    const grid     = document.getElementById('homeCountriesGrid');
+    const countEl  = document.getElementById('resultsCount');
+    const filtered = allCountries.filter(c => {
+        const visaOk   = activeVisa === 'all' || (activeVisa === 'free' && !c.visa_required) || (activeVisa === 'required' && c.visa_required);
+        const regionOk = activeRegion === 'all' || c.region === activeRegion;
+        return visaOk && regionOk;
+    });
+    grid.innerHTML    = filtered.map(countryCard).join('');
+    countEl.textContent = `Showing ${filtered.length} destination${filtered.length !== 1 ? 's' : ''}`;
+}
 
-        const cityItems = document.querySelectorAll('.city-item');
-
-        // Set initial background
-        const initialBg = cityItems[currentIndex].getAttribute('data-bg');
-        hero.style.backgroundImage = `url('${initialBg}')`;
-
-        // --- Auto Carousel Functionality ---
-        function startAutoSlide() {
-            autoSlideInterval = setInterval(() => {
-                if (!isUserInteracting) {
-                    const nextIndex = (currentIndex + 1) % cityItems.length;
-                    setActiveCity(nextIndex);
-                }
-            }, 3000); // 3 seconds
-        }
-
-        function stopAutoSlide() {
-            if (autoSlideInterval) {
-                clearInterval(autoSlideInterval);
-            }
-        }
-
-        function resetAutoSlide() {
-            stopAutoSlide();
-            setTimeout(() => {
-                if (!isUserInteracting) {
-                    startAutoSlide();
-                }
-            }, 2000); // Wait 2 seconds after user interaction before resuming auto-slide
-        }
-
-        // --- City click functionality ---
-        cityItems.forEach((item, index) => {
-            item.addEventListener('click', function () {
-                isUserInteracting = true;
-                setActiveCity(index);
-                resetAutoSlide();
-                setTimeout(() => { isUserInteracting = false; }, 1000);
-            });
+function initFilterListeners() {
+    document.querySelectorAll('.visa-toggle-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.visa-toggle-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            activeVisa = btn.dataset.visa;
+            renderCountries();
         });
+    });
 
-        function setActiveCity(index) {
-            cityItems[currentIndex].classList.remove('active');
-            cityItems[currentIndex].classList.add('distant');
+    document.getElementById('regionPills').addEventListener('click', e => {
+        const pill = e.target.closest('.region-pill');
+        if (!pill) return;
+        document.querySelectorAll('.region-pill').forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+        activeRegion = pill.dataset.region;
+        renderCountries();
+    });
+}
 
-            currentIndex = index;
-            const targetBg = cityItems[currentIndex].getAttribute('data-bg');
-            hero.style.backgroundImage = `url('${targetBg}')`;
-
-            cityItems.forEach((item, i) => {
-                item.classList.remove('active', 'semi-active', 'distant');
-                if (i === currentIndex) {
-                    item.classList.add('active');
-                } else if (Math.abs(i - currentIndex) === 1 ||
-                    (currentIndex === 0 && i === cityItems.length - 1) ||
-                    (currentIndex === cityItems.length - 1 && i === 0)) {
-                    item.classList.add('semi-active');
-                } else {
-                    item.classList.add('distant');
-                }
-            });
-        }
-
-        // Start auto-slide
-        startAutoSlide();
-
-        // Handle hover interactions
-        carousel.addEventListener('mouseenter', () => {
-            isUserInteracting = true;
-            stopAutoSlide();
-        });
-
-        carousel.addEventListener('mouseleave', () => {
-            isUserInteracting = false;
-            resetAutoSlide();
-        });
-    }
-
-    // FAQ Accordion
-    function initializeFAQ() {
-        const faqItems = document.querySelectorAll('.faq-item-enhanced');
-        const faqQuestions = document.querySelectorAll('.faq-question-enhanced');
-        const searchInput = document.getElementById('faq-search');
-        const searchClear = document.getElementById('search-clear');
-        const categoryPills = document.querySelectorAll('.faq-category-pill');
-        const noResults = document.getElementById('no-results');
-        const faqContainer = document.getElementById('faq-container');
-
-        // Accordion
-        faqQuestions.forEach((question) => {
-            question.addEventListener('click', (event) => {
-                const faqItem = question.closest('.faq-item-enhanced');
-                const answer = faqItem.querySelector('.faq-answer-enhanced');
-                const isOpen = answer.classList.contains('open');
-
-                document.querySelectorAll('.faq-answer-enhanced').forEach(ans => {
-                    if (ans !== answer) {
-                        ans.classList.remove('open');
-                        ans.closest('.faq-item-enhanced').classList.remove('active');
-                    }
-                });
-
-                answer.classList.toggle('open', !isOpen);
-                faqItem.classList.toggle('active', !isOpen);
-            });
-        });
-
-        // Search
-        if (searchInput) {
-            searchInput.addEventListener('input', function () {
-                const query = this.value.toLowerCase().trim();
-                searchClear.style.opacity = query.length > 0 ? 1 : 0;
-                filterFAQs(query);
-            });
-        }
-        if (searchClear) {
-            searchClear.addEventListener('click', function () {
-                if (!searchInput) return;
-                searchInput.value = '';
-                searchClear.style.opacity = 0;
-                filterFAQs('');
-            });
-        }
-
-        // Category filtering
-        categoryPills.forEach(pill => {
-            pill.addEventListener('click', function () {
-                categoryPills.forEach(p => p.classList.remove('active'));
-                this.classList.add('active');
-                filterByCategory(this.getAttribute('data-category'));
-            });
-        });
-
-        function filterFAQs(query) {
-            let visibleCount = 0;
-            faqItems.forEach((item, index) => {
-                const keywords = (item.getAttribute('data-keywords') || '').toLowerCase();
-                const title = (item.querySelector('h3')?.textContent || '').toLowerCase();
-                const content = (item.querySelector('.faq-answer-enhanced p')?.textContent || '').toLowerCase();
-                const matches = keywords.includes(query) || title.includes(query) || content.includes(query);
-                if (matches || query === '') {
-                    item.classList.remove('hidden');
-                    item.style.animationDelay = (index * 0.05) + 's';
-                    visibleCount++;
-                } else {
-                    item.classList.add('hidden');
-                }
-            });
-            if (noResults && faqContainer) {
-                noResults.classList.toggle('hidden', !(visibleCount === 0 && query !== ''));
-                faqContainer.style.display = visibleCount === 0 && query !== '' ? 'none' : 'block';
-            }
-        }
-
-        function filterByCategory(category) {
-            let visibleCount = 0;
-            faqItems.forEach((item, index) => {
-                const itemCategory = item.getAttribute('data-category');
-                const matches = category === 'all' || itemCategory === category;
-                item.classList.toggle('hidden', !matches);
-                if (matches) visibleCount++;
-            });
-            if (searchInput) searchInput.value = '';
-            if (searchClear) searchClear.style.opacity = 0;
-            if (noResults && faqContainer) {
-                noResults.classList.toggle('hidden', visibleCount !== 0);
-                faqContainer.style.display = visibleCount === 0 ? 'none' : 'block';
-            }
-        }
-    }
-
-    // --- Home Countries rendering with filters ---
-    let allCountries = [];
-    let activeVisa = 'all';
-    let activeRegion = 'all';
-
-    async function loadHomeCountries() {
-        const grid = document.getElementById('homeCountriesGrid');
-        const loader = document.getElementById('homeCountriesLoading');
-        const filterBar = document.getElementById('countriesFilterBar');
-        try {
-            const response = await fetch('/api/countries/?limit=100');
-            allCountries = (await response.json()) || [];
-            buildRegionPills(allCountries);
-            renderFilteredCountries();
-            loader.style.display = 'none';
-            grid.style.display = 'grid';
-            filterBar.style.display = 'block';
-            initFilterListeners();
-        } catch (e) {
-            console.error('Error loading home countries', e);
-            if (loader) loader.innerHTML = '<div class="text-center"><i class="fas fa-exclamation-triangle text-4xl text-red-400 mb-4"></i><h3 class="text-xl font-semibold text-gray-900 mb-2">Error Loading Countries</h3><p class="text-gray-600">Please try refreshing the page.</p></div>';
-        }
-    }
-
-    function buildRegionPills(countries) {
-        const regions = ['All Regions', ...new Set(countries.map(c => c.region).filter(Boolean).sort())];
-        const container = document.getElementById('regionPills');
-        container.innerHTML = regions.map(r =>
-            `<button class="region-pill ${r === 'All Regions' ? 'active' : ''}" data-region="${r === 'All Regions' ? 'all' : r}">${r}</button>`
-        ).join('');
-    }
-
-    function renderFilteredCountries() {
-        const grid = document.getElementById('homeCountriesGrid');
-        const count = document.getElementById('resultsCount');
-        const filtered = allCountries.filter(c => {
-            const visaOk = activeVisa === 'all' ||
-                (activeVisa === 'free' && !c.visa_required) ||
-                (activeVisa === 'required' && c.visa_required);
-            const regionOk = activeRegion === 'all' || c.region === activeRegion;
-            return visaOk && regionOk;
-        });
-        grid.innerHTML = filtered.map(createCountryCardHome).join('');
-        count.textContent = `Showing ${filtered.length} destination${filtered.length !== 1 ? 's' : ''}`;
-    }
-
-    function initFilterListeners() {
-        document.querySelectorAll('.visa-toggle-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.querySelectorAll('.visa-toggle-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                activeVisa = btn.dataset.visa;
-                renderFilteredCountries();
-            });
-        });
-        document.getElementById('regionPills').addEventListener('click', e => {
-            const pill = e.target.closest('.region-pill');
-            if (!pill) return;
-            document.querySelectorAll('.region-pill').forEach(p => p.classList.remove('active'));
-            pill.classList.add('active');
-            activeRegion = pill.dataset.region;
-            renderFilteredCountries();
-        });
-    }
-
-    function createCountryCardHome(country) {
-        const countryId = country.id;
-        if (!countryId) return '';
-        const fallbackHero = 'https://images.unsplash.com/photo-1534067783941-51c9c23ecefd?auto=format&fit=crop&w=1350&q=80';
-        const hero = (country.hero_image_url && country.hero_image_url.trim() !== '') ? country.hero_image_url : fallbackHero;
-        return `
-        <a href="/countries/${countryId}" class="country-card">
+function countryCard(country) {
+    if (!country.id) return '';
+    const fallback = 'https://images.unsplash.com/photo-1534067783941-51c9c23ecefd?auto=format&fit=crop&w=1350&q=80';
+    const img      = (country.hero_image_url && country.hero_image_url.trim()) ? country.hero_image_url : fallback;
+    const visaClass = country.visa_required ? 'visa-status-required' : 'visa-status-free';
+    const visaIcon  = country.visa_required ? 'fa-passport' : 'fa-check-circle';
+    const visaText  = country.visa_required ? 'Visa Required' : 'Visa Free';
+    return `
+        <a href="/countries/${country.id}" class="country-card">
             <div class="country-media">
-                <div class="bg-image-inner" style="background-image: url('${hero}')"></div>
+                <div class="bg-image-inner" style="background-image:url('${img}')"></div>
                 <div class="country-media-overlay"></div>
                 <div class="country-flag-bubble">${country.flag || ''}</div>
-                <span class="visa-status-badge ${country.visa_required ? 'visa-status-required' : 'visa-status-free'}">
-                    <i class="fas ${country.visa_required ? 'fa-passport' : 'fa-check-circle'}"></i>
-                    ${country.visa_required ? 'Visa Required' : 'Visa Free'}
+                <span class="visa-status-badge ${visaClass}">
+                    <i class="fas ${visaIcon}"></i> ${visaText}
                 </span>
             </div>
             <div class="country-card-content">
@@ -1562,49 +1612,237 @@
                     <span class="country-region-chip">${country.region || ''}</span>
                 </div>
             </div>
-        </a>
-    `;
-    }
+        </a>`;
+}
 
-    // --- Scroll-reveal ---
-    function initScrollReveal() {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('revealed');
-                    observer.unobserve(entry.target);
-                }
+// ─── FAQ ────────────────────────────────────────────────────────────────────
+function initializeFAQ() {
+    const faqItems     = document.querySelectorAll('.faq-item-enhanced');
+    const categoryPills = document.querySelectorAll('.faq-category-pill');
+    const searchInput  = document.getElementById('faq-search');
+    const searchClear  = document.getElementById('search-clear');
+    const noResults    = document.getElementById('no-results');
+    const faqContainer = document.getElementById('faq-container');
+
+    // Accordion
+    document.querySelectorAll('.faq-question-enhanced').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const item   = btn.closest('.faq-item-enhanced');
+            const answer = item.querySelector('.faq-answer-enhanced');
+            const isOpen = answer.classList.contains('open');
+
+            document.querySelectorAll('.faq-answer-enhanced').forEach(a => {
+                a.classList.remove('open');
+                a.closest('.faq-item-enhanced').classList.remove('active');
             });
-        }, { threshold: 0.12 });
-        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-    }
 
-    // --- Animated counters ---
-    function initCounters() {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    animateCounter(entry.target);
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.5 });
-        document.querySelectorAll('.mission-stat-number').forEach(el => observer.observe(el));
-    }
+            answer.classList.toggle('open', !isOpen);
+            item.classList.toggle('active', !isOpen);
+        });
+    });
 
-    function animateCounter(el) {
-        const target = parseInt(el.dataset.target, 10);
-        const suffix = el.dataset.suffix || '';
-        const duration = 1400;
-        const start = performance.now();
-        function step(now) {
-            const progress = Math.min((now - start) / duration, 1);
-            const eased = 1 - Math.pow(1 - progress, 3);
-            el.textContent = Math.floor(eased * target) + (progress === 1 ? suffix : '');
-            if (progress < 1) requestAnimationFrame(step);
+    // Search
+    function filterFAQs(query) {
+        let visible = 0;
+        faqItems.forEach((item, i) => {
+            const text = [
+                item.getAttribute('data-keywords') || '',
+                item.querySelector('h3')?.textContent || '',
+                item.querySelector('.faq-answer-enhanced p')?.textContent || '',
+            ].join(' ').toLowerCase();
+
+            const match = !query || text.includes(query);
+            item.classList.toggle('hidden', !match);
+            if (match) { item.style.animationDelay = (i * 0.05) + 's'; visible++; }
+        });
+
+        if (noResults && faqContainer) {
+            noResults.classList.toggle('hidden', !(visible === 0 && query));
+            faqContainer.style.display = (visible === 0 && query) ? 'none' : 'block';
         }
-        requestAnimationFrame(step);
     }
 
+    if (searchInput) {
+        searchInput.addEventListener('input', function () {
+            const q = this.value.toLowerCase().trim();
+            if (searchClear) searchClear.style.opacity = q ? 1 : 0;
+            filterFAQs(q);
+        });
+    }
+    if (searchClear) {
+        searchClear.addEventListener('click', () => {
+            if (searchInput) searchInput.value = '';
+            searchClear.style.opacity = 0;
+            filterFAQs('');
+        });
+    }
+
+    // Category pills
+    categoryPills.forEach(pill => {
+        pill.addEventListener('click', function () {
+            categoryPills.forEach(p => p.classList.remove('active'));
+            this.classList.add('active');
+
+            const cat = this.getAttribute('data-category');
+            let visible = 0;
+            faqItems.forEach((item, i) => {
+                const match = cat === 'all' || item.getAttribute('data-category') === cat;
+                item.classList.toggle('hidden', !match);
+                if (match) visible++;
+            });
+            if (searchInput) searchInput.value = '';
+            if (searchClear) searchClear.style.opacity = 0;
+            if (noResults && faqContainer) {
+                noResults.classList.toggle('hidden', visible !== 0);
+                faqContainer.style.display = visible === 0 ? 'none' : 'block';
+            }
+        });
+    });
+}
+
+// ─── SCROLL REVEAL ──────────────────────────────────────────────────────────
+function initScrollReveal() {
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('revealed');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+}
+
+// ─── ANIMATED COUNTERS ──────────────────────────────────────────────────────
+function initCounters() {
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                animateCounter(entry.target);
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.5 });
+
+    document.querySelectorAll('.mission-stat-number').forEach(el => observer.observe(el));
+}
+
+function animateCounter(el) {
+    const target   = parseInt(el.dataset.target, 10);
+    const suffix   = el.dataset.suffix || '';
+    const duration = 1400;
+    const start    = performance.now();
+
+    (function step(now) {
+        const progress = Math.min((now - start) / duration, 1);
+        const eased    = 1 - Math.pow(1 - progress, 3);
+        el.textContent = Math.floor(eased * target) + (progress === 1 ? suffix : '');
+        if (progress < 1) requestAnimationFrame(step);
+    })(start);
+}
+</script>
+
+<script type="module">
+import createGlobe from 'https://esm.sh/cobe@0.6.3';
+
+(function() {
+    const canvas = document.getElementById('globeCanvas');
+    const card   = document.getElementById('globeCard');
+    const gcImg  = document.getElementById('gcImg');
+    const gcName = document.getElementById('gcName');
+    if (!canvas || !card) return;
+
+    const MARKERS_DATA = [
+        { name: 'Japan',       lat: 35.68,  lng: 139.65, img: 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=360&h=360&fit=crop&auto=format' },
+        { name: 'Singapore',   lat: 1.35,   lng: 103.82, img: 'https://images.unsplash.com/photo-1525625293386-3f8f99389edd?w=360&h=360&fit=crop&auto=format' },
+        { name: 'South Korea', lat: 37.57,  lng: 126.98, img: 'https://images.unsplash.com/photo-1517154421773-0529f29ea451?w=360&h=360&fit=crop&auto=format' },
+        { name: 'Thailand',    lat: 13.76,  lng: 100.50, img: 'https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=360&h=360&fit=crop&auto=format' },
+        { name: 'Vietnam',     lat: 21.03,  lng: 105.85, img: 'https://images.unsplash.com/photo-1583417319070-4a69db38a482?w=360&h=360&fit=crop&auto=format' },
+        { name: 'UAE',         lat: 25.20,  lng: 55.27,  img: 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=360&h=360&fit=crop&auto=format' },
+        { name: 'UK',          lat: 51.51,  lng: -0.13,  img: 'https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=360&h=360&fit=crop&auto=format' },
+        { name: 'France',      lat: 48.86,  lng: 2.35,   img: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=360&h=360&fit=crop&auto=format' },
+        { name: 'USA',         lat: 38.91,  lng: -77.04, img: 'https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?w=360&h=360&fit=crop&auto=format' },
+        { name: 'Australia',   lat: -33.87, lng: 151.21, img: 'https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?w=360&h=360&fit=crop&auto=format' },
+        { name: 'Italy',       lat: 41.90,  lng: 12.50,  img: 'https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=360&h=360&fit=crop&auto=format' },
+        { name: 'Germany',     lat: 52.52,  lng: 13.41,  img: 'https://images.unsplash.com/photo-1467269204594-9661b134dd2b?w=360&h=360&fit=crop&auto=format' },
+    ];
+
+    let phi = -2.0, theta = 0.25;
+    let targetPhi = phi, targetTheta = theta;
+    let autoRotate = true, globeTimer = null, cardTimer = null;
+
+    // Project (lat, lng) to CSS-pixel position using given phi/theta
+    function project(lat, lng, p, t) {
+        const cssSize = canvas.getBoundingClientRect().width || 520;
+        const la = lat * Math.PI / 180;
+        const lo = lng * Math.PI / 180;
+        const x = Math.cos(la) * Math.sin(lo);
+        const y = Math.sin(la);
+        const z = Math.cos(la) * Math.cos(lo);
+        const x1 = x * Math.cos(p) + z * Math.sin(p);
+        const z1 = -x * Math.sin(p) + z * Math.cos(p);
+        const y2 = y * Math.cos(t) - z1 * Math.sin(t);
+        const z2 = y * Math.sin(t) + z1 * Math.cos(t);
+        if (z2 < 0.05) return null;
+        const r = cssSize * 0.455;
+        return { x: cssSize / 2 + x1 * r, y: cssSize / 2 - y2 * r, cssSize };
+    }
+
+    function placeCard(country) {
+        const pos = project(country.lat, country.lng, targetPhi, targetTheta);
+        if (!pos) return;
+        const { cssSize } = pos;
+        const cardW = 152, cardH = 180; // approx img + label
+        // Prefer placing card to the right of the dot, flip left if near right edge
+        let left = pos.x + 14;
+        let top  = pos.y - cardH / 2;
+        if (left + cardW > cssSize - 6) left = pos.x - cardW - 14;
+        top = Math.max(4, Math.min(top, cssSize - cardH - 4));
+
+        card.style.left = left + 'px';
+        card.style.top  = top  + 'px';
+        gcImg.src = country.img;
+        gcImg.alt = country.name;
+        gcName.textContent = country.name;
+        card.classList.add('visible');
+        clearTimeout(cardTimer);
+        cardTimer = setTimeout(() => card.classList.remove('visible'), 3200);
+    }
+
+    createGlobe(canvas, {
+        devicePixelRatio: 2,
+        width: 1040, height: 1040,
+        phi, theta,
+        dark: 1, diffuse: 1.1,
+        mapSamples: 20000, mapBrightness: 5.5,
+        baseColor: [0.12, 0.18, 0.15],
+        markerColor: [0.37, 0.92, 0.83],
+        glowColor: [0.1, 0.22, 0.18],
+        markers: MARKERS_DATA.map(m => ({ location: [m.lat, m.lng], size: 0.06 })),
+        onRender(state) {
+            if (autoRotate) phi += 0.003;
+            phi   += (targetPhi   - phi)   * 0.06;
+            theta += (targetTheta - theta) * 0.06;
+            state.phi = phi;
+            state.theta = theta;
+        },
+    });
+
+    window.focusGlobe = (lat, lng) => {
+        autoRotate = false;
+        targetPhi   = -lng * (Math.PI / 180);
+        targetTheta =  lat * (Math.PI / 180) * 0.28;
+        clearTimeout(globeTimer);
+        card.classList.remove('visible');
+        globeTimer = setTimeout(() => { autoRotate = true; }, 6000);
+        const match = MARKERS_DATA.find(m => m.lat === lat && m.lng === lng);
+        if (!match) return;
+        // Wait for globe to mostly settle, then place card at projected position
+        setTimeout(() => placeCard(match), 750);
+    };
+
+    setTimeout(() => window.focusGlobe(35.68, 139.65), 900);
+})();
 </script>
 {% endblock %}

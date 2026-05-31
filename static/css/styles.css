@@ -253,12 +253,13 @@
 
 /* Enhanced Typography */
 .country-title {
-    font-size: 1.75rem;
+    font-size: 1.4rem;
     font-weight: 700;
-    color: #1a202c;
+    font-family: 'Playfair Display', serif;
+    color: #0f172a;
     margin-bottom: 0.5rem;
-    line-height: 1.2;
-    letter-spacing: -0.025em;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
     transition: color 0.3s ease;
 }
 
@@ -5191,3 +5192,249 @@ body.mobile-menu-open {
         min-height: 220px;
     }
 }
+/* ── PREMIUM FAQ SECTION ───────────────────────────────────────────────────── */
+.faq-premium {
+    background: #fff;
+    padding: 6rem 0 5rem;
+    border-top: 1px solid #f1f5f9;
+}
+
+.faq-inner {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+/* Header */
+.faq-header {
+    text-align: center;
+    margin-bottom: 3.5rem;
+}
+
+.faq-eyebrow {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #0d9488;
+    margin-bottom: 1rem;
+}
+
+.faq-heading {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    color: #0f172a;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 1rem;
+}
+
+.faq-heading em {
+    font-style: italic;
+    color: #0d9488;
+}
+
+.faq-desc {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    color: #94a3b8;
+    line-height: 1.75;
+    max-width: 480px;
+    margin: 0 auto 2rem;
+}
+
+/* Search */
+.faq-search-wrap {
+    position: relative;
+    max-width: 440px;
+    margin: 0 auto;
+}
+
+.faq-search-icon {
+    position: absolute;
+    left: 1.1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+    font-size: 0.8rem;
+    pointer-events: none;
+}
+
+.faq-search-input {
+    width: 100%;
+    padding: 0.8rem 2.5rem 0.8rem 2.8rem;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    color: #0f172a;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.faq-search-input::placeholder { color: #94a3b8; }
+.faq-search-input:focus {
+    border-color: #0d9488;
+    box-shadow: 0 0 0 3px rgba(13,148,136,0.08);
+    background: #fff;
+}
+
+.faq-search-clear {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+    cursor: pointer;
+    font-size: 0.75rem;
+    transition: opacity 0.2s;
+}
+
+/* Category pills */
+.faq-pills-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+    margin-bottom: 2.5rem;
+}
+
+.faq-category-pill {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #64748b;
+    background: transparent;
+    border: 1px solid #e2e8f0;
+    border-radius: 2px;
+    padding: 0.3rem 0.8rem;
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+
+.faq-category-pill:hover {
+    color: #0d9488;
+    border-color: #0d9488;
+    transform: none;
+    box-shadow: none;
+}
+
+.faq-category-pill.active {
+    color: #fff;
+    background: #0d9488;
+    border-color: #0d9488;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Override old card styles for clean look */
+.faq-card {
+    background: #fff !important;
+    border: none !important;
+    border-bottom: 1px solid #f1f5f9 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    margin-bottom: 0 !important;
+}
+
+.faq-card::before { display: none !important; }
+.faq-card:hover {
+    transform: none !important;
+    box-shadow: none !important;
+    background: #fff !important;
+}
+
+/* Hide the colored icon boxes */
+.faq-question-enhanced .w-12.h-12,
+.faq-question-enhanced [class*="bg-gradient-to-br"] { display: none !important; }
+
+/* Question layout */
+.faq-question-enhanced {
+    padding: 0 !important;
+    cursor: pointer;
+}
+
+.faq-question-enhanced .flex.items-center.justify-between {
+    padding: 1.5rem 0 !important;
+    gap: 1.5rem;
+}
+
+.faq-question-enhanced .flex.items-center.space-x-4 { gap: 0 !important; }
+
+/* Question text */
+.faq-question-enhanced h3 {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 0.95rem !important;
+    font-weight: 500 !important;
+    color: #0f172a !important;
+    letter-spacing: -0.01em;
+    line-height: 1.5;
+}
+
+.faq-question-enhanced h3:hover,
+.faq-card:hover .faq-question-enhanced h3 { color: #0d9488 !important; }
+
+/* Hide subtitle under question */
+.faq-question-enhanced p.text-sm.text-gray-500 { display: none !important; }
+
+/* Chevron container */
+.faq-icon-container {
+    width: auto !important;
+    height: auto !important;
+    background: none !important;
+    border-radius: 0 !important;
+    flex-shrink: 0;
+}
+
+.faq-chevron {
+    font-size: 0.75rem !important;
+    color: #94a3b8 !important;
+}
+
+.faq-item-enhanced.active .faq-chevron { color: #0d9488 !important; }
+
+/* Answer panels */
+.faq-answer-enhanced .px-8 { padding: 0 0 1.5rem !important; }
+.faq-answer-enhanced [class*="bg-gradient-to-r"] {
+    background: #f8fafc !important;
+    border-color: #e2e8f0 !important;
+    border-radius: 4px !important;
+}
+
+.faq-answer-enhanced p.text-gray-700 {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 0.875rem !important;
+    color: #475569 !important;
+    line-height: 1.8 !important;
+}
+
+/* ── BACK TO TOP ───────────────────────────────────────────────────────────── */
+#backToTop {
+    position: fixed;
+    bottom: 2.5rem;
+    right: 2.5rem;
+    width: 42px;
+    height: 42px;
+    background: #0d9488;
+    color: #fff;
+    border: none;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(8px);
+    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease, background 0.2s ease;
+    z-index: 500;
+}
+
+#backToTop:hover { background: #0f766e; }
+#backToTop.visible { opacity: 1; visibility: visible; transform: translateY(0); }

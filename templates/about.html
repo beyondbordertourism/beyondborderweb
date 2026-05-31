@@ -4,262 +4,180 @@
 
 {% block head_styles %}
 <style>
-    /* ── Page hero ── */
+    /* ── Hero ── */
     .about-hero {
         background: #fff;
-        padding: 5rem 0 4rem;
+        padding: 8rem 0 4.5rem;
         text-align: center;
         border-bottom: 1px solid #f1f5f9;
     }
     .about-hero-eyebrow {
         font-family: 'Inter', sans-serif;
-        font-size: 0.72rem;
-        font-weight: 600;
-        letter-spacing: 0.18em;
-        text-transform: uppercase;
-        color: #0d9488;
-        margin-bottom: 1rem;
+        font-size: 0.6rem; font-weight: 700;
+        letter-spacing: 0.24em; text-transform: uppercase;
+        color: #0d9488; margin-bottom: 1.25rem;
     }
     .about-hero h1 {
         font-family: 'Playfair Display', serif;
-        font-size: clamp(2.4rem, 5vw, 3.8rem);
-        font-weight: 700;
-        color: #0f172a;
-        line-height: 1.15;
-        max-width: 760px;
-        margin: 0 auto 1.5rem;
+        font-size: clamp(2.2rem, 4.5vw, 3.4rem);
+        font-weight: 700; color: #0f172a;
+        line-height: 1.12; letter-spacing: -0.02em;
+        max-width: 640px; margin: 0 auto 1.25rem;
     }
-    .about-hero h1 em {
-        font-style: italic;
-        color: #0d9488;
-    }
-    .about-hero p {
+    .about-hero h1 em { font-style: italic; color: #0d9488; }
+    .about-hero-sub {
         font-family: 'Inter', sans-serif;
-        font-size: 1.1rem;
-        color: #64748b;
-        max-width: 580px;
-        margin: 0 auto;
-        line-height: 1.75;
+        font-size: 0.9rem; color: #94a3b8;
+        max-width: 400px; margin: 0 auto;
+        line-height: 1.8;
     }
-    .about-hero p strong { color: #0f172a; font-weight: 600; }
+    .about-hero-sub strong { color: #475569; font-weight: 600; }
+    .about-hero-rule {
+        width: 28px; height: 1px;
+        background: #0d9488; margin: 1.5rem auto 0;
+    }
 
-    /* ── Service cards ── */
+    /* ── Services ── */
     .services-section {
-        background: #f8fafc;
-        padding: 5rem 0;
-    }
-    .services-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 1.5rem;
-        max-width: 1100px;
-        margin: 0 auto;
-        padding: 0 1.5rem;
-    }
-    @media (max-width: 900px) { .services-grid { grid-template-columns: 1fr; } }
-
-    .service-card-new {
-        background: #fff;
-        border: 1px solid #e2e8f0;
-        border-radius: 20px;
-        padding: 2.25rem 2rem;
-        transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+        background: #070f0c;
+        padding: 5rem 0 4rem;
+        border-bottom: none;
         position: relative;
         overflow: hidden;
     }
-    .service-card-new::before {
+    .services-section::before {
         content: '';
         position: absolute;
-        top: 0; left: 0; right: 0;
-        height: 3px;
-        background: var(--card-accent, #0d9488);
-        transform: scaleX(0);
-        transform-origin: left;
-        transition: transform 0.35s ease;
-        border-radius: 20px 20px 0 0;
+        inset: 0;
+        background: radial-gradient(ellipse 70% 60% at 50% 110%, rgba(13,148,136,0.15) 0%, transparent 65%);
+        pointer-events: none;
     }
-    .service-card-new:hover { transform: translateY(-6px); box-shadow: 0 16px 40px rgba(0,0,0,0.09); border-color: transparent; }
-    .service-card-new:hover::before { transform: scaleX(1); }
-
-    .service-icon {
-        width: 52px; height: 52px;
-        border-radius: 14px;
-        display: flex; align-items: center; justify-content: center;
-        font-size: 1.2rem; color: #fff;
-        margin-bottom: 1.5rem;
-        background: var(--card-accent, #0d9488);
-        transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-    .service-card-new:hover .service-icon { transform: scale(1.1); }
-    .service-card-new h3 {
-        font-family: 'Playfair Display', serif;
-        font-size: 1.2rem; font-weight: 600;
-        color: #0f172a; margin-bottom: 0.6rem;
-    }
-    .service-card-new p {
+    .services-eyebrow {
         font-family: 'Inter', sans-serif;
-        font-size: 0.875rem; color: #64748b; line-height: 1.65;
+        font-size: 0.6rem; font-weight: 700;
+        letter-spacing: 0.24em; text-transform: uppercase;
+        color: #0d9488; text-align: center; margin-bottom: 1rem;
+    }
+    .services-heading {
+        font-family: 'Playfair Display', serif;
+        font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+        font-weight: 700; color: #fff;
+        text-align: center; letter-spacing: -0.02em;
+        margin-bottom: 3.5rem;
+    }
+    .services-heading em { font-style: italic; color: #5eead4; }
+
+    .services-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        max-width: 1100px; margin: 0 auto;
+        padding: 0 3rem;
+        border-top: 1px solid rgba(255,255,255,0.07);
+        position: relative; z-index: 1;
+    }
+    @media (max-width: 768px) {
+        .services-grid { grid-template-columns: 1fr; padding: 0 1.5rem; }
     }
 
-    /* ── Trending Visas ── */
-    .trending-section {
-        background: #fff;
+    .service-item {
+        padding: 2.75rem 2.5rem 2.75rem 0;
+        border-right: 1px solid rgba(255,255,255,0.07);
+    }
+    .service-item:last-child { border-right: none; padding-right: 0; }
+    .service-item:not(:first-child) { padding-left: 2.5rem; }
+
+    .service-num {
+        font-family: 'Inter', sans-serif;
+        font-size: 0.58rem; font-weight: 700;
+        letter-spacing: 0.2em; color: #0d9488;
+        margin-bottom: 1.5rem; display: block;
+    }
+    .service-item h3 {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.3rem; font-weight: 700;
+        color: #fff; margin-bottom: 0.85rem;
+        letter-spacing: -0.01em; line-height: 1.2;
+    }
+    .service-item p {
+        font-family: 'Inter', sans-serif;
+        font-size: 0.875rem; color: rgba(255,255,255,0.35); line-height: 1.78;
+    }
+
+    /* ── About split ── */
+    .about-split {
+        background: #f8fafc;
         padding: 5rem 0;
         border-top: 1px solid #f1f5f9;
     }
-    .trending-header {
-        display: flex; align-items: flex-end; justify-content: space-between;
-        max-width: 1100px; margin: 0 auto 2.5rem; padding: 0 1.5rem;
-    }
-    .trending-header h2 {
-        font-family: 'Playfair Display', serif;
-        font-size: 2rem; font-weight: 700; color: #0f172a;
-    }
-    .trending-nav { display: flex; gap: 0.5rem; }
-    .trending-nav button {
-        width: 38px; height: 38px; border-radius: 50%;
-        background: #f1f5f9; border: 1px solid #e2e8f0;
-        color: #475569; cursor: pointer;
-        display: flex; align-items: center; justify-content: center;
-        transition: background 0.2s ease, color 0.2s ease;
-    }
-    .trending-nav button:hover { background: #0d9488; color: #fff; border-color: #0d9488; }
-
-    .trending-track-wrap { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
-    #trendingTrack {
-        display: flex; gap: 1.25rem;
-        overflow-x: auto; scroll-behavior: smooth;
-        padding-bottom: 0.5rem;
-    }
-    #trendingTrack::-webkit-scrollbar { display: none; }
-    #trendingTrack { -ms-overflow-style: none; scrollbar-width: none; }
-
-    .trending-card {
-        min-width: 220px; max-width: 220px;
-        background: #fff; border: 1px solid #e2e8f0;
-        border-radius: 16px; overflow: hidden;
-        cursor: pointer; text-decoration: none; color: inherit;
-        transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
-        scroll-snap-align: start;
-        display: block;
-    }
-    .trending-card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(0,0,0,0.1); border-color: transparent; }
-
-    .trending-thumb {
-        width: 100%; height: 120px;
-        object-fit: cover; display: block;
-        transition: transform 0.5s ease;
-    }
-    .trending-card:hover .trending-thumb { transform: scale(1.05); }
-    .trending-thumb-wrap { overflow: hidden; height: 120px; }
-
-    .trending-body { padding: 0.85rem 1rem; }
-    .trending-body .t-name {
-        font-family: 'Playfair Display', serif;
-        font-size: 1rem; font-weight: 600; color: #0f172a;
-        display: flex; align-items: center; gap: 0.4rem; margin-bottom: 0.4rem;
-    }
-    .trending-body .t-meta {
-        display: flex; align-items: center; justify-content: space-between;
-    }
-    .trending-body .t-region {
-        font-family: 'Inter', sans-serif;
-        font-size: 0.72rem; color: #94a3b8; font-weight: 500;
-        text-transform: uppercase; letter-spacing: 0.06em;
-    }
-    .t-badge {
-        font-family: 'Inter', sans-serif;
-        font-size: 0.68rem; font-weight: 600;
-        padding: 0.2rem 0.5rem; border-radius: 99px;
-    }
-    .t-badge-req { background: #fef9c3; color: #92400e; }
-    .t-badge-free { background: #d1fae5; color: #065f46; }
-
-    /* ── About section ── */
-    .about-split { background: #f8fafc; padding: 5rem 0; border-top: 1px solid #f1f5f9; }
     .about-split-inner {
-        max-width: 1100px; margin: 0 auto; padding: 0 1.5rem;
-        display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center;
+        max-width: 1100px; margin: 0 auto; padding: 0 3rem;
+        display: grid; grid-template-columns: 1fr 1fr;
+        gap: 5rem; align-items: center;
     }
-    @media (max-width: 900px) { .about-split-inner { grid-template-columns: 1fr; gap: 3rem; } }
+    @media (max-width: 900px) {
+        .about-split-inner { grid-template-columns: 1fr; gap: 3rem; padding: 0 1.5rem; }
+    }
 
     .about-text .eyebrow {
         font-family: 'Inter', sans-serif;
-        font-size: 0.72rem; font-weight: 600; letter-spacing: 0.18em;
+        font-size: 0.6rem; font-weight: 700; letter-spacing: 0.22em;
         text-transform: uppercase; color: #0d9488; margin-bottom: 1.25rem;
-        display: flex; align-items: center; gap: 0.75rem;
-    }
-    .about-text .eyebrow::before {
-        content: ''; display: block; width: 32px; height: 1.5px; background: #0d9488;
     }
     .about-text h2 {
         font-family: 'Playfair Display', serif;
-        font-size: clamp(1.8rem, 3vw, 2.6rem); font-weight: 700;
-        color: #0f172a; line-height: 1.25; margin-bottom: 1.5rem;
+        font-size: clamp(1.9rem, 3vw, 2.6rem); font-weight: 700;
+        color: #0f172a; line-height: 1.15; margin-bottom: 1.5rem;
+        letter-spacing: -0.02em;
     }
     .about-text h2 em { font-style: italic; color: #0d9488; }
-    .about-text p {
+    .about-text > p {
         font-family: 'Inter', sans-serif;
-        font-size: 1rem; color: #64748b; line-height: 1.8; margin-bottom: 2rem;
+        font-size: 0.9rem; color: #64748b; line-height: 1.85; margin-bottom: 2rem;
     }
-    .about-text p strong { color: #0f172a; font-weight: 600; }
+    .about-text > p strong { color: #0f172a; font-weight: 600; }
 
-    .about-features { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 2.5rem; }
-    .about-feature {
-        display: flex; align-items: flex-start; gap: 0.75rem;
-        padding: 1rem; background: #fff;
-        border: 1px solid #e2e8f0; border-radius: 14px;
-        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    .about-points { margin-bottom: 2.5rem; display: flex; flex-direction: column; }
+    .about-point {
+        display: flex; align-items: flex-start; gap: 0.85rem;
+        padding: 1rem 0;
+        border-bottom: 1px solid #e2e8f0;
     }
-    .about-feature:hover { border-color: #0d9488; box-shadow: 0 4px 16px rgba(13,148,136,0.08); }
-    .about-feature-icon {
-        width: 36px; height: 36px; border-radius: 10px; flex-shrink: 0;
-        display: flex; align-items: center; justify-content: center;
-        font-size: 0.875rem; color: #fff;
-        background: var(--fi-color, #0d9488);
+    .about-point:first-child { border-top: 1px solid #e2e8f0; }
+    .about-point-num {
+        font-family: 'Inter', sans-serif;
+        font-size: 0.58rem; font-weight: 700;
+        letter-spacing: 0.15em; color: #0d9488;
+        flex-shrink: 0; padding-top: 0.15rem; min-width: 22px;
     }
-    .about-feature h4 { font-family: 'Inter', sans-serif; font-size: 0.82rem; font-weight: 600; color: #0f172a; margin-bottom: 0.15rem; }
-    .about-feature p { font-family: 'Inter', sans-serif; font-size: 0.75rem; color: #94a3b8; line-height: 1.4; margin: 0; }
+    .about-point-text {
+        font-family: 'Inter', sans-serif;
+        font-size: 0.875rem; color: #475569; line-height: 1.65;
+    }
+    .about-point-text strong { color: #0f172a; font-weight: 600; }
 
     .about-cta {
         display: inline-flex; align-items: center; gap: 0.6rem;
         background: #0f172a; color: #fff; text-decoration: none;
-        font-family: 'Inter', sans-serif; font-size: 0.9rem; font-weight: 600;
-        padding: 0.9rem 2rem; border-radius: 99px;
-        transition: background 0.3s ease, transform 0.3s ease;
+        font-family: 'Inter', sans-serif; font-size: 0.72rem; font-weight: 700;
+        letter-spacing: 0.1em; text-transform: uppercase;
+        padding: 0.85rem 1.75rem; border-radius: 2px;
+        transition: background 0.25s ease;
     }
-    .about-cta:hover { background: #0d9488; transform: translateY(-2px); }
-    .about-cta i { transition: transform 0.3s ease; }
-    .about-cta:hover i { transform: translateX(4px); }
+    .about-cta:hover { background: #0d9488; }
+    .about-cta i { font-size: 0.65rem; transition: transform 0.25s ease; }
+    .about-cta:hover i { transform: translateX(3px); }
 
     .about-image-col { position: relative; }
     .about-image-wrap {
-        border-radius: 24px; overflow: hidden;
-        aspect-ratio: 4/5; box-shadow: 0 24px 64px rgba(0,0,0,0.12);
+        border-radius: 4px; overflow: hidden;
+        aspect-ratio: 4/5;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.1);
     }
     .about-image-wrap img {
         width: 100%; height: 100%; object-fit: cover;
         transition: transform 0.6s ease;
     }
-    .about-image-wrap:hover img { transform: scale(1.04); }
-
-    .about-chip {
-        position: absolute; background: #fff;
-        border: 1px solid #e2e8f0; border-radius: 14px;
-        padding: 0.85rem 1.1rem;
-        display: flex; align-items: center; gap: 0.75rem;
-        box-shadow: 0 8px 24px rgba(0,0,0,0.1);
-        font-family: 'Inter', sans-serif;
-    }
-    .about-chip .chip-icon {
-        width: 36px; height: 36px; border-radius: 10px;
-        display: flex; align-items: center; justify-content: center;
-        font-size: 0.9rem; color: #fff;
-    }
-    .about-chip .chip-label { font-size: 0.8rem; font-weight: 600; color: #0f172a; }
-    .about-chip .chip-sub { font-size: 0.7rem; color: #94a3b8; }
-    .chip-vision { bottom: -1.5rem; left: -1.5rem; }
-    .chip-promise { top: -1.5rem; right: -1.5rem; }
+    .about-image-wrap:hover img { transform: scale(1.03); }
 </style>
 {% endblock %}
 
@@ -270,46 +188,35 @@
     <div class="max-w-5xl mx-auto px-4">
         <p class="about-hero-eyebrow">Who We Are</p>
         <h1>Your Trusted Partner for <em>Global Visa</em> Solutions</h1>
-        <p>At <strong>Beyond Borders</strong>, we believe the world is meant to be explored, experienced, and embraced — and we're here to make that journey easier for you.</p>
+        <p class="about-hero-sub">At <strong>Beyond Borders</strong>, we believe the world is meant to be explored — and we're here to make every journey possible.</p>
+        <div class="about-hero-rule"></div>
     </div>
 </div>
 
 <!-- Services -->
 <section class="services-section">
+    <p class="services-eyebrow">What We Do</p>
+    <h2 class="services-heading">Visa services, <em>simplified</em></h2>
     <div class="services-grid">
-        <div class="service-card-new" style="--card-accent: #0d9488;">
-            <div class="service-icon"><i class="fas fa-plane"></i></div>
+        <div class="service-item">
+            <span class="service-num">01</span>
             <h3>Tourist & Business Visa</h3>
             <p>Complete assistance for leisure and business travel visa applications worldwide — fast, accurate, and stress-free.</p>
         </div>
-        <div class="service-card-new" style="--card-accent: #2563eb;">
-            <div class="service-icon" style="background: #2563eb;"><i class="fas fa-graduation-cap"></i></div>
+        <div class="service-item">
+            <span class="service-num">02</span>
             <h3>Student & Work Visa</h3>
             <p>Specialized processing for education and employment opportunities abroad, tailored to your destination and timeline.</p>
         </div>
-        <div class="service-card-new" style="--card-accent: #7c3aed;">
-            <div class="service-icon" style="background: #7c3aed;"><i class="fas fa-map-marked-alt"></i></div>
+        <div class="service-item">
+            <span class="service-num">03</span>
             <h3>Schengen & Transit Visa</h3>
             <p>Expert guidance for European travel and transit visa requirements, including multi-entry and short-stay permits.</p>
         </div>
     </div>
 </section>
 
-<!-- Trending Visas -->
-<section class="trending-section">
-    <div class="trending-header">
-        <h2>Trending Visas</h2>
-        <div class="trending-nav">
-            <button id="trendPrev"><i class="fas fa-chevron-left text-sm"></i></button>
-            <button id="trendNext"><i class="fas fa-chevron-right text-sm"></i></button>
-        </div>
-    </div>
-    <div class="trending-track-wrap">
-        <div id="trendingTrack"></div>
-    </div>
-</section>
-
-<!-- About Split -->
+<!-- Our Story -->
 <section class="about-split">
     <div class="about-split-inner">
         <div class="about-text">
@@ -317,22 +224,18 @@
             <h2>Experienced consultants, <em>dedicated</em> to your journey</h2>
             <p>With years of experience and in-depth knowledge of international visa regulations, we've helped thousands of clients secure visas for destinations across the globe — from <strong>US visas</strong> to <strong>Schengen permits</strong> and everything in between.</p>
 
-            <div class="about-features">
-                <div class="about-feature" style="--fi-color: #0d9488;">
-                    <div class="about-feature-icon"><i class="fas fa-user-tie"></i></div>
-                    <div><h4>Personalized Support</h4><p>Tailored to your travel goals</p></div>
+            <div class="about-points">
+                <div class="about-point">
+                    <span class="about-point-num">01</span>
+                    <span class="about-point-text"><strong>Personalized Support</strong> — dedicated guidance tailored to your unique travel goals and requirements.</span>
                 </div>
-                <div class="about-feature" style="--fi-color: #2563eb;">
-                    <div class="about-feature-icon" style="background: #2563eb;"><i class="fas fa-bell"></i></div>
-                    <div><h4>Timely Updates</h4><p>Real-time status tracking</p></div>
+                <div class="about-point">
+                    <span class="about-point-num">02</span>
+                    <span class="about-point-text"><strong>Real-Time Updates</strong> — stay informed at every stage with timely status tracking.</span>
                 </div>
-                <div class="about-feature" style="--fi-color: #7c3aed;">
-                    <div class="about-feature-icon" style="background: #7c3aed;"><i class="fas fa-desktop"></i></div>
-                    <div><h4>Online & Offline</h4><p>Flexible service options</p></div>
-                </div>
-                <div class="about-feature" style="--fi-color: #0f766e;">
-                    <div class="about-feature-icon" style="background: #0f766e;"><i class="fas fa-handshake"></i></div>
-                    <div><h4>Build Relationships</h4><p>Beyond just processing</p></div>
+                <div class="about-point">
+                    <span class="about-point-num">03</span>
+                    <span class="about-point-text"><strong>Lasting Relationships</strong> — we go beyond processing to build trust with every client we serve.</span>
                 </div>
             </div>
 
@@ -343,84 +246,10 @@
 
         <div class="about-image-col">
             <div class="about-image-wrap">
-                <img src="https://images.unsplash.com/photo-1519666336592-e225a99dcd2f?q=80&w=988&auto=format&fit=crop" alt="Airplane view">
-            </div>
-            <div class="about-chip chip-vision">
-                <div class="chip-icon" style="background: #0d9488;"><i class="fas fa-globe text-white"></i></div>
-                <div><div class="chip-label">Our Vision</div><div class="chip-sub">Most trusted visa consulting</div></div>
-            </div>
-            <div class="about-chip chip-promise">
-                <div class="chip-icon" style="background: #2563eb;"><i class="fas fa-heart text-white"></i></div>
-                <div><div class="chip-label">Our Promise</div><div class="chip-sub">Care & attention to detail</div></div>
+                <img src="https://images.unsplash.com/photo-1519666336592-e225a99dcd2f?q=80&w=988&auto=format&fit=crop" alt="Travel">
             </div>
         </div>
     </div>
 </section>
 
-{% endblock %}
-
-{% block scripts %}
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    loadTrendingVisas();
-});
-
-async function loadTrendingVisas() {
-    try {
-        let res = await fetch('/api/countries/featured?limit=12');
-        let countries = [];
-        if (res.ok) countries = await res.json();
-        if (!Array.isArray(countries) || countries.length === 0) {
-            const allRes = await fetch('/api/countries/?limit=100');
-            countries = await allRes.json();
-        }
-        const track = document.getElementById('trendingTrack');
-        const items = (countries || []).slice(0, 12).map(c => {
-            const hero = (c.hero_image_url && c.hero_image_url.trim() !== '') ? c.hero_image_url : 'https://images.unsplash.com/photo-1534067783941-51c9c23ecefd?auto=format&fit=crop&w=600&q=80';
-            const badge = c.visa_required
-                ? '<span class="t-badge t-badge-req">Visa Required</span>'
-                : '<span class="t-badge t-badge-free">Visa Free</span>';
-            return `
-            <a href="/countries/${c.id}" class="trending-card">
-                <div class="trending-thumb-wrap">
-                    <img class="trending-thumb" src="${hero}" alt="${c.name}" loading="lazy">
-                </div>
-                <div class="trending-body">
-                    <div class="t-name">${c.flag || ''} ${c.name}</div>
-                    <div class="t-meta">
-                        <span class="t-region">${c.region || ''}</span>
-                        ${badge}
-                    </div>
-                </div>
-            </a>`;
-        }).join('');
-        track.innerHTML = items + items;
-
-        const cardWidth = 235;
-        const speedPxPerSec = 40;
-        let running = false, rafId = null, lastTime = 0;
-        const loopWidth = track.scrollWidth / 2;
-
-        const start = () => {
-            if (running) return;
-            running = true; lastTime = performance.now();
-            const tick = (now) => {
-                if (!running) return;
-                const dt = now - lastTime; lastTime = now;
-                track.scrollLeft += (speedPxPerSec * dt) / 1000;
-                if (track.scrollLeft >= loopWidth) track.scrollLeft -= loopWidth;
-                rafId = requestAnimationFrame(tick);
-            };
-            rafId = requestAnimationFrame(tick);
-        };
-        const stop = () => { running = false; if (rafId) cancelAnimationFrame(rafId); };
-        start();
-
-        document.getElementById('trendPrev').addEventListener('click', () => { stop(); track.scrollBy({ left: -cardWidth, behavior: 'smooth' }); setTimeout(start, 1500); });
-        document.getElementById('trendNext').addEventListener('click', () => { stop(); track.scrollBy({ left: cardWidth, behavior: 'smooth' }); setTimeout(start, 1500); });
-        track.addEventListener('mouseenter', stop);
-        track.addEventListener('mouseleave', start);
-    } catch (e) { console.error('Trending visas failed', e); }
-}
-</script>
 {% endblock %}
