@@ -119,9 +119,38 @@ async def root():
 
 @app.on_event("startup")
 async def startup_event():
-    from app.core.database import connect_to_mongo
+    from app.core.database import connect_to_mongo, db
     await connect_to_mongo()
+    await _ensure_admin_user(db)
     print("Application startup complete.")
+
+async def _ensure_admin_user(db):
+    """Create the admin user from config if no admin exists yet."""
+    try:
+        import config
+        from passlib.context import CryptContext
+        pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+        collection = db.adapter["admin_users"]
+        if await collection.count_documents({}) == 0:
+            username = getattr(config, 'ADMIN_USERNAME', 'admin')
+            password = getattr(config, 'ADMIN_PASSWORD', 'admin123')
+            await collection.insert_one({
+                "username": username,
+                "email": "admin@beyondborders.com",
+                "password_hash": pwd_context.hash(password),
+                "full_name": "System Administrator",
+                "is_active": True,
+                "is_super_admin": True,
+                "last_login": None,
+                "login_count": 0,
+                "created_at": __import__('datetime').datetime.utcnow(),
+                "updated_at": __import__('datetime').datetime.utcnow(),
+            })
+            print(f"✅ Admin user '{username}' created.")
+        else:
+            print("✅ Admin user already exists.")
+    except Exception as e:
+        print(f"⚠️  Could not ensure admin user: {e}")
 
 @app.on_event("shutdown")
 async def shutdown_event():

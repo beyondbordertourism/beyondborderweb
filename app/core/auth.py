@@ -2,10 +2,12 @@ from datetime import datetime, timedelta
 from typing import Optional
 from fastapi import Depends, HTTPException, status, Request, Cookie
 from fastapi.security import HTTPBearer
+from passlib.context import CryptContext
 import jwt
 import config
 
 security = HTTPBearer(auto_error=False)
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 SECRET_KEY = config.SECRET_KEY
 ALGORITHM = "HS256"
@@ -28,23 +30,35 @@ def verify_token(token: str):
     except jwt.exceptions.InvalidTokenError:
         return None
 
+def _get_admin_collection():
+    from app.core.database import db
+    if db.adapter is None:
+        raise RuntimeError("Database not connected")
+    return db.adapter["admin_users"]
+
+def _normalize(doc: dict) -> dict:
+    if doc and '_id' in doc:
+        doc['id'] = str(doc['_id'])
+        del doc['_id']
+    return doc
+
 async def authenticate_admin(username: str, password: str):
-    """Authenticate admin using MongoDB."""
-    from app.crud.admin import admin_crud
-    
+    """Authenticate admin — fully async, no sync wrapper."""
     try:
-        admin = admin_crud.get_by_username(username)
+        collection = _get_admin_collection()
+        admin = await collection.find_one({"username": username})
         if not admin:
             return None
-        
-        if not admin.get('is_active'):
+        if not admin.get('is_active', True):
             return None
-        
-        if not admin_crud.verify_password(password, admin['password_hash']):
+        if not pwd_context.verify(password, admin['password_hash']):
             return None
-        
-        admin_crud.update_last_login(username)
-        
+        await collection.update_one(
+            {"username": username},
+            {"$set": {"last_login": datetime.utcnow(), "updated_at": datetime.utcnow()},
+             "$inc": {"login_count": 1}}
+        )
+        admin = _normalize(admin)
         return {
             "id": admin['id'],
             "username": admin['username'],
@@ -57,15 +71,13 @@ async def authenticate_admin(username: str, password: str):
         return None
 
 async def get_current_admin(request: Request, admin_token: Optional[str] = Cookie(None)):
-    from app.crud.admin import admin_crud
-    
     if not admin_token:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Not authenticated",
             headers={"WWW-Authenticate": "Bearer"},
         )
-    
+
     payload = verify_token(admin_token)
     if payload is None:
         raise HTTPException(
@@ -73,21 +85,28 @@ async def get_current_admin(request: Request, admin_token: Optional[str] = Cooki
             detail="Invalid authentication credentials",
             headers={"WWW-Authenticate": "Bearer"},
         )
-    
+
     username = payload.get("sub")
     if not username:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid authentication credentials",
         )
-    
-    admin = admin_crud.get_by_username(username)
-    if not admin or not admin.get('is_active'):
+
+    try:
+        collection = _get_admin_collection()
+        admin = await collection.find_one({"username": username})
+    except Exception as e:
+        print(f"get_current_admin DB error: {e}")
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Database error")
+
+    if not admin or not admin.get('is_active', True):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid authentication credentials",
         )
-    
+
+    admin = _normalize(admin)
     return {
         "id": admin['id'],
         "username": admin['username'],
@@ -97,4 +116,4 @@ async def get_current_admin(request: Request, admin_token: Optional[str] = Cooki
     }
 
 async def admin_required(current_admin: dict = Depends(get_current_admin)):
-    return current_admin 
+    return current_admin
