@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 from typing import Optional
+import re as _re
 from fastapi import Depends, HTTPException, status, Request, Cookie
 from fastapi.security import HTTPBearer
 from passlib.context import CryptContext
@@ -9,138 +10,155 @@ import config
 security = HTTPBearer(auto_error=False)
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-SECRET_KEY = config.SECRET_KEY
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_HOURS = 8
 
+
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     to_encode = data.copy()
-    if expires_delta:
-        expire = datetime.utcnow() + expires_delta
-    else:
-        expire = datetime.utcnow() + timedelta(hours=ACCESS_TOKEN_EXPIRE_HOURS)
+    expire = datetime.utcnow() + (expires_delta or timedelta(hours=ACCESS_TOKEN_EXPIRE_HOURS))
     to_encode.update({"exp": expire})
-    encoded_jwt = jwt.encode(to_encode, config.SECRET_KEY, algorithm=ALGORITHM)
-    return encoded_jwt
+    return jwt.encode(to_encode, config.SECRET_KEY, algorithm=ALGORITHM)
+
 
 def verify_token(token: str):
     try:
-        payload = jwt.decode(token, config.SECRET_KEY, algorithms=[ALGORITHM])
-        return payload
+        return jwt.decode(token, config.SECRET_KEY, algorithms=[ALGORITHM])
     except jwt.exceptions.InvalidTokenError:
         return None
 
-def _get_admin_collection():
+
+def _get_col():
     from app.core.database import db
     if db.adapter is None:
         raise RuntimeError("Database not connected")
     return db.adapter["admin_users"]
 
-def _normalize(doc: dict) -> dict:
-    if doc and '_id' in doc:
-        doc['id'] = str(doc['_id'])
-        del doc['_id']
+
+def _fmt(doc: dict) -> dict:
+    """Return a plain dict with 'id' instead of '_id'."""
+    if not doc:
+        return doc
+    doc = dict(doc)          # don't mutate the original
+    if '_id' in doc:
+        doc['id'] = str(doc.pop('_id'))
     return doc
 
-async def authenticate_admin(username: str, password: str):
-    """Authenticate admin — DB lookup with env-var fallback."""
-    import re as _re
 
-    # --- 1. Try MongoDB ---
-    try:
-        collection = _get_admin_collection()
-        safe = _re.escape(username)
-        admin = await collection.find_one({"username": {"$regex": f"^{safe}$", "$options": "i"}})
-        if admin:
-            print(f"[auth] Found DB user: {admin.get('username')}, active={admin.get('is_active')}")
-            if not admin.get('is_active', True):
-                print("[auth] User inactive")
-                return None
-            match = pwd_context.verify(password, admin['password_hash'])
-            print(f"[auth] Password match: {match}")
-            if not match:
-                # password in DB is stale — try env-var fallback before giving up
-                cfg_user = getattr(config, 'ADMIN_USERNAME', '')
-                cfg_pass = getattr(config, 'ADMIN_PASSWORD', '')
-                if username.lower() == cfg_user.lower() and password == cfg_pass:
-                    print("[auth] DB hash stale, matched env-var credentials — updating hash")
-                    new_hash = pwd_context.hash(password)
-                    await collection.update_one({"_id": admin["_id"]}, {"$set": {"password_hash": new_hash}})
-                else:
-                    return None
-            await collection.update_one(
-                {"_id": admin["_id"]},
-                {"$set": {"last_login": datetime.utcnow(), "updated_at": datetime.utcnow()},
-                 "$inc": {"login_count": 1}}
-            )
-            admin = _normalize(admin)
-            return {
-                "id": admin['id'],
-                "username": admin['username'],
-                "email": admin['email'],
-                "full_name": admin.get('full_name'),
-                "is_super_admin": admin.get('is_super_admin', False)
-            }
-    except Exception as e:
-        print(f"[auth] DB lookup error: {e}")
+async def _find_admin(username: str):
+    """Case-insensitive username lookup. Returns raw doc or None."""
+    col = _get_col()
+    safe = _re.escape(username)
+    return await col.find_one({"username": {"$regex": f"^{safe}$", "$options": "i"}})
 
-    # --- 2. Fallback: match directly against env vars ---
-    cfg_user = getattr(config, 'ADMIN_USERNAME', '')
-    cfg_pass = getattr(config, 'ADMIN_PASSWORD', '')
-    print(f"[auth] No DB user found, trying env-var fallback. cfg_user={cfg_user!r}")
-    if username.lower() == cfg_user.lower() and password == cfg_pass:
-        print("[auth] Env-var fallback matched — seeding user into DB")
-        # Upsert MUST succeed so get_current_admin can find the user later
-        collection = _get_admin_collection()
-        result = await collection.find_one_and_update(
-            {"username": cfg_user},
-            {"$set": {
-                "username": cfg_user,
+
+async def _upsert_admin(username: str, password: str) -> dict:
+    """Create or overwrite the admin record with a fresh bcrypt hash."""
+    col = _get_col()
+    now = datetime.utcnow()
+    new_hash = pwd_context.hash(password)
+    # update_one with upsert is simpler and doesn't need ReturnDocument
+    await col.update_one(
+        {"username": username},
+        {
+            "$set": {
+                "username": username,
                 "email": "admin@beyondborders.com",
-                "password_hash": pwd_context.hash(cfg_pass),
+                "password_hash": new_hash,
                 "full_name": "System Administrator",
                 "is_active": True,
                 "is_super_admin": True,
-                "updated_at": datetime.utcnow(),
+                "updated_at": now,
             },
-             "$setOnInsert": {"login_count": 0, "created_at": datetime.utcnow()}},
-            upsert=True,
-            return_document=True,
-        )
-        if result is None:
-            print("[auth] Upsert returned None — aborting login")
-            return None
-        doc = _normalize(result)
-        return {
-            "id": doc.get("id", "env_admin"),
-            "username": cfg_user,
-            "email": "admin@beyondborders.com",
-            "full_name": "System Administrator",
-            "is_super_admin": True,
-        }
+            "$setOnInsert": {"login_count": 0, "created_at": now},
+        },
+        upsert=True,
+    )
+    # read back what we just wrote
+    doc = await col.find_one({"username": username})
+    return _fmt(doc) if doc else {}
 
-    print("[auth] All auth methods failed")
+
+async def authenticate_admin(username: str, password: str):
+    cfg_user = getattr(config, 'ADMIN_USERNAME', 'admin')
+    cfg_pass = getattr(config, 'ADMIN_PASSWORD', 'admin123')
+
+    try:
+        # --- 1. Look up in DB ---
+        admin = await _find_admin(username)
+
+        if admin:
+            print(f"[auth] DB user found: {admin.get('username')}")
+            if not admin.get('is_active', True):
+                print("[auth] User is inactive")
+                return None
+
+            if pwd_context.verify(password, admin['password_hash']):
+                # Correct password — update last_login and return
+                col = _get_col()
+                await col.update_one(
+                    {"_id": admin["_id"]},
+                    {"$set": {"last_login": datetime.utcnow(), "updated_at": datetime.utcnow()},
+                     "$inc": {"login_count": 1}},
+                )
+                admin = _fmt(admin)
+                return {
+                    "id": admin['id'],
+                    "username": admin['username'],
+                    "email": admin.get('email', ''),
+                    "full_name": admin.get('full_name'),
+                    "is_super_admin": admin.get('is_super_admin', False),
+                }
+
+            # Hash is stale — only accept if env-var credentials match
+            print("[auth] bcrypt mismatch — checking env-var credentials")
+            if username.lower() == cfg_user.lower() and password == cfg_pass:
+                print("[auth] Env-var match — refreshing hash in DB")
+                doc = await _upsert_admin(cfg_user, cfg_pass)
+                return {
+                    "id": doc.get('id', 'admin'),
+                    "username": cfg_user,
+                    "email": doc.get('email', 'admin@beyondborders.com'),
+                    "full_name": doc.get('full_name', 'System Administrator'),
+                    "is_super_admin": True,
+                }
+            return None
+
+        # --- 2. No DB record — fall back to env vars ---
+        print(f"[auth] No DB record, trying env-var fallback (cfg_user={cfg_user!r})")
+        if username.lower() == cfg_user.lower() and password == cfg_pass:
+            print("[auth] Env-var match — seeding DB")
+            doc = await _upsert_admin(cfg_user, cfg_pass)
+            return {
+                "id": doc.get('id', 'admin'),
+                "username": cfg_user,
+                "email": "admin@beyondborders.com",
+                "full_name": "System Administrator",
+                "is_super_admin": True,
+            }
+
+    except Exception as e:
+        print(f"[auth] authenticate_admin error: {e}")
+
+    print("[auth] Authentication failed")
     return None
 
+
 async def get_current_admin(request: Request, admin_token: Optional[str] = Cookie(None)):
-    import re as _re
     if not admin_token:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Not authenticated")
 
     payload = verify_token(admin_token)
-    if payload is None:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid authentication credentials")
+    if not payload:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token")
 
     username = payload.get("sub")
     if not username:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid authentication credentials")
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token")
 
-    # Must find user in DB — no shortcuts
     try:
-        collection = _get_admin_collection()
-        safe = _re.escape(username)
-        admin = await collection.find_one({"username": {"$regex": f"^{safe}$", "$options": "i"}})
-        print(f"[get_current_admin] DB lookup for '{username}': {'found' if admin else 'not found'}")
+        admin = await _find_admin(username)
+        print(f"[get_current_admin] '{username}': {'found' if admin else 'not found'}")
     except Exception as e:
         print(f"[get_current_admin] DB error: {e}")
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Database error")
@@ -148,14 +166,15 @@ async def get_current_admin(request: Request, admin_token: Optional[str] = Cooki
     if not admin or not admin.get('is_active', True):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid authentication credentials")
 
-    admin = _normalize(admin)
+    admin = _fmt(admin)
     return {
         "id": admin['id'],
         "username": admin['username'],
-        "email": admin['email'],
+        "email": admin.get('email', ''),
         "full_name": admin.get('full_name'),
-        "is_super_admin": admin.get('is_super_admin', False)
+        "is_super_admin": admin.get('is_super_admin', False),
     }
+
 
 async def admin_required(current_admin: dict = Depends(get_current_admin)):
     return current_admin

@@ -17,17 +17,23 @@ async def admin_login(
     password: str = Form(...)
 ):
     """Admin login endpoint"""
-    admin_user = await authenticate_admin(username, password)
+    try:
+        admin_user = await authenticate_admin(username, password)
+    except Exception as e:
+        print(f"[login] unexpected error: {e}")
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Server error during login")
+
     if admin_user:
         access_token = create_access_token(data={"sub": admin_user["username"]})
         response.set_cookie(
             key="admin_token",
             value=access_token,
             httponly=True,
-            max_age=28800,  # 8 hours
+            max_age=28800,
             samesite="lax"
         )
         return {"message": "Login successful", "redirect": "/admin"}
+
     raise HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Invalid username or password"
