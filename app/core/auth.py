@@ -90,26 +90,29 @@ async def authenticate_admin(username: str, password: str):
     print(f"[auth] No DB user found, trying env-var fallback. cfg_user={cfg_user!r}")
     if username.lower() == cfg_user.lower() and password == cfg_pass:
         print("[auth] Env-var fallback matched — seeding user into DB")
-        try:
-            collection = _get_admin_collection()
-            await collection.update_one(
-                {"username": cfg_user},
-                {"$set": {
-                    "username": cfg_user,
-                    "email": "admin@beyondborders.com",
-                    "password_hash": pwd_context.hash(cfg_pass),
-                    "full_name": "System Administrator",
-                    "is_active": True,
-                    "is_super_admin": True,
-                    "updated_at": datetime.utcnow(),
-                },
-                 "$setOnInsert": {"login_count": 0, "created_at": datetime.utcnow()}},
-                upsert=True
-            )
-        except Exception as e:
-            print(f"[auth] Failed to seed user during fallback: {e}")
+        # Upsert MUST succeed so get_current_admin can find the user later
+        collection = _get_admin_collection()
+        result = await collection.find_one_and_update(
+            {"username": cfg_user},
+            {"$set": {
+                "username": cfg_user,
+                "email": "admin@beyondborders.com",
+                "password_hash": pwd_context.hash(cfg_pass),
+                "full_name": "System Administrator",
+                "is_active": True,
+                "is_super_admin": True,
+                "updated_at": datetime.utcnow(),
+            },
+             "$setOnInsert": {"login_count": 0, "created_at": datetime.utcnow()}},
+            upsert=True,
+            return_document=True,
+        )
+        if result is None:
+            print("[auth] Upsert returned None — aborting login")
+            return None
+        doc = _normalize(result)
         return {
-            "id": "env_admin",
+            "id": doc.get("id", "env_admin"),
             "username": cfg_user,
             "email": "admin@beyondborders.com",
             "full_name": "System Administrator",
@@ -132,8 +135,7 @@ async def get_current_admin(request: Request, admin_token: Optional[str] = Cooki
     if not username:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid authentication credentials")
 
-    # Try DB lookup
-    admin = None
+    # Must find user in DB — no shortcuts
     try:
         collection = _get_admin_collection()
         safe = _re.escape(username)
@@ -141,22 +143,9 @@ async def get_current_admin(request: Request, admin_token: Optional[str] = Cooki
         print(f"[get_current_admin] DB lookup for '{username}': {'found' if admin else 'not found'}")
     except Exception as e:
         print(f"[get_current_admin] DB error: {e}")
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Database error")
 
-    # Fallback: if token username matches env-var admin, trust the token
-    if not admin:
-        cfg_user = getattr(config, 'ADMIN_USERNAME', '')
-        if username.lower() == cfg_user.lower():
-            print(f"[get_current_admin] No DB user, but token matches env-var admin — allowing")
-            return {
-                "id": "env_admin",
-                "username": cfg_user,
-                "email": "admin@beyondborders.com",
-                "full_name": "System Administrator",
-                "is_super_admin": True,
-            }
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid authentication credentials")
-
-    if not admin.get('is_active', True):
+    if not admin or not admin.get('is_active', True):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid authentication credentials")
 
     admin = _normalize(admin)
