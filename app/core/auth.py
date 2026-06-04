@@ -46,7 +46,7 @@ async def authenticate_admin(username: str, password: str):
     """Authenticate admin — fully async, no sync wrapper."""
     try:
         collection = _get_admin_collection()
-        admin = await collection.find_one({"username": username})
+        admin = await collection.find_one({"username": {"$regex": f"^{username}$", "$options": "i"}})
         if not admin:
             return None
         if not admin.get('is_active', True):
@@ -95,7 +95,7 @@ async def get_current_admin(request: Request, admin_token: Optional[str] = Cooki
 
     try:
         collection = _get_admin_collection()
-        admin = await collection.find_one({"username": username})
+        admin = await collection.find_one({"username": {"$regex": f"^{username}$", "$options": "i"}})
     except Exception as e:
         print(f"get_current_admin DB error: {e}")
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Database error")

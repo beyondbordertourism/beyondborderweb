@@ -125,30 +125,45 @@ async def startup_event():
     print("Application startup complete.")
 
 async def _ensure_admin_user(db):
-    """Create the admin user from config if no admin exists yet."""
+    """Always upsert the admin user from env vars so credentials stay in sync."""
     try:
         import config
         from passlib.context import CryptContext
+        from datetime import datetime
         pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
         collection = db.adapter["admin_users"]
-        if await collection.count_documents({}) == 0:
-            username = getattr(config, 'ADMIN_USERNAME', 'admin')
-            password = getattr(config, 'ADMIN_PASSWORD', 'admin123')
+
+        username = getattr(config, 'ADMIN_USERNAME', 'admin')
+        password = getattr(config, 'ADMIN_PASSWORD', 'admin123')
+        password_hash = pwd_context.hash(password)
+
+        existing = await collection.find_one({"username": {"$regex": f"^{username}$", "$options": "i"}})
+        if existing:
+            await collection.update_one(
+                {"_id": existing["_id"]},
+                {"$set": {
+                    "username": username,
+                    "password_hash": password_hash,
+                    "is_active": True,
+                    "is_super_admin": True,
+                    "updated_at": datetime.utcnow(),
+                }}
+            )
+            print(f"✅ Admin user '{username}' credentials synced from env vars.")
+        else:
             await collection.insert_one({
                 "username": username,
                 "email": "admin@beyondborders.com",
-                "password_hash": pwd_context.hash(password),
+                "password_hash": password_hash,
                 "full_name": "System Administrator",
                 "is_active": True,
                 "is_super_admin": True,
                 "last_login": None,
                 "login_count": 0,
-                "created_at": __import__('datetime').datetime.utcnow(),
-                "updated_at": __import__('datetime').datetime.utcnow(),
+                "created_at": datetime.utcnow(),
+                "updated_at": datetime.utcnow(),
             })
-            print(f"✅ Admin user '{username}' created.")
-        else:
-            print("✅ Admin user already exists.")
+            print(f"✅ Admin user '{username}' created from env vars.")
     except Exception as e:
         print(f"⚠️  Could not ensure admin user: {e}")
 
