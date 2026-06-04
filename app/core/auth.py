@@ -120,40 +120,44 @@ async def authenticate_admin(username: str, password: str):
     return None
 
 async def get_current_admin(request: Request, admin_token: Optional[str] = Cookie(None)):
+    import re as _re
     if not admin_token:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Not authenticated",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Not authenticated")
 
     payload = verify_token(admin_token)
     if payload is None:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid authentication credentials",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid authentication credentials")
 
     username = payload.get("sub")
     if not username:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid authentication credentials",
-        )
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid authentication credentials")
 
+    # Try DB lookup
+    admin = None
     try:
         collection = _get_admin_collection()
-        admin = await collection.find_one({"username": {"$regex": f"^{username}$", "$options": "i"}})
+        safe = _re.escape(username)
+        admin = await collection.find_one({"username": {"$regex": f"^{safe}$", "$options": "i"}})
+        print(f"[get_current_admin] DB lookup for '{username}': {'found' if admin else 'not found'}")
     except Exception as e:
-        print(f"get_current_admin DB error: {e}")
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Database error")
+        print(f"[get_current_admin] DB error: {e}")
 
-    if not admin or not admin.get('is_active', True):
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid authentication credentials",
-        )
+    # Fallback: if token username matches env-var admin, trust the token
+    if not admin:
+        cfg_user = getattr(config, 'ADMIN_USERNAME', '')
+        if username.lower() == cfg_user.lower():
+            print(f"[get_current_admin] No DB user, but token matches env-var admin — allowing")
+            return {
+                "id": "env_admin",
+                "username": cfg_user,
+                "email": "admin@beyondborders.com",
+                "full_name": "System Administrator",
+                "is_super_admin": True,
+            }
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid authentication credentials")
+
+    if not admin.get('is_active', True):
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid authentication credentials")
 
     admin = _normalize(admin)
     return {

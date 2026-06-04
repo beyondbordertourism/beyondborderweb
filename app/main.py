@@ -75,6 +75,21 @@ async def about_page(request: Request):
 async def handle_contact_form(request: Request):
     return templates.TemplateResponse(request=request, name="contact.html", context={"message": "Your message has been sent successfully!"})
 
+# Helper to check admin auth without raising
+async def _check_admin(request: Request) -> bool:
+    from fastapi import HTTPException as _HTTPException
+    token = request.cookies.get("admin_token")
+    if not token:
+        return False
+    try:
+        result = await get_current_admin(request, token)
+        return bool(result)
+    except _HTTPException:
+        return False
+    except Exception as e:
+        print(f"[admin_check] unexpected error: {e}")
+        return False
+
 # Admin routes with authentication
 @app.get("/admin/login", response_class=HTMLResponse)
 async def admin_login_page(request: Request):
@@ -82,29 +97,25 @@ async def admin_login_page(request: Request):
 
 @app.get("/admin", response_class=HTMLResponse)
 async def admin_dashboard(request: Request):
-    token = request.cookies.get("admin_token")
-    if not token or not await get_current_admin(request, token):
+    if not await _check_admin(request):
         return RedirectResponse(url="/admin/login")
     return templates.TemplateResponse(request=request, name="admin/dashboard.html")
 
 @app.get("/admin/countries", response_class=HTMLResponse)
 async def admin_countries(request: Request):
-    token = request.cookies.get("admin_token")
-    if not token or not await get_current_admin(request, token):
+    if not await _check_admin(request):
         return RedirectResponse(url="/admin/login")
     return templates.TemplateResponse(request=request, name="admin/countries.html")
 
 @app.get("/admin/countries/new", response_class=HTMLResponse)
 async def admin_new_country(request: Request):
-    token = request.cookies.get("admin_token")
-    if not token or not await get_current_admin(request, token):
+    if not await _check_admin(request):
         return RedirectResponse(url="/admin/login")
     return templates.TemplateResponse(request=request, name="admin/country_form.html", context={"country_id": None})
 
 @app.get("/admin/countries/{country_id}/edit", response_class=HTMLResponse)
 async def admin_edit_country(request: Request, country_id: str):
-    token = request.cookies.get("admin_token")
-    if not token or not await get_current_admin(request, token):
+    if not await _check_admin(request):
         return RedirectResponse(url="/admin/login")
     return templates.TemplateResponse(request=request, name="admin/country_form.html", context={"country_id": country_id})
 
