@@ -28,6 +28,13 @@ def verify_token(token: str):
         return None
 
 
+def _cfg_admin():
+    return (
+        getattr(config, 'ADMIN_USERNAME', 'admin'),
+        getattr(config, 'ADMIN_PASSWORD', 'admin123'),
+    )
+
+
 def _get_col():
     from app.core.database import db
     if db.adapter is None:
@@ -36,71 +43,42 @@ def _get_col():
 
 
 def _fmt(doc: dict) -> dict:
-    """Return a plain dict with 'id' instead of '_id'."""
     if not doc:
-        return doc
-    doc = dict(doc)          # don't mutate the original
+        return {}
+    doc = dict(doc)
     if '_id' in doc:
         doc['id'] = str(doc.pop('_id'))
     return doc
 
 
 async def _find_admin(username: str):
-    """Case-insensitive username lookup. Returns raw doc or None."""
     col = _get_col()
     safe = _re.escape(username)
     return await col.find_one({"username": {"$regex": f"^{safe}$", "$options": "i"}})
 
 
-async def _upsert_admin(username: str, password: str) -> dict:
-    """Create or overwrite the admin record with a fresh bcrypt hash."""
-    col = _get_col()
-    now = datetime.utcnow()
-    new_hash = pwd_context.hash(password)
-    # update_one with upsert is simpler and doesn't need ReturnDocument
-    await col.update_one(
-        {"username": username},
-        {
-            "$set": {
-                "username": username,
-                "email": "admin@beyondborders.com",
-                "password_hash": new_hash,
-                "full_name": "System Administrator",
-                "is_active": True,
-                "is_super_admin": True,
-                "updated_at": now,
-            },
-            "$setOnInsert": {"login_count": 0, "created_at": now},
-        },
-        upsert=True,
-    )
-    # read back what we just wrote
-    doc = await col.find_one({"username": username})
-    return _fmt(doc) if doc else {}
-
-
 async def authenticate_admin(username: str, password: str):
-    cfg_user = getattr(config, 'ADMIN_USERNAME', 'admin')
-    cfg_pass = getattr(config, 'ADMIN_PASSWORD', 'admin123')
+    cfg_user, cfg_pass = _cfg_admin()
 
+    # --- 1. Check env-var credentials first (always works, no DB needed) ---
+    env_match = (username.lower() == cfg_user.lower() and password == cfg_pass)
+    print(f"[auth] env_match={env_match} for username={username!r}")
+
+    # --- 2. Try DB lookup and bcrypt verify ---
     try:
-        # --- 1. Look up in DB ---
         admin = await _find_admin(username)
-
         if admin:
             print(f"[auth] DB user found: {admin.get('username')}")
-            if not admin.get('is_active', True):
-                print("[auth] User is inactive")
-                return None
-
-            if pwd_context.verify(password, admin['password_hash']):
-                # Correct password — update last_login and return
-                col = _get_col()
-                await col.update_one(
-                    {"_id": admin["_id"]},
-                    {"$set": {"last_login": datetime.utcnow(), "updated_at": datetime.utcnow()},
-                     "$inc": {"login_count": 1}},
-                )
+            if admin.get('is_active', True) and pwd_context.verify(password, admin['password_hash']):
+                # Update last login (best-effort)
+                try:
+                    col = _get_col()
+                    await col.update_one(
+                        {"_id": admin["_id"]},
+                        {"$set": {"last_login": datetime.utcnow()}, "$inc": {"login_count": 1}},
+                    )
+                except Exception:
+                    pass
                 admin = _fmt(admin)
                 return {
                     "id": admin['id'],
@@ -109,36 +87,39 @@ async def authenticate_admin(username: str, password: str):
                     "full_name": admin.get('full_name'),
                     "is_super_admin": admin.get('is_super_admin', False),
                 }
-
-            # Hash is stale — only accept if env-var credentials match
-            print("[auth] bcrypt mismatch — checking env-var credentials")
-            if username.lower() == cfg_user.lower() and password == cfg_pass:
-                print("[auth] Env-var match — refreshing hash in DB")
-                doc = await _upsert_admin(cfg_user, cfg_pass)
-                return {
-                    "id": doc.get('id', 'admin'),
-                    "username": cfg_user,
-                    "email": doc.get('email', 'admin@beyondborders.com'),
-                    "full_name": doc.get('full_name', 'System Administrator'),
-                    "is_super_admin": True,
-                }
-            return None
-
-        # --- 2. No DB record — fall back to env vars ---
-        print(f"[auth] No DB record, trying env-var fallback (cfg_user={cfg_user!r})")
-        if username.lower() == cfg_user.lower() and password == cfg_pass:
-            print("[auth] Env-var match — seeding DB")
-            doc = await _upsert_admin(cfg_user, cfg_pass)
-            return {
-                "id": doc.get('id', 'admin'),
-                "username": cfg_user,
-                "email": "admin@beyondborders.com",
-                "full_name": "System Administrator",
-                "is_super_admin": True,
-            }
-
     except Exception as e:
-        print(f"[auth] authenticate_admin error: {e}")
+        print(f"[auth] DB lookup error: {e}")
+
+    # --- 3. Fall back to env-var credentials ---
+    if env_match:
+        print("[auth] Env-var credentials matched — issuing token")
+        # Best-effort DB seed so future logins can use bcrypt
+        try:
+            col = _get_col()
+            await col.update_one(
+                {"username": cfg_user},
+                {"$set": {
+                    "username": cfg_user,
+                    "email": "admin@beyondborders.com",
+                    "password_hash": pwd_context.hash(cfg_pass),
+                    "full_name": "System Administrator",
+                    "is_active": True,
+                    "is_super_admin": True,
+                    "updated_at": datetime.utcnow(),
+                }},
+                upsert=True,
+            )
+            print("[auth] DB seed succeeded")
+        except Exception as e:
+            print(f"[auth] DB seed failed (non-fatal): {e}")
+
+        return {
+            "id": "env_admin",
+            "username": cfg_user,
+            "email": "admin@beyondborders.com",
+            "full_name": "System Administrator",
+            "is_super_admin": True,
+        }
 
     print("[auth] Authentication failed")
     return None
@@ -156,24 +137,36 @@ async def get_current_admin(request: Request, admin_token: Optional[str] = Cooki
     if not username:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token")
 
+    # Try DB first
     try:
         admin = await _find_admin(username)
-        print(f"[get_current_admin] '{username}': {'found' if admin else 'not found'}")
+        if admin and admin.get('is_active', True):
+            admin = _fmt(admin)
+            return {
+                "id": admin['id'],
+                "username": admin['username'],
+                "email": admin.get('email', ''),
+                "full_name": admin.get('full_name'),
+                "is_super_admin": admin.get('is_super_admin', False),
+            }
     except Exception as e:
         print(f"[get_current_admin] DB error: {e}")
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Database error")
 
-    if not admin or not admin.get('is_active', True):
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid authentication credentials")
+    # DB unavailable or user not seeded yet — trust the JWT if username matches env-var
+    # Security: JWT is signed with SECRET_KEY; forging requires the secret.
+    # Password was verified at token-issuance time.
+    cfg_user, _ = _cfg_admin()
+    if username.lower() == cfg_user.lower():
+        print(f"[get_current_admin] DB miss, trusting valid JWT for env-var admin '{username}'")
+        return {
+            "id": "env_admin",
+            "username": cfg_user,
+            "email": "admin@beyondborders.com",
+            "full_name": "System Administrator",
+            "is_super_admin": True,
+        }
 
-    admin = _fmt(admin)
-    return {
-        "id": admin['id'],
-        "username": admin['username'],
-        "email": admin.get('email', ''),
-        "full_name": admin.get('full_name'),
-        "is_super_admin": admin.get('is_super_admin', False),
-    }
+    raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid authentication credentials")
 
 
 async def admin_required(current_admin: dict = Depends(get_current_admin)):
