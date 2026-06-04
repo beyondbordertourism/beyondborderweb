@@ -124,6 +124,27 @@ async def admin_edit_country(request: Request, country_id: str):
 async def health_check():
     return {"status": "healthy"}
 
+# TEMPORARY — remove after login is fixed
+@app.get("/api/admin/auth-debug")
+async def auth_debug():
+    import config as _cfg
+    from app.core.database import db
+    result = {
+        "db_connected": db.adapter is not None,
+        "configured_username": getattr(_cfg, 'ADMIN_USERNAME', 'NOT SET'),
+        "admin_users_in_db": 0,
+        "db_usernames": [],
+        "error": None,
+    }
+    try:
+        col = db.adapter["admin_users"]
+        docs = await col.find({}, {"username": 1, "is_active": 1}).to_list(length=20)
+        result["admin_users_in_db"] = len(docs)
+        result["db_usernames"] = [d.get("username") for d in docs]
+    except Exception as e:
+        result["error"] = str(e)
+    return result
+
 @app.get("/")
 async def root():
     return {"message": "Welcome to Beyond Borders"}
