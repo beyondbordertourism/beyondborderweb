@@ -17,6 +17,32 @@ html { scroll-behavior: smooth; }
     padding: 5rem 5rem 2rem !important;
 }
 
+/* ── MOBILE HERO FIXES ── */
+@media (max-width: 1024px) {
+    .unified-hero-left-panel {
+        /* Push content below the navbar (~64px) + breathing room */
+        padding: 5.5rem 1.5rem 2.5rem !important;
+    }
+
+    /* 2×2 grid for the nav buttons — compact and tap-friendly */
+    .morph-nav-buttons {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 0.5rem !important;
+        width: 100% !important;
+        max-width: 320px !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+
+    .morph-nav-button {
+        justify-content: center !important;
+        text-align: center !important;
+        padding: 0.65rem 0.5rem !important;
+        width: 100% !important;
+    }
+}
+
 .unified-hero-country-name {
     font-family: 'Playfair Display', serif !important;
     font-size: clamp(3rem, 6vw, 5.5rem) !important;
@@ -49,6 +75,16 @@ html { scroll-behavior: smooth; }
         linear-gradient(to top,
             rgba(0,0,0,0.5) 0%,
             rgba(0,0,0,0) 40%) !important;
+}
+
+@media (max-width: 1024px) {
+    .unified-hero-right-panel::after {
+        background:
+            linear-gradient(to top,
+                rgba(0,0,0,0.92) 0%,
+                rgba(0,0,0,0.65) 45%,
+                rgba(0,0,0,0.35) 100%) !important;
+    }
 }
 
 /* ── HERO NAV BUTTONS ── */

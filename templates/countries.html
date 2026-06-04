@@ -139,6 +139,11 @@
         width: 100%;
     }
 
+    /* Desktop: selects sit inline in the row */
+    .filter-selects-row {
+        display: contents; /* children participate in parent flex as if unwrapped */
+    }
+
     .search-input-wrap {
         flex: 1;
         position: relative;
@@ -493,18 +498,49 @@
     }
 
     @media (max-width: 768px) {
-        .hero-header { padding: 3rem 0 0; }
-        .hero-content { padding: 0 1.5rem 2.5rem; }
-        .hero-title { font-size: 2.8rem !important; }
-        .search-row { flex-direction: column; }
-        .stats-container { flex-wrap: wrap; }
-        .morph-stat-button { flex: 1 0 45%; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.07); padding: 1.5rem 1.5rem; }
-        .morph-stat-button:first-child { padding-left: 1.5rem; }
+        /* Clear navbar */
+        .hero-header { padding: 5rem 0 0; }
+        .hero-content { padding: 0 1.25rem 2rem; }
+
+        /* Title */
+        .hero-title {
+            font-size: 2.6rem !important;
+            white-space: normal !important;
+            line-height: 1.08 !important;
+        }
+
+        /* Search: input full-width, selects side-by-side below */
+        .search-row { flex-direction: column; gap: 0.45rem; }
+        .search-row .search-input-wrap { width: 100%; }
+        .search-row .filter-selects-row {
+            display: flex;
+            gap: 0.45rem;
+        }
+        .filter-select { flex: 1; }
+
+        /* Stats: compact 2×2 grid */
+        .stats-container {
+            display: grid !important;
+            grid-template-columns: 1fr 1fr;
+            border-top: 1px solid rgba(255,255,255,0.07);
+        }
+        .morph-stat-button {
+            flex: unset;
+            padding: 1.25rem 1.25rem;
+            border-right: 1px solid rgba(255,255,255,0.07) !important;
+            border-bottom: 1px solid rgba(255,255,255,0.07) !important;
+            text-align: center;
+        }
+        .morph-stat-button:first-child { padding-left: 1.25rem; }
+        .morph-stat-button:nth-child(even) { border-right: none !important; }
+        .morph-stat-button:nth-child(3),
+        .morph-stat-button:nth-child(4) { border-bottom: none !important; }
+        .stat-number { font-size: 2rem !important; }
     }
 
     @media (max-width: 480px) {
+        .hero-header { padding: 4.5rem 0 0; }
         .hero-title { font-size: 2.2rem !important; }
-        .morph-stat-button { flex: 1 0 100%; }
     }
 </style>
 {% endblock %}
@@ -525,14 +561,16 @@
                         <input type="text" id="searchInput" placeholder="Search destinations…" class="search-input" autocomplete="off">
                         <div id="autocompleteList"></div>
                     </div>
-                    <select id="regionFilter" class="filter-select">
-                        <option value="">All Regions</option>
-                    </select>
-                    <select id="visaFilter" class="filter-select">
-                        <option value="">All Countries</option>
-                        <option value="true">Visa Required</option>
-                        <option value="false">Visa Free</option>
-                    </select>
+                    <div class="filter-selects-row">
+                        <select id="regionFilter" class="filter-select">
+                            <option value="">All Regions</option>
+                        </select>
+                        <select id="visaFilter" class="filter-select">
+                            <option value="">All Countries</option>
+                            <option value="true">Visa Required</option>
+                            <option value="false">Visa Free</option>
+                        </select>
+                    </div>
                 </div>
             </div>
         </div>
@@ -590,7 +628,9 @@
             <!-- Load More Button -->
             <div id="loadMoreContainer" class="text-center mt-12" style="display: none;">
                 <button id="loadMoreBtn"
-                    class="bg-gradient-to-r from-teal-600 to-blue-600 text-white px-12 py-4 rounded-full hover:from-teal-700 hover:to-blue-700 transition-all duration-300 transform hover:scale-105 shadow-lg text-lg font-semibold">
+                    style="background:transparent;border:1px solid rgba(94,234,212,0.4);color:#5eead4;padding:0.7rem 2.5rem;font-family:'Inter',sans-serif;font-size:0.72rem;font-weight:600;letter-spacing:0.13em;text-transform:uppercase;border-radius:2px;cursor:pointer;transition:all 0.3s ease;"
+                    onmouseover="this.style.background='rgba(94,234,212,0.08)';this.style.borderColor='rgba(94,234,212,0.7)'"
+                    onmouseout="this.style.background='transparent';this.style.borderColor='rgba(94,234,212,0.4)'">
                     Load More Countries
                 </button>
             </div>

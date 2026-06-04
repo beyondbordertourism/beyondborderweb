@@ -61,40 +61,70 @@
     #globeCanvas:active { cursor: grabbing; }
 
     /* Globe country card — positioned dynamically at the marker */
+    /* Allow card to bleed outside globe bounds */
+    .globe-wrap { overflow: visible !important; }
+
     .globe-card {
         position: absolute;
-        width: 152px;
-        border-radius: 6px;
-        overflow: hidden;
+        width: 200px;
+        border-radius: 0;
+        overflow: visible;
         opacity: 0;
         visibility: hidden;
-        transform: scale(0.88);
-        transition: opacity 0.35s ease, visibility 0.35s ease, transform 0.35s ease;
-        box-shadow: 0 12px 40px rgba(0,0,0,0.7), 0 0 0 1px rgba(94,234,212,0.18);
-        z-index: 10;
+        transform: scale(0.88) translateY(8px);
+        transition: opacity 0.4s ease, visibility 0.4s ease, transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
+        box-shadow: none;
+        z-index: 20;
         pointer-events: none;
     }
     .globe-card.visible {
         opacity: 1;
         visibility: visible;
-        transform: scale(1);
+        transform: scale(1) translateY(0);
     }
     .globe-card img {
-        width: 168px;
-        height: 168px;
+        width: 200px;
+        height: 270px;
         object-fit: cover;
         display: block;
+        transition: transform 0.7s ease;
+        border-radius: 4px;
+        -webkit-mask-image: radial-gradient(ellipse 85% 80% at 50% 46%, black 10%, rgba(0,0,0,0.75) 42%, transparent 72%);
+        mask-image: radial-gradient(ellipse 85% 80% at 50% 46%, black 10%, rgba(0,0,0,0.75) 42%, transparent 72%);
     }
+    .globe-card.visible img { transform: scale(1.05); }
+
+    .globe-card-overlay {
+        position: absolute;
+        inset: 0;
+        width: 200px;
+        height: 270px;
+        background: linear-gradient(
+            to top,
+            rgba(0,0,0,0.88) 0%,
+            rgba(0,0,0,0.3) 38%,
+            rgba(0,0,0,0) 60%
+        );
+        z-index: 1;
+        pointer-events: none;
+    }
+
+    .globe-card-text {
+        position: absolute;
+        bottom: 14px; left: 0; right: 0;
+        padding: 0 1rem;
+        z-index: 2;
+    }
+
     .globe-card span {
         display: block;
         font-family: 'Inter', sans-serif;
-        font-size: 0.58rem;
+        font-size: 0.6rem;
         font-weight: 700;
-        letter-spacing: 0.18em;
+        letter-spacing: 0.2em;
         text-transform: uppercase;
-        color: #fff;
-        background: rgba(0,0,0,0.78);
-        padding: 0.45rem 0.7rem;
+        color: rgba(255,255,255,0.9);
+        line-height: 1.2;
         white-space: nowrap;
     }
 
@@ -128,6 +158,17 @@
         background: rgba(94, 234, 212, 0.06);
     }
 
+    .hero-pill-more {
+        font-family: 'Inter', sans-serif;
+        font-size: 0.6rem;
+        font-weight: 500;
+        letter-spacing: 0.1em;
+        color: rgba(255,255,255,0.25);
+        padding: 0.3rem 0.4rem;
+        align-self: center;
+        font-style: italic;
+    }
+
     /* Label */
     .hero-label {
         font-family: 'Inter', sans-serif;
@@ -153,7 +194,7 @@
     }
 
     /* Splitting.js wraps each char — we animate from below */
-    .hero-heading .word { display: inline-block; overflow: hidden; vertical-align: bottom; }
+    .hero-heading .word { display: inline-block; overflow: hidden; vertical-align: bottom; padding-bottom: 0.15em; margin-bottom: -0.15em; }
     .hero-heading .char { display: inline-block; transform: translateY(105%); will-change: transform; }
 
     .hero-heading em { font-style: italic; color: #5eead4; }
@@ -226,13 +267,74 @@
         100% { top: 100%;  }
     }
 
-    /* Mobile */
+    /* ── Mobile background image (swaps with active country) ── */
+    #mobileHeroBg {
+        display: none;
+    }
+
     @media (max-width: 768px) {
-        .hero-body { flex-direction: column; padding: 5rem 1.5rem 0; gap: 2rem; overflow: hidden; }
-        .hero-left { max-width: 100%; }
+        /* Shrink hero to content — no dead space */
+        .hero-v2 {
+            height: auto !important;
+            min-height: 100svh;
+            min-height: 100vh; /* fallback */
+        }
+
+        #mobileHeroBg {
+            display: block;
+            position: absolute;
+            inset: 0;
+            background-size: cover;
+            background-position: center;
+            z-index: 0;
+        }
+        #mobileHeroBg::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(to bottom,
+                    rgba(0,0,0,0.68) 0%,
+                    rgba(0,0,0,0.38) 45%,
+                    rgba(0,0,0,0.72) 100%);
+        }
+
+        /* Layout */
+        .hero-body {
+            flex-direction: column !important;
+            align-items: center !important;
+            justify-content: flex-start !important;
+            padding: 27% 1.5rem 2rem !important;
+            gap: 0.75rem !important;
+            text-align: center;
+            overflow: hidden;
+        }
+        .hero-left {
+            max-width: 100%;
+            align-items: center;
+            margin-top: 0;
+        }
         .hero-right { display: none; }
-        .hero-heading { font-size: clamp(2.6rem, 10vw, 3.6rem); }
-        .hero-sub { max-width: 100%; }
+
+        /* Type */
+        .hero-heading {
+            font-size: clamp(2.8rem, 11vw, 3.8rem);
+            text-align: center;
+        }
+        .hero-label {
+            text-align: center;
+            margin-bottom: 0.75rem;
+        }
+        .hero-hr { margin: 0.75rem auto; }
+
+        /* Pills centred */
+        .hero-pills {
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        /* Scroll cue */
+        .hero-scroll-cue { bottom: 1.5rem; }
     }
 
     /* Countries grid styles (reused from countries page) */
@@ -631,6 +733,9 @@
 {% block content %}
 <section class="hero-v2" id="heroV2">
 
+    <!-- Mobile background image — swapped by JS when pill changes -->
+    <div id="mobileHeroBg"></div>
+
     <div class="hero-video-bg">
         <video autoplay muted loop playsinline poster="/static/images/hero-bg.jpg">
             <source src="https://videos.pexels.com/video-files/1851190/1851190-hd_1920_1080_25fps.mp4" type="video/mp4">
@@ -644,7 +749,6 @@
             <p class="hero-label">Visa Specialists &nbsp;·&nbsp; Indian Passport Holders</p>
             <h1 class="hero-heading">Every Journey<br>Deserves a<br><em>Seamless&nbsp;Start</em></h1>
             <div class="hero-hr" id="heroHr"></div>
-            <p class="hero-sub">From application to approval — we handle every detail so you can focus on the adventure.</p>
             <div class="hero-pills" id="heroPills"></div>
         </div>
         <div class="hero-right">
@@ -652,7 +756,10 @@
                 <canvas id="globeCanvas" width="1040" height="1040"></canvas>
                 <div id="globeCard" class="globe-card">
                     <img id="gcImg" src="" alt="">
-                    <span id="gcName"></span>
+                    <div class="globe-card-overlay"></div>
+                    <div class="globe-card-text">
+                        <span id="gcName"></span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1376,19 +1483,18 @@
 
         <!-- Contact Support CTA -->
         <div class="mt-16 text-center">
-            <div class="bg-gradient-to-r from-teal-600 to-blue-600 rounded-3xl p-8 text-white relative overflow-hidden">
-                <div class="absolute top-0 right-0 w-32 h-32 bg-white opacity-10 rounded-full -mr-16 -mt-16"></div>
-                <div class="absolute bottom-0 left-0 w-24 h-24 bg-white opacity-5 rounded-full -ml-12 -mb-12"></div>
-                <div class="relative z-10">
-                    <h3 class="text-2xl font-bold mb-4">Still have questions?</h3>
-                    <p class="text-blue-100 mb-6 max-w-2xl mx-auto">Our expert team is available 24/7 to help you with
-                        any visa-related queries. Get personalized assistance for your travel needs.</p>
-                    <a href="#"
-                        class="inline-flex items-center px-8 py-4 bg-white text-teal-600 font-semibold rounded-2xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 group">
-                        <i class="fas fa-comments mr-3 group-hover:scale-110 transition-transform duration-300"></i>
-                        <span>Contact Us</span>
-                        <i
-                            class="fas fa-arrow-right ml-3 group-hover:translate-x-1 transition-transform duration-300"></i>
+            <div style="background:#0a0a0a; border:1px solid rgba(94,234,212,0.18); border-radius:1.25rem; padding:2.5rem 2rem; position:relative; overflow:hidden;">
+                <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 70% 50%, rgba(94,234,212,0.05) 0%, transparent 65%);pointer-events:none;"></div>
+                <div style="position:relative;z-index:1;">
+                    <h3 style="font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;color:#fff;margin-bottom:0.75rem;">Still have questions?</h3>
+                    <p style="font-family:'Inter',sans-serif;font-size:0.875rem;color:rgba(255,255,255,0.45);margin-bottom:1.75rem;max-width:36rem;margin-left:auto;margin-right:auto;">Our expert team is available 24/7 to help you with any visa-related queries. Get personalized assistance for your travel needs.</p>
+                    <a href="/contact"
+                        style="display:inline-flex;align-items:center;gap:0.6rem;padding:0.7rem 1.8rem;background:transparent;border:1px solid rgba(94,234,212,0.4);color:#5eead4;font-family:'Inter',sans-serif;font-size:0.72rem;font-weight:600;letter-spacing:0.13em;text-transform:uppercase;border-radius:2px;text-decoration:none;transition:all 0.3s ease;"
+                        onmouseover="this.style.background='rgba(94,234,212,0.08)';this.style.borderColor='rgba(94,234,212,0.7)'"
+                        onmouseout="this.style.background='transparent';this.style.borderColor='rgba(94,234,212,0.4)'">
+                        <i class="fas fa-comments"></i>
+                        Contact Us
+                        <i class="fas fa-arrow-right" style="font-size:0.6rem;"></i>
                     </a>
                 </div>
             </div>
@@ -1493,18 +1599,52 @@ const GLOBE_COUNTRIES = [
     { name: 'Germany',     lat: 52.52,  lng: 13.41  },
 ];
 
+// Mobile hero background images per country (w=1400 for crisp retina display)
+const MOBILE_BG_IMAGES = {
+    'Japan':       'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=1400&q=90&auto=format&fit=crop',
+    'Singapore':   'https://images.unsplash.com/photo-1525625293386-3f8f99389edd?w=1400&q=90&auto=format&fit=crop',
+    'South Korea': 'https://images.unsplash.com/photo-1517154421773-0529f29ea451?w=1400&q=90&auto=format&fit=crop',
+    'Thailand':    'https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=1400&q=90&auto=format&fit=crop',
+    'Vietnam':     'https://images.unsplash.com/photo-1583417319070-4a69db38a482?w=1400&q=90&auto=format&fit=crop',
+    'UAE':         'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=1400&q=90&auto=format&fit=crop',
+    'UK':          'https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=1400&q=90&auto=format&fit=crop',
+    'France':      'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=1400&q=90&auto=format&fit=crop',
+    'USA':         'https://images.unsplash.com/photo-1485738422979-f5c462d49f74?w=1400&q=90&auto=format&fit=crop',
+    'Australia':   'https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?w=1400&q=90&auto=format&fit=crop',
+    'Italy':       'https://images.unsplash.com/photo-1515542622106-78bda8ba0e5b?w=1400&q=90&auto=format&fit=crop',
+    'Germany':     'https://images.unsplash.com/photo-1467269204594-9661b134dd2b?w=1400&q=90&auto=format&fit=crop',
+};
+
+function setMobileHeroBg(countryName) {
+    if (window.innerWidth > 768) return;
+    const el = document.getElementById('mobileHeroBg');
+    if (!el) return;
+    const url = MOBILE_BG_IMAGES[countryName];
+    if (!url) return;
+    el.style.transition = 'opacity 0.6s ease';
+    el.style.opacity = '0';
+    setTimeout(() => {
+        el.style.backgroundImage = `url('${url}')`;
+        el.style.opacity = '1';
+    }, 350);
+}
+
 function initGlobePills() {
     const container = document.getElementById('heroPills');
     if (!container) return;
 
     container.innerHTML = GLOBE_COUNTRIES.map((c, i) =>
-        `<button class="hero-pill${i === 0 ? ' active' : ''}" data-lat="${c.lat}" data-lng="${c.lng}">${c.name}</button>`
-    ).join('');
+        `<button class="hero-pill${i === 0 ? ' active' : ''}" data-lat="${c.lat}" data-lng="${c.lng}" data-name="${c.name}">${c.name}</button>`
+    ).join('') + '<span class="hero-pill-more">and more</span>';
+
+    // Set first background immediately
+    setMobileHeroBg(GLOBE_COUNTRIES[0].name);
 
     container.querySelectorAll('.hero-pill').forEach(btn => {
         btn.addEventListener('click', () => {
             container.querySelectorAll('.hero-pill').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
+            setMobileHeroBg(btn.dataset.name);
             if (window.focusGlobe) {
                 window.focusGlobe(parseFloat(btn.dataset.lat), parseFloat(btn.dataset.lng));
             }
@@ -1519,6 +1659,7 @@ function initGlobePills() {
         idx = (idx + 1) % pills.length;
         pills[idx].classList.add('active');
         const active = pills[idx];
+        setMobileHeroBg(active.dataset.name);
         if (window.focusGlobe) {
             window.focusGlobe(parseFloat(active.dataset.lat), parseFloat(active.dataset.lng));
         }
@@ -1793,12 +1934,16 @@ import createGlobe from 'https://esm.sh/cobe@0.6.3';
         const pos = project(country.lat, country.lng, targetPhi, targetTheta);
         if (!pos) return;
         const { cssSize } = pos;
-        const cardW = 152, cardH = 180; // approx img + label
-        // Prefer placing card to the right of the dot, flip left if near right edge
-        let left = pos.x + 14;
+        const cardW = 190, cardH = 260;
+        const overflow = 40; // how far outside globe-wrap the card can bleed
+
+        // Place to the right of the marker; flip left if too close to right edge
+        let left = pos.x + 16;
         let top  = pos.y - cardH / 2;
-        if (left + cardW > cssSize - 6) left = pos.x - cardW - 14;
-        top = Math.max(4, Math.min(top, cssSize - cardH - 4));
+        if (left + cardW > cssSize + overflow) left = pos.x - cardW - 16;
+
+        // Vertical: allow card to bleed outside top/bottom by overflow px
+        top = Math.max(-overflow, Math.min(top, cssSize - cardH + overflow));
 
         card.style.left = left + 'px';
         card.style.top  = top  + 'px';
