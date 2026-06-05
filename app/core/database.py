@@ -27,25 +27,18 @@ db = DatabaseConnection()
 async def connect_to_mongo():
     """Create database connection"""
     try:
-        # Try to import config, fallback to environment variables
+        # Read connection details from environment / config only — no hardcoded secrets
         try:
             import config
-            MONGODB_URL = getattr(config, 'MONGODB_URL', None)
-            DATABASE_NAME = getattr(config, 'DATABASE_NAME', None)
-            if not MONGODB_URL:
-                MONGODB_URL = os.getenv("MONGODB_URL", "mongodb+srv://inshamanowar22_db_user:gCHLC03QnvtTtdLP@beyondborders.pmw8pvm.mongodb.net/")
-            if not DATABASE_NAME:
-                DATABASE_NAME = os.getenv("DATABASE_NAME", "beyondborder")
+            MONGODB_URL = getattr(config, 'MONGODB_URL', None) or os.getenv("MONGODB_URL", "")
+            DATABASE_NAME = getattr(config, 'DATABASE_NAME', None) or os.getenv("DATABASE_NAME", "beyondborder")
         except (ImportError, AttributeError):
-            # Fallback to environment variables
-            MONGODB_URL = os.getenv("MONGODB_URL", "mongodb+srv://inshamanowar22_db_user:gCHLC03QnvtTtdLP@beyondborders.pmw8pvm.mongodb.net/")
+            MONGODB_URL = os.getenv("MONGODB_URL", "")
             DATABASE_NAME = os.getenv("DATABASE_NAME", "beyondborder")
-            
-            # Replace placeholder with actual password from environment variable
-            db_password = os.getenv("MONGODB_PASSWORD", "")
-            if db_password and "your_password_here" in MONGODB_URL:
-                MONGODB_URL = MONGODB_URL.replace("your_password_here", db_password)
-        
+
+        if not MONGODB_URL:
+            raise RuntimeError("MONGODB_URL is not configured. Set it as an environment variable.")
+
         print(f"🔄 Attempting to connect to MongoDB...")
         
         # Test original connection without SSL modifications

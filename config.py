@@ -4,14 +4,20 @@ from urllib.parse import quote_plus
 
 load_dotenv()
 
-# MongoDB Configuration
-MONGODB_URL = os.getenv("MONGODB_URL", "mongodb+srv://inshamanowar22_db_user:gCHLC03QnvtTtdLP@beyondborders.pmw8pvm.mongodb.net/?appName=beyondborders")
+# MongoDB Configuration — values come from environment variables only.
+# Set these locally in a .env file (gitignored) and in your host's dashboard.
+MONGODB_URL = os.getenv("MONGODB_URL", "")
 DATABASE_NAME = os.getenv("DATABASE_NAME", "beyondborder")
 
 # Application Settings
-SECRET_KEY = os.getenv("SECRET_KEY", "your-secret-key-here")
+SECRET_KEY = os.getenv("SECRET_KEY", "")
 ADMIN_USERNAME = os.getenv("ADMIN_USERNAME", "admin")
-ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "admin123")
+ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "")
+
+if not MONGODB_URL:
+    print("⚠️  MONGODB_URL is not set — set it in your .env file or host environment.")
+if not SECRET_KEY:
+    print("⚠️  SECRET_KEY is not set — set a strong random value in your environment.")
 
 # File Storage Settings
 UPLOAD_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), "static/uploads")
