@@ -5253,10 +5253,10 @@ body.mobile-menu-open {
 
 .faq-heading {
     font-family: 'Playfair Display', serif;
-    font-size: clamp(2rem, 4vw, 3rem);
+    font-size: clamp(2.6rem, 5.5vw, 4.25rem);
     font-weight: 700;
     color: #0f172a;
-    line-height: 1.1;
+    line-height: 1.08;
     letter-spacing: -0.02em;
     margin-bottom: 1rem;
 }

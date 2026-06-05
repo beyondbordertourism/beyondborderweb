@@ -1,21 +1,224 @@
 {% extends "base.html" %}
 
-{% block title %}Page Not Found - 404{% endblock %}
+{% block title %}Page Not Found · Beyond Border Tourism{% endblock %}
+{% block body_class %}page-404{% endblock %}
+
+{% block head_styles %}
+<style>
+    .nf-section {
+        position: relative;
+        min-height: 100vh;
+        min-height: 100svh;
+        background: #000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 7rem 1.5rem 4rem;
+        overflow: hidden;
+    }
+    /* Ambient teal glow */
+    .nf-section::before {
+        content: '';
+        position: absolute; inset: 0;
+        background:
+            radial-gradient(ellipse 60% 50% at 50% 38%, rgba(94,234,212,0.10) 0%, transparent 60%),
+            radial-gradient(ellipse 40% 40% at 15% 80%, rgba(13,148,136,0.06) 0%, transparent 55%);
+        pointer-events: none;
+    }
+    /* Faint dot grid */
+    .nf-section::after {
+        content: '';
+        position: absolute; inset: 0;
+        background-image: radial-gradient(circle, rgba(255,255,255,0.06) 1px, transparent 1px);
+        background-size: 34px 34px;
+        -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 45%, black 20%, transparent 75%);
+        mask-image: radial-gradient(ellipse 80% 70% at 50% 45%, black 20%, transparent 75%);
+        pointer-events: none;
+    }
+
+    .nf-inner {
+        position: relative;
+        z-index: 2;
+        max-width: 640px;
+    }
+
+    .nf-eyebrow {
+        font-family: 'Inter', sans-serif;
+        font-size: 0.62rem;
+        font-weight: 700;
+        letter-spacing: 0.28em;
+        text-transform: uppercase;
+        color: #5eead4;
+        margin-bottom: 2rem;
+    }
+
+    /* Big 4 · compass · 4 */
+    .nf-404 {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: clamp(0.5rem, 2vw, 1.25rem);
+        font-family: 'Playfair Display', serif;
+        font-weight: 700;
+        font-size: clamp(6rem, 22vw, 13rem);
+        line-height: 1;
+        color: #fff;
+        letter-spacing: -0.02em;
+        margin: 0;
+    }
+    .nf-compass {
+        width: clamp(5rem, 18vw, 11rem);
+        height: clamp(5rem, 18vw, 11rem);
+        border-radius: 50%;
+        border: 2px solid rgba(94,234,212,0.4);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        box-shadow: 0 0 40px rgba(94,234,212,0.18), inset 0 0 30px rgba(94,234,212,0.06);
+        flex-shrink: 0;
+    }
+    .nf-compass i {
+        font-size: clamp(2.6rem, 10vw, 6rem);
+        color: #5eead4;
+        animation: nfSpin 9s linear infinite;
+    }
+    @keyframes nfSpin {
+        from { transform: rotate(0deg); }
+        to   { transform: rotate(360deg); }
+    }
+
+    .nf-heading {
+        font-family: 'Playfair Display', serif;
+        font-size: clamp(1.8rem, 4vw, 2.8rem);
+        font-weight: 700;
+        color: #fff;
+        line-height: 1.12;
+        letter-spacing: -0.02em;
+        margin: 2rem 0 1rem;
+    }
+    .nf-heading em { font-style: italic; color: #5eead4; }
+
+    .nf-desc {
+        font-family: 'Inter', sans-serif;
+        font-size: 0.95rem;
+        line-height: 1.8;
+        color: rgba(255,255,255,0.45);
+        max-width: 440px;
+        margin: 0 auto 2.5rem;
+    }
+
+    .nf-actions {
+        display: flex;
+        gap: 0.75rem;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-bottom: 3rem;
+    }
+    .nf-btn {
+        font-family: 'Inter', sans-serif;
+        font-size: 0.7rem;
+        font-weight: 600;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        padding: 0.8rem 1.8rem;
+        border-radius: 2px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    .nf-btn-primary {
+        background: #5eead4;
+        color: #04110d;
+        border: 1px solid #5eead4;
+    }
+    .nf-btn-primary:hover {
+        background: #2dd4bf;
+        border-color: #2dd4bf;
+    }
+    .nf-btn-ghost {
+        background: transparent;
+        color: #5eead4;
+        border: 1px solid rgba(94,234,212,0.4);
+    }
+    .nf-btn-ghost:hover {
+        background: rgba(94,234,212,0.08);
+        border-color: rgba(94,234,212,0.7);
+    }
+
+    /* Popular destinations */
+    .nf-links-label {
+        font-family: 'Inter', sans-serif;
+        font-size: 0.55rem;
+        font-weight: 700;
+        letter-spacing: 0.24em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.28);
+        margin-bottom: 1rem;
+    }
+    .nf-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        justify-content: center;
+    }
+    .nf-link {
+        font-family: 'Inter', sans-serif;
+        font-size: 0.6rem;
+        font-weight: 600;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.45);
+        border: 1px solid rgba(255,255,255,0.1);
+        padding: 0.35rem 0.8rem;
+        border-radius: 2px;
+        text-decoration: none;
+        transition: color 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+    }
+    .nf-link:hover {
+        color: #5eead4;
+        border-color: rgba(94,234,212,0.5);
+        background: rgba(94,234,212,0.06);
+    }
+
+    @media (max-width: 640px) {
+        .nf-actions { flex-direction: column; align-items: center; }
+        .nf-btn { width: 100%; max-width: 280px; justify-content: center; }
+    }
+</style>
+{% endblock %}
 
 {% block content %}
-<div class="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-indigo-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-    <div class="max-w-md w-full space-y-8 text-center">
-        <div>
-            <h2 class="mt-6 text-6xl font-extrabold text-indigo-600">404</h2>
-            <h2 class="mt-6 text-3xl font-bold text-gray-900">Page Not Found</h2>
-            <p class="mt-2 text-sm text-gray-600">The page you're looking for doesn't exist or has been moved.</p>
+<section class="nf-section">
+    <div class="nf-inner">
+        <p class="nf-eyebrow">Error 404 &nbsp;·&nbsp; Page Not Found</p>
+
+        <h1 class="nf-404">
+            <span>4</span>
+            <span class="nf-compass"><i class="fas fa-compass"></i></span>
+            <span>4</span>
+        </h1>
+
+        <h2 class="nf-heading">Looks like you've wandered <em>off the map</em></h2>
+        <p class="nf-desc">The page you're looking for has packed its bags and moved on. Let's get your journey back on track.</p>
+
+        <div class="nf-actions">
+            <a href="/" class="nf-btn nf-btn-primary"><i class="fas fa-home"></i> Back Home</a>
+            <a href="/countries" class="nf-btn nf-btn-ghost"><i class="fas fa-globe"></i> Browse Countries</a>
         </div>
-        <div class="mt-8">
-            <a href="/" class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                <i class="fas fa-home mr-2"></i>
-                Return Home
-            </a>
+
+        <p class="nf-links-label">Popular Destinations</p>
+        <div class="nf-links">
+            <a href="/countries/japan" class="nf-link">Japan</a>
+            <a href="/countries/singapore" class="nf-link">Singapore</a>
+            <a href="/countries/thailand" class="nf-link">Thailand</a>
+            <a href="/countries/uae" class="nf-link">UAE</a>
+            <a href="/countries/france" class="nf-link">France</a>
+            <a href="/contact" class="nf-link">Contact Us</a>
         </div>
     </div>
-</div>
-{% endblock %} 
+</section>
+{% endblock %}

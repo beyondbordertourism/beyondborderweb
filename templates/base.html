@@ -22,6 +22,17 @@
             background-color: #0B3D34;
             font-family: 'Inter', sans-serif;
         }
+        /* Hide scrollbar (keep scrolling) */
+        html, body {
+            scrollbar-width: none;          /* Firefox */
+            -ms-overflow-style: none;       /* IE / old Edge */
+        }
+        html::-webkit-scrollbar,
+        body::-webkit-scrollbar {
+            width: 0;
+            height: 0;
+            display: none;                  /* Chrome / Safari / Edge */
+        }
         h1, h2, h3, h4 {
             font-family: 'Playfair Display', serif;
         }
