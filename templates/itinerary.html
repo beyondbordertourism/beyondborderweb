@@ -1,0 +1,353 @@
+{% extends "base.html" %}
+
+{% block title %}{{ itin.country }} Itinerary — Beyond Border Tourism{% endblock %}
+
+{% block head_styles %}
+<style>
+  /* ============ ITINERARY — EDITORIAL TEAL/GREEN THEME ============ */
+  :root {
+    --cream:      #F1F6F4;   /* soft green-tinted off-white page bg */
+    --cream-2:    #E3EEEA;   /* light teal-grey for bars / elevated bg */
+    --paper:      #FBFDFC;   /* near-white cards & panels */
+    --ink:        #143029;   /* deep slate-green primary text */
+    --ink-soft:   #51706A;   /* muted green-grey secondary text */
+    --tan:        #0D9488;   /* teal accent (icons, highlights) */
+    --tan-deep:   #0B3D34;   /* brand dark green (buttons, badges) */
+    --line:       rgba(13, 80, 70, 0.16);
+  }
+
+  body.itin-body { background: var(--cream) !important; color: var(--ink); }
+
+  .itin-wrap { font-family: 'Inter', sans-serif; }
+  .itin-wrap h1, .itin-wrap h2, .itin-wrap h3 { font-family: 'Playfair Display', serif; color: var(--ink); }
+
+  .itin-eyebrow {
+    font-family: 'Inter', sans-serif; font-size: 0.66rem; font-weight: 700;
+    letter-spacing: 0.28em; text-transform: uppercase; color: var(--tan);
+  }
+
+  /* ---------- COVER ---------- */
+  .itin-cover { position: relative; min-height: 86vh; display: flex; align-items: flex-end;
+    color: #fff; overflow: hidden; }
+  .itin-cover__img { position: absolute; inset: 0; background-size: cover; background-position: center;
+    transform: scale(1.02); }
+  .itin-cover__img::after { content: ""; position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(20,15,9,0.82) 0%, rgba(20,15,9,0.35) 45%, rgba(20,15,9,0.15) 100%); }
+  .itin-cover__inner { position: relative; max-width: 1200px; margin: 0 auto;
+    padding: 0 2rem 4rem; width: 100%; }
+  .itin-cover__country { font-size: clamp(3.2rem, 9vw, 7rem); font-weight: 700; color: #fff !important;
+    line-height: 0.98; letter-spacing: 0.01em; margin: 0; }
+  .itin-cover__tagline { font-size: clamp(1rem, 2.2vw, 1.45rem); color: rgba(255,255,255,0.92);
+    font-family: 'Playfair Display', serif; font-style: italic; margin-top: 0.75rem; }
+  .itin-cover__dates { display: inline-block; margin-top: 1.25rem; font-size: 0.72rem; font-weight: 600;
+    letter-spacing: 0.22em; text-transform: uppercase; color: rgba(255,255,255,0.85);
+    border-top: 1px solid rgba(255,255,255,0.35); border-bottom: 1px solid rgba(255,255,255,0.35);
+    padding: 0.4rem 0; }
+  .itin-cover__quote { max-width: 640px; margin-top: 1.75rem; font-family: 'Playfair Display', serif;
+    font-style: italic; font-size: clamp(0.95rem, 1.6vw, 1.15rem); color: rgba(255,255,255,0.9); line-height: 1.6; }
+  .itin-cover__stats { display: flex; flex-wrap: wrap; gap: 1.75rem; margin-top: 2.25rem; }
+  .itin-cover__stat { display: flex; flex-direction: column; align-items: center; gap: 0.4rem; }
+  .itin-cover__stat i { font-size: 1.05rem; color: #fff; opacity: 0.95; }
+  .itin-cover__stat span { font-size: 0.6rem; font-weight: 600; letter-spacing: 0.16em;
+    text-transform: uppercase; color: rgba(255,255,255,0.8); }
+
+  /* ---------- SECTION SHELL ---------- */
+  .itin-section { max-width: 1200px; margin: 0 auto; padding: 4.5rem 2rem; }
+
+  /* ---------- THE ROUTE ---------- */
+  .route-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
+  @media (max-width: 860px) { .route-grid { grid-template-columns: 1fr; gap: 2.5rem; } }
+  .route-title { font-size: clamp(2rem, 4vw, 2.9rem); text-align: center; margin: 0 0 0.4rem; }
+  .route-rule { width: 64px; height: 1px; background: var(--tan); margin: 0.75rem auto 3rem; }
+
+  .route-step { display: flex; gap: 1.1rem; align-items: flex-start; padding: 0.9rem 0;
+    border-bottom: 1px solid var(--line); }
+  .route-step:last-child { border-bottom: 0; }
+  .route-num { flex: 0 0 auto; width: 34px; height: 34px; border-radius: 50%;
+    background: var(--tan-deep); color: #fff; display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 0.85rem; font-family: 'Inter', sans-serif; }
+  .route-step__name { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 600;
+    color: var(--ink); line-height: 1.2; }
+  .route-step__detail { font-size: 0.64rem; font-weight: 700; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--tan); margin-top: 0.2rem; }
+  .route-step i { color: var(--ink-soft); margin-left: auto; font-size: 0.95rem; padding-top: 0.35rem; }
+
+  .panel { background: var(--paper); border: 1px solid var(--line); border-radius: 6px; padding: 1.6rem 1.75rem; }
+  .panel + .panel { margin-top: 1.5rem; }
+  .panel h3 { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--tan-deep); font-family: 'Inter', sans-serif; margin: 0 0 1rem; }
+  .ov-row { display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px dashed var(--line);
+    font-size: 0.9rem; }
+  .ov-row:last-child { border-bottom: 0; }
+  .ov-row span:last-child { color: var(--tan); font-weight: 600; }
+  .hl-row { display: flex; align-items: center; gap: 0.6rem; padding: 0.4rem 0; font-size: 0.9rem; color: var(--ink-soft); }
+  .hl-row i { color: var(--tan); font-size: 0.8rem; }
+
+  /* ---------- DAY ---------- */
+  .day { border-top: 1px solid var(--line); }
+  .day__inner { max-width: 1200px; margin: 0 auto; padding: 3.5rem 2rem;
+    display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 3rem; align-items: start; }
+  @media (max-width: 860px) { .day__inner { grid-template-columns: 1fr; gap: 2rem; } }
+  .day__num { font-size: 0.66rem; font-weight: 700; letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--tan); }
+  .day__title { font-size: clamp(1.8rem, 3.6vw, 2.6rem); margin: 0.4rem 0 0.2rem; }
+  .day__sub { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--ink-soft); margin-bottom: 1.75rem; }
+
+  .tl { position: relative; padding-left: 0; }
+  .tl-item { position: relative; display: flex; gap: 1rem; padding-bottom: 1.5rem; }
+  .tl-item:last-child { padding-bottom: 0; }
+  .tl-ico { flex: 0 0 auto; width: 38px; height: 38px; border-radius: 50%; background: var(--cream-2);
+    border: 1px solid var(--line); display: flex; align-items: center; justify-content: center;
+    color: var(--tan-deep); font-size: 0.85rem; z-index: 1; }
+  .tl-item:not(:last-child) .tl-ico::after { content: ""; position: absolute; left: 18px; top: 38px;
+    bottom: -2px; width: 1px; background: var(--line); }
+  .tl-body h4 { font-family: 'Inter', sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--ink); margin: 0.45rem 0 0.35rem; }
+  .tl-body p { font-size: 0.9rem; color: var(--ink-soft); line-height: 1.6; margin: 0; }
+
+  .hotel-box { margin: 0.4rem 0 0.4rem 3.4rem; background: var(--paper); border: 1px solid var(--line);
+    border-radius: 5px; padding: 0.9rem 1.1rem; }
+  .hotel-box h5 { font-family: 'Inter', sans-serif; font-size: 0.6rem; font-weight: 700; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--tan); margin: 0 0 0.5rem; }
+  .hotel-box li { font-size: 0.84rem; color: var(--ink-soft); list-style: none; padding: 0.12rem 0; }
+  .hotel-box li::before { content: "·"; color: var(--tan); margin-right: 0.5rem; }
+
+  /* day media */
+  .day__media { display: grid; gap: 0.6rem; }
+  .day__media img { width: 100%; border-radius: 6px; object-fit: cover; display: block; background: var(--cream-2); }
+  .media-1 img { aspect-ratio: 4/3; }
+  .media-2 { grid-template-columns: 1fr 1fr; }
+  .media-2 img { aspect-ratio: 1/1; }
+  .media-3 { grid-template-columns: 2fr 1fr; }
+  .media-3 img:first-child { grid-row: span 2; aspect-ratio: 3/4; }
+  .media-3 img { aspect-ratio: 1/1; }
+
+  .curator { margin-top: 1.5rem; display: flex; gap: 0.85rem; align-items: flex-start;
+    border-top: 1px solid var(--line); padding-top: 1.25rem; }
+  .curator i { color: var(--tan); font-size: 1rem; padding-top: 0.15rem; }
+  .curator p { font-family: 'Playfair Display', serif; font-style: italic; font-size: 0.92rem;
+    color: var(--ink-soft); line-height: 1.6; margin: 0; }
+  .curator .cur-label { font-family: 'Playfair Display', serif; font-style: italic; color: var(--tan);
+    display: block; margin-bottom: 0.25rem; font-size: 0.95rem; }
+
+  /* day footer bar */
+  .day__bar { margin-top: 1.75rem; background: var(--cream-2); border-radius: 6px;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; padding: 1rem 1.25rem; }
+  @media (max-width: 520px) { .day__bar { grid-template-columns: repeat(2, 1fr); } }
+  .day__bar .b { display: flex; gap: 0.6rem; align-items: center; }
+  .day__bar i { color: var(--tan-deep); font-size: 0.85rem; }
+  .day__bar .lbl { font-size: 0.55rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--tan); }
+  .day__bar .val { font-size: 0.8rem; color: var(--ink); }
+
+  /* ---------- BOTTOM TRIO ---------- */
+  .trio { border-top: 1px solid var(--line); background: var(--cream-2); }
+  .trio__inner { max-width: 1200px; margin: 0 auto; padding: 4rem 2rem;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 3rem; }
+  @media (max-width: 860px) { .trio__inner { grid-template-columns: 1fr; gap: 2.5rem; } }
+  .trio h3 { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--tan-deep); font-family: 'Inter', sans-serif; margin: 0 0 1.25rem; display: flex; gap: 0.6rem; align-items: center; }
+  .trio h3 i { color: var(--tan); }
+  .trio .area { font-family: 'Playfair Display', serif; font-weight: 600; color: var(--ink); margin: 0.9rem 0 0.3rem; }
+  .trio li { list-style: none; font-size: 0.86rem; color: var(--ink-soft); padding: 0.16rem 0; }
+  .trio .ci { padding: 0.55rem 0; border-bottom: 1px dashed var(--line); }
+  .trio .ci:last-child { border-bottom: 0; }
+  .trio .ci b { display: block; font-weight: 600; color: var(--ink); font-size: 0.9rem; }
+  .trio .ci span { font-size: 0.82rem; color: var(--ink-soft); }
+  .gtk { display: flex; gap: 0.85rem; padding: 0.7rem 0; border-bottom: 1px dashed var(--line); }
+  .gtk:last-child { border-bottom: 0; }
+  .gtk i { color: var(--tan); font-size: 0.95rem; padding-top: 0.15rem; }
+  .gtk .lbl { font-size: 0.58rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--tan); }
+  .gtk .val { font-size: 0.85rem; color: var(--ink); }
+
+  /* ---------- LOCKED / GATED PREVIEW ---------- */
+  .locked { position: relative; }
+  .locked__content {
+    max-height: 640px; overflow: hidden; filter: blur(5px); pointer-events: none; user-select: none;
+    -webkit-mask-image: linear-gradient(to bottom, #000 22%, rgba(0,0,0,0.25) 70%, transparent 96%);
+    mask-image: linear-gradient(to bottom, #000 22%, rgba(0,0,0,0.25) 70%, transparent 96%);
+  }
+  .locked__overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: 2rem; }
+  .lock-card { background: var(--paper); border: 1px solid var(--line); border-radius: 12px; max-width: 460px;
+    text-align: center; padding: 2.75rem 2.25rem; box-shadow: 0 30px 90px rgba(11,61,52,0.30); }
+  .lock-card .lock-ic { width: 56px; height: 56px; border-radius: 50%; background: var(--tan-deep); color: #fff;
+    display: flex; align-items: center; justify-content: center; margin: 0 auto 1.25rem; font-size: 1.15rem; }
+  .lock-card .small { font-size: 0.66rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--tan);
+    font-weight: 700; margin-bottom: 0.75rem; }
+  .lock-card h3 { font-size: clamp(1.5rem, 3vw, 1.85rem); margin: 0 0 0.65rem; }
+  .lock-card p { color: var(--ink-soft); font-size: 0.92rem; line-height: 1.6; margin: 0 0 1.6rem; }
+  .lock-card a { display: inline-block; background: var(--tan-deep); color: #fff; font-weight: 600;
+    font-size: 0.8rem; letter-spacing: 0.06em; padding: 0.9rem 2.2rem; border-radius: 3px; text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s; }
+  .lock-card a:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(11,61,52,0.4); }
+
+  /* ---------- CTA ---------- */
+  .itin-cta { background: var(--tan-deep); color: #fff; text-align: center; padding: 4rem 2rem; }
+  .itin-cta h2 { color: #fff !important; font-size: clamp(1.8rem, 4vw, 2.6rem); margin: 0 0 0.75rem; }
+  .itin-cta p { color: rgba(255,255,255,0.8); max-width: 520px; margin: 0 auto 1.75rem; font-size: 0.95rem; }
+  .itin-cta a { display: inline-block; background: #fff; color: var(--tan-deep); font-weight: 600;
+    font-size: 0.8rem; letter-spacing: 0.06em; padding: 0.85rem 2rem; border-radius: 3px; text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s; }
+  .itin-cta a:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0,0,0,0.25); }
+</style>
+{% endblock %}
+
+{% block body_class %}itin-body{% endblock %}
+
+{% block content %}
+<div class="itin-wrap">
+
+  <!-- ========== COVER ========== -->
+  <header class="itin-cover">
+    <div class="itin-cover__img" style="background-image:url('{{ itin.hero_image }}');"></div>
+    <div class="itin-cover__inner">
+      <p class="itin-eyebrow" style="color:rgba(255,255,255,0.75);">Beyond Border Tourism · Curated Journey</p>
+      <h1 class="itin-cover__country">{{ itin.country }}</h1>
+      <p class="itin-cover__tagline">{{ itin.tagline }}</p>
+      <div><span class="itin-cover__dates">{{ itin.duration }} &nbsp;·&nbsp; {{ itin.dates }}</span></div>
+      {% if itin.quote %}<p class="itin-cover__quote">{{ itin.quote }}</p>{% endif %}
+      <div class="itin-cover__stats">
+        {% for s in itin.stats %}
+        <div class="itin-cover__stat"><i class="fas {{ s.icon }}"></i><span>{{ s.label }}</span></div>
+        {% endfor %}
+      </div>
+    </div>
+  </header>
+
+  <!-- ========== THE ROUTE ========== -->
+  <section class="itin-section">
+    <h2 class="route-title">The Route</h2>
+    <div class="route-rule"></div>
+    <div class="route-grid">
+      <div>
+        {% for r in itin.route %}
+        <div class="route-step">
+          <div class="route-num">{{ r.num }}</div>
+          <div>
+            <div class="route-step__name">{{ r.name }}</div>
+            <div class="route-step__detail">{{ r.detail }}</div>
+          </div>
+          <i class="fas {{ r.icon }}"></i>
+        </div>
+        {% endfor %}
+      </div>
+      <div>
+        <div class="panel">
+          <h3>Journey Overview</h3>
+          {% for o in itin.journey_overview %}
+          <div class="ov-row"><span>{{ o.place }}</span><span>{{ o.nights }}</span></div>
+          {% endfor %}
+        </div>
+        <div class="panel">
+          <h3>Highlights</h3>
+          {% for h in itin.highlights %}
+          <div class="hl-row"><i class="fas fa-check"></i><span>{{ h }}</span></div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== DAYS ========== -->
+  {% set gate = itin.days|length > 2 %}
+  {% for d in itin.days %}
+  {% if gate and loop.index == 3 %}<div class="locked"><div class="locked__content">{% endif %}
+  <section class="day">
+    <div class="day__inner">
+      <!-- left: timeline -->
+      <div>
+        <div class="day__num">Day {{ d.day }}</div>
+        <h3 class="day__title">{{ d.title }}</h3>
+        <div class="day__sub">{{ d.subtitle }}</div>
+        <div class="tl">
+          {% for a in d.activities %}
+          <div class="tl-item">
+            <div class="tl-ico"><i class="fas {{ a.icon }}"></i></div>
+            <div class="tl-body">
+              <h4>{{ a.title }}</h4>
+              <p>{{ a.desc }}</p>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        {% if d.hotels %}
+        <div class="hotel-box">
+          <h5>Hotel Suggestions</h5>
+          <ul>{% for h in d.hotels %}<li>{{ h }}</li>{% endfor %}</ul>
+        </div>
+        {% endif %}
+      </div>
+
+      <!-- right: media + note + bar -->
+      <div>
+        {% if d.images %}
+        <div class="day__media media-{{ d.images|length if d.images|length < 4 else 3 }}">
+          {% for img in d.images %}<img src="{{ img }}" alt="{{ d.title }}" loading="lazy">{% endfor %}
+        </div>
+        {% endif %}
+        {% if d.note %}
+        <div class="curator">
+          <i class="fas fa-feather"></i>
+          <p><span class="cur-label">Curator's Note</span>{{ d.note }}</p>
+        </div>
+        {% endif %}
+        <div class="day__bar">
+          <div class="b"><i class="fas fa-location-dot"></i><div><div class="lbl">Location</div><div class="val">{{ d.location }}</div></div></div>
+          <div class="b"><i class="fas fa-bed"></i><div><div class="lbl">Overnight</div><div class="val">{{ d.overnight }}</div></div></div>
+          <div class="b"><i class="fas fa-utensils"></i><div><div class="lbl">Meals</div><div class="val">{{ d.meals }}</div></div></div>
+          <div class="b"><i class="fas fa-person-walking"></i><div><div class="lbl">Activity</div><div class="val">{{ d.activity }}</div></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  {% endfor %}
+
+  <!-- ========== BOTTOM TRIO ========== -->
+  <section class="trio">
+    <div class="trio__inner">
+      <div>
+        <h3><i class="fas fa-bed"></i> Hotel Collection</h3>
+        {% for hc in itin.hotel_collection %}
+        <p class="area">{{ hc.area }}</p>
+        <ul>{% for h in hc.hotels %}<li>{{ h }}</li>{% endfor %}</ul>
+        {% endfor %}
+      </div>
+      <div>
+        <h3><i class="fas fa-utensils"></i> Culinary Experiences</h3>
+        {% for c in itin.culinary %}
+        <div class="ci"><b>{{ c.title }}</b><span>{{ c.desc }}</span></div>
+        {% endfor %}
+      </div>
+      <div>
+        <h3><i class="fas fa-circle-info"></i> Good to Know</h3>
+        {% for g in itin.good_to_know %}
+        <div class="gtk"><i class="fas {{ g.icon }}"></i><div><div class="lbl">{{ g.label }}</div><div class="val">{{ g.value }}</div></div></div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  {% if gate %}
+    </div><!-- /.locked__content -->
+    <div class="locked__overlay">
+      <div class="lock-card">
+        <div class="lock-ic"><i class="fas fa-lock"></i></div>
+        <p class="small">Days 3–{{ itin.days|length }} &amp; more</p>
+        <h3>Unlock the full {{ itin.country }} journey</h3>
+        <p>The complete day-by-day plan, handpicked stays, dining, and seasonal tips are part of your tailored itinerary. Get in touch and we'll send you the full plan.</p>
+        <a href="/contact">Contact Us for the Full Plan</a>
+      </div>
+    </div>
+  </div><!-- /.locked -->
+  {% endif %}
+
+  <!-- ========== CTA ========== -->
+  <section class="itin-cta">
+    <h2>Ready to explore {{ itin.country }}?</h2>
+    <p>This is a sample journey — we tailor every detail to your dates, pace, and taste.</p>
+    <a href="/contact">Plan This Trip</a>
+  </section>
+
+</div>
+{% endblock %}

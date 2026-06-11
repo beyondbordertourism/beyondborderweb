@@ -465,30 +465,55 @@
         white-space: nowrap;
     }
 
-    .view-details-arrow {
+    .country-media { display: block; }
+
+    .country-card-actions {
         margin-top: auto;
         display: flex;
+        gap: 0.5rem;
+        padding-top: 0.9rem;
+    }
+
+    .card-action {
+        flex: 1;
+        display: inline-flex;
         align-items: center;
-        font-size: 0.875rem;
-        font-weight: 600;
+        justify-content: center;
+        gap: 0.4rem;
+        font-family: 'Inter', sans-serif;
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        padding: 0.55rem 0.5rem;
+        border-radius: 8px;
+        transition: all 0.2s ease;
+        white-space: nowrap;
+    }
+
+    .card-action i { font-size: 0.72rem; }
+
+    .card-action--visa {
         color: #0d9488;
-        opacity: 0;
-        transform: translateX(-10px);
-        transition: all 0.3s ease;
+        background: #fff;
+        border: 1px solid rgba(13, 148, 136, 0.35);
     }
 
-    .countries-section .country-card:hover .view-details-arrow {
-        opacity: 1;
-        transform: translateX(0);
+    .card-action--visa:hover {
+        background: #0d9488;
+        color: #fff;
+        border-color: #0d9488;
     }
 
-    .view-details-arrow i {
-        margin-left: 0.5rem;
-        transition: transform 0.3s ease;
+    .card-action--itin {
+        color: #fff;
+        background: #0d9488;
+        border: 1px solid #0d9488;
     }
 
-    .countries-section .country-card:hover .view-details-arrow i {
-        transform: translateX(4px);
+    .card-action--itin:hover {
+        background: #0f766e;
+        border-color: #0f766e;
     }
 
     /* Footer divider tightened */
@@ -628,9 +653,9 @@
             <!-- Load More Button -->
             <div id="loadMoreContainer" class="text-center mt-12" style="display: none;">
                 <button id="loadMoreBtn"
-                    style="background:transparent;border:1px solid rgba(94,234,212,0.4);color:#5eead4;padding:0.7rem 2.5rem;font-family:'Inter',sans-serif;font-size:0.72rem;font-weight:600;letter-spacing:0.13em;text-transform:uppercase;border-radius:2px;cursor:pointer;transition:all 0.3s ease;"
-                    onmouseover="this.style.background='rgba(94,234,212,0.08)';this.style.borderColor='rgba(94,234,212,0.7)'"
-                    onmouseout="this.style.background='transparent';this.style.borderColor='rgba(94,234,212,0.4)'">
+                    style="background:#0d9488;border:1px solid #0d9488;color:#fff;padding:0.8rem 2.6rem;font-family:'Inter',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;border-radius:6px;cursor:pointer;transition:all 0.25s ease;box-shadow:0 4px 12px rgba(13,148,136,0.25);"
+                    onmouseover="this.style.background='#0f766e';this.style.borderColor='#0f766e'"
+                    onmouseout="this.style.background='#0d9488';this.style.borderColor='#0d9488'">
                     Load More Countries
                 </button>
             </div>
@@ -646,6 +671,9 @@
     let displayedCountries = [];
     let currentPage = 1;
     const itemsPerPage = 12;
+
+    // Slugs that have a curated itinerary page (passed from the server)
+    const ITINERARY_SLUGS = new Set({{ itinerary_slugs|default([])|tojson }});
 
     const TRAVEL_QUOTES = [
         '"The world is a book, and those who do not travel read only one page."',
@@ -908,26 +936,34 @@
         const fallbackHero = 'https://images.unsplash.com/photo-1534067783941-51c9c23ecefd?auto=format&fit=crop&w=1350&q=80';
         const hero = (country.hero_image_url && country.hero_image_url.trim() !== '') ? country.hero_image_url : fallbackHero;
 
+        const hasItinerary = ITINERARY_SLUGS.has(countryId);
+        const itineraryAction = hasItinerary ? `
+                    <a href="/itinerary/${countryId}" class="card-action card-action--itin">
+                        <i class="fas fa-route"></i> Itinerary
+                    </a>` : '';
+
         return `
-        <a href="/countries/${countryId}" class="country-card group">
-            <div class="country-media" style="background-image: url('${hero}')">
+        <div class="country-card group">
+            <a href="/countries/${countryId}" class="country-media" style="background-image: url('${hero}')" aria-label="${country.name} visa details">
                 <div class="country-media-overlay"></div>
                 <div class="country-flag-bubble">${country.flag}</div>
                 <span class="visa-status-badge ${country.visa_required ? 'visa-status-required' : 'visa-status-free'}">
                     <i class="fas ${country.visa_required ? 'fa-passport' : 'fa-check-circle'}"></i>
                     ${country.visa_required ? 'Visa Required' : 'Visa Free'}
                 </span>
-            </div>
+            </a>
             <div class="country-card-content">
                 <div class="country-meta">
                     <h3 class="country-title">${country.name}</h3>
                     <span class="country-region-chip">${country.region}</span>
                 </div>
-                <div class="view-details-arrow">
-                    View Details <i class="fas fa-arrow-right"></i>
+                <div class="country-card-actions">
+                    <a href="/countries/${countryId}" class="card-action card-action--visa">
+                        <i class="fas fa-passport"></i> Visa Info
+                    </a>${itineraryAction}
                 </div>
             </div>
-        </a>
+        </div>
     `;
     }
 

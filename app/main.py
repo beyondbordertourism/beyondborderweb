@@ -61,11 +61,23 @@ async def serve_home(request: Request):
 
 @app.get("/countries", response_class=HTMLResponse)
 async def countries_page(request: Request):
-    return templates.TemplateResponse(request=request, name="countries.html")
+    from app.data.itineraries import ITINERARIES
+    return templates.TemplateResponse(request=request, name="countries.html", context={"itinerary_slugs": list(ITINERARIES.keys())})
 
 @app.get("/countries/{country_id}", response_class=HTMLResponse)
 async def serve_country_page(request: Request, country_id: str):
-    return templates.TemplateResponse(request=request, name="country_detail.html", context={"country_id": country_id})
+    from app.data.itineraries import get_itinerary
+    has_itinerary = get_itinerary(country_id) is not None
+    return templates.TemplateResponse(request=request, name="country_detail.html", context={"country_id": country_id, "has_itinerary": has_itinerary})
+
+@app.get("/itinerary/{country_id}", response_class=HTMLResponse)
+async def serve_itinerary_page(request: Request, country_id: str):
+    """Renders the fixed editorial itinerary template for a country."""
+    from app.data.itineraries import get_itinerary
+    itin = get_itinerary(country_id)
+    if not itin:
+        raise HTTPException(status_code=404, detail="Itinerary not found")
+    return templates.TemplateResponse(request=request, name="itinerary.html", context={"itin": itin})
 
 @app.get("/search", response_class=HTMLResponse)
 async def search_results(request: Request):

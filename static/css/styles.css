@@ -1,5 +1,22 @@
 /* Custom Styles for VisaGuide */
 
+/* Square BB monogram (navbar) */
+.logo-monogram {
+    height: 3.75rem;
+    width: auto;
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+@media (max-width: 768px) {
+    .logo-monogram { height: 2.75rem; }
+}
+
+/* If the navbar ever sits on a light background, render the white mark dark */
+.hero-section #navbar .logo-monogram,
+.hero-section #navbar.scrolled .logo-monogram {
+    filter: brightness(0);
+}
+
 /* Logo Styles */
 .logo {
     height: auto;

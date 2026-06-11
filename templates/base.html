@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Beyond Borders - Your Travel Agency{% endblock %}</title>
+    <title>{% block title %}Beyond Border Tourism - Your Travel Agency{% endblock %}</title>
     
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/static/images/9.svg">
@@ -15,7 +15,7 @@
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="/static/css/styles.css" rel="stylesheet">
+    <link href="/static/css/styles.css?v=3" rel="stylesheet">
     {% block head_styles %}{% endblock %}
     <style>
         body {
@@ -48,7 +48,7 @@
             <div class="flex justify-between items-center">
                 <div class="flex items-center space-x-2">
                     <a href="/" class="flex items-center group">
-                        <img src="/static/images/13.png" alt="Beyond Borders Logo" class="logo transition-transform duration-300 group-hover:scale-105">
+                        <img src="/static/images/bb-monogram-white.png" alt="Beyond Border Tourism Logo" class="logo-monogram transition-transform duration-300 group-hover:scale-105">
                     </a>
                 </div>
                 <div class="hidden md:flex items-center space-x-10">
@@ -78,7 +78,7 @@
             <!-- Mobile Menu Header -->
             <div class="menu-header flex items-center justify-between p-6" style="border-bottom:1px solid rgba(255,255,255,0.07);">
                 <div class="flex items-center">
-                    <img src="/static/images/13.png" alt="Beyond Borders Logo" class="logo">
+                    <img src="/static/images/13.png" alt="Beyond Border Tourism Logo" class="logo">
                 </div>
                 <button id="mobile-menu-close" class="p-2 transition-colors duration-200" style="color:rgba(255,255,255,0.5);">
                     <i class="fas fa-times text-lg"></i>
@@ -170,7 +170,7 @@
                             <i class="fab fa-linkedin-in"></i>
                         </a>
                     </div>
-                    <p class="text-xs text-gray-500 text-center mt-3">© 2024 Beyond Borders</p>
+                    <p class="text-xs text-gray-500 text-center mt-3">© 2024 Beyond Border Tourism</p>
                 </div>
             </div>
         </div>
@@ -187,7 +187,13 @@
             <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:2rem; flex-wrap:wrap;">
                 <!-- Brand -->
                 <div style="flex:1; min-width:200px;">
-                    <img src="/static/images/13.png" alt="Beyond Borders Logo" class="logo" style="margin-bottom:0.75rem;">
+                    <a href="/" style="display:inline-flex; align-items:center; gap:0.7rem; text-decoration:none; margin-bottom:0.9rem;">
+                        <img src="/static/images/bb-monogram-white.png" alt="Beyond Border Tourism" style="height:2.6rem; width:auto;">
+                        <span style="display:flex; flex-direction:column; line-height:1;">
+                            <span style="font-family:'Playfair Display',serif; font-size:1.4rem; font-weight:700; color:#ffffff; letter-spacing:0.005em;">Beyond Border</span>
+                            <span style="font-family:'Inter',sans-serif; font-size:0.56rem; font-weight:600; letter-spacing:0.32em; text-transform:uppercase; color:#5eb6ab; margin-top:0.35rem;">Tourism</span>
+                        </span>
+                    </a>
                     <p style="font-family:'Inter',sans-serif; font-size:0.825rem; color:#64748b; line-height:1.6; max-width:220px;">Simplifying visas so you can focus on the journey.</p>
                 </div>
 
@@ -225,7 +231,7 @@
 
             <!-- Bottom bar -->
             <div style="margin-top:2.5rem; padding-top:1.5rem; border-top:1px solid rgba(255,255,255,0.06); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1rem;">
-                <p style="font-family:'Inter',sans-serif; font-size:0.78rem; color:#475569; margin:0;">&copy; 2024 Beyond Borders. All rights reserved.</p>
+                <p style="font-family:'Inter',sans-serif; font-size:0.78rem; color:#475569; margin:0;">&copy; 2024 Beyond Border Tourism. All rights reserved.</p>
                 <p style="font-family:'Inter',sans-serif; font-size:0.78rem; color:#334155; margin:0;">Visa information for Indian passport holders.</p>
             </div>
         </div>
