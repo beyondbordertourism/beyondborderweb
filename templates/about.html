@@ -178,6 +178,44 @@
         transition: transform 0.6s ease;
     }
     .about-image-wrap:hover img { transform: scale(1.03); }
+
+    /* ── Page animations (GPU-composited: opacity + translate3d only) ──────── */
+    @keyframes abFadeUp {
+        from { opacity: 0; transform: translate3d(0, 26px, 0); }
+        to   { opacity: 1; transform: translate3d(0, 0, 0); }
+    }
+
+    /* Hero intro — plays once on load, staggered */
+    .about-hero-eyebrow,
+    .about-hero h1,
+    .about-hero-sub,
+    .about-hero-rule {
+        opacity: 0;
+        will-change: opacity, transform;
+        animation: abFadeUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+    .about-hero-eyebrow { animation-delay: 0.10s; }
+    .about-hero h1      { animation-delay: 0.26s; }
+    .about-hero-sub     { animation-delay: 0.46s; }
+    .about-hero-rule    { animation-delay: 0.60s; }
+
+    /* Scroll reveal — keyframe so it plays even if already in view at load */
+    .reveal { opacity: 0; }
+    .reveal.revealed {
+        opacity: 1;  /* resting state so any hover transforms still work */
+        animation: abFadeUp 0.65s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+    }
+    /* Promote to its own layer only while animating */
+    .anim-active { will-change: opacity, transform; }
+
+    @media (prefers-reduced-motion: reduce) {
+        .about-hero-eyebrow, .about-hero h1, .about-hero-sub, .about-hero-rule,
+        .reveal, .reveal.revealed {
+            animation: none !important;
+            opacity: 1 !important;
+            transform: none !important;
+        }
+    }
 </style>
 {% endblock %}
 
@@ -252,4 +290,51 @@
     </div>
 </section>
 
+{% endblock %}
+
+{% block scripts %}
+<script>
+(function () {
+    // Release the hero intro's compositor layers once the intro has played
+    setTimeout(function () {
+        document.querySelectorAll('.about-hero-eyebrow, .about-hero h1, .about-hero-sub, .about-hero-rule')
+            .forEach(function (el) { el.style.willChange = 'auto'; });
+    }, 2400);
+
+    if (!('IntersectionObserver' in window)) return;
+
+    var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            var el = entry.target;
+            el.classList.add('anim-active', 'revealed');
+            var release = function () { el.classList.remove('anim-active'); };
+            el.addEventListener('animationend', release, { once: true });
+            observer.unobserve(el);
+        });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+
+    // Tag elements with the reveal class and observe them (optional per-item stagger)
+    function reveal(selector, stagger) {
+        document.querySelectorAll(selector).forEach(function (el, i) {
+            el.classList.add('reveal');
+            if (stagger) el.style.animationDelay = (i % 6) * 80 + 'ms';
+            observer.observe(el);
+        });
+    }
+
+    // Services section
+    reveal('.services-eyebrow');
+    reveal('.services-heading');
+    reveal('.service-item', true);
+
+    // Our Story section
+    reveal('.about-text .eyebrow');
+    reveal('.about-text h2');
+    reveal('.about-text > p');
+    reveal('.about-point', true);
+    reveal('.about-cta');
+    reveal('.about-image-wrap');
+})();
+</script>
 {% endblock %}

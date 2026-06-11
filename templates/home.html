@@ -643,16 +643,94 @@
         min-height: 1.2rem;
     }
 
-    /* Scroll reveal */
+    /* ── Scroll reveal ──────────────────────────────────────────────────────
+       All reveals animate only opacity + translate3d (GPU-composited) and are
+       promoted to their own layer while running, then released, so there is no
+       per-frame repaint of shadows / background images. */
     .reveal {
         opacity: 0;
-        transform: translateY(28px);
-        transition: opacity 0.55s cubic-bezier(0.4, 0, 0.2, 1), transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+        transform: translate3d(0, 26px, 0);
+        transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+                    transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
     }
-
     .reveal.revealed {
         opacity: 1;
-        transform: translateY(0);
+        transform: translate3d(0, 0, 0);
+    }
+
+    /* Elements actively animating get their own compositor layer */
+    .anim-active { will-change: opacity, transform; }
+
+    /* Country cards: keyframe "appear" so it plays even when already in view. */
+    .country-card.reveal { opacity: 0; }
+    .country-card.reveal.revealed {
+        opacity: 1;  /* resting state after the animation, so :hover lift still works */
+        animation: bbCardIn 0.7s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+    }
+    @keyframes bbCardIn {
+        from { opacity: 0; transform: translate3d(0, 30px, 0); }
+        to   { opacity: 1; transform: translate3d(0, 0, 0); }
+    }
+
+    /* FAQ header + cards: same reliable keyframe "appear" */
+    .faq-header.reveal { opacity: 0; }
+    .faq-header.reveal.revealed {
+        opacity: 1;
+        animation: bbRowIn 0.7s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+    }
+    .faq-item-enhanced.reveal { opacity: 0; }
+    .faq-item-enhanced.reveal.revealed {
+        opacity: 1;
+        animation: bbRowIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+    }
+    @keyframes bbRowIn {
+        from { opacity: 0; transform: translate3d(0, 24px, 0); }
+        to   { opacity: 1; transform: translate3d(0, 0, 0); }
+    }
+
+    /* ── Hero intro (plays once on page load) ───────────────────────────────── */
+    @keyframes bbHeroIn {
+        from { opacity: 0; transform: translate3d(0, 26px, 0); }
+        to   { opacity: 1; transform: translate3d(0, 0, 0); }
+    }
+    .hero-left .hero-label,
+    .hero-left .hero-heading,
+    .hero-left .hero-hr,
+    .hero-left .hero-pills {
+        opacity: 0;
+        will-change: opacity, transform;
+        animation: bbHeroIn 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+    .hero-left .hero-label   { animation-delay: 0.15s; }
+    .hero-left .hero-heading { animation-delay: 0.32s; }
+    .hero-left .hero-hr      { animation-delay: 0.52s; }
+    .hero-left .hero-pills   { animation-delay: 0.66s; }
+    /* Fade the globe in with opacity only (no transform — it's a live canvas) */
+    .hero-right {
+        opacity: 0;
+        will-change: opacity;
+        animation: bbFadeOnly 1.2s ease 0.35s forwards;
+    }
+    @keyframes bbFadeOnly { from { opacity: 0; } to { opacity: 1; } }
+    .hero-scroll-cue {
+        animation: bbHeroIn 0.8s ease 1.15s backwards;
+    }
+
+    /* Respect users who prefer reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+        .reveal,
+        .country-card.reveal,
+        .hero-left .hero-label,
+        .hero-left .hero-heading,
+        .hero-left .hero-hr,
+        .hero-left .hero-pills,
+        .hero-right,
+        .hero-scroll-cue {
+            animation: none !important;
+            transition: none !important;
+            opacity: 1 !important;
+            transform: none !important;
+        }
     }
 
     /* ── MISSION SECTION ─────────────────────────────────────────────────── */
@@ -1702,9 +1780,9 @@
 document.addEventListener('DOMContentLoaded', () => {
     initHero();
     initGlobePills();
+    initScrollReveal();
     loadHomeCountries();
     initializeFAQ();
-    initScrollReveal();
     initCounters();
     initBackToTop();
 });
@@ -1888,6 +1966,14 @@ function renderCountries() {
     });
     grid.innerHTML    = filtered.map(countryCard).join('');
     countEl.textContent = `Showing ${filtered.length} destination${filtered.length !== 1 ? 's' : ''}`;
+
+    // Staggered "appear" for the freshly rendered cards
+    grid.querySelectorAll('.country-card').forEach((card, i) => {
+        card.classList.add('reveal');
+        card.style.animationDelay = (i % 8) * 70 + 'ms';
+        if (revealObserver) revealObserver.observe(card);
+        else card.classList.add('revealed');
+    });
 }
 
 function initFilterListeners() {
@@ -2022,17 +2108,49 @@ function initializeFAQ() {
 }
 
 // ─── SCROLL REVEAL ──────────────────────────────────────────────────────────
-function initScrollReveal() {
-    const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('revealed');
-                observer.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.12 });
+let revealObserver = null;
 
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+// Observe one or more elements so they animate in when scrolled into view.
+function revealOnScroll(els) {
+    if (!revealObserver) return;
+    els.forEach(el => revealObserver.observe(el));
+}
+
+function initScrollReveal() {
+    revealObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (!entry.isIntersecting) return;
+            const el = entry.target;
+            // Promote to its own GPU layer just for the duration of the animation,
+            // then release it so we don't keep dozens of layers alive.
+            el.classList.add('anim-active', 'revealed');
+            const release = () => { el.classList.remove('anim-active'); };
+            el.addEventListener('animationend', release, { once: true });
+            el.addEventListener('transitionend', release, { once: true });
+            revealObserver.unobserve(el);
+        });
+    }, { threshold: 0.1, rootMargin: '0px 0px -8% 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+    // Release the hero intro's compositor layers once the intro has played
+    setTimeout(() => {
+        document.querySelectorAll('.hero-left .hero-label, .hero-left .hero-heading, .hero-left .hero-hr, .hero-left .hero-pills, .hero-right')
+            .forEach(el => { el.style.willChange = 'auto'; });
+    }, 2600);
+
+    // Reveal the FAQ header
+    document.querySelectorAll('.faq-header').forEach(el => {
+        el.classList.add('reveal');
+        revealObserver.observe(el);
+    });
+
+    // Stagger-reveal the FAQ cards as they enter the viewport
+    document.querySelectorAll('.faq-item-enhanced').forEach((el, i) => {
+        el.classList.add('reveal');
+        el.style.animationDelay = (i % 6) * 70 + 'ms';
+        revealObserver.observe(el);
+    });
 }
 
 // ─── ANIMATED COUNTERS ──────────────────────────────────────────────────────
