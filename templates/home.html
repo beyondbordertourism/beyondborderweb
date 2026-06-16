@@ -462,6 +462,7 @@
     }
 
     .country-media {
+        display: block;
         height: 160px;
         position: relative;
         background-size: cover;
@@ -566,6 +567,85 @@
         margin-top: 1rem;
         padding-top: 1rem;
     }
+
+    /* Card action buttons (Visa Info / Itinerary) — matches countries page */
+    .country-card-actions {
+        margin-top: 0.9rem;
+        display: flex;
+        gap: 0.5rem;
+    }
+
+    .card-action {
+        flex: 1;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.4rem;
+        font-family: 'Inter', sans-serif;
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        padding: 0.55rem 0.5rem;
+        border-radius: 8px;
+        transition: all 0.2s ease;
+        white-space: nowrap;
+        text-decoration: none;
+    }
+
+    .card-action i { font-size: 0.72rem; }
+
+    .card-action--visa {
+        color: #0d9488;
+        background: #fff;
+        border: 1px solid rgba(13, 148, 136, 0.35);
+    }
+
+    .card-action--visa:hover {
+        background: #0d9488;
+        color: #fff;
+        border-color: #0d9488;
+    }
+
+    .card-action--itin {
+        color: #fff;
+        background: #0d9488;
+        border: 1px solid #0d9488;
+    }
+
+    .card-action--itin:hover {
+        background: #0f766e;
+        border-color: #0f766e;
+    }
+
+    /* View More button */
+    .view-more-wrap {
+        display: none;
+        text-align: center;
+        margin-top: 2.5rem;
+    }
+
+    .view-more-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        background: #0f172a;
+        color: #fff;
+        font-family: 'Inter', sans-serif;
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        padding: 0.9rem 2rem;
+        border-radius: 9999px;
+        border: none;
+        cursor: pointer;
+        transition: background 0.25s ease, transform 0.25s ease;
+    }
+
+    .view-more-btn:hover { background: #0d9488; transform: translateY(-2px); }
+    .view-more-btn i { font-size: 0.72rem; transition: transform 0.25s ease; }
+    .view-more-btn:hover i { transform: translateY(2px); }
 
     /* Countries Filter Bar */
     .countries-filter-bar {
@@ -1015,6 +1095,11 @@
         <!-- Countries Grid -->
         <div id="homeCountriesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
             style="display: none;"></div>
+
+        <!-- View More -->
+        <div class="view-more-wrap" id="viewMoreWrap">
+            <button class="view-more-btn" id="viewMoreBtn" type="button">View More <i class="fas fa-chevron-down"></i></button>
+        </div>
     </div>
 
 </section>
@@ -1925,9 +2010,12 @@ function initGlobePills() {
 }
 
 // ─── COUNTRY CARDS ──────────────────────────────────────────────────────────
+const ITINERARY_SLUGS = new Set({{ itinerary_slugs|default([])|tojson }});
+const HOME_INITIAL_LIMIT = 8;   // 2 rows on desktop (4 cols)
 let allCountries = [];
 let activeVisa   = 'all';
 let activeRegion = 'all';
+let homeExpanded = false;
 
 async function loadHomeCountries() {
     const grid      = document.getElementById('homeCountriesGrid');
@@ -1964,8 +2052,25 @@ function renderCountries() {
         const regionOk = activeRegion === 'all' || c.region === activeRegion;
         return visaOk && regionOk;
     });
-    grid.innerHTML    = filtered.map(countryCard).join('');
-    countEl.textContent = `Showing ${filtered.length} destination${filtered.length !== 1 ? 's' : ''}`;
+
+    const total  = filtered.length;
+    const toShow = homeExpanded ? filtered : filtered.slice(0, HOME_INITIAL_LIMIT);
+    grid.innerHTML = toShow.map(countryCard).join('');
+    countEl.textContent = (!homeExpanded && total > HOME_INITIAL_LIMIT)
+        ? `Showing ${toShow.length} of ${total} destinations`
+        : `Showing ${total} destination${total !== 1 ? 's' : ''}`;
+
+    // View More button
+    const viewMoreWrap = document.getElementById('viewMoreWrap');
+    const viewMoreBtn  = document.getElementById('viewMoreBtn');
+    if (viewMoreWrap) {
+        if (!homeExpanded && total > HOME_INITIAL_LIMIT) {
+            viewMoreWrap.style.display = 'block';
+            viewMoreBtn.innerHTML = `View More (${total - HOME_INITIAL_LIMIT}) <i class="fas fa-chevron-down"></i>`;
+        } else {
+            viewMoreWrap.style.display = 'none';
+        }
+    }
 
     // Staggered "appear" for the freshly rendered cards
     grid.querySelectorAll('.country-card').forEach((card, i) => {
@@ -1982,6 +2087,7 @@ function initFilterListeners() {
             document.querySelectorAll('.visa-toggle-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             activeVisa = btn.dataset.visa;
+            homeExpanded = false;   // collapse back to 2 rows when filtering
             renderCountries();
         });
     });
@@ -1992,8 +2098,17 @@ function initFilterListeners() {
         document.querySelectorAll('.region-pill').forEach(p => p.classList.remove('active'));
         pill.classList.add('active');
         activeRegion = pill.dataset.region;
+        homeExpanded = false;   // collapse back to 2 rows when filtering
         renderCountries();
     });
+
+    const viewMoreBtn = document.getElementById('viewMoreBtn');
+    if (viewMoreBtn) {
+        viewMoreBtn.addEventListener('click', () => {
+            homeExpanded = true;
+            renderCountries();
+        });
+    }
 }
 
 function countryCard(country) {
@@ -2003,23 +2118,33 @@ function countryCard(country) {
     const visaClass = country.visa_required ? 'visa-status-required' : 'visa-status-free';
     const visaIcon  = country.visa_required ? 'fa-passport' : 'fa-check-circle';
     const visaText  = country.visa_required ? 'Visa Required' : 'Visa Free';
+    const hasItinerary = ITINERARY_SLUGS.has(country.id);
+    const itineraryAction = hasItinerary ? `
+                    <a href="/itinerary/${country.id}" class="card-action card-action--itin">
+                        <i class="fas fa-route"></i> Itinerary
+                    </a>` : '';
     return `
-        <a href="/countries/${country.id}" class="country-card">
-            <div class="country-media">
+        <div class="country-card group">
+            <a href="/countries/${country.id}" class="country-media" aria-label="${country.name} visa details">
                 <div class="bg-image-inner" style="background-image:url('${img}')"></div>
                 <div class="country-media-overlay"></div>
                 <div class="country-flag-bubble">${country.flag || ''}</div>
                 <span class="visa-status-badge ${visaClass}">
                     <i class="fas ${visaIcon}"></i> ${visaText}
                 </span>
-            </div>
+            </a>
             <div class="country-card-content">
                 <div class="country-meta">
                     <h3 class="country-title">${country.name}</h3>
                     <span class="country-region-chip">${country.region || ''}</span>
                 </div>
+                <div class="country-card-actions">
+                    <a href="/countries/${country.id}" class="card-action card-action--visa">
+                        <i class="fas fa-passport"></i> Visa Info
+                    </a>${itineraryAction}
+                </div>
             </div>
-        </a>`;
+        </div>`;
 }
 
 // ─── FAQ ────────────────────────────────────────────────────────────────────

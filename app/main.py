@@ -57,7 +57,8 @@ def check_admin_auth(admin_token: Optional[str] = Cookie(None)) -> bool:
 @app.get("/", response_class=HTMLResponse)
 async def serve_home(request: Request):
     """Serves the home.html page."""
-    return templates.TemplateResponse(request=request, name="home.html")
+    from app.data.itineraries import ITINERARIES
+    return templates.TemplateResponse(request=request, name="home.html", context={"itinerary_slugs": list(ITINERARIES.keys())})
 
 @app.get("/countries", response_class=HTMLResponse)
 async def countries_page(request: Request):

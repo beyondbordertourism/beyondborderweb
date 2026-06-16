@@ -4,37 +4,109 @@
 
 {% block head_styles %}
 <style>
-    /* ── Hero ── */
+    /* ── Hero (cinematic, image-backed) ── */
     .about-hero {
-        background: #fff;
-        padding: 8rem 0 4.5rem;
+        position: relative;
+        min-height: 82vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         text-align: center;
-        border-bottom: 1px solid #f1f5f9;
+        padding: 9rem 1.5rem 5rem;
+        overflow: hidden;
+        background: #070f0c;
     }
+    .about-hero__bg {
+        position: absolute; inset: 0;
+        background-image: url('/static/images/about-hero.jpg');
+        background-size: cover;
+        background-position: center 35%;
+        transform: scale(1.05);
+        will-change: transform;
+    }
+    .about-hero__bg::after {
+        content: '';
+        position: absolute; inset: 0;
+        background:
+            linear-gradient(180deg, rgba(7,15,12,0.55) 0%, rgba(7,15,12,0.45) 35%, rgba(7,15,12,0.86) 100%),
+            radial-gradient(ellipse 80% 60% at 50% 40%, rgba(13,148,136,0.18) 0%, transparent 70%);
+    }
+    .about-hero__inner { position: relative; z-index: 2; max-width: 760px; }
     .about-hero-eyebrow {
         font-family: 'Inter', sans-serif;
-        font-size: 0.6rem; font-weight: 700;
-        letter-spacing: 0.24em; text-transform: uppercase;
-        color: #0d9488; margin-bottom: 1.25rem;
+        font-size: 0.62rem; font-weight: 700;
+        letter-spacing: 0.3em; text-transform: uppercase;
+        color: #5eead4; margin-bottom: 1.5rem;
+        display: inline-flex; align-items: center; gap: 0.7rem;
+    }
+    .about-hero-eyebrow::before,
+    .about-hero-eyebrow::after {
+        content: ''; width: 26px; height: 1px;
+        background: rgba(94,234,212,0.55);
     }
     .about-hero h1 {
         font-family: 'Playfair Display', serif;
-        font-size: clamp(2.2rem, 4.5vw, 3.4rem);
-        font-weight: 700; color: #0f172a;
-        line-height: 1.12; letter-spacing: -0.02em;
-        max-width: 640px; margin: 0 auto 1.25rem;
+        font-size: clamp(2.6rem, 6vw, 4.6rem);
+        font-weight: 700; color: #fff;
+        line-height: 1.08; letter-spacing: -0.02em;
+        margin: 0 auto 1.6rem;
     }
-    .about-hero h1 em { font-style: italic; color: #0d9488; }
+    .about-hero h1 em { font-style: italic; color: #5eead4; }
     .about-hero-sub {
         font-family: 'Inter', sans-serif;
-        font-size: 0.9rem; color: #94a3b8;
-        max-width: 400px; margin: 0 auto;
+        font-size: 1.02rem; color: rgba(255,255,255,0.82);
+        max-width: 540px; margin: 0 auto;
         line-height: 1.8;
     }
-    .about-hero-sub strong { color: #475569; font-weight: 600; }
-    .about-hero-rule {
-        width: 28px; height: 1px;
-        background: #0d9488; margin: 1.5rem auto 0;
+    .about-hero-sub strong { color: #fff; font-weight: 600; }
+    .about-hero-cta {
+        margin-top: 2.4rem;
+        display: flex; flex-wrap: wrap; gap: 0.9rem;
+        align-items: center; justify-content: center;
+    }
+    .about-hero-btn {
+        display: inline-flex; align-items: center; gap: 0.6rem;
+        font-family: 'Inter', sans-serif; font-size: 0.74rem; font-weight: 700;
+        letter-spacing: 0.1em; text-transform: uppercase;
+        padding: 0.95rem 2rem; border-radius: 9999px;
+        text-decoration: none; transition: all 0.25s ease;
+    }
+    .about-hero-btn--solid { background: #0d9488; color: #fff; border: 1px solid #0d9488; }
+    .about-hero-btn--solid:hover { background: #0f766e; border-color: #0f766e; transform: translateY(-2px); }
+    .about-hero-btn--ghost { background: rgba(255,255,255,0.06); color: #fff; border: 1px solid rgba(255,255,255,0.35); backdrop-filter: blur(4px); }
+    .about-hero-btn--ghost:hover { background: rgba(255,255,255,0.14); border-color: #fff; }
+    .about-hero-btn i { font-size: 0.68rem; transition: transform 0.25s ease; }
+    .about-hero-btn--solid:hover i { transform: translateX(3px); }
+
+    /* ── Credibility strip ── */
+    .about-stats {
+        background: #0b3d34;
+        padding: 2.4rem 1.5rem;
+    }
+    .about-stats__inner {
+        max-width: 1000px; margin: 0 auto;
+        display: grid; grid-template-columns: repeat(4, 1fr);
+        gap: 1rem; text-align: center;
+    }
+    .about-stat { padding: 0.4rem 0.5rem; position: relative; }
+    .about-stat:not(:last-child)::after {
+        content: ''; position: absolute; right: 0; top: 12%; height: 76%;
+        width: 1px; background: rgba(255,255,255,0.12);
+    }
+    .about-stat .num {
+        font-family: 'Playfair Display', serif;
+        font-size: clamp(1.8rem, 3.2vw, 2.5rem); font-weight: 700;
+        color: #fff; line-height: 1; margin-bottom: 0.45rem;
+    }
+    .about-stat .num em { font-style: italic; color: #5eead4; }
+    .about-stat .lbl {
+        font-family: 'Inter', sans-serif;
+        font-size: 0.62rem; font-weight: 600; letter-spacing: 0.16em;
+        text-transform: uppercase; color: rgba(255,255,255,0.6);
+    }
+    @media (max-width: 700px) {
+        .about-stats__inner { grid-template-columns: 1fr 1fr; gap: 1.5rem 1rem; }
+        .about-stat:nth-child(2)::after { display: none; }
     }
 
     /* ── Services ── */
@@ -181,20 +253,20 @@
 
     /* ── Bespoke itineraries ── */
     .itin-section {
-        background: #fff;
-        padding: 5.5rem 0 5rem;
-        border-top: 1px solid #f1f5f9;
+        background: linear-gradient(180deg, #f4f8f7 0%, #ffffff 70%);
+        padding: 5.5rem 0 5.5rem;
+        border-top: 1px solid #eef2f6;
         position: relative;
         overflow: hidden;
     }
     .itin-section::before {
         content: '';
         position: absolute; inset: 0;
-        background: radial-gradient(ellipse 60% 50% at 50% -10%, rgba(13,148,136,0.07) 0%, transparent 60%);
+        background: radial-gradient(ellipse 60% 50% at 50% -10%, rgba(13,148,136,0.10) 0%, transparent 60%);
         pointer-events: none;
     }
     .itin-inner {
-        max-width: 1100px; margin: 0 auto; padding: 0 3rem;
+        max-width: 1140px; margin: 0 auto; padding: 0 3rem;
         position: relative; z-index: 1;
     }
     @media (max-width: 768px) { .itin-inner { padding: 0 1.5rem; } }
@@ -220,31 +292,59 @@
 
     .itin-grid {
         display: grid; grid-template-columns: repeat(3, 1fr);
-        gap: 1.25rem; margin-bottom: 3rem;
+        gap: 1.6rem; margin-bottom: 3rem;
     }
-    @media (max-width: 768px) { .itin-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 880px) { .itin-grid { grid-template-columns: 1fr; max-width: 440px; margin-left: auto; margin-right: auto; } }
 
     .itin-card {
-        background: #f8fafc;
+        position: relative;
+        background: #fff;
         border: 1px solid #eef2f6;
-        border-radius: 10px;
-        padding: 2rem 1.85rem;
-        transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        border-radius: 18px;
+        overflow: hidden;
+        box-shadow: 0 4px 18px rgba(15,23,42,0.05);
+        transition: transform 0.35s cubic-bezier(0.22,1,0.36,1), box-shadow 0.35s ease, border-color 0.35s ease;
     }
     .itin-card:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 18px 44px rgba(15,23,42,0.08);
-        border-color: rgba(13,148,136,0.35);
+        transform: translateY(-6px);
+        box-shadow: 0 26px 56px rgba(11,61,52,0.16);
+        border-color: rgba(13,148,136,0.4);
+    }
+    .itin-card__media {
+        position: relative;
+        height: 168px;
+        overflow: hidden;
+    }
+    .itin-card__media img {
+        width: 100%; height: 100%; object-fit: cover;
+        transition: transform 0.6s cubic-bezier(0.22,1,0.36,1);
+    }
+    .itin-card:hover .itin-card__media img { transform: scale(1.07); }
+    .itin-card__media::after {
+        content: '';
+        position: absolute; inset: 0;
+        background: linear-gradient(180deg, rgba(7,15,12,0.05) 0%, rgba(7,15,12,0.45) 100%);
+    }
+    .itin-card__num {
+        position: absolute; top: 12px; right: 16px; z-index: 2;
+        font-family: 'Playfair Display', serif; font-style: italic;
+        font-size: 1.5rem; font-weight: 700; color: rgba(255,255,255,0.85);
+        text-shadow: 0 2px 10px rgba(0,0,0,0.3);
     }
     .itin-card-ic {
-        width: 44px; height: 44px; border-radius: 50%;
+        position: absolute; left: 18px; bottom: -22px; z-index: 3;
+        width: 50px; height: 50px; border-radius: 14px;
         background: #0b3d34; color: #5eead4;
         display: flex; align-items: center; justify-content: center;
-        font-size: 1rem; margin-bottom: 1.25rem;
+        font-size: 1.05rem;
+        box-shadow: 0 8px 22px rgba(11,61,52,0.32);
+        transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
     }
+    .itin-card:hover .itin-card-ic { transform: translateY(-3px) scale(1.06); }
+    .itin-card__body { padding: 2.1rem 1.65rem 1.85rem; }
     .itin-card h3 {
         font-family: 'Playfair Display', serif;
-        font-size: 1.2rem; font-weight: 700; color: #0f172a;
+        font-size: 1.25rem; font-weight: 700; color: #0f172a;
         margin-bottom: 0.6rem; letter-spacing: -0.01em;
     }
     .itin-card p {
@@ -273,6 +373,55 @@
     }
     .itin-btn--ghost:hover { background: transparent; border-color: #0d9488; color: #0d9488; }
 
+    /* ── Closing CTA band ── */
+    .about-cta-band {
+        position: relative;
+        background: #070f0c;
+        padding: 5.5rem 1.5rem;
+        text-align: center;
+        overflow: hidden;
+    }
+    .about-cta-band__bg {
+        position: absolute; inset: 0;
+        background-image: url('/static/images/about-hero.jpg');
+        background-size: cover; background-position: center;
+        opacity: 0.18;
+    }
+    .about-cta-band::after {
+        content: ''; position: absolute; inset: 0;
+        background: radial-gradient(ellipse 70% 80% at 50% 50%, rgba(13,148,136,0.22) 0%, transparent 70%);
+        pointer-events: none;
+    }
+    .about-cta-band__inner { position: relative; z-index: 2; max-width: 640px; margin: 0 auto; }
+    .about-cta-band .eyebrow {
+        font-family: 'Inter', sans-serif; font-size: 0.62rem; font-weight: 700;
+        letter-spacing: 0.28em; text-transform: uppercase; color: #5eead4; margin-bottom: 1.1rem;
+    }
+    .about-cta-band h2 {
+        font-family: 'Playfair Display', serif;
+        font-size: clamp(2rem, 4vw, 3rem); font-weight: 700; color: #fff;
+        line-height: 1.12; letter-spacing: -0.02em; margin-bottom: 1.1rem;
+    }
+    .about-cta-band h2 em { font-style: italic; color: #5eead4; }
+    .about-cta-band p {
+        font-family: 'Inter', sans-serif; font-size: 0.95rem;
+        color: rgba(255,255,255,0.7); line-height: 1.8; margin-bottom: 2.2rem;
+    }
+    .about-cta-band__actions { display: flex; flex-wrap: wrap; gap: 0.9rem; justify-content: center; }
+    .about-cta-band__actions a {
+        display: inline-flex; align-items: center; gap: 0.6rem;
+        font-family: 'Inter', sans-serif; font-size: 0.74rem; font-weight: 700;
+        letter-spacing: 0.1em; text-transform: uppercase;
+        padding: 0.95rem 2rem; border-radius: 9999px; text-decoration: none;
+        transition: all 0.25s ease;
+    }
+    .about-cta-band__actions .solid { background: #0d9488; color: #fff; border: 1px solid #0d9488; }
+    .about-cta-band__actions .solid:hover { background: #0f766e; border-color: #0f766e; transform: translateY(-2px); }
+    .about-cta-band__actions .ghost { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,0.35); }
+    .about-cta-band__actions .ghost:hover { border-color: #fff; background: rgba(255,255,255,0.08); }
+    .about-cta-band__actions i { font-size: 0.68rem; transition: transform 0.25s ease; }
+    .about-cta-band__actions .solid:hover i { transform: translateX(3px); }
+
     /* ── Page animations (GPU-composited: opacity + translate3d only) ──────── */
     @keyframes abFadeUp {
         from { opacity: 0; transform: translate3d(0, 26px, 0); }
@@ -283,7 +432,7 @@
     .about-hero-eyebrow,
     .about-hero h1,
     .about-hero-sub,
-    .about-hero-rule {
+    .about-hero-cta {
         opacity: 0;
         will-change: opacity, transform;
         animation: abFadeUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
@@ -291,7 +440,15 @@
     .about-hero-eyebrow { animation-delay: 0.10s; }
     .about-hero h1      { animation-delay: 0.26s; }
     .about-hero-sub     { animation-delay: 0.46s; }
-    .about-hero-rule    { animation-delay: 0.60s; }
+    .about-hero-cta     { animation-delay: 0.62s; }
+
+    @keyframes abKenBurns {
+        from { transform: scale(1.12); }
+        to   { transform: scale(1.0); }
+    }
+    .about-hero__bg {
+        animation: abKenBurns 14s ease-out forwards;
+    }
 
     /* Scroll reveal — keyframe so it plays even if already in view at load */
     .reveal { opacity: 0; }
@@ -303,8 +460,8 @@
     .anim-active { will-change: opacity, transform; }
 
     @media (prefers-reduced-motion: reduce) {
-        .about-hero-eyebrow, .about-hero h1, .about-hero-sub, .about-hero-rule,
-        .reveal, .reveal.revealed {
+        .about-hero-eyebrow, .about-hero h1, .about-hero-sub, .about-hero-cta,
+        .about-hero__bg, .reveal, .reveal.revealed {
             animation: none !important;
             opacity: 1 !important;
             transform: none !important;
@@ -317,13 +474,39 @@
 
 <!-- Hero -->
 <div class="about-hero">
-    <div class="max-w-5xl mx-auto px-4">
+    <div class="about-hero__bg"></div>
+    <div class="about-hero__inner">
         <p class="about-hero-eyebrow">Who We Are</p>
-        <h1>Your Trusted Partner for <em>Global Visa</em> Solutions</h1>
-        <p class="about-hero-sub">At <strong>Beyond Border Tourism</strong>, we believe the world is meant to be explored — and we're here to make every journey possible.</p>
-        <div class="about-hero-rule"></div>
+        <h1>The world is meant<br>to be <em>explored</em></h1>
+        <p class="about-hero-sub">At <strong>Beyond Border Tourism</strong>, we turn visas and itineraries into the easy part — so every journey beyond your borders begins without friction.</p>
+        <div class="about-hero-cta">
+            <a href="/contact" class="about-hero-btn about-hero-btn--solid">Start Your Journey <i class="fas fa-arrow-right"></i></a>
+            <a href="/countries" class="about-hero-btn about-hero-btn--ghost">Explore Destinations</a>
+        </div>
     </div>
 </div>
+
+<!-- Credibility strip -->
+<section class="about-stats">
+    <div class="about-stats__inner">
+        <div class="about-stat">
+            <div class="num">13<em>+</em></div>
+            <div class="lbl">Destinations</div>
+        </div>
+        <div class="about-stat">
+            <div class="num">100<em>%</em></div>
+            <div class="lbl">Tailored Itineraries</div>
+        </div>
+        <div class="about-stat">
+            <div class="num">1:1</div>
+            <div class="lbl">Personal Guidance</div>
+        </div>
+        <div class="about-stat">
+            <div class="num">A<em>–</em>Z</div>
+            <div class="lbl">Visa to Boarding</div>
+        </div>
+    </div>
+</section>
 
 <!-- Services -->
 <section class="services-section">
@@ -348,7 +531,7 @@
     </div>
 </section>
 
-<!-- Our Story -->
+{# Our Story — hidden for now; remove the surrounding Jinja comment markers to restore
 <section class="about-split">
     <div class="about-split-inner">
         <div class="about-text">
@@ -383,6 +566,7 @@
         </div>
     </div>
 </section>
+#}
 
 <!-- Bespoke Itineraries -->
 <section class="itin-section">
@@ -395,25 +579,57 @@
 
         <div class="itin-grid">
             <div class="itin-card">
-                <div class="itin-card-ic"><i class="fas fa-feather-pointed"></i></div>
-                <h3>Handcrafted by Specialists</h3>
-                <p>Every itinerary is built by our in-house team — handpicked stays, trusted local guides and dining worth travelling for, not auto-generated lists.</p>
+                <div class="itin-card__media">
+                    <img src="/static/images/itineraries/cambodia-angkor-wat.jpg" alt="Handcrafted journeys" loading="lazy">
+                    <span class="itin-card__num">01</span>
+                    <div class="itin-card-ic"><i class="fas fa-feather-pointed"></i></div>
+                </div>
+                <div class="itin-card__body">
+                    <h3>Handcrafted by Specialists</h3>
+                    <p>Every itinerary is built by our in-house team — handpicked stays, trusted local guides and dining worth travelling for, not auto-generated lists.</p>
+                </div>
             </div>
             <div class="itin-card">
-                <div class="itin-card-ic"><i class="fas fa-sliders"></i></div>
-                <h3>Shaped Around You</h3>
-                <p>Honeymoon, family adventure or solo escape — we tailor the pace, the comfort level and the budget so the trip fits the way you love to travel.</p>
+                <div class="itin-card__media">
+                    <img src="/static/images/itineraries/ph-elnido-secret-beach.jpg" alt="Tailored to you" loading="lazy">
+                    <span class="itin-card__num">02</span>
+                    <div class="itin-card-ic"><i class="fas fa-sliders"></i></div>
+                </div>
+                <div class="itin-card__body">
+                    <h3>Shaped Around You</h3>
+                    <p>Honeymoon, family adventure or solo escape — we tailor the pace, the comfort level and the budget so the trip fits the way you love to travel.</p>
+                </div>
             </div>
             <div class="itin-card">
-                <div class="itin-card-ic"><i class="fas fa-route"></i></div>
-                <h3>Every Detail Handled</h3>
-                <p>From visas and flights to transfers and seasonal timing, we connect the dots so all that's left for you to do is enjoy the journey.</p>
+                <div class="itin-card__media">
+                    <img src="/static/images/itineraries/cambodia-koh-rong-beach.jpg" alt="Every detail handled" loading="lazy">
+                    <span class="itin-card__num">03</span>
+                    <div class="itin-card-ic"><i class="fas fa-route"></i></div>
+                </div>
+                <div class="itin-card__body">
+                    <h3>Every Detail Handled</h3>
+                    <p>From visas and flights to transfers and seasonal timing, we connect the dots so all that's left for you to do is enjoy the journey.</p>
+                </div>
             </div>
         </div>
 
         <div class="itin-actions">
             <a href="/contact" class="itin-btn">Plan My Itinerary <i class="fas fa-arrow-right"></i></a>
             <a href="/countries" class="itin-btn itin-btn--ghost">Browse Destinations</a>
+        </div>
+    </div>
+</section>
+
+<!-- Closing CTA -->
+<section class="about-cta-band">
+    <div class="about-cta-band__bg"></div>
+    <div class="about-cta-band__inner">
+        <p class="eyebrow">Ready When You Are</p>
+        <h2>Let's plan your next <em>journey</em></h2>
+        <p>Tell us where you're headed. We'll handle the visa, craft the itinerary, and stay with you from the first form to the boarding gate.</p>
+        <div class="about-cta-band__actions">
+            <a href="/contact" class="solid">Get in Touch <i class="fas fa-arrow-right"></i></a>
+            <a href="/countries" class="ghost">View Destinations</a>
         </div>
     </div>
 </section>
@@ -470,6 +686,15 @@
     reveal('.itin-head > p');
     reveal('.itin-card', true);
     reveal('.itin-actions');
+
+    // Credibility strip
+    reveal('.about-stat', true);
+
+    // Closing CTA band
+    reveal('.about-cta-band .eyebrow');
+    reveal('.about-cta-band h2');
+    reveal('.about-cta-band p');
+    reveal('.about-cta-band__actions');
 })();
 </script>
 {% endblock %}

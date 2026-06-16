@@ -2693,7 +2693,7 @@ JAPAN = {
     "tagline": "Tokyo • Hakone • Kyoto • Arashiyama",
     "dates": "Tailored to your dates",
     "duration": "6 Days",
-    "hero_image": "https://images.unsplash.com/photo-1528360983277-13d401cdc186?auto=format&fit=crop&w=1600&q=80",
+    "hero_image": "/static/images/itineraries/japan-hero.jpg",
     "quote": "“In Japan, every path leads somewhere extraordinary — a torii gate, a snow-capped peak, a bowl of ramen that rewrites your world.”",
     "stats": [
         {"icon": "fa-plane-arrival", "label": "Gateway"},
@@ -3011,7 +3011,7 @@ SOUTH_KOREA = {
     "tagline": "Seoul • Gyeongju • Busan • Jeju Island",
     "dates": "Tailored to your dates",
     "duration": "6 Days",
-    "hero_image": "https://images.unsplash.com/photo-1538485399081-7191377e8241?auto=format&fit=crop&w=1600&q=80",
+    "hero_image": "/static/images/itineraries/south-korea-hero.jpg",
     "quote": "“Where ancient palaces meet neon-lit streets, and volcanic shores stretch toward an infinite sky.”",
     "stats": [
         {"icon": "fa-plane", "label": "Flight Time from India"},
@@ -3070,8 +3070,8 @@ SOUTH_KOREA = {
             ],
             "hotels": ["The Shilla Seoul", "Lotte Hotel Seoul", "Four Seasons Hotel Seoul"],
             "images": [
-                "https://images.unsplash.com/photo-1538485399081-7191377e8241?auto=format&fit=crop&w=900&q=80",
-                "https://images.unsplash.com/photo-1601621915196-2621bfb0cd6e?auto=format&fit=crop&w=900&q=80",
+                "/static/images/itineraries/south-korea-hero.jpg",
+                "/static/images/itineraries/sk-seoul-night.jpg",
             ],
             "note": "Curator’s Note: Book the Gyeongbokgung hanbok rental at least two days ahead — arriving in traditional dress grants free entry and makes for unforgettable portraits against the palace gates.",
             "location": "Incheon Airport → Seoul",
@@ -3106,8 +3106,8 @@ SOUTH_KOREA = {
                 },
             ],
             "images": [
-                "https://images.unsplash.com/photo-1607462109225-6b64ae2dd3cb?auto=format&fit=crop&w=900&q=80",
-                "https://images.unsplash.com/photo-1534274988757-a28bf1a57c17?auto=format&fit=crop&w=900&q=80",
+                "/static/images/itineraries/sk-seoul-skyline.jpg",
+                "/static/images/itineraries/sk-seoul-night.jpg",
             ],
             "note": "Curator’s Note: The Secret Garden tour runs in timed slots and sells out quickly — pre-booking online the day before is essential, particularly in cherry-blossom season.",
             "location": "Seoul",
