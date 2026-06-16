@@ -11,10 +11,56 @@
     .logo-monogram { height: 2.75rem; }
 }
 
+/* Navbar wordmark next to the monogram */
+.navbar-brand {
+    text-decoration: none;
+    gap: 0.65rem;
+}
+
+.navbar-brand-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+}
+
+.navbar-brand-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: 0.005em;
+    transition: color 0.3s ease;
+}
+
+.navbar-brand-sub {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.55rem;
+    font-weight: 600;
+    letter-spacing: 0.34em;
+    text-transform: uppercase;
+    color: #5eb6ab;
+    margin-top: 0.32rem;
+    transition: color 0.3s ease;
+}
+
+@media (max-width: 768px) {
+    .navbar-brand-name { font-size: 1.05rem; }
+    .navbar-brand-sub { font-size: 0.5rem; letter-spacing: 0.3em; margin-top: 0.28rem; }
+}
+
+@media (max-width: 380px) {
+    .navbar-brand-text { display: none; }
+}
+
 /* If the navbar ever sits on a light background, render the white mark dark */
 .hero-section #navbar .logo-monogram,
 .hero-section #navbar.scrolled .logo-monogram {
     filter: brightness(0);
+}
+
+.hero-section #navbar .navbar-brand-name,
+.hero-section #navbar.scrolled .navbar-brand-name {
+    color: #0f172a;
 }
 
 /* Logo Styles */

@@ -2093,8 +2093,8 @@ PHILIPPINES = {
             ],
             "hotels": ["Raffles Makati", "The Peninsula Manila", "Sofitel Manila"],
             "images": [
-                "https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?auto=format&fit=crop&w=900&q=80",
-                "https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86?auto=format&fit=crop&w=900&q=80",
+                "https://images.unsplash.com/photo-1598258710957-db8614c2881e?auto=format&fit=crop&w=900&q=80",
+                "https://images.unsplash.com/photo-1736122094944-da4deea774ab?auto=format&fit=crop&w=900&q=80",
             ],
             "note": "Book a Casa Manila guided tour in advance — the colonial interiors are open only to small groups and fill up fast.",
             "location": "Manila",
@@ -2130,8 +2130,7 @@ PHILIPPINES = {
             ],
             "hotels": ["Shangri-La Mactan Resort", "Crimson Resort Mactan", "Radisson Blu Cebu"],
             "images": [
-                "https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?auto=format&fit=crop&w=900&q=80",
-                "https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86?auto=format&fit=crop&w=900&q=80",
+                "/static/images/itineraries/cebu-city.jpg",
             ],
             "note": "Moalboal sardine run is best before 10 a.m. — ask your driver to leave Cebu City by 7 a.m. sharp.",
             "location": "Manila → Cebu City",
@@ -2166,8 +2165,8 @@ PHILIPPINES = {
                 },
             ],
             "images": [
-                "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&w=900&q=80",
-                "https://images.unsplash.com/photo-1504214208698-ea1916a2195a?auto=format&fit=crop&w=900&q=80",
+                "/static/images/itineraries/ph-bohol-chocolate-hills.jpg",
+                "/static/images/itineraries/ph-bohol-chocolate-hills-2.jpg",
             ],
             "note": "The Bohol Tarsier Foundation runs the best ethical sanctuary — avoid commercial centres where tarsiers are handled for photos.",
             "location": "Cebu → Bohol → Cebu",
@@ -2203,9 +2202,9 @@ PHILIPPINES = {
             ],
             "hotels": ["Miniloc Island Resort", "El Nido Resorts Pangulasian", "Lagen Island Resort"],
             "images": [
-                "https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86?auto=format&fit=crop&w=900&q=80",
-                "https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?auto=format&fit=crop&w=900&q=80",
-                "https://images.unsplash.com/photo-1586861635167-e5223aadc9fe?auto=format&fit=crop&w=900&q=80",
+                "/static/images/itineraries/ph-elnido-coast.jpg",
+                "/static/images/itineraries/ph-elnido-cadlao-lagoon.jpg",
+                "/static/images/itineraries/ph-elnido-big-lagoon-kayak.jpg",
             ],
             "note": "El Nido Resorts island properties include all tours — if you stay on the mainland, book Tour A before noon to avoid afternoon chop.",
             "location": "Cebu → El Nido, Palawan",
@@ -2240,8 +2239,8 @@ PHILIPPINES = {
                 },
             ],
             "images": [
-                "https://images.unsplash.com/photo-1573843981267-be1999ff37cd?auto=format&fit=crop&w=900&q=80",
-                "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&w=900&q=80",
+                "/static/images/itineraries/ph-elnido-secret-beach.jpg",
+                "/static/images/itineraries/ph-elnido-big-lagoon-kayak.jpg",
             ],
             "note": "Nacpan is best mid-week — weekends attract day-trippers from the mainland. Your hotel can arrange a packed lunch so you stay all day.",
             "location": "El Nido, Palawan",
@@ -2276,8 +2275,8 @@ PHILIPPINES = {
                 },
             ],
             "images": [
-                "https://images.unsplash.com/photo-1586861635167-e5223aadc9fe?auto=format&fit=crop&w=900&q=80",
-                "https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?auto=format&fit=crop&w=900&q=80",
+                "/static/images/itineraries/ph-elnido-cadlao-lagoon.jpg",
+                "/static/images/itineraries/ph-elnido-coast.jpg",
             ],
             "note": "El Nido’s airstrip closes in bad weather — build at least a 4-hour buffer before your international flight out of Manila.",
             "location": "El Nido → Manila",
@@ -2344,7 +2343,7 @@ CAMBODIA = {
     "tagline": "Siem Reap • Angkor Wat • Phnom Penh • Koh Rong",
     "dates": "Tailored to your dates",
     "duration": "6 Days",
-    "hero_image": "https://images.unsplash.com/photo-1528181304800-259b08848526?auto=format&fit=crop&w=1600&q=80",
+    "hero_image": "/static/images/itineraries/cambodia-angkor-wat.jpg",
     "quote": "“Where ancient temples rise from the jungle and the sea glitters at the edge of the world.”",
     "stats": [
         {"icon": "fa-gopuram", "label": "Temples"},
@@ -2407,8 +2406,7 @@ CAMBODIA = {
             ],
             "hotels": ["Raffles Grand Hotel d’Angkor", "Shinta Mani Angkor", "Amansara"],
             "images": [
-                "https://images.unsplash.com/photo-1528181304800-259b08848526?auto=format&fit=crop&w=900&q=80",
-                "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=900&q=80",
+                "/static/images/itineraries/cambodia-angkor-wat.jpg",
             ],
             "note": "Curator’s Note: Ask your hotel for a tuk-tuk with a trusted local driver — "
                     "they know the back roads to Angkor that bypass the crowds entirely.",
@@ -2448,9 +2446,9 @@ CAMBODIA = {
                 },
             ],
             "images": [
-                "https://images.unsplash.com/photo-1555217851-6141535bd771?auto=format&fit=crop&w=900&q=80",
-                "https://images.unsplash.com/photo-1555217851-6141535bd771?auto=format&fit=crop&w=900&q=80",
-                "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=900&q=80",
+                "/static/images/itineraries/cambodia-angkor-wat.jpg",
+                "/static/images/itineraries/cambodia-bayon.jpg",
+                "/static/images/itineraries/cambodia-ta-prohm.jpg",
             ],
             "note": "Curator’s Note: Book a licensed Angkor guide for the morning circuit — the "
                     "iconographic stories carved into the galleries are astonishing when decoded.",
@@ -2491,8 +2489,8 @@ CAMBODIA = {
             ],
             "hotels": ["Rosewood Phnom Penh", "Raffles Hotel Le Royal", "Hyatt Regency Phnom Penh"],
             "images": [
-                "https://images.unsplash.com/photo-1562602833-0f4ab2fc46e3?auto=format&fit=crop&w=900&q=80",
-                "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=900&q=80",
+                "/static/images/itineraries/cambodia-tonle-sap.jpg",
+                "/static/images/itineraries/cambodia-royal-palace.jpg",
             ],
             "note": "Curator’s Note: The Tonle Sap is best visited early morning before tour groups "
                     "arrive — the light on the water is magical and the villages feel entirely your own.",
@@ -2532,8 +2530,7 @@ CAMBODIA = {
                 },
             ],
             "images": [
-                "https://images.unsplash.com/photo-1584810359583-96fc3448beaa?auto=format&fit=crop&w=900&q=80",
-                "https://images.unsplash.com/photo-1528181304800-259b08848526?auto=format&fit=crop&w=900&q=80",
+                "/static/images/itineraries/cambodia-royal-palace.jpg",
             ],
             "note": "Curator’s Note: The Russian Market (Toul Tom Poung) is the best spot for "
                     "authentic silk scarves and handcrafted silver jewellery — arrive before 10 am for "
@@ -2576,8 +2573,8 @@ CAMBODIA = {
             ],
             "hotels": ["Song Saa Private Island", "Koh Rong Sanloem Eco Lodge", "Mango Bay Resort"],
             "images": [
-                "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=900&q=80",
-                "https://images.unsplash.com/photo-1559827260-dc66d52bef19?auto=format&fit=crop&w=900&q=80",
+                "/static/images/itineraries/cambodia-koh-rong-aerial.jpg",
+                "/static/images/itineraries/cambodia-koh-rong-beach.jpg",
             ],
             "note": "Curator’s Note: Song Saa Private Island arranges exclusive sunset cruises around "
                     "the archipelago — book in advance as these are limited to a handful of guests per evening.",
@@ -2617,8 +2614,8 @@ CAMBODIA = {
                 },
             ],
             "images": [
-                "https://images.unsplash.com/photo-1559827260-dc66d52bef19?auto=format&fit=crop&w=900&q=80",
-                "https://images.unsplash.com/photo-1528181304800-259b08848526?auto=format&fit=crop&w=900&q=80",
+                "/static/images/itineraries/cambodia-koh-rong-beach.jpg",
+                "/static/images/itineraries/cambodia-koh-rong-aerial.jpg",
             ],
             "note": "Curator’s Note: Allow at least 4 hours from the Koh Rong ferry dock to Phnom Penh "
                     "airport, factoring in the ferry crossing and road transfer — your concierge can "
@@ -4219,7 +4216,7 @@ MAURITIUS = {
     "tagline": "Indian Ocean • Grand Baie • Le Morne • Chamarel",
     "dates": "Tailored to your dates",
     "duration": "6 Days",
-    "hero_image": "https://images.unsplash.com/photo-1589979481223-deb893043163?auto=format&fit=crop&w=1600&q=80",
+    "hero_image": "https://images.unsplash.com/photo-1513415431848-a433b3de449f?auto=format&fit=crop&w=1600&q=80",
     "quote": "“Where turquoise lagoons meet volcanic peaks, and every sunset feels like the world’s most private theatre.”",
     "stats": [
         {"icon": "fa-water", "label": "Lagoon Coastline"},

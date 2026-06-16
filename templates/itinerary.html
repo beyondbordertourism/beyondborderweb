@@ -176,7 +176,15 @@
   .lock-card .small { font-size: 0.66rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--tan);
     font-weight: 700; margin-bottom: 0.75rem; }
   .lock-card h3 { font-size: clamp(1.5rem, 3vw, 1.85rem); margin: 0 0 0.65rem; }
-  .lock-card p { color: var(--ink-soft); font-size: 0.92rem; line-height: 1.6; margin: 0 0 1.6rem; }
+  .lock-card p { color: var(--ink-soft); font-size: 0.92rem; line-height: 1.6; margin: 0 0 1.3rem; }
+  .lock-card__custom { display: flex; align-items: flex-start; gap: 0.7rem; text-align: left;
+    background: var(--cream-2); border: 1px solid var(--line); border-radius: 10px;
+    padding: 0.85rem 1rem; margin: 0 0 1.6rem; color: var(--ink-soft);
+    font-size: 0.85rem; line-height: 1.55; }
+  .lock-card__custom .lc-ic { flex: 0 0 auto; width: 26px; height: 26px; border-radius: 50%;
+    background: var(--tan); color: #fff; display: flex; align-items: center; justify-content: center;
+    font-size: 0.72rem; margin-top: 0.05rem; }
+  .lock-card__custom b { color: var(--ink); font-weight: 700; }
   .lock-card a { display: inline-block; background: var(--tan-deep); color: #fff; font-weight: 600;
     font-size: 0.8rem; letter-spacing: 0.06em; padding: 0.9rem 2.2rem; border-radius: 3px; text-decoration: none;
     transition: transform 0.2s, box-shadow 0.2s; }
@@ -336,6 +344,10 @@
         <p class="small">Days 3–{{ itin.days|length }} &amp; more</p>
         <h3>Unlock the full {{ itin.country }} journey</h3>
         <p>The complete day-by-day plan, handpicked stays, dining, and seasonal tips are part of your tailored itinerary. Get in touch and we'll send you the full plan.</p>
+        <div class="lock-card__custom">
+          <span class="lc-ic"><i class="fas fa-wand-magic-sparkles"></i></span>
+          <span>And it's <b>yours to shape</b> — we tailor every itinerary around your dates, pace, budget and the experiences you care about most.</span>
+        </div>
         <a href="/contact">Contact Us for the Full Plan</a>
       </div>
     </div>

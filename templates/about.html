@@ -179,6 +179,100 @@
     }
     .about-image-wrap:hover img { transform: scale(1.03); }
 
+    /* ── Bespoke itineraries ── */
+    .itin-section {
+        background: #fff;
+        padding: 5.5rem 0 5rem;
+        border-top: 1px solid #f1f5f9;
+        position: relative;
+        overflow: hidden;
+    }
+    .itin-section::before {
+        content: '';
+        position: absolute; inset: 0;
+        background: radial-gradient(ellipse 60% 50% at 50% -10%, rgba(13,148,136,0.07) 0%, transparent 60%);
+        pointer-events: none;
+    }
+    .itin-inner {
+        max-width: 1100px; margin: 0 auto; padding: 0 3rem;
+        position: relative; z-index: 1;
+    }
+    @media (max-width: 768px) { .itin-inner { padding: 0 1.5rem; } }
+
+    .itin-head { text-align: center; max-width: 600px; margin: 0 auto 3.25rem; }
+    .itin-eyebrow {
+        font-family: 'Inter', sans-serif;
+        font-size: 0.6rem; font-weight: 700; letter-spacing: 0.24em;
+        text-transform: uppercase; color: #0d9488; margin-bottom: 1.1rem;
+    }
+    .itin-section h2 {
+        font-family: 'Playfair Display', serif;
+        font-size: clamp(1.9rem, 3.2vw, 2.7rem); font-weight: 700;
+        color: #0f172a; line-height: 1.14; letter-spacing: -0.02em;
+        margin-bottom: 1.25rem;
+    }
+    .itin-section h2 em { font-style: italic; color: #0d9488; }
+    .itin-head > p {
+        font-family: 'Inter', sans-serif;
+        font-size: 0.92rem; color: #64748b; line-height: 1.85;
+    }
+    .itin-head > p strong { color: #0f172a; font-weight: 600; }
+
+    .itin-grid {
+        display: grid; grid-template-columns: repeat(3, 1fr);
+        gap: 1.25rem; margin-bottom: 3rem;
+    }
+    @media (max-width: 768px) { .itin-grid { grid-template-columns: 1fr; } }
+
+    .itin-card {
+        background: #f8fafc;
+        border: 1px solid #eef2f6;
+        border-radius: 10px;
+        padding: 2rem 1.85rem;
+        transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    }
+    .itin-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 18px 44px rgba(15,23,42,0.08);
+        border-color: rgba(13,148,136,0.35);
+    }
+    .itin-card-ic {
+        width: 44px; height: 44px; border-radius: 50%;
+        background: #0b3d34; color: #5eead4;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 1rem; margin-bottom: 1.25rem;
+    }
+    .itin-card h3 {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.2rem; font-weight: 700; color: #0f172a;
+        margin-bottom: 0.6rem; letter-spacing: -0.01em;
+    }
+    .itin-card p {
+        font-family: 'Inter', sans-serif;
+        font-size: 0.85rem; color: #64748b; line-height: 1.7;
+    }
+
+    .itin-actions {
+        display: flex; flex-wrap: wrap; gap: 0.9rem;
+        align-items: center; justify-content: center;
+    }
+    .itin-btn {
+        display: inline-flex; align-items: center; gap: 0.6rem;
+        background: #0f172a; color: #fff; text-decoration: none;
+        font-family: 'Inter', sans-serif; font-size: 0.72rem; font-weight: 700;
+        letter-spacing: 0.1em; text-transform: uppercase;
+        padding: 0.85rem 1.75rem; border-radius: 2px;
+        transition: background 0.25s ease;
+    }
+    .itin-btn:hover { background: #0d9488; }
+    .itin-btn i { font-size: 0.65rem; transition: transform 0.25s ease; }
+    .itin-btn:hover i { transform: translateX(3px); }
+    .itin-btn--ghost {
+        background: transparent; color: #0f172a;
+        border: 1px solid #cbd5e1;
+    }
+    .itin-btn--ghost:hover { background: transparent; border-color: #0d9488; color: #0d9488; }
+
     /* ── Page animations (GPU-composited: opacity + translate3d only) ──────── */
     @keyframes abFadeUp {
         from { opacity: 0; transform: translate3d(0, 26px, 0); }
@@ -290,6 +384,40 @@
     </div>
 </section>
 
+<!-- Bespoke Itineraries -->
+<section class="itin-section">
+    <div class="itin-inner">
+        <div class="itin-head">
+            <p class="itin-eyebrow">Beyond the Visa</p>
+            <h2>Custom-made itineraries, <em>crafted by our team</em></h2>
+            <p>We don't just hand you a template. Our travel specialists design every journey <strong>around you</strong> — your dates, your pace, your budget and the experiences you care about most. Tell us where you dream of going, and we'll shape a day-by-day plan that feels entirely your own.</p>
+        </div>
+
+        <div class="itin-grid">
+            <div class="itin-card">
+                <div class="itin-card-ic"><i class="fas fa-feather-pointed"></i></div>
+                <h3>Handcrafted by Specialists</h3>
+                <p>Every itinerary is built by our in-house team — handpicked stays, trusted local guides and dining worth travelling for, not auto-generated lists.</p>
+            </div>
+            <div class="itin-card">
+                <div class="itin-card-ic"><i class="fas fa-sliders"></i></div>
+                <h3>Shaped Around You</h3>
+                <p>Honeymoon, family adventure or solo escape — we tailor the pace, the comfort level and the budget so the trip fits the way you love to travel.</p>
+            </div>
+            <div class="itin-card">
+                <div class="itin-card-ic"><i class="fas fa-route"></i></div>
+                <h3>Every Detail Handled</h3>
+                <p>From visas and flights to transfers and seasonal timing, we connect the dots so all that's left for you to do is enjoy the journey.</p>
+            </div>
+        </div>
+
+        <div class="itin-actions">
+            <a href="/contact" class="itin-btn">Plan My Itinerary <i class="fas fa-arrow-right"></i></a>
+            <a href="/countries" class="itin-btn itin-btn--ghost">Browse Destinations</a>
+        </div>
+    </div>
+</section>
+
 {% endblock %}
 
 {% block scripts %}
@@ -335,6 +463,13 @@
     reveal('.about-point', true);
     reveal('.about-cta');
     reveal('.about-image-wrap');
+
+    // Bespoke itineraries section
+    reveal('.itin-eyebrow');
+    reveal('.itin-section h2');
+    reveal('.itin-head > p');
+    reveal('.itin-card', true);
+    reveal('.itin-actions');
 })();
 </script>
 {% endblock %}
