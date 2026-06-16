@@ -534,7 +534,7 @@ THAILAND = {
     "tagline": "Bangkok • Chiang Mai • Phuket • Krabi",
     "dates": "Tailored to your dates",
     "duration": "6 Days",
-    "hero_image": "https://images.unsplash.com/photo-1528360983277-13d401cdc186?auto=format&fit=crop&w=1600&q=80",
+    "hero_image": "/static/images/itineraries/th-wat-arun.jpg",
     "quote": "“Where gilded temples catch the morning light, emerald seas lap secret shores, and every meal is a revelation.”",
     "stats": [
         {"icon": "fa-plane-arrival", "label": "Gateway"},
@@ -633,9 +633,9 @@ THAILAND = {
                 },
             ],
             "images": [
-                "https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?auto=format&fit=crop&w=900&q=80",
+                "/static/images/itineraries/th-wat-phra-kaew.jpg",
+                "/static/images/itineraries/th-floating-market.jpg",
                 "https://images.unsplash.com/photo-1600093463592-8e36ae95ef56?auto=format&fit=crop&w=900&q=80",
-                "https://images.unsplash.com/photo-1566438480900-0609be27a4be?auto=format&fit=crop&w=900&q=80",
             ],
             "note": "Dress modestly (shoulders and knees covered) for temple visits. Light cotton scarves are widely available near temple entrances if needed.",
             "location": "Bangkok",
@@ -675,8 +675,8 @@ THAILAND = {
                 "Anantara Chiang Mai Resort",
             ],
             "images": [
-                "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&w=900&q=80",
-                "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=900&q=80",
+                "/static/images/itineraries/th-doi-suthep.jpg",
+                "/static/images/itineraries/th-chiang-mai-temple.jpg",
             ],
             "note": "Book a tuk-tuk for the Old City loop rather than a taxi—the open ride lets you stop spontaneously at hidden courtyard temples that most visitors walk straight past.",
             "location": "Bangkok → Chiang Mai",
@@ -711,8 +711,8 @@ THAILAND = {
                 },
             ],
             "images": [
-                "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=900&q=80",
-                "https://images.unsplash.com/photo-1587974928442-77dc3e0dba72?auto=format&fit=crop&w=900&q=80",
+                "/static/images/itineraries/th-elephants.jpg",
+                "/static/images/itineraries/th-elephant-river.jpg",
             ],
             "note": "Only visit sanctuaries that are accredited by Elephant Nature Park or similar welfare organisations—avoid any venue offering elephant riding.",
             "location": "Chiang Mai",
@@ -752,7 +752,7 @@ THAILAND = {
                 "Rosewood Phuket",
             ],
             "images": [
-                "https://images.unsplash.com/photo-1483683804023-6ccdb62f86ef?auto=format&fit=crop&w=900&q=80",
+                "/static/images/itineraries/th-james-bond-island.jpg",
                 "https://images.unsplash.com/photo-1519451241324-20b4ea2c4220?auto=format&fit=crop&w=900&q=80",
             ],
             "note": "The sea-kayak tour is best booked through your hotel concierge—they partner with small-group operators that access quieter corners of the bay away from the day-tripper crowds.",
