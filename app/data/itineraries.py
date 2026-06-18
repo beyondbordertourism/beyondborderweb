@@ -2343,7 +2343,7 @@ CAMBODIA = {
     "tagline": "Siem Reap • Angkor Wat • Phnom Penh • Koh Rong",
     "dates": "Tailored to your dates",
     "duration": "6 Days",
-    "hero_image": "/static/images/itineraries/cambodia-angkor-wat.jpg",
+    "hero_image": "/static/images/itineraries/cambodia-hero.jpg",
     "quote": "“Where ancient temples rise from the jungle and the sea glitters at the edge of the world.”",
     "stats": [
         {"icon": "fa-gopuram", "label": "Temples"},
